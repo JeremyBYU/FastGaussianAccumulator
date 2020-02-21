@@ -1,40 +1,16 @@
 #include <benchmark/benchmark.h>
-#include <hello_world.hpp>
+#include "gaussian_integrator.hpp"
 
-static void BM_expensive(benchmark::State& state) // NOLINT google-runtime-references
+
+void BM_Test(benchmark::State& state)
 {
-    if (state.thread_index == 0)
-    {
-        // Setup code here.
-    }
-    while (state.KeepRunning())
-    {
-        std::string value = hello_world::expensive(static_cast<std::size_t>(state.range(0)));
-        benchmark::DoNotOptimize(value.data());
-        benchmark::ClobberMemory();
-    }
-    if (state.thread_index == 0)
-    {
-        // Teardown code here.
+    
+    for (auto _ : state) {
+        auto val = gaussian_integrator::test();
     }
 }
 
-static void BM_exclaim(benchmark::State& state) // NOLINT google-runtime-references
-{
-    while (state.KeepRunning())
-    {
-        std::string value = hello_world::exclaim("hello");
-        benchmark::DoNotOptimize(value.data());
-        benchmark::ClobberMemory();
-    }
-}
+BENCHMARK(BM_Test)->UseRealTime();
 
-int main(int argc, char* argv[])
-{
-    benchmark::RegisterBenchmark("BM_exclaim", BM_exclaim)->Threads(2)->Threads(4)->Threads(8);                   // NOLINT clang-analyzer-cplusplus.NewDeleteLeaks
-    benchmark::RegisterBenchmark("BM_expensive", BM_expensive)->Threads(2)->Threads(4)->Threads(8)->Arg(1000000); // NOLINT clang-analyzer-cplusplus.NewDeleteLeaks
-    benchmark::Initialize(&argc, argv);
-    benchmark::RunSpecifiedBenchmarks();
-
-    return 0;
-}
+// Run the benchmark
+BENCHMARK_MAIN();

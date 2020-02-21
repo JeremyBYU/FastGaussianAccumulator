@@ -1,14 +1,20 @@
-cmake_minimum_required(VERSION 3.8)
-project(hpp_skel LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED on)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/mason.cmake)
+cmake_minimum_required(VERSION 3.11)
+# Set Project Name and Version
+set(PROJECT_VERSION 0.0.1)
+set(PROJECT_NAME "gaussian_integration")
+# Set Project Properties
+project(${PROJECT_NAME} VERSION ${PROJECT_VERSION}
+        DESCRIPTION "Guassian Integration Library"
+        LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(VERBOSE OFF)
 
 option(WERROR "Add -Werror flag to build (turns warnings into errors)" ON)
 
-# configure optimization
+# Configure optimization
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(OPTIMIZATION_FLAGS "-O0 -DDEBUG")
     message("-- Configuring debug build")
@@ -19,34 +25,61 @@ endif()
 
 # Enable extra warnings to adhere to https://github.com/mapbox/cpp/issues/37
 set(DESIRED_WARNINGS "-Wall -Wextra -Wconversion -Wunreachable-code -Wuninitialized -pedantic-errors -Wold-style-cast -Wno-error=unused-variable -Wshadow -Wfloat-equal -Weffc++")
+set(MINIMAL_DESIRED_WARNINGS "-Wall -Wextra -pedantic-errors")
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Wmost")
 endif()
+separate_arguments(DESIRED_WARNINGS)
+separate_arguments(MINIMAL_DESIRED_WARNINGS)
 
-# Note: -D_GLIBCXX_USE_CXX11_ABI=0 is needed to support mason packages that are precompiled libs
-# Currently we only depend on a header only library, but this will help avoid issues when more libs are added via mason
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTIMIZATION_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0 ${DESIRED_WARNINGS}")
-
+### Set GLOBAL CMAKE_CXX_FLAGS
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTIMIZATION_FLAGS}")
 if (WERROR)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 endif()
 
-# mason_use is a mason function within the mason.cmake file and provides ready-to-go vars, like "STATIC_LIBS" and "INCLUDE_DIRS"
-mason_use(catch VERSION 2.4.0 HEADER_ONLY)
-include_directories(SYSTEM ${MASON_PACKAGE_catch_INCLUDE_DIRS})
+#### Project Dependencies
+find_package(OpenMP)
+### Google Testing and Benchmarks Libraries
+add_subdirectory("thirdparty/googletest")
+add_subdirectory("thirdparty/benchmark")
+add_subdirectory("thirdparty/Catch2")
 
-mason_use(benchmark VERSION 1.4.1)
-include_directories(SYSTEM ${MASON_PACKAGE_benchmark_INCLUDE_DIRS})
 
-include_directories("${PROJECT_SOURCE_DIR}/include")
+### Set File List
+set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(GI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+set(GI_SRC_FILES ${GI_SRC_DIR}/gaussian_integrator.cpp)
+file(GLOB ALL_HEADERS ${GI_INCLUDE_DIR}/gaussian_integrator/*.hpp)
+set(GI_HEADER_FILES ${GI_INCLUDE_DIR}/gaussian_integrator.hpp ALL_HEADERS)
 
+### Create Library for Gaussian Integration
+set(LIB_TYPE STATIC)
+add_library(${PROJECT_NAME} ${LIB_TYPE} "${GI_SRC_FILES}")
+add_library(GI::GI ALIAS ${PROJECT_NAME})
+
+### Enable warnings for ONLY this target. Error on them
+target_compile_options(${PROJECT_NAME}  PRIVATE
+     $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+          ${DESIRED_WARNINGS}>
+     $<$<CXX_COMPILER_ID:MSVC>:
+          /W4>)
+
+### Set Header and Properties of Library
+set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
+target_include_directories(${PROJECT_NAME} PRIVATE ${GI_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC
+$<BUILD_INTERFACE:${GI_INCLUDE_DIR}>
+$<INSTALL_INTERFACE:include>
+PRIVATE src)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+
+#### Testing Executables
 file(GLOB TEST_SOURCES test/*.cpp)
 add_executable(unit-tests ${TEST_SOURCES})
+target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2::Catch2 ${PROJECT_NAME} )
 
-# libbenchmark.a supports threads and therefore needs pthread support
-find_package(Threads REQUIRED)
+#### Benchmark Executables
 file(GLOB BENCH_SOURCES bench/*.cpp)
-add_executable(bench-tests ${BENCH_SOURCES})
-
-# link benchmark static library to the bench-tests binary so the bench tests know where to find the benchmark impl code
-target_link_libraries(bench-tests ${MASON_PACKAGE_benchmark_STATIC_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(bench-run ${BENCH_SOURCES})
+target_link_libraries(bench-run benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME})
