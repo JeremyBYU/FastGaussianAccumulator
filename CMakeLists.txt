@@ -47,11 +47,11 @@ add_subdirectory("thirdparty/Catch2")
 
 
 ### Set File List
-set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src/FastGA")
 set(GI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-set(GI_SRC_FILES ${GI_SRC_DIR}/gaussian_integrator.cpp)
-file(GLOB ALL_HEADERS ${GI_INCLUDE_DIR}/gaussian_integrator/*.hpp)
-set(GI_HEADER_FILES ${GI_INCLUDE_DIR}/gaussian_integrator.hpp ALL_HEADERS)
+set(GI_SRC_FILES ${GI_SRC_DIR}/FastGA.cpp)
+file(GLOB ALL_HEADERS ${GI_INCLUDE_DIR}/FastGA/*.hpp)
+set(GI_HEADER_FILES ${GI_INCLUDE_DIR}/FastGA.hpp ALL_HEADERS)
 
 ### Create Library for Gaussian Integration
 set(LIB_TYPE STATIC)

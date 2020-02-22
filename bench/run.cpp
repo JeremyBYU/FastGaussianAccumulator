@@ -1,12 +1,12 @@
 #include <benchmark/benchmark.h>
-#include "gaussian_integrator.hpp"
+#include "FastGA.hpp"
 
 
 void BM_Test(benchmark::State& state)
 {
     
     for (auto _ : state) {
-        auto val = gaussian_integrator::test();
+        auto val = FastGA::test();
     }
 }
 

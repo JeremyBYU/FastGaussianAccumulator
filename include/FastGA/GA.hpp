@@ -1,5 +1,5 @@
 #include <string>
 
-namespace gaussian_integrator {
+namespace FastGA {
 const std::string test();
 }

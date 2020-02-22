@@ -1,6 +1,6 @@
-#include "gaussian_integrator.hpp"
+#include "FastGA.hpp"
 
-namespace gaussian_integrator
+namespace FastGA
 {
     const std::string test()
     {
