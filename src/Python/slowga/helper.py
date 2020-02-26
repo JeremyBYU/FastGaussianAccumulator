@@ -2,7 +2,7 @@ from copy import deepcopy
 import numpy as np
 import open3d as o3d
 import matplotlib.pyplot as plt
-import matplotlib.colors as colors 
+import matplotlib.colors as colors
 
 COLOR_PALETTE = list(map(colors.to_rgb, plt.rcParams['axes.prop_cycle'].by_key()['color']))
 
@@ -63,7 +63,7 @@ def split_triangles(mesh):
     return mesh_return
 
 
-def assign_vertex_colors(mesh, normal_colors):
+def assign_vertex_colors(mesh, normal_colors, mask):
     """Assigns vertex colors by given normal colors
     NOTE: New mesh is returned
 
@@ -76,13 +76,14 @@ def assign_vertex_colors(mesh, normal_colors):
     """
     split_mesh = split_triangles(mesh)
     vertex_colors = np.asarray(split_mesh.vertex_colors)
-    triangles = np.asarray(split_mesh.triangles)
+    triangles = np.asarray(split_mesh.triangles)[mask, :]
     for i in range(triangles.shape[0]):
         color = normal_colors[i, :]
         p_idx = triangles[i, :]
         vertex_colors[p_idx] = color
 
     return split_mesh
+
 
 def plot_meshes(*meshes, shift=True):
     axis = o3d.geometry.TriangleMesh.create_coordinate_frame()
@@ -123,3 +124,23 @@ def calc_angle_delta(mesh, level):
     diff = v1 @ v2
     deg = np.rad2deg(np.arccos(diff))
     return deg
+
+def normalized(a, axis=-1, order=2):
+    """Normalizes a numpy array of points"""
+    l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
+    l2[l2 == 0] = 1
+    return a / np.expand_dims(l2, axis), l2
+
+def normalize_box(a:np.ndarray):
+    """Normalizes a 2D numpy array of points into unit box [0,1]"""
+    min_x = np.min(a[:, 0])
+    max_x = np.max(a[:, 0])
+    min_y = np.min(a[:, 1])
+    max_y = np.max(a[:, 1])
+    range_x = max_x - min_x
+    range_y = max_y - min_y
+    a[:, 0] = (a[:, 0] - min_x) / range_x
+    a[:, 1] = (a[:, 1] - min_y) / range_y
+    return a
+
+
