@@ -37,7 +37,6 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
     IcoMesh mesh;
     Vertices& vertices = mesh.vertices;
     Triangles& triangles = mesh.triangles;
-    // auto test = triangles[0].data();
     vertices.push_back({-1, 0, p});
     vertices.push_back({1, 0, p});
     vertices.push_back({1, 0, -p});
@@ -96,10 +95,10 @@ inline size_t GenerateKeyFromPoint(const size_t p1_idx, const size_t p2_idx)
     return CantorMapping(lower_idx, higher_idx);
 }
 
-inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t p2_idx, Vertices vertices)
+inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t p2_idx, Vertices& vertices)
 {
-    auto &p1 = vertices[p1_idx];
-    auto &p2 = vertices[p2_idx];
+    auto& p1 = vertices[p1_idx];
+    auto& p2 = vertices[p2_idx];
     auto mean = FastGA::Mean<double, 3>(p1, p2);
     auto norm = FastGA::L2Norm<double, 3>(mean);
     auto scaling = 1 / norm;
@@ -107,72 +106,59 @@ inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t
     return mean;
 }
 
-// def cantor_mapping(k1, k2):
-//     return int(((k1 + k2) * (k1 + k2 + 1)) / 2.0 + k2)
-
-
-// def generate_key_from_point(p1_idx, p2_idx):
-//     lower_idx, higher_idx = (
-//         p1_idx, p2_idx) if p1_idx < p2_idx else (p2_idx, p1_idx)
-//     return cantor_mapping(lower_idx, higher_idx)
-
-
-// def construct_midpoint(p1_idx, p2_idx, vertices):
-//     p1 = vertices[p1_idx]
-//     p2 = vertices[p2_idx]
-//     midpoint_on_plane = (p2 + p1) / 2.0
-//     scaling = 1 / np.linalg.norm(midpoint_on_plane)
-//     midpoint_on_sphere = midpoint_on_plane * scaling
-//     return midpoint_on_sphere
-
-
-// def get_point_idx(p1_idx, p2_idx, point_to_idx_map, vertices):
-//     point_key = generate_key_from_point(p1_idx, p2_idx)
-//     if point_to_idx_map.get(point_key):
-//         # Existing point Idx
-//         return point_to_idx_map[point_key]
-//     else:
-//         # New point idx
-//         point_to_idx_map[point_key] = len(vertices)
-//         midpoint_on_sphere = construct_midpoint(p1_idx, p2_idx, vertices)
-//         vertices.append(midpoint_on_sphere)
-//         return point_to_idx_map[point_key]
-
-
-// def refine_icosahedron(triangles, vertices, level=2):
-//     vertices = list(vertices)
-//     triangles = triangles.tolist()
-//     # HashMap that maps a midpoint (identified by two point indexes) to its own point index
-//     point_to_idx_map = dict()
-//     for i in range(level):
-//         triangles_refined = []
-//         # loop through every triangle and create 4 new ones based upon midpoints
-//         for triangle in triangles:
-//             p1_idx = triangle[0]
-//             p2_idx = triangle[1]
-//             p3_idx = triangle[2]
-
-//             # Create new points (if not existing) and return point index
-//             p4_idx = get_point_idx(p1_idx, p2_idx, point_to_idx_map, vertices)
-//             p5_idx = get_point_idx(p2_idx, p3_idx, point_to_idx_map, vertices)
-//             p6_idx = get_point_idx(p3_idx, p1_idx, point_to_idx_map, vertices)
-//             # Create the four new triangles
-//             t1 = [p1_idx, p4_idx, p6_idx]
-//             t2 = [p4_idx, p2_idx, p5_idx]
-//             t3 = [p6_idx, p5_idx, p3_idx]
-//             t4 = [p6_idx, p4_idx, p5_idx]
-//             # Append triangles to the new refined triangle array
-//             triangles_refined.extend([t1, t2, t3, t4])
-//         # overwrite existing triangles with this new array
-//         triangles = triangles_refined
-//     vertices = np.array(vertices)
-//     triangles = np.array(triangles)
-//     return vertices, triangles
+inline size_t GetPointIdx(const size_t p1_idx, const size_t p2_idx, std::map<size_t, size_t>& point_to_idx, Vertices& vertices)
+{
+    auto point_key = GenerateKeyFromPoint(p1_idx, p2_idx);
+    if (point_to_idx.find(point_key) != point_to_idx.end())
+    {
+        return point_to_idx[point_key];
+    }
+    else
+    {
+        point_to_idx[point_key] = vertices.size();
+        auto midpoint_on_sphere = ConstructMidPoint(p1_idx, p2_idx, vertices);
+        vertices.push_back(midpoint_on_sphere);
+        return point_to_idx[point_key];
+    }
+}
 
 inline const IcoMesh RefineIcosahedron(const int level = 1)
 {
     std::cout << level << std::endl;
-    return CreateIcosahedron();
+    auto mesh = CreateIcosahedron();
+    auto& vertices = mesh.vertices;
+    auto& triangles = mesh.triangles;
+    std::map<size_t, size_t> point_to_idx;
+
+    for (int i = 0; i < level; i++)
+    {
+        Triangles triangles_refined;
+        for (auto& triangle : triangles)
+        {
+            auto& p1_idx = triangle[0];
+            auto& p2_idx = triangle[1];
+            auto& p3_idx = triangle[2];
+            // Create new points (if not existing) and return point index
+            auto p4_idx = GetPointIdx(p1_idx, p2_idx, point_to_idx, vertices);
+            auto p5_idx = GetPointIdx(p2_idx, p3_idx, point_to_idx, vertices);
+            auto p6_idx = GetPointIdx(p3_idx, p1_idx, point_to_idx, vertices);
+
+            // Create the four new triangles
+            std::array<size_t, 3> t1 = {{p1_idx, p4_idx, p6_idx}};
+            std::array<size_t, 3> t2 = {{p4_idx, p2_idx, p5_idx}};
+            std::array<size_t, 3> t3 = {{p6_idx, p5_idx, p3_idx}};
+            std::array<size_t, 3> t4 = {{p6_idx, p4_idx, p5_idx}};
+            // Append triangles to the new array
+            triangles_refined.push_back(t1);
+            triangles_refined.push_back(t2);
+            triangles_refined.push_back(t3);
+            triangles_refined.push_back(t4);
+        }
+        // copy constructor
+        triangles = triangles_refined;
+    }
+
+    return mesh;
 }
 } // namespace Ico
 } // namespace FastGA

@@ -7,6 +7,7 @@
 #include <limits>
 #include <tuple>
 #include <iostream>
+#include <map>
 #include "Hilbert/Hilbert.hpp"
 
 #define _USE_MATH_DEFINES
@@ -48,7 +49,7 @@ void ScaleItemInPlace(std::array<T, 3> &item, T scalar)
 template<class T, int dim>
 T L2Norm(std::array<T, dim> &a)
 {
-    T norm;
+    T norm = 0;
     for(size_t i = 0; i< a.size(); i++)
     {
         norm += a[i] * a[i];

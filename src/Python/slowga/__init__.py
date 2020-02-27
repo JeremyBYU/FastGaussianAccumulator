@@ -84,8 +84,8 @@ def generate_sphere_examples():
 def visualize_refinement(ico, level=2, plot=False):
     vertices, triangles = refine_icosahedron(np.asarray(
         ico.triangles), np.asarray(ico.vertices), level=level)
-    print(vertices, vertices.shape)
-    print(triangles, triangles.shape)
+    # print(vertices, vertices.shape)
+    # print(triangles, triangles.shape)
     new_mesh = create_open_3d_mesh(triangles, vertices)
     # create lineset of normals
     top_normals = np.asarray(new_mesh.triangle_normals)
@@ -248,7 +248,7 @@ def main():
     # plot_meshes(*meshes)
     # Show our chosen refined example
     refined_icosphere, gaussian_normals = visualize_refinement(
-        ico_copy, level=0, plot=False)
+        ico_copy, level=4, plot=False)
     # Get an Example Mesh
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 0:

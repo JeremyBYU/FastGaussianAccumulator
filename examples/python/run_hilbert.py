@@ -22,6 +22,8 @@ def main():
     triangles = np.asarray(ga.mesh.triangles)
     print(vertices)
     print(triangles)
+    print(vertices.shape)
+    print(triangles.shape)
 
 if __name__ == "__main__":
     main()
