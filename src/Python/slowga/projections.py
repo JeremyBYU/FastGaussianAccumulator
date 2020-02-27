@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from .helper import normalize_box
+import time
+from .helper import normalize_box, normalized
 
 def convert_phi_theta(normals, top_half=True):
     phi_theta = np.zeros((normals.shape[0], 2))
@@ -53,24 +54,29 @@ def down_proj(normals, top_half=True):
 
     return projection
 
-
 def azimuth_equidistant(normals):
-    normals_new = np.copy(normals)
-    projection = np.zeros((normals_new.shape[0], 2))
-    theta = np.arctan2(normals_new[:, 1], normals_new[:, 0])
-    phi = np.zeros_like(theta)
-    for i in range(normals_new.shape[0]):
-        normal = normals_new[i, :]
-        phi_ = np.arccos(normal[2])
-        # phi_ = -phi_ if normal[1] < 0 else phi_
-        phi[i] = phi_
+    projection = np.zeros((normals.shape[0], 2))
+    theta = np.arctan2(normals[:, 1], normals[:, 0])
+    phi = np.arccos(normals[:, 2])
 
     projection[:, 0] = phi * np.sin(theta)
     projection[:, 1] = - phi * np.cos(theta)
+    # Normalize to 0-1
     projection = normalize_box(projection)
-    # TODO For some reason not exactly the same
-    # projection[:, 0] = phi * normals_new[:, 1]
-    # projection[:, 1] =  -phi * normals_new[:, 0]
+
+    return projection
+
+def azimuth_equidistant_fast(normals):
+    projection = np.zeros((normals.shape[0], 2))
+
+    l2 = np.atleast_1d(np.linalg.norm(normals[:, :2], 2, -1))
+    scaling = 1.0 / l2
+    phi = np.arccos(normals[:, 2])
+
+    projection[:, 0] = phi * normals[:, 1] * scaling
+    projection[:, 1] =  -phi * normals[:, 0] * scaling
+    # Normalize to 0-1
+    projection = normalize_box(projection)
 
     return projection
 
@@ -80,20 +86,24 @@ def plot_projection(ga):
     projections = [("Spherical Coordinates", "phi", "theta", "convert_phi_theta"),
                    ("Spherical Coordinates Centered", "phi", "theta", "convert_phi_theta_centered"),
                    ("Geodetic", "lat", "lon", "convert_lat_long"),
-                   ("Steographic Projection", "x*", "y*", "convert_stereographic"),
+                #    ("Steographic Projection", "x*", "y*", "convert_stereographic"),
                    ("Project To Plane", "x", "y", "down_proj"),
                    ("Azimuth Equidistant", "x*", "y*", "azimuth_equidistant"),
+                   ("Azimuth Equidistant (Fast)", "x", "y", "azimuth_equidistant_fast"),
                    ]
     fig, axs = plt.subplots(3, 2, figsize=(5, 6))
     axs = axs.reshape(-1)
     for i, (title_name, xlabel, ylabel, function_name) in enumerate(projections):
         ax = axs[i]
+        t0 = time.perf_counter()
         proj = globals()[function_name](ga.gaussian_normals)
+        t1 = time.perf_counter()
         ax.scatter(proj[:, 0], proj[:, 1], c=ga.colors)
         ax.set_title(title_name)
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
         ax.axis('equal')
+        # print("{} took {}".format(title_name, t1-t0 ))
     fig.tight_layout()
 
     plt.show()

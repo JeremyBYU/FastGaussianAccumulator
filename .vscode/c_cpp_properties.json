@@ -6,7 +6,10 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/thirdparty/benchmark/include/**",
                 "${workspaceFolder}/thirdparty/googletest/googletest/include/**",
-                "${workspaceFolder}/thirdparty/Catch2/single_include/"
+                "${workspaceFolder}/thirdparty/Catch2/single_include/",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/thirdparty/pybind11/include/**",
+                "/home/jeremy/miniconda3/envs/polylidar/include/python3.6m/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

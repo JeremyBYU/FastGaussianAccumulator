@@ -5,6 +5,8 @@ import open3d as o3d
 import numpy as np
 from scipy.spatial import cKDTree, KDTree
 from scipy.spatial.transform import Rotation as R
+from scipy.signal import find_peaks
+from scipy.cluster.hierarchy import linkage, fcluster
 import matplotlib.pyplot as plt
 from hilbertcurve.hilbertcurve import HilbertCurve
 
@@ -20,7 +22,7 @@ EXAMPLE_MESH_2 = REALSENSE_DIR / "dense_first_floor_map.ply"
 EXAMPLE_MESH_3 = REALSENSE_DIR / "sparse_basement.ply"
 
 ALL_MESHES = [EXAMPLE_MESH_1, EXAMPLE_MESH_2, EXAMPLE_MESH_3]
-ALL_MESHES_ROTATIONS = [np.identity(3), R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
+ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
@@ -34,7 +36,8 @@ class GaussianAccumulator(object):
         super().__init__()
         self.nbuckets = gaussian_normals.shape[0]
         self.kdtree = cKDTree(gaussian_normals, leafsize=leafsize, compact_nodes=True, balanced_tree=True)
-        self.accumulator = np.zeros(self.nbuckets, dtype=np.float64)
+        self.accumulator = np.zeros(self.nbuckets, dtype=np.int32)
+        self.accumulator_normalized = np.zeros(self.nbuckets, dtype=np.float64)
         self.colors = np.zeros_like(gaussian_normals)
         self.gaussian_normals = gaussian_normals
         self.normals = None
@@ -52,7 +55,7 @@ class GaussianAccumulator(object):
             self.accumulator[idx] = self.accumulator[idx] + 1
 
     def normalize(self):
-        self.accumulator = self.accumulator / np.max(self.accumulator)
+        self.accumulator_normalized = self.accumulator / np.max(self.accumulator)
         self.colors = get_colors(self.accumulator, plt.cm.viridis)[:, :3]
 
 
@@ -81,6 +84,8 @@ def generate_sphere_examples():
 def visualize_refinement(ico, level=2, plot=False):
     vertices, triangles = refine_icosahedron(np.asarray(
         ico.triangles), np.asarray(ico.vertices), level=level)
+    print(vertices, vertices.shape)
+    print(triangles, triangles.shape)
     new_mesh = create_open_3d_mesh(triangles, vertices)
     # create lineset of normals
     top_normals = np.asarray(new_mesh.triangle_normals)
@@ -109,8 +114,10 @@ def filter_normals_by_phi(normals, max_phi=100, return_mask=True):
 
 
 def assign_hilbert_curve(ga: GaussianAccumulator):
+    dtype = np.uint32
+    max_length_axis = 2**16 - 1
     bucket_normals = ga.gaussian_normals
-    bucket_normals_xy = (azimuth_equidistant(bucket_normals) * (2**16 - 1)).astype(np.uint16)
+    bucket_normals_xy = (azimuth_equidistant(bucket_normals) * max_length_axis).astype(dtype)
     hilbert_curve = HilbertCurve(16, 2)
     bucket_normals_hv = []
     for i in range(bucket_normals_xy.shape[0]):
@@ -125,27 +132,78 @@ def plot_hilbert_curve(ga):
     colors = ga.colors
     proj = azimuth_equidistant(bucket_normals)
     bucket_normals_hv = assign_hilbert_curve(ga)
+    print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
     idx_sort = np.argsort(bucket_normals_hv)
     proj = proj[idx_sort, :]
+    accumulator_normalized_sorted = ga.accumulator_normalized[idx_sort]
+    gaussian_normals_sorted = ga.gaussian_normals[idx_sort]
+
+    # Find Peaks
+    peaks, clusters = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
+
     colors = colors[idx_sort, :]
-    fig, axs = plt.subplots(2, 1, figsize=(5, 10))
+    fig, axs = plt.subplots(2, 1, figsize=(8, 10))
     ax = axs[0]
-    ax.scatter(proj[:, 0], proj[:, 1], c=colors)
+    scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
+    scatter2 = ax.scatter(proj[peaks, :][:, 0], proj[peaks, :][:, 1], marker='x', c=clusters, label='Clusters', cmap='tab20')
     ax.set_title("Hilbert Curve with Azimuth Equidistant Projection")
     ax.set_xlabel("x*")
     ax.set_ylabel("y*")
-    ax.plot(proj[:, 0], proj[:, 1], c='k')
+    line1 = ax.plot(proj[:, 0], proj[:, 1], c='k', label='Hilbert Curve Connections')[0]
     ax.axis('equal')
+    leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+
+    # we will set up a dict mapping legend line to orig line, and enable
+    # picking on the legend line
+    lines = [line1, scatter1, scatter2]
+    lined = dict()
+    for legline, origline in zip(leg.legendHandles, lines):
+        legline.set_picker(5)  # 5 pts tolerance
+        lined[legline] = origline
+
+    def onpick(event):
+        # on the pick event, find the orig line corresponding to the
+        # legend proxy line, and toggle the visibility
+        legline = event.artist
+        origline = lined[legline]
+        vis = not origline.get_visible()
+        origline.set_visible(vis)
+        # Change the alpha on the line in the legend so we can see what lines
+        # have been toggled
+        if vis:
+            legline.set_alpha(1.0)
+        else:
+            legline.set_alpha(0.2)
+        fig.canvas.draw()
 
     ax = axs[1]
-    ax.bar(np.arange(ga.nbuckets), ga.accumulator[idx_sort])
+    ax.bar(np.arange(ga.nbuckets), accumulator_normalized_sorted)
+    ax.scatter(peaks, accumulator_normalized_sorted[peaks], marker='x', c=clusters, cmap='tab20')
+
     ax.set_title("Histogram of Normal Counts sorted by Hilbert Values")
     ax.set_xlabel("Hilbert Value (Ascending)")
     ax.set_ylabel("Normal Counts")
-    # ax.axis('equal')
 
+    # ax.axis('equal')
+    fig.canvas.mpl_connect('pick_event', onpick)
     fig.tight_layout()
     plt.show()
+
+def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted,
+               find_peaks_kwargs=dict(height=0.10, threshold=None, distance=4, width=None, prominence=0.07),
+               cluster_kwargs=dict(t=0.15, criterion='distance')):
+    t0 = time.perf_counter()
+    peaks, _ = find_peaks(accumulator_normalized_sorted, **find_peaks_kwargs)
+    t1 = time.perf_counter()
+
+    gaussian_normal_1d_clusters = gaussian_normals_sorted[peaks,:]
+    Z = linkage(gaussian_normal_1d_clusters, 'single')
+    clusters = fcluster(Z, **cluster_kwargs)
+    t2 = time.perf_counter()
+
+
+    print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
+    return peaks, clusters
 
 
 def visualize_gaussian_integration(refined_icosahedron_mesh, gaussian_normals, mesh, ds=50, min_samples=10000, plot=False):
@@ -184,21 +242,22 @@ def main():
     meshes.insert(0, ico)
     for level, mesh in zip(family, meshes):
         angle_diff = calc_angle_delta(mesh, level)
-        print("Refinement Level: {}; Number of Triangles: {}, Angle Difference: {:.1f}".format(
-            level, np.array(mesh.triangles).shape[0], angle_diff))
+        print("Refinement Level: {}; Number of Vertices: {}, Number of Triangles: {}, Angle Difference: {:.1f}".format(
+            level, np.array(mesh.vertices).shape[0], np.array(mesh.triangles).shape[0], angle_diff))
     meshes.insert(0, sphere)
     # plot_meshes(*meshes)
     # Show our chosen refined example
     refined_icosphere, gaussian_normals = visualize_refinement(
-        ico_copy, level=3, plot=False)
+        ico_copy, level=0, plot=False)
     # Get an Example Mesh
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 1:
+        if i < 0:
             continue
         fname = mesh_fpath.stem
         # print(fname)
         example_mesh = o3d.io.read_triangle_mesh(str(mesh_fpath))
-        example_mesh = example_mesh.rotate(r.as_matrix())
+        if r is not None:
+            example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh.compute_triangle_normals()
         # plot_meshes(example_mesh)
 
@@ -208,8 +267,8 @@ def main():
                    convert_lat_long(ga.gaussian_normals, degrees=True), fmt='%.4f')
         np.savetxt(str(REALSENSE_DIR / "{}_normals.txt".format(fname)),
                    convert_lat_long(ga.normals, degrees=True), fmt='%.4f')
-        plot_hilbert_curve(ga)
         plot_projection(ga)
+        plot_hilbert_curve(ga)
         plot_meshes(colored_icosahedron, example_mesh)
 
 

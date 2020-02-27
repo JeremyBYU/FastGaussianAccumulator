@@ -2,4 +2,9 @@
  *
  * Hello World implements a standard namespace with a few available functions.
  */
-#include "FastGA/GA.hpp"
+#ifndef FASTGA_HPP
+#define FASTGA_HPP
+
+#include "FastGA/FastGA.hpp"
+#include "FastGA/Helper.hpp"
+#endif

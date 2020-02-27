@@ -1,9 +1,13 @@
 #include "FastGA.hpp"
 
-namespace FastGA
+namespace FastGA {
+const std::string test()
 {
-    const std::string test()
-    {
-        return "test";
-    }
+    return "test";
 }
+
+GaussianAccumulator::GaussianAccumulator(int level) : mesh()
+{
+    mesh = FastGA::Ico::RefineIcosahedron(level);
+}
+} // namespace FastGA
