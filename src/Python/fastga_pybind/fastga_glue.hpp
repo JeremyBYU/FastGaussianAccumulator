@@ -21,5 +21,5 @@ std::tuple<FastGA::MatX2d, std::vector<uint32_t>> convert_normals_to_hilbert(py:
     // {
     //     std::cout << normals[i][0] << ", " << normals[i][1] << ", " << normals[i][2]  << std::endl;
     // }
-    return FastGA::ConvertNormalsToHilbert(normals);
+    return FastGA::Helper::ConvertNormalsToHilbert(normals);
 }

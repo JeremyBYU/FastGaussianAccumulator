@@ -3,6 +3,7 @@
 
 #include <string>
 #include "FastGA/Ico.hpp"
+#include "nanoflann.hpp"
 
 namespace FastGA {
 const std::string test();
@@ -20,7 +21,16 @@ class GaussianAccumulator
     };
     Ico::IcoMesh mesh;
     std::vector<Bucket> buckets;
-    GaussianAccumulator(int level = 1);
+    GaussianAccumulator(int level = 1, double max_phi = 100);
+
+  private:
+};
+
+class GaussianAccumulatorKD: public GaussianAccumulator
+{
+
+  public:
+    GaussianAccumulatorKD(int level = 1, double max_phi = 100);
 
   private:
 };

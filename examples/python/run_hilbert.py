@@ -14,15 +14,16 @@ def main():
     print(np.asarray(proj))
     print(hilbert_values)
 
-    ga = GaussianAccumulator(1)
-
+    ga = GaussianAccumulator(4)
+    print("Number of Buckets: {}".format(len(ga.buckets)))
+    print(ga.buckets)
     
     vertices = np.asarray(ga.mesh.vertices)
     triangles = np.asarray(ga.mesh.triangles)
-    print(vertices)
-    print(triangles)
-    print(vertices.shape)
-    print(triangles.shape)
+    # print(vertices)
+    # print(triangles)
+    # print(vertices.shape)
+    # print(triangles.shape)
 
 if __name__ == "__main__":
     main()

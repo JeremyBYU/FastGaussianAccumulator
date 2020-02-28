@@ -8,37 +8,38 @@
 #include <tuple>
 #include <iostream>
 #include <map>
+#include <string>
 #include "Hilbert/Hilbert.hpp"
 
+// #include "str"
+
 #define _USE_MATH_DEFINES
-#define degreesToRadians(angleDegrees) ((angleDegrees) * M_PI / 180.0)
-#define radiansToDegrees(angleRadians) ((angleRadians) * 180.0 / M_PI)
-
-
-
-
+#define degreesToRadians(angleDegrees) ((angleDegrees)*M_PI / 180.0)
+#define radiansToDegrees(angleRadians) ((angleRadians)*180.0 / M_PI)
 
 namespace FastGA {
-
-const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint32_t>::max();
-
-const static double EPSILON = 1e-5;
-
 
 using MatX3d = std::vector<std::array<double, 3>>;
 using MatX3I = std::vector<std::array<size_t, 3>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
+
+namespace Helper {
+
+const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint32_t>::max();
+
+const static double EPSILON = 1e-5;
+
 struct BBOX
 {
     double min_x;
-    double min_y; 
+    double min_y;
     double max_x;
     double max_y;
 };
 
 template <class T>
-void ScaleItemInPlace(std::array<T, 3> &item, T scalar)
+void ScaleItemInPlace(std::array<T, 3>& item, T scalar)
 {
     item[0] *= scalar;
     item[1] *= scalar;
@@ -51,11 +52,11 @@ void ScaleItemInPlace(std::array<T, 3> &item, T scalar)
 //     item[2] *= scalar;
 // }
 
-template<class T, int dim>
-T L2Norm(std::array<T, dim> &a)
+template <class T, int dim>
+T L2Norm(std::array<T, dim>& a)
 {
     T norm = 0;
-    for(size_t i = 0; i< a.size(); i++)
+    for (size_t i = 0; i < a.size(); i++)
     {
         norm += a[i] * a[i];
     }
@@ -63,11 +64,38 @@ T L2Norm(std::array<T, dim> &a)
     return norm;
 }
 
-template<class T, int dim>
-std::array<T, dim> Mean(std::array<T, dim> &a, std::array<T, dim> &b)
+template <class T, int dim>
+std::string ArrayToString(const std::array<T, dim>& a)
+{
+    std::string a_s;
+    for (size_t i = 0; i < a.size(); i++)
+    {
+        a_s += std::to_string(a[i]) + ",";
+    }
+    return a_s;
+}
+
+inline void crossProduct3(const std::array<double, 3>& u, const std::array<double, 3>& v, double* normal)
+{
+    // cross product
+    normal[0] = u[1] * v[2] - u[2] * v[1];
+    normal[1] = u[2] * v[0] - u[0] * v[2];
+    normal[2] = u[0] * v[1] - u[1] * v[0];
+}
+
+inline void normalize3(double* normal)
+{
+    auto norm = std::sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+    normal[0] /= norm;
+    normal[1] /= norm;
+    normal[2] /= norm;
+}
+
+template <class T, int dim>
+std::array<T, dim> Mean(std::array<T, dim>& a, std::array<T, dim>& b)
 {
     std::array<T, dim> mean;
-    for(size_t i = 0; i< a.size(); i++)
+    for (size_t i = 0; i < a.size(); i++)
     {
         mean[i] = (a[i] + b[i]) / 2.0;
     }
@@ -75,9 +103,9 @@ std::array<T, dim> Mean(std::array<T, dim> &a, std::array<T, dim> &b)
 }
 
 template <class T, int dim>
-void ScaleArrayInPlace(std::vector<std::array<T, dim>> &array, T scalar)
+void ScaleArrayInPlace(std::vector<std::array<T, dim>>& array, T scalar)
 {
-    for (auto &&item: array)
+    for (auto&& item : array)
     {
         ScaleItemInPlace(item, scalar);
     }
@@ -110,21 +138,21 @@ inline void AzimuthProjectionPhiTheta(double* pt, double* xy)
     xy[1] = -pt[0] * cos(pt[1]);
 }
 
-inline BBOX InitializeProjection(MatX3d &normals, MatX2d &projection)
+inline BBOX InitializeProjection(MatX3d& normals, MatX2d& projection)
 {
     size_t N = normals.size();
     double min_x = std::numeric_limits<double>::max();
     double min_y = std::numeric_limits<double>::max();
     double max_x = std::numeric_limits<double>::lowest();
     double max_y = std::numeric_limits<double>::lowest();
-    for (size_t i = 0; i < N; i++) 
+    for (size_t i = 0; i < N; i++)
     {
         AzimuthProjectionXYZ(&normals[i][0], &projection[i][0]);
         if (projection[i][0] < min_x)
         {
             min_x = projection[i][0];
         }
-        if(projection[i][0] > max_x)
+        if (projection[i][0] > max_x)
         {
             max_x = projection[i][0];
         }
@@ -133,17 +161,15 @@ inline BBOX InitializeProjection(MatX3d &normals, MatX2d &projection)
         {
             min_y = projection[i][1];
         }
-        if(projection[i][1] > max_y)
+        if (projection[i][1] > max_y)
         {
             max_y = projection[i][1];
         }
-
     }
     return {min_x, min_y, max_x, max_y};
-
 }
 
-inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(MatX3d &normals)
+inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(MatX3d& normals)
 {
     size_t N = normals.size();
     MatX2d projection(N);
@@ -154,15 +180,41 @@ inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(MatX3d 
     double x_range = bbox.max_x - bbox.min_x;
     double y_range = bbox.max_y - bbox.min_y;
     // std::cout << "Range: " << x_range << ", " << y_range << std::endl;
-    for (size_t i = 0; i < N; i++) 
+    for (size_t i = 0; i < N; i++)
     {
         ScaleXYToUInt32(&projection[i][0], xy_int.data(), bbox.min_x, bbox.min_y, x_range, y_range);
         hilbert_values[i] = Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]);
     }
     return std::make_tuple(std::move(projection), hilbert_values);
-    
 }
 
+void inline ComputeTriangleNormals(const MatX3d& vertices, const MatX3I& triangles, MatX3d& triangle_normals)
+{
+    size_t num_triangles = triangles.size();
+    triangle_normals.resize(num_triangles);
 
+    for (size_t i = 0; i < triangles.size(); i++)
+    {
+        auto& pi0 = triangles[i][0];
+        auto& pi1 = triangles[i][1];
+        auto& pi2 = triangles[i][2];
+
+        std::array<double, 3> vv1 = {vertices[pi0][0], vertices[pi0][1], vertices[pi0][2]};
+        std::array<double, 3> vv2 = {vertices[pi1][0], vertices[pi1][1], vertices[pi1][2]};
+        std::array<double, 3> vv3 = {vertices[pi2][0], vertices[pi2][1], vertices[pi2][2]};
+
+        // two lines of triangle
+        // V1 is starting index
+        std::array<double, 3> u{{vv2[0] - vv1[0], vv2[1] - vv1[1], vv2[2] - vv1[2]}};
+        std::array<double, 3> v{{vv3[0] - vv1[0], vv3[1] - vv1[1], vv3[2] - vv1[2]}};
+
+        // cross product
+        crossProduct3(u, v, &triangle_normals[i][0]);
+        // normalize
+        normalize3(&triangle_normals[i][0]);
+    }
 }
+
+} // namespace Helper
+} // namespace FastGA
 #endif

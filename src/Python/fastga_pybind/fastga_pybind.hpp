@@ -17,8 +17,6 @@ PYBIND11_MAKE_OPAQUE(std::vector<std::array<size_t, 3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<std::array<double, 3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<std::array<double, 2>>);
 
-
-
 // some helper functions
 namespace pybind11 {
 namespace detail {

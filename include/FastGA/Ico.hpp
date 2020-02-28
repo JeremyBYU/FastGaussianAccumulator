@@ -25,7 +25,8 @@ struct IcoMesh
 {
     MatX3d vertices;
     MatX3I triangles;
-    IcoMesh() : vertices(), triangles() {}
+    MatX3d triangle_normals;
+    IcoMesh() : vertices(), triangles(), triangle_normals(){}
 };
 
 // using TriangleMesh = std::tuple<Vertices<T>, Triangles<T>>;
@@ -50,7 +51,7 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
     vertices.push_back({p, 1, 0});
     vertices.push_back({-p, 1, 0});
 
-    FastGA::ScaleArrayInPlace<double, 3>(vertices, scale);
+    FastGA::Helper::ScaleArrayInPlace<double, 3>(vertices, scale);
 
     triangles.push_back({0, 4, 1});
     triangles.push_back({0, 1, 5});
@@ -99,10 +100,10 @@ inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t
 {
     auto& p1 = vertices[p1_idx];
     auto& p2 = vertices[p2_idx];
-    auto mean = FastGA::Mean<double, 3>(p1, p2);
-    auto norm = FastGA::L2Norm<double, 3>(mean);
+    auto mean = FastGA::Helper::Mean<double, 3>(p1, p2);
+    auto norm = FastGA::Helper::L2Norm<double, 3>(mean);
     auto scaling = 1 / norm;
-    FastGA::ScaleItemInPlace(mean, scaling);
+    FastGA::Helper::ScaleItemInPlace(mean, scaling);
     return mean;
 }
 
@@ -157,6 +158,8 @@ inline const IcoMesh RefineIcosahedron(const int level = 1)
         // copy constructor
         triangles = triangles_refined;
     }
+
+    FastGA::Helper::ComputeTriangleNormals(mesh.vertices, mesh.triangles, mesh.triangle_normals);
 
     return mesh;
 }

@@ -105,8 +105,10 @@ def visualize_refinement(ico, level=2, plot=False):
 def filter_normals_by_phi(normals, max_phi=100, return_mask=True):
     rad = np.deg2rad(max_phi)
     # TODO this can be reduced to simple z comparison
-    phi = np.arctan2(1.0, normals[:, 2])
-    mask = np.abs(phi) < rad
+    min_z = np.cos(rad)
+    # phi = np.arctan2(1.0, normals[:, 2])
+    # mask = np.abs(phi) < rad
+    mask = normals[:, 2] >= min_z
     if return_mask:
         return normals[mask, :], mask
     else:
@@ -249,6 +251,7 @@ def main():
     # Show our chosen refined example
     refined_icosphere, gaussian_normals = visualize_refinement(
         ico_copy, level=4, plot=False)
+    # print(gaussian_normals)
     # Get an Example Mesh
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 0:

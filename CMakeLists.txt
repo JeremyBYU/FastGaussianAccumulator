@@ -52,6 +52,7 @@ endif()
 
 #### Project Dependencies
 find_package(OpenMP)
+add_subdirectory("thirdparty/nanoflann")
 # add_subdirectory("thirdparty/eigen")
 ### Google Testing and Benchmarks Libraries
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library." FORCE)
@@ -85,7 +86,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 $<BUILD_INTERFACE:${GI_INCLUDE_DIR}>
 $<INSTALL_INTERFACE:include>
 PRIVATE src)
-# target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+
+get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
+# message(STATUS "${nanoflann_include_dirs}=${${nanoflann_include_dirs}}")
+# set(NANOFLANN_INCLUDE_DIRS "/home/jeremy/Documents/UMICH/Research/GaussianIntegrator/thirdparty/nanoflann/include")
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)
 # find_program(CLANG_TIDY
@@ -107,3 +113,9 @@ if(NOT DEFINED PYPI_PACKAGE_NAME)
 endif()
 add_subdirectory("thirdparty/pybind11")
 add_subdirectory(src/Python)
+
+# get_cmake_property(_variableNames VARIABLES)
+# list (SORT _variableNames)
+# foreach (_variableName ${_variableNames})
+#     message(STATUS "${_variableName}=${${_variableName}}")
+# endforeach()
