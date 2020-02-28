@@ -6,8 +6,8 @@ const static double GOLDEN_RATIO = (1.0 + sqrt(5.0)) / 2.0;
 const static double ICOSAHEDRON_TRUE_RADIUS = sqrt(1.0 + GOLDEN_RATIO * GOLDEN_RATIO);
 const static double ICOSAHEDRON_SCALING = 1.0 / ICOSAHEDRON_TRUE_RADIUS;
 
-using Triangles = std::vector<std::array<size_t, 3>>;
-using Vertices = std::vector<std::array<double, 3>>;
+// using Triangles = std::vector<std::array<size_t, 3>>;
+// using Vertices = std::vector<std::array<double, 3>>;
 
 inline constexpr int IcoMeshFaces(int level = 1)
 {
@@ -23,8 +23,8 @@ inline constexpr int IcoMeshVertices(int level = 1)
 
 struct IcoMesh
 {
-    Vertices vertices;
-    Triangles triangles;
+    MatX3d vertices;
+    MatX3I triangles;
     IcoMesh() : vertices(), triangles() {}
 };
 
@@ -35,8 +35,8 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
 {
     const double p = GOLDEN_RATIO;
     IcoMesh mesh;
-    Vertices& vertices = mesh.vertices;
-    Triangles& triangles = mesh.triangles;
+    MatX3d& vertices = mesh.vertices;
+    MatX3I& triangles = mesh.triangles;
     vertices.push_back({-1, 0, p});
     vertices.push_back({1, 0, p});
     vertices.push_back({1, 0, -p});
@@ -95,7 +95,7 @@ inline size_t GenerateKeyFromPoint(const size_t p1_idx, const size_t p2_idx)
     return CantorMapping(lower_idx, higher_idx);
 }
 
-inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t p2_idx, Vertices& vertices)
+inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t p2_idx, MatX3d& vertices)
 {
     auto& p1 = vertices[p1_idx];
     auto& p2 = vertices[p2_idx];
@@ -106,7 +106,7 @@ inline std::array<double, 3> ConstructMidPoint(const size_t p1_idx, const size_t
     return mean;
 }
 
-inline size_t GetPointIdx(const size_t p1_idx, const size_t p2_idx, std::map<size_t, size_t>& point_to_idx, Vertices& vertices)
+inline size_t GetPointIdx(const size_t p1_idx, const size_t p2_idx, std::map<size_t, size_t>& point_to_idx, MatX3d& vertices)
 {
     auto point_key = GenerateKeyFromPoint(p1_idx, p2_idx);
     if (point_to_idx.find(point_key) != point_to_idx.end())
@@ -132,7 +132,7 @@ inline const IcoMesh RefineIcosahedron(const int level = 1)
 
     for (int i = 0; i < level; i++)
     {
-        Triangles triangles_refined;
+        MatX3I triangles_refined;
         for (auto& triangle : triangles)
         {
             auto& p1_idx = triangle[0];

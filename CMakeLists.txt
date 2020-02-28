@@ -52,6 +52,7 @@ endif()
 
 #### Project Dependencies
 find_package(OpenMP)
+# add_subdirectory("thirdparty/eigen")
 ### Google Testing and Benchmarks Libraries
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library." FORCE)
 add_subdirectory("thirdparty/googletest")
@@ -79,12 +80,13 @@ $<$<CXX_COMPILER_ID:MSVC>:
 /W4>)
 
 ### Set Header and Properties of Library
-set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 target_include_directories(${PROJECT_NAME} PRIVATE ${GI_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC
 $<BUILD_INTERFACE:${GI_INCLUDE_DIR}>
 $<INSTALL_INTERFACE:include>
 PRIVATE src)
+# target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)
 # find_program(CLANG_TIDY
 #   NAMES clang-tidy-7 clang-tidy-6.0 clang-tidy-5.0 clang-tidy-4.0 clang-tidy)

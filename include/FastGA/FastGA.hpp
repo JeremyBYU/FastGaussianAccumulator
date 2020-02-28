@@ -7,11 +7,19 @@
 namespace FastGA {
 const std::string test();
 
+
 class GaussianAccumulator
 {
 
   public:
+    struct Bucket
+    {
+      std::array<double, 3> normal;
+      uint32_t hilbert_value;
+      uint32_t count;
+    };
     Ico::IcoMesh mesh;
+    std::vector<Bucket> buckets;
     GaussianAccumulator(int level = 1);
 
   private:
