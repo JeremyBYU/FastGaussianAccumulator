@@ -108,6 +108,13 @@ file(GLOB BENCH_SOURCES bench/*.cpp)
 add_executable(bench-run ${BENCH_SOURCES})
 target_link_libraries(bench-run benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME})
 
+#### Example Executables
+add_executable(example-kd "examples/cpp/example_kd.cpp")
+target_link_libraries(example-kd ${PROJECT_NAME})
+add_executable(example-nano "examples/cpp/example_nano.cpp")
+target_link_libraries(example-nano ${PROJECT_NAME})
+
+# Python Bindings
 if(NOT DEFINED PYPI_PACKAGE_NAME)
     set(PYPI_PACKAGE_NAME "fastga")
 endif()

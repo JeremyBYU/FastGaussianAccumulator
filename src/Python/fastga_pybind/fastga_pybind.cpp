@@ -2,6 +2,45 @@
 #include "fastga_pybind/fastga_pybind.hpp"
 #include "fastga_pybind/fastga_glue.hpp"
 
+namespace pybind11
+{
+template <typename T, int dim>
+std::vector<std::array<T, dim>> py_array_to_vectors(
+        py::array_t<double, py::array::c_style | py::array::forcecast> array) {
+    return std::vector<std::array<T, dim>>();
+    // if (array.ndim() != 2) {
+    //     throw py::cast_error();
+    // }
+    // std::vector<std::array<T, dim>> vectors_T(array.shape(0));
+    // auto array_unchecked = array.mutable_unchecked<2>();
+    // for (auto i = 0; i < array_unchecked.shape(0); ++i) {
+    //     for (auto j = 0; j < dim; j++)
+    //     {
+    //         vectors_T[i][j] = array_unchecked(i, j);
+    //     }
+    // }
+    // return vectors_T;
+}
+}
+
+template <typename T, int dim>
+std::vector<std::array<T, dim>> py_array_to_vectors(
+        py::array_t<double, py::array::c_style | py::array::forcecast> array) {
+    // return std::vector<std::array<T, dim>>();
+    if (array.ndim() != 2 || array.shape(1) != dim) {
+        throw py::cast_error();
+    }
+    std::vector<std::array<T, dim>> vectors_T(array.shape(0));
+    auto array_unchecked = array.mutable_unchecked<2>();
+    for (auto i = 0; i < array_unchecked.shape(0); ++i) {
+        for (auto j = 0; j < dim; j++)
+        {
+            vectors_T[i][j] = array_unchecked(i, j);
+        }
+    }
+    return vectors_T;
+}
+
 PYBIND11_MODULE(fastga, m)
 {
     m.doc() = "Python binding of FastGA";
@@ -9,8 +48,15 @@ PYBIND11_MODULE(fastga, m)
     py::bind_vector<std::vector<std::size_t>>(m, "VectorLongInt", py::buffer_protocol());
     py::bind_vector<std::vector<double>>(m, "VectorDouble", py::buffer_protocol());
     py::bind_vector<std::vector<int>>(m, "VectorInt", py::buffer_protocol());
+    // py::bind_vector<std::vector<std::array<double, 3>>>(m, "Vector3Double", py::buffer_protocol());
+    // py::bind_vector<std::vector<std::array<double, 2>>>(m, "Vector2Double", py::buffer_protocol());
+    // py::bind_vector<std::vector<std::array<size_t, 3>>>(m, "Vector3UInt", py::buffer_protocol());
+
+
 
     py::class_<FastGA::MatX3d>(m, "MatX3d", py::buffer_protocol())
+        // .def(py::init([](py::array_t<double, py::array::c_style> my_array) {return FastGA::MatX3d();} ))
+        .def(py::init(&py_array_to_vectors<double, 3>))
         .def_buffer([](FastGA::MatX3d& m) -> py::buffer_info {
             return py::buffer_info(
                 m.data(),                                /* Pointer to buffer */
@@ -20,7 +66,14 @@ PYBIND11_MODULE(fastga, m)
                 {m.size(), 3UL},                         /* Buffer dimensions */
                 {sizeof(double) * 3,                     /* Strides (in bytes) for each index */
                  sizeof(double)});
+        })
+        .def("__copy__", [](FastGA::MatX3d &v) {
+            return FastGA::MatX3d(v);
+        })
+        .def("__deepcopy__", [](FastGA::MatX3d &v, py::dict &memo) {
+            return FastGA::MatX3d(v);
         });
+
     py::class_<FastGA::MatX3I>(m, "MatX3I", py::buffer_protocol())
         .def_buffer([](FastGA::MatX3I& m) -> py::buffer_info {
             return py::buffer_info(
@@ -47,13 +100,13 @@ PYBIND11_MODULE(fastga, m)
 
     // Classes
 
-    py::class_<FastGA::GaussianAccumulator::Bucket>(m, "Bucket")
+    py::class_<FastGA::Bucket>(m, "Bucket")
         .def(py::init<>())
-        .def_readonly("normal", &FastGA::GaussianAccumulator::Bucket::normal)
-        .def_readonly("hilbert_value", &FastGA::GaussianAccumulator::Bucket::hilbert_value)
-        .def_readonly("count", &FastGA::GaussianAccumulator::Bucket::count)
+        .def_readonly("normal", &FastGA::Bucket::normal)
+        .def_readonly("hilbert_value", &FastGA::Bucket::hilbert_value)
+        .def_readonly("count", &FastGA::Bucket::count)
         .def("__repr__",
-             [](const FastGA::GaussianAccumulator::Bucket& a) {
+             [](const FastGA::Bucket& a) {
                  return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) + "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) +  "'>");
              });
 
@@ -67,7 +120,7 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("vertices", &FastGA::Ico::IcoMesh::vertices);
 
     py::class_<FastGA::GaussianAccumulator>(m, "GaussianAccumulator")
-        .def(py::init<const int>())
+        .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
         .def("__repr__",
              [](const FastGA::GaussianAccumulator& a) {
                  return "<FastGA::GA; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
@@ -75,6 +128,15 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("mesh", &FastGA::GaussianAccumulator::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator::buckets);
 
+    py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator>(m, "GaussianAccumulatorKD")
+        .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
+        .def("get_bucket_indexes", &FastGA::GaussianAccumulatorKD::GetBucketIndexes, "normals"_a, "eps"_a=FastGA_KDTREE_EPS)
+        .def("__repr__",
+             [](const FastGA::GaussianAccumulatorKD& a) {
+                 return "<FastGA::GAKD; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
+             });
+
+    // Functions
     m.def("convert_normals_to_hilbert", &convert_normals_to_hilbert, "normals"_a);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

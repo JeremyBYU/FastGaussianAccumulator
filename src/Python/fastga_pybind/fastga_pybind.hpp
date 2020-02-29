@@ -11,8 +11,8 @@ namespace py = pybind11;
 using namespace py::literals;
 
 PYBIND11_MAKE_OPAQUE(std::vector<size_t>);
-PYBIND11_MAKE_OPAQUE(std::vector<int>);
 PYBIND11_MAKE_OPAQUE(std::vector<double>);
+PYBIND11_MAKE_OPAQUE(std::vector<int>);
 PYBIND11_MAKE_OPAQUE(std::vector<std::array<size_t, 3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<std::array<double, 3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<std::array<double, 2>>);

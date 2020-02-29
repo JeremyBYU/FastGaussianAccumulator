@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/thirdparty/benchmark/include/**",
+                "${workspaceFolder}/thirdparty/nanoflann/include/**",
                 "${workspaceFolder}/thirdparty/googletest/googletest/include/**",
                 "${workspaceFolder}/thirdparty/Catch2/single_include/",
                 "${workspaceFolder}/include",

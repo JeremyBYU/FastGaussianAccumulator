@@ -24,6 +24,13 @@ using MatX3I = std::vector<std::array<size_t, 3>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
 
+struct Bucket
+{
+    std::array<double, 3> normal;
+    uint32_t hilbert_value;
+    uint32_t count;
+};
+
 namespace Helper {
 
 const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint32_t>::max();
@@ -45,12 +52,6 @@ void ScaleItemInPlace(std::array<T, 3>& item, T scalar)
     item[1] *= scalar;
     item[2] *= scalar;
 }
-// inline void ScaleItemInPlace(std::array<double, 3> &item, double scalar)
-// {
-//     item[0] *= scalar;
-//     item[1] *= scalar;
-//     item[2] *= scalar;
-// }
 
 template <class T, int dim>
 T L2Norm(std::array<T, dim>& a)
@@ -67,12 +68,12 @@ T L2Norm(std::array<T, dim>& a)
 template <class T, int dim>
 std::string ArrayToString(const std::array<T, dim>& a)
 {
-    std::string a_s;
+    std::string a_s = "(";
     for (size_t i = 0; i < a.size(); i++)
     {
         a_s += std::to_string(a[i]) + ",";
     }
-    return a_s;
+    return a_s + ")";
 }
 
 inline void crossProduct3(const std::array<double, 3>& u, const std::array<double, 3>& v, double* normal)

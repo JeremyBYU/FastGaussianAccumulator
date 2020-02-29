@@ -67,6 +67,8 @@
         "variant": "cpp",
         "bit": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "core": "cpp",
+        "geometry": "cpp"
     }
 }

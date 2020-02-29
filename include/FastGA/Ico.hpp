@@ -125,7 +125,6 @@ inline size_t GetPointIdx(const size_t p1_idx, const size_t p2_idx, std::map<siz
 
 inline const IcoMesh RefineIcosahedron(const int level = 1)
 {
-    std::cout << level << std::endl;
     auto mesh = CreateIcosahedron();
     auto& vertices = mesh.vertices;
     auto& triangles = mesh.triangles;

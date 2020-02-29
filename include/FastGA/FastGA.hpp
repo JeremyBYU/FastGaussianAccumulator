@@ -3,42 +3,40 @@
 
 #include <string>
 #include "FastGA/Ico.hpp"
-#include "nanoflann.hpp"
+#include "FastGA/Helper.hpp"
+#include "FastGA/NanoFlannAdaptors.hpp"
+#include <memory>
 
+#define FastGA_LEVEL 1
+#define FastGA_MAX_PHI 100
+#define FastGA_MAX_LEAF_SIZE 10
+#define FastGA_KDTREE_EPS 0.0
 namespace FastGA {
-const std::string test();
-
 
 class GaussianAccumulator
 {
 
   public:
-    struct Bucket
-    {
-      std::array<double, 3> normal;
-      uint32_t hilbert_value;
-      uint32_t count;
-    };
     Ico::IcoMesh mesh;
     std::vector<Bucket> buckets;
-    GaussianAccumulator(int level = 1, double max_phi = 100);
+    GaussianAccumulator();
+    GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
 
   private:
 };
 
-class GaussianAccumulatorKD: public GaussianAccumulator
+class GaussianAccumulatorKD : public GaussianAccumulator
 {
 
   public:
-    GaussianAccumulatorKD(int level = 1, double max_phi = 100);
+    GaussianAccumulatorKD(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI, const size_t max_leaf_size = FastGA_MAX_LEAF_SIZE);
+    std::vector<size_t> GetBucketIndexes(const MatX3d normals, const float eps = FastGA_KDTREE_EPS);
 
-  private:
+  protected:
+    const NFA::BUCKET2KD bucket2kd; // The adaptor
+    const nanoflann::KDTreeSingleIndexAdaptorParams index_params;
+    std::unique_ptr<NFA::nano_kd_tree_t> kd_tree_ptr;
 };
-
-// GaussianAccumulator::GaussianAccumulator(int level) : mesh()
-// {
-//     mesh = FastGA::Ico::RefineIcosahedron(level);
-// }
 
 } // namespace FastGA
 #endif
