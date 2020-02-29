@@ -52,6 +52,8 @@ endif()
 
 #### Project Dependencies
 find_package(OpenMP)
+set(BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
 add_subdirectory("thirdparty/nanoflann")
 # add_subdirectory("thirdparty/eigen")
 ### Google Testing and Benchmarks Libraries

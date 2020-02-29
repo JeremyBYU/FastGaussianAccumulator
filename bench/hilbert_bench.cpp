@@ -46,7 +46,7 @@ BENCHMARK_DEFINE_F(Normals, BM_ProjectXYZ_TO_XY)
 (benchmark::State& st)
 {
     std::vector<uint32_t> hilbert_values(N);
-    std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
+    // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
     for (auto _ : st)
     {
         projected_bounds = FastGA::Helper::InitializeProjection(normals, projection);

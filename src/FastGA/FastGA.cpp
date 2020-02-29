@@ -55,7 +55,6 @@ std::vector<size_t> GaussianAccumulatorKD::GetBucketIndexes(const MatX3d normals
     {
 	    resultSet.init(&ret_index, &out_dist_sqr ); // must reset result set
 	    bool complete = kd_tree_ptr->findNeighbors(resultSet, &normals[i][0], searchParams);
-        std::cout << complete << ", " << "index: " << ret_index <<std::endl;
         if (complete)
             bucket_indexes[i] = ret_index;
     }
