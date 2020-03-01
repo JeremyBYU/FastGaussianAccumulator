@@ -5,6 +5,7 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
+from fastga import GaussianAccumulatorKD, MatX3d
 
 from src.Python.slowga import GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes
 
@@ -32,22 +33,29 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     # perform sampling of normals
     to_integrate_normals = to_integrate_normals[np.random.choice(
         num_normals, to_sample), :]
+    mask = np.asarray(ga.mask)
     # integrate normals
+    if type(ga).__name__ == 'GaussianAccumulatorKD':
+        to_integrate_normals = MatX3d(to_integrate_normals)
+        mask = np.ma.make_mask(mask)
+
     ga.integrate(to_integrate_normals)
-    normalized_counts = ga.get_normalized_bucket_counts()
+    normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
     color_counts = get_colors(normalized_counts)[:,:3]
 
     refined_icosahedron_mesh = create_open_3d_mesh(np.asarray(ga.mesh.triangles), np.asarray(ga.mesh.vertices))
+
     # Colorize normal buckets
-    colored_icosahedron = assign_vertex_colors(refined_icosahedron_mesh, color_counts, ga.mask)
-    return ga, colored_icosahedron
+    colored_icosahedron = assign_vertex_colors(refined_icosahedron_mesh, color_counts, mask)
+    return colored_icosahedron
 
 
 def main():
-
-    ga_py = GaussianAccumulatorKDPy(level=4, max_phi=100, max_leaf_size=16)
+    kwargs = dict(level=4, max_phi=100, max_leaf_size=16)
     # print(gaussian_normals)
     # Get an Example Mesh
+    ga_py_kdd = GaussianAccumulatorKDPy(**kwargs)
+    ga_cpp_kdd = GaussianAccumulatorKD(**kwargs)
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 0:
             continue
@@ -59,10 +67,11 @@ def main():
         example_mesh.compute_triangle_normals()
         # plot_meshes(example_mesh)
 
-        ga, colored_icosahedron = visualize_gaussian_integration(ga_py, example_mesh)
+        colored_icosahedron_py = visualize_gaussian_integration(ga_py_kdd, example_mesh)
+        colored_icosahedron_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
         # plot_projection(ga)
         # plot_hilbert_curve(ga)
-        plot_meshes(colored_icosahedron, example_mesh)
+        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, example_mesh)
 
 
 if __name__ == "__main__":

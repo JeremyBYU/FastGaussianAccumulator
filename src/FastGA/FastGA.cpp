@@ -48,14 +48,14 @@ GaussianAccumulator::GaussianAccumulator(const int level, const double max_phi) 
     }
 }
 
-std::vector<double > GaussianAccumulator::GetNormalizedBucketCounts()
+std::vector<double> GaussianAccumulator::GetNormalizedBucketCounts()
 {
     std::vector<double> normalized_counts(buckets.size());
     auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const Bucket &lhs, const Bucket &rhs) {return lhs.count < rhs.count;});
     auto max_count = max_elem->count;
     for (size_t i = 0; i < buckets.size(); i++)
     {
-        normalized_counts[i] = static_cast<double>(buckets[i].count / max_count);
+        normalized_counts[i] = static_cast<double>(buckets[i].count / static_cast<double>(max_count));
     }
     return normalized_counts;
 }

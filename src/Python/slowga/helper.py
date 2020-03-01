@@ -78,6 +78,7 @@ def assign_vertex_colors(mesh, normal_colors, mask):
     vertex_colors = np.asarray(split_mesh.vertex_colors)
     triangles = np.asarray(split_mesh.triangles)[mask, :]
     for i in range(triangles.shape[0]):
+        # import ipdb; ipdb.set_trace()
         color = normal_colors[i, :]
         p_idx = triangles[i, :]
         vertex_colors[p_idx] = color

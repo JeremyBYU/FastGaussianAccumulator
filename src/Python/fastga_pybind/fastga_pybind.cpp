@@ -105,10 +105,11 @@ PYBIND11_MODULE(fastga, m)
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator::buckets)
-        .def_readonly("mask", &FastGA::GaussianAccumulator::mask);
+        .def_readonly("mask", &FastGA::GaussianAccumulator::mask)
+        .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator::GetNormalizedBucketCounts);
 
     py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator>(m, "GaussianAccumulatorKD")
-        .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
+        .def(py::init<const int, const double, const size_t>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI, "max_leaf_size"_a=FastGA_MAX_LEAF_SIZE)
         .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a=FastGA_KDTREE_EPS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorKD& a) {
