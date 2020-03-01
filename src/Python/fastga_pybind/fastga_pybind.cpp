@@ -2,27 +2,7 @@
 #include "fastga_pybind/fastga_pybind.hpp"
 #include "fastga_pybind/fastga_glue.hpp"
 
-namespace pybind11
-{
-template <typename T, int dim>
-std::vector<std::array<T, dim>> py_array_to_vectors(
-        py::array_t<double, py::array::c_style | py::array::forcecast> array) {
-    return std::vector<std::array<T, dim>>();
-    // if (array.ndim() != 2) {
-    //     throw py::cast_error();
-    // }
-    // std::vector<std::array<T, dim>> vectors_T(array.shape(0));
-    // auto array_unchecked = array.mutable_unchecked<2>();
-    // for (auto i = 0; i < array_unchecked.shape(0); ++i) {
-    //     for (auto j = 0; j < dim; j++)
-    //     {
-    //         vectors_T[i][j] = array_unchecked(i, j);
-    //     }
-    // }
-    // return vectors_T;
-}
-}
-
+// Makes a copy
 template <typename T, int dim>
 std::vector<std::array<T, dim>> py_array_to_vectors(
         py::array_t<double, py::array::c_style | py::array::forcecast> array) {
@@ -48,10 +28,6 @@ PYBIND11_MODULE(fastga, m)
     py::bind_vector<std::vector<std::size_t>>(m, "VectorLongInt", py::buffer_protocol());
     py::bind_vector<std::vector<double>>(m, "VectorDouble", py::buffer_protocol());
     py::bind_vector<std::vector<int>>(m, "VectorInt", py::buffer_protocol());
-    // py::bind_vector<std::vector<std::array<double, 3>>>(m, "Vector3Double", py::buffer_protocol());
-    // py::bind_vector<std::vector<std::array<double, 2>>>(m, "Vector2Double", py::buffer_protocol());
-    // py::bind_vector<std::vector<std::array<size_t, 3>>>(m, "Vector3UInt", py::buffer_protocol());
-
 
 
     py::class_<FastGA::MatX3d>(m, "MatX3d", py::buffer_protocol())
@@ -130,14 +106,14 @@ PYBIND11_MODULE(fastga, m)
 
     py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator>(m, "GaussianAccumulatorKD")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
-        .def("get_bucket_indexes", &FastGA::GaussianAccumulatorKD::GetBucketIndexes, "normals"_a, "eps"_a=FastGA_KDTREE_EPS)
+        .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a=FastGA_KDTREE_EPS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorKD& a) {
                  return "<FastGA::GAKD; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
     // Functions
-    m.def("convert_normals_to_hilbert", &convert_normals_to_hilbert, "normals"_a);
+    // m.def("convert_normals_to_hilbert", &convert_normals_to_hilbert, "normals"_a);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

@@ -105,7 +105,7 @@ BENCHMARK_DEFINE_F(Normals, BM_NormalsToHilbert)
     {
         FastGA::MatX2d projection;
         std::vector<uint32_t> hilbert_values;
-        std::tie(projection, hilbert_values) = FastGA::Helper::ConvertNormalsToHilbert(normals);
+        std::tie(projection, hilbert_values) = FastGA::Helper::ConvertNormalsToHilbert(normals, projected_bounds);
     }
 }
 

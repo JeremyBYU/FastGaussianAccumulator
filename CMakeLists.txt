@@ -52,10 +52,10 @@ endif()
 
 #### Project Dependencies
 find_package(OpenMP)
+# NanoFlann
 set(BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
 add_subdirectory("thirdparty/nanoflann")
-# add_subdirectory("thirdparty/eigen")
 ### Google Testing and Benchmarks Libraries
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library." FORCE)
 add_subdirectory("thirdparty/googletest")
@@ -70,7 +70,7 @@ set(GI_SRC_FILES ${GI_SRC_DIR}/FastGA.cpp ${GI_SRC_DIR}/Helper.cpp)
 file(GLOB ALL_HEADERS ${GI_INCLUDE_DIR}/FastGA/*.hpp)
 set(GI_HEADER_FILES ${GI_INCLUDE_DIR}/FastGA.hpp ALL_HEADERS)
 
-### Create Library for Gaussian Integration
+### Create Library for Gaussian Accumulator
 set(LIB_TYPE STATIC)
 add_library(${PROJECT_NAME} ${LIB_TYPE} "${GI_SRC_FILES}")
 add_library(FastGA::GA ALIAS ${PROJECT_NAME})
@@ -90,9 +90,6 @@ $<INSTALL_INTERFACE:include>
 PRIVATE src)
 
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
-# message(STATUS "${nanoflann_include_dirs}=${${nanoflann_include_dirs}}")
-# set(NANOFLANN_INCLUDE_DIRS "/home/jeremy/Documents/UMICH/Research/GaussianIntegrator/thirdparty/nanoflann/include")
-
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)

@@ -1,7 +1,7 @@
 import numpy as np
 import time 
 
-from fastga import convert_normals_to_hilbert, GaussianAccumulatorKD, MatX3d
+from fastga import GaussianAccumulatorKD, MatX3d
 
 def main():
     normals = np.array([
@@ -17,12 +17,11 @@ def main():
     print("Number of Buckets: {}".format(len(ga.buckets)))
     print(ga.buckets)
     converted = MatX3d(normals)
-    print(np.asarray(converted))
     t2 = time.perf_counter()
-    bucket_indexes = ga.get_bucket_indexes(converted)
+    bucket_indexes = ga.integrate(converted)
     t3 = time.perf_counter()
     print(np.asarray(bucket_indexes))
-    print("Building Index Took: {}; Query Took: {}".format((t1-t0) * 1000, (t3 - t2)* 1000))
+    print("Building Index Took (ms): {}; Query Took (ms): {}".format((t1-t0) * 1000, (t3 - t2)* 1000))
     
 
 if __name__ == "__main__":

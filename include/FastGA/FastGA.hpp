@@ -19,8 +19,10 @@ class GaussianAccumulator
   public:
     Ico::IcoMesh mesh;
     std::vector<Bucket> buckets;
+    Helper::BBOX projected_bbox;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+    std::vector<double> GetNormalizedBucketCounts();
 
   private:
 };
@@ -30,7 +32,7 @@ class GaussianAccumulatorKD : public GaussianAccumulator
 
   public:
     GaussianAccumulatorKD(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI, const size_t max_leaf_size = FastGA_MAX_LEAF_SIZE);
-    std::vector<size_t> GetBucketIndexes(const MatX3d normals, const float eps = FastGA_KDTREE_EPS);
+    std::vector<size_t> Integrate(const MatX3d &normals, const float eps = FastGA_KDTREE_EPS);
 
   protected:
     const NFA::BUCKET2KD bucket2kd; // The adaptor

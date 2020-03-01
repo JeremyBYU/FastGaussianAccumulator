@@ -48,21 +48,8 @@ BENCHMARK_DEFINE_F(Normals, BM_KDTreeQuery)
     FastGA::GaussianAccumulatorKD GA = FastGA::GaussianAccumulatorKD(4, 100.0, st.range(0));
     for (auto _ : st)
     {
-        auto test = GA.GetBucketIndexes(normals);
+        auto test = GA.Integrate(normals);
     }
 }
 
-// BENCHMARK_DEFINE_F(Normals, BM_KDTreeQueryEps)
-// (benchmark::State& st)
-// {
-//     FastGA::GaussianAccumulatorKD GA = FastGA::GaussianAccumulatorKD(4, 100.0, 8);
-//     float eps = st.range(0) * 0.01f;
-//     for (auto _ : st)
-//     {
-//         auto test = GA.GetBucketIndexes(normals, eps);
-//     }
-// }
-
-
 BENCHMARK_REGISTER_F(Normals, BM_KDTreeQuery)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
-// BENCHMARK_REGISTER_F(Normals, BM_KDTreeQueryEps)->RangeMultiplier(2)->Ranges({{0, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
