@@ -19,6 +19,7 @@ class GaussianAccumulator
   public:
     Ico::IcoMesh mesh;
     std::vector<Bucket> buckets;
+    std::vector<uint8_t> mask;
     Helper::BBOX projected_bbox;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);

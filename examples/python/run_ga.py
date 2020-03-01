@@ -16,6 +16,8 @@ def main():
     t1 = time.perf_counter()
     print("Number of Buckets: {}".format(len(ga.buckets)))
     print(ga.buckets)
+    print(np.asarray(ga.mask))
+    print(np.asarray(ga.mesh.triangle_normals))
     converted = MatX3d(normals)
     t2 = time.perf_counter()
     bucket_indexes = ga.integrate(converted)

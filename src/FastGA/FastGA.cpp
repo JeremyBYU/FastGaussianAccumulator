@@ -3,23 +3,36 @@
 
 namespace FastGA {
 
-GaussianAccumulator::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), projected_bbox()
+GaussianAccumulator::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox()
 {
     // Create refined mesh of the icosahedron
     mesh = FastGA::Ico::RefineIcosahedron(level);
     auto max_phi_rad = degreesToRadians(max_phi);
     auto min_z = std::cos(max_phi_rad);
 
-    // Create buckets from refined icosahedron mesh
-    std::transform(mesh.triangle_normals.begin(), mesh.triangle_normals.end(), std::back_inserter(buckets),
-                   [](std::array<double, 3>& normal) -> Bucket { return {normal, 0, 0, {0, 0}}; });
+    // Indicates which triangle normals are part of buckets
+    mask.resize(mesh.triangle_normals.size(), 0);
+    // Create the angle buckets which are no greater than phi
+    buckets.reserve(mesh.triangle_normals.size());
+    for(size_t i = 0; i < mesh.triangle_normals.size(); i++)
+    {
+        if (mesh.triangle_normals[i][2] >= min_z)
+        {
+            buckets.push_back({mesh.triangle_normals[i], 0, 0, {0, 0}});
+            mask[i] = 1;
+        }
+    }
 
-    // Remove buckets whose phi (related to min_z) is too great
-    // This wouldn't be necessary if there was a std::transform_if, or just used for loop
-    // TODO switch to basic for loop?
-    buckets.erase(std::remove_if(buckets.begin(), buckets.end(),
-                                 [&min_z](Bucket& b) { return b.normal[2] < min_z; }),
-                  buckets.end());
+    // // Create buckets from refined icosahedron mesh
+    // std::transform(mesh.triangle_normals.begin(), mesh.triangle_normals.end(), std::back_inserter(buckets),
+    //                [](std::array<double, 3>& normal) -> Bucket { return {normal, 0, 0, {0, 0}}; });
+
+    // // Remove buckets whose phi (related to min_z) is too great
+    // // This wouldn't be necessary if there was a std::transform_if, or just used for loop
+    // // TODO switch to basic for loop?
+    // buckets.erase(std::remove_if(buckets.begin(), buckets.end(),
+    //                              [&min_z](Bucket& b) { return b.normal[2] < min_z; }),
+    //               buckets.end());
 
     // Get projected coordinates of these buckets
     projected_bbox = Helper::InitializeProjection(buckets);

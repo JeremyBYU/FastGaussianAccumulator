@@ -25,7 +25,8 @@ PYBIND11_MODULE(fastga, m)
 {
     m.doc() = "Python binding of FastGA";
 
-    py::bind_vector<std::vector<std::size_t>>(m, "VectorLongInt", py::buffer_protocol());
+    py::bind_vector<std::vector<std::size_t>>(m, "VectorULongInt", py::buffer_protocol());
+    py::bind_vector<std::vector<uint8_t>>(m, "VectorUInt8", py::buffer_protocol());
     py::bind_vector<std::vector<double>>(m, "VectorDouble", py::buffer_protocol());
     py::bind_vector<std::vector<int>>(m, "VectorInt", py::buffer_protocol());
 
@@ -93,7 +94,8 @@ PYBIND11_MODULE(fastga, m)
                  return "<FastGA::Ico::IcoMesh; # Triangles: '" + std::to_string(a.triangles.size()) + "'>";
              })
         .def_readonly("triangles", &FastGA::Ico::IcoMesh::triangles)
-        .def_readonly("vertices", &FastGA::Ico::IcoMesh::vertices);
+        .def_readonly("vertices", &FastGA::Ico::IcoMesh::vertices)
+        .def_readonly("triangle_normals", &FastGA::Ico::IcoMesh::triangle_normals);
 
     py::class_<FastGA::GaussianAccumulator>(m, "GaussianAccumulator")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
@@ -102,7 +104,8 @@ PYBIND11_MODULE(fastga, m)
                  return "<FastGA::GA; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator::mesh)
-        .def_readonly("buckets", &FastGA::GaussianAccumulator::buckets);
+        .def_readonly("buckets", &FastGA::GaussianAccumulator::buckets)
+        .def_readonly("mask", &FastGA::GaussianAccumulator::mask);
 
     py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator>(m, "GaussianAccumulatorKD")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)

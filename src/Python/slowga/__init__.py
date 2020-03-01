@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from hilbertcurve.hilbertcurve import HilbertCurve
 
 from .helper import assign_vertex_colors, create_open_3d_mesh, calc_angle_delta, plot_meshes, draw_normals
-from .icosahedron import refine_icosahedron, create_icosahedron_mesh
+from .icosahedron import create_icosahedron, refine_icosahedron, create_icosahedron_mesh
 from .projections import plot_projection, convert_lat_long, azimuth_equidistant
 
 THIS_DIR = Path(__file__).parent
@@ -26,10 +26,46 @@ ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
-def get_colors(inp, colormap, vmin=None, vmax=None):
+def get_colors(inp, colormap=plt.cm.viridis, vmin=None, vmax=None):
     norm = plt.Normalize(vmin, vmax)
     return colormap(norm(inp))
 
+
+def refined_ico_mesh(level=0):
+    triangles, vertices = create_icosahedron()
+    vertices, triangles = refine_icosahedron(triangles, vertices, level=level)
+    new_mesh = create_open_3d_mesh(triangles, vertices)
+    return np.array(new_mesh.triangle_normals), new_mesh
+
+
+class GaussianAccumulatorKDPy(object):
+    def __init__(self, level=0, max_phi=100, max_leaf_size=16):
+        super().__init__()
+        bucket_normals, mesh = refined_ico_mesh(level=level)
+        bucket_normals, mask = filter_normals_by_phi(bucket_normals, max_phi)
+        self.bucket_normals = bucket_normals
+        self.mask = mask
+        self.mesh = mesh
+        self.nbuckets = bucket_normals.shape[0]
+        self.kdtree = cKDTree(bucket_normals, leafsize=max_leaf_size, compact_nodes=True, balanced_tree=True)
+        self.accumulator = np.zeros(self.nbuckets, dtype=np.int32)
+        self.accumulator_normalized = np.zeros(self.nbuckets, dtype=np.float64)
+
+    def integrate(self, normals):
+        query_size = normals.shape[0]
+        t0 = time.perf_counter()
+        _, neighbors = self.kdtree.query(normals)
+        t1 = time.perf_counter()
+        elapsed_time = (t1 - t0) * 1000
+        print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
+            self.nbuckets, query_size, elapsed_time))
+        for idx in neighbors:
+            self.accumulator[idx] = self.accumulator[idx] + 1
+
+    def get_normalized_bucket_counts(self):
+        self.accumulator_normalized = self.accumulator / np.max(self.accumulator)
+        return self.accumulator_normalized
+        # self.colors = get_colors(self.accumulator, plt.cm.viridis)[:, :3]
 
 class GaussianAccumulator(object):
     def __init__(self, gaussian_normals, leafsize=16):
@@ -266,10 +302,10 @@ def main():
 
         ga, colored_icosahedron = visualize_gaussian_integration(
             refined_icosphere, gaussian_normals, example_mesh)
-        np.savetxt(str(REALSENSE_DIR / "{}_buckets.txt".format(fname)),
-                   convert_lat_long(ga.gaussian_normals, degrees=True), fmt='%.4f')
-        np.savetxt(str(REALSENSE_DIR / "{}_normals.txt".format(fname)),
-                   convert_lat_long(ga.normals, degrees=True), fmt='%.4f')
+        # np.savetxt(str(REALSENSE_DIR / "{}_buckets.txt".format(fname)),
+        #            convert_lat_long(ga.gaussian_normals, degrees=True), fmt='%.4f')
+        # np.savetxt(str(REALSENSE_DIR / "{}_normals.txt".format(fname)),
+        #            convert_lat_long(ga.normals, degrees=True), fmt='%.4f')
         plot_projection(ga)
         plot_hilbert_curve(ga)
         plot_meshes(colored_icosahedron, example_mesh)
