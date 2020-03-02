@@ -22,6 +22,69 @@ ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
+# def plot_hilbert_curve(ga):
+#     bucket_normals = ga.gaussian_normals
+#     colors = ga.colors
+#     proj = azimuth_equidistant(bucket_normals)
+#     bucket_normals_hv = assign_hilbert_curve(ga)
+#     print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
+#     idx_sort = np.argsort(bucket_normals_hv)
+#     proj = proj[idx_sort, :]
+#     accumulator_normalized_sorted = ga.accumulator_normalized[idx_sort]
+#     gaussian_normals_sorted = ga.gaussian_normals[idx_sort]
+
+#     # Find Peaks
+#     peaks, clusters = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
+
+#     colors = colors[idx_sort, :]
+#     fig, axs = plt.subplots(2, 1, figsize=(8, 10))
+#     ax = axs[0]
+#     scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
+#     scatter2 = ax.scatter(proj[peaks, :][:, 0], proj[peaks, :][:, 1], marker='x', c=clusters, label='Clusters', cmap='tab20')
+#     ax.set_title("Hilbert Curve with Azimuth Equidistant Projection")
+#     ax.set_xlabel("x*")
+#     ax.set_ylabel("y*")
+#     line1 = ax.plot(proj[:, 0], proj[:, 1], c='k', label='Hilbert Curve Connections')[0]
+#     ax.axis('equal')
+#     leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+
+#     # we will set up a dict mapping legend line to orig line, and enable
+#     # picking on the legend line
+#     lines = [line1, scatter1, scatter2]
+#     lined = dict()
+#     for legline, origline in zip(leg.legendHandles, lines):
+#         legline.set_picker(5)  # 5 pts tolerance
+#         lined[legline] = origline
+
+#     def onpick(event):
+#         # on the pick event, find the orig line corresponding to the
+#         # legend proxy line, and toggle the visibility
+#         legline = event.artist
+#         origline = lined[legline]
+#         vis = not origline.get_visible()
+#         origline.set_visible(vis)
+#         # Change the alpha on the line in the legend so we can see what lines
+#         # have been toggled
+#         if vis:
+#             legline.set_alpha(1.0)
+#         else:
+#             legline.set_alpha(0.2)
+#         fig.canvas.draw()
+
+#     ax = axs[1]
+#     ax.bar(np.arange(ga.nbuckets), accumulator_normalized_sorted)
+#     ax.scatter(peaks, accumulator_normalized_sorted[peaks], marker='x', c=clusters, cmap='tab20')
+
+#     ax.set_title("Histogram of Normal Counts sorted by Hilbert Values")
+#     ax.set_xlabel("Hilbert Value (Ascending)")
+#     ax.set_ylabel("Normal Counts")
+
+#     # ax.axis('equal')
+#     fig.canvas.mpl_connect('pick_event', onpick)
+#     fig.tight_layout()
+#     plt.show()
+
+
 def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000):
     to_integrate_normals = np.asarray(mesh.triangle_normals)
     # remove normals on bottom half of sphere

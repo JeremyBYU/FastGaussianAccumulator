@@ -148,7 +148,7 @@ void kdtree_demo(const size_t N)
 template <typename num_t>
 void kdtree_demo2(const size_t N)
 {
-	std::vector<FastGA::Bucket> buckets = {{{0, 0 , 0}, 0, 0}, {{1, 0 , 0}, 0, 0}, {{0, 0 , 1}, 0, 0}};
+	std::vector<FastGA::Bucket<uint32_t>> buckets = {{{0, 0 , 0}, 0, 0}, {{1, 0 , 0}, 0, 0}, {{0, 0 , 1}, 0, 0}};
 	const FastGA::NFA::BUCKET2KD bucket2kd(buckets);
     const nanoflann::KDTreeSingleIndexAdaptorParams index_params(10);
 

@@ -7,6 +7,8 @@
 #include <limits>
 #include <tuple>
 #include <iostream>
+#include <algorithm>
+#include <numeric>
 #include <map>
 #include <string>
 #include "Hilbert/Hilbert.hpp"
@@ -24,11 +26,12 @@ using MatX3I = std::vector<std::array<size_t, 3>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
 
+template<class T>
 struct Bucket
 {
     std::array<double, 3> normal;
     uint32_t count;
-    uint32_t hilbert_value;
+    T hilbert_value;
     std::array<double, 2> projection;
 };
 
@@ -37,6 +40,54 @@ namespace Helper {
 const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint32_t>::max();
 
 const static double EPSILON = 1e-5;
+
+template <typename T, typename Compare>
+inline std::vector<std::size_t> sort_permutation(
+    const std::vector<T>& vec,
+    Compare& compare)
+{
+    std::vector<std::size_t> p(vec.size());
+    std::iota(p.begin(), p.end(), 0);
+    std::sort(p.begin(), p.end(),
+        [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
+    return p;
+}
+
+template <typename T>
+inline void apply_permutation_in_place(
+    std::vector<T>& vec,
+    const std::vector<std::size_t>& p)
+{
+    std::vector<bool> done(vec.size());
+    for (std::size_t i = 0; i < vec.size(); ++i)
+    {
+        if (done[i])
+        {
+            continue;
+        }
+        done[i] = true;
+        std::size_t prev_j = i;
+        std::size_t j = p[i];
+        while (i != j)
+        {
+            std::swap(vec[prev_j], vec[j]);
+            done[j] = true;
+            prev_j = j;
+            j = p[j];
+        }
+    }
+}
+
+template <typename T>
+inline std::vector<T> apply_permutation(
+    const std::vector<T>& vec,
+    const std::vector<std::size_t>& p)
+{
+    std::vector<T> sorted_vec(vec.size());
+    std::transform(p.begin(), p.end(), sorted_vec.begin(),
+        [&](std::size_t i){ return vec[i]; });
+    return sorted_vec;
+}
 
 struct BBOX
 {
@@ -175,7 +226,8 @@ inline BBOX InitializeProjection(MatX3d& normals, MatX2d& projection)
     return {min_x, min_y, max_x, max_y};
 }
 
-inline BBOX InitializeProjection(std::vector<Bucket> &buckets)
+template<class T>
+inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
 {
     size_t N = buckets.size();
     double min_x = std::numeric_limits<double>::max();

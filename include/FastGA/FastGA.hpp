@@ -12,23 +12,26 @@
 #define FastGA_MAX_LEAF_SIZE 10
 #define FastGA_KDTREE_EPS 0.0
 namespace FastGA {
-
+template<class T>
 class GaussianAccumulator
 {
 
   public:
     Ico::IcoMesh mesh;
-    std::vector<Bucket> buckets;
+    std::vector<Bucket<T>> buckets;
     std::vector<uint8_t> mask;
     Helper::BBOX projected_bbox;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<double> GetNormalizedBucketCounts();
+    std::vector<T> GetBucketIndices();
+    std::vector<std::array<double,2>> GetBucketProjection();
 
-  private:
+  protected:
+    void SortBucketsByIndices();
 };
 
-class GaussianAccumulatorKD : public GaussianAccumulator
+class GaussianAccumulatorKD : public GaussianAccumulator<uint32_t>
 {
 
   public:

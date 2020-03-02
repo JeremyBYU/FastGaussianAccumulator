@@ -77,13 +77,13 @@ PYBIND11_MODULE(fastga, m)
 
     // Classes
 
-    py::class_<FastGA::Bucket>(m, "Bucket")
+    py::class_<FastGA::Bucket<uint32_t>>(m, "BucketUInt32")
         .def(py::init<>())
-        .def_readonly("normal", &FastGA::Bucket::normal)
-        .def_readonly("hilbert_value", &FastGA::Bucket::hilbert_value)
-        .def_readonly("count", &FastGA::Bucket::count)
+        .def_readonly("normal", &FastGA::Bucket<uint32_t>::normal)
+        .def_readonly("hilbert_value", &FastGA::Bucket<uint32_t>::hilbert_value)
+        .def_readonly("count", &FastGA::Bucket<uint32_t>::count)
         .def("__repr__",
-             [](const FastGA::Bucket& a) {
+             [](const FastGA::Bucket<uint32_t>& a) {
                  return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) + "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) +  "'>");
              });
 
@@ -97,18 +97,20 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("vertices", &FastGA::Ico::IcoMesh::vertices)
         .def_readonly("triangle_normals", &FastGA::Ico::IcoMesh::triangle_normals);
 
-    py::class_<FastGA::GaussianAccumulator>(m, "GaussianAccumulator")
+    py::class_<FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulator")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
         .def("__repr__",
-             [](const FastGA::GaussianAccumulator& a) {
+             [](const FastGA::GaussianAccumulator<uint32_t>& a) {
                  return "<FastGA::GA; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              })
-        .def_readonly("mesh", &FastGA::GaussianAccumulator::mesh)
-        .def_readonly("buckets", &FastGA::GaussianAccumulator::buckets)
-        .def_readonly("mask", &FastGA::GaussianAccumulator::mask)
-        .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator::GetNormalizedBucketCounts);
+        .def_readonly("mesh", &FastGA::GaussianAccumulator<uint32_t>::mesh)
+        .def_readonly("buckets", &FastGA::GaussianAccumulator<uint32_t>::buckets)
+        .def_readonly("mask", &FastGA::GaussianAccumulator<uint32_t>::mask)
+        .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCounts)
+        .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint32_t>::GetBucketIndices)
+        .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint32_t>::GetBucketProjection);
 
-    py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator>(m, "GaussianAccumulatorKD")
+    py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD")
         .def(py::init<const int, const double, const size_t>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI, "max_leaf_size"_a=FastGA_MAX_LEAF_SIZE)
         .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a=FastGA_KDTREE_EPS)
         .def("__repr__",

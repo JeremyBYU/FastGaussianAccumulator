@@ -3,7 +3,9 @@
 
 namespace FastGA {
 
-GaussianAccumulator::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox()
+
+template<class T>
+GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox()
 {
     // Create refined mesh of the icosahedron
     mesh = FastGA::Ico::RefineIcosahedron(level);
@@ -44,14 +46,15 @@ GaussianAccumulator::GaussianAccumulator(const int level, const double max_phi) 
     {
         auto &projection = bucket.projection;
         Helper::ScaleXYToUInt32(&(projection[0]), xy_int.data(), projected_bbox.min_x, projected_bbox.min_y, x_range, y_range);
-        bucket.hilbert_value = Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]);
+        bucket.hilbert_value = static_cast<T>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
     }
 }
 
-std::vector<double> GaussianAccumulator::GetNormalizedBucketCounts()
+template<class T>
+std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts()
 {
     std::vector<double> normalized_counts(buckets.size());
-    auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const Bucket &lhs, const Bucket &rhs) {return lhs.count < rhs.count;});
+    auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const Bucket<T> &lhs, const Bucket<T> &rhs) {return lhs.count < rhs.count;});
     auto max_count = max_elem->count;
     for (size_t i = 0; i < buckets.size(); i++)
     {
@@ -60,10 +63,28 @@ std::vector<double> GaussianAccumulator::GetNormalizedBucketCounts()
     return normalized_counts;
 }
 
+template<class T>
+std::vector<T> GaussianAccumulator<T>::GetBucketIndices()
+{
+    std::vector<T> bucket_indices(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_indices),
+                   [](const Bucket<T> &bucket) -> T { return bucket.hilbert_value; });
+    return bucket_indices;
+}
+
+template<class T>
+std::vector<std::array<double,2>> GaussianAccumulator<T>::GetBucketProjection()
+{
+    std::vector<std::array<double,2>> bucket_projection(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_projection),
+                   [](const Bucket<T> &bucket) -> std::array<double,2> { return bucket.projection; });
+    return bucket_projection;
+}
+    // std::vector<std::array<double,2>> GetBucketProjection();
 
 // And this is the "dataset to kd-tree" adaptor class:
 // GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator(level, max_phi), index_params(max_leaf_size)
-GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator(level, max_phi), bucket2kd(buckets), index_params(max_leaf_size), kd_tree_ptr()
+GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator<uint32_t>(level, max_phi), bucket2kd(buckets), index_params(max_leaf_size), kd_tree_ptr()
 {
     kd_tree_ptr = std::make_unique<NFA::nano_kd_tree_t>(3, bucket2kd, index_params);
     kd_tree_ptr->buildIndex();
@@ -92,7 +113,7 @@ std::vector<size_t> GaussianAccumulatorKD::Integrate(const MatX3d &normals, cons
     return bucket_indexes;
 }
 
-
+template class FastGA::GaussianAccumulator<uint32_t>;
 
 
 

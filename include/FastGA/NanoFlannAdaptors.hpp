@@ -39,7 +39,7 @@ struct BucketAdaptor
 
 }; // end of BucketAdaptor
 
-typedef BucketAdaptor<std::vector<FastGA::Bucket>> BUCKET2KD;
+typedef BucketAdaptor<std::vector<FastGA::Bucket<uint32_t>>> BUCKET2KD;
 typedef nanoflann::KDTreeSingleIndexAdaptor<
     nanoflann::L2_Simple_Adaptor<double, BUCKET2KD>,
     BUCKET2KD,
