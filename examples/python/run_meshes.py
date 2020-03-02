@@ -35,8 +35,10 @@ def plot_hilbert_curve(ga:GaussianAccumulatorKDPy):
     # print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
     idx_sort = np.argsort(bucket_normals_hv)
     proj = proj[idx_sort, :]
+
     accumulator_normalized_sorted = normalized_counts[idx_sort]
     gaussian_normals_sorted = normals[idx_sort, :]
+    
 
     # Find Peaks
     peaks, clusters = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
@@ -88,6 +90,7 @@ def plot_hilbert_curve(ga:GaussianAccumulatorKDPy):
     fig.canvas.mpl_connect('pick_event', onpick)
     fig.tight_layout()
     plt.show()
+    return gaussian_normals_sorted
 
 
 def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000):
@@ -124,6 +127,11 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     colored_icosahedron = assign_vertex_colors(refined_icosahedron_mesh, color_counts, mask)
     return colored_icosahedron
 
+def create_line_set(normals_sorted):
+    normals_o3d = o3d.utility.Vector3dVector(normals_sorted)
+    line_idx = [[i, i+1] for i  in range(normals_sorted.shape[0] - 1)]
+    line_idx_o3d = o3d.utility.Vector2iVector(line_idx)
+    return o3d.geometry.LineSet(normals_o3d, line_idx_o3d)
 
 def main():
     kwargs = dict(level=4, max_phi=100, max_leaf_size=16)
@@ -147,8 +155,9 @@ def main():
         # plot_projection(ga)
         # plot_hilbert_curve(ga)
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, example_mesh)
-        plot_hilbert_curve(ga_py_kdd)
-        plot_hilbert_curve(ga_cpp_kdd)
+        # plot_hilbert_curve(ga_py_kdd)
+        normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
+        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()
