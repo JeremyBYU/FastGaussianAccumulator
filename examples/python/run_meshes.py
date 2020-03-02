@@ -107,21 +107,23 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     num_normals = to_integrate_normals.shape[0]
     ds_normals = int(num_normals / ds)
     to_sample = max(min([num_normals, min_samples]), ds_normals)
+    ds_step = int(num_normals / to_sample)
     # perform sampling of normals
-    to_integrate_normals = to_integrate_normals[np.random.choice(
-        num_normals, to_sample), :]
+    to_integrate_normals = to_integrate_normals[0:num_normals:ds_step, :]
+
     mask = np.asarray(ga.mask)
     query_size = to_integrate_normals.shape[0]
+
+    mask = np.ones((np.asarray(ga.mesh.triangles).shape[0],), dtype=bool)
+    mask[num_buckets:] = False
     # integrate normals
     if type(ga).__name__ == 'GaussianAccumulatorKD':
         to_integrate_normals = MatX3d(to_integrate_normals)
-        mask = np.ones((np.asarray(ga.mesh.triangles).shape[0],), dtype=bool)
-        mask[num_buckets:] = False
         # mask = np.ma.make_mask(mask)
 
     # triangles = np.asarray(ga.mesh.triangles)
     t0 = time.perf_counter()
-    ga.integrate(to_integrate_normals)
+    neighbors_idx = np.asarray(ga.integrate(to_integrate_normals))
     t1 = time.perf_counter()
     elapsed_time = (t1 - t0) * 1000
     print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
@@ -134,7 +136,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
 
     # Colorize normal buckets
     colored_icosahedron = assign_vertex_colors(refined_icosahedron_mesh, color_counts, mask)
-    return colored_icosahedron
+    return colored_icosahedron, neighbors_idx
 
 def create_line_set(normals_sorted):
     normals_o3d = o3d.utility.Vector3dVector(normals_sorted)
@@ -148,6 +150,9 @@ def main():
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs)
+
+    # print(np.asarray(ga_py_kdd.get_bucket_normals()))
+    # print(np.asarray(ga_cpp_kdd.get_bucket_normals()))
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 0:
             continue
@@ -157,14 +162,14 @@ def main():
         if r is not None:
             example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh.compute_triangle_normals()
-        # plot_meshes(example_mesh)
 
-        colored_icosahedron_py = visualize_gaussian_integration(ga_py_kdd, example_mesh)
-        colored_icosahedron_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
-        # plot_projection(ga)
-        # plot_hilbert_curve(ga)
+        colored_icosahedron_py, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh)
+        colored_icosahedron_cpp, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
+
+        idx, = np.nonzero(neighbors_py - neighbors_cpp.astype(np.int64))
+        print(idx)
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, example_mesh)
-        plot_hilbert_curve(ga_py_kdd)
+        # plot_hilbert_curve(ga_py_kdd)
         normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
 

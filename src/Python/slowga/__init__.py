@@ -44,18 +44,31 @@ class GaussianAccumulatorKDPy(object):
         bucket_normals, mesh = refined_ico_mesh(level=level)
         bucket_normals, mask = filter_normals_by_phi(bucket_normals, max_phi)
         self.bucket_normals = bucket_normals
+        self.bucket_indices = assign_hilbert_curve(bucket_normals)
         self.mask = mask
         self.mesh = mesh
         self.num_buckets = bucket_normals.shape[0]
-        self.kdtree = cKDTree(bucket_normals, leafsize=max_leaf_size, compact_nodes=True, balanced_tree=True)
         self.accumulator = np.zeros(self.num_buckets, dtype=np.int32)
         self.accumulator_normalized = np.zeros(self.num_buckets, dtype=np.float64)
-        self.bucket_indices = assign_hilbert_curve(bucket_normals)
         self.bucket_projection = azimuth_equidistant(bucket_normals)
+
+        # Sort buckets by hilbert indices
+        idx_sort = np.argsort(self.bucket_indices)
+        self.bucket_indices  = np.ascontiguousarray(self.bucket_indices[idx_sort])
+        self.bucket_projection  = np.ascontiguousarray(self.bucket_projection[idx_sort])
+        self.bucket_normals  = np.ascontiguousarray(self.bucket_normals[idx_sort])
+        # fix triangles
+        triangles = np.asarray(self.mesh.triangles)
+        vertices = np.asarray(self.mesh.vertices)
+        triangles = np.vstack((triangles[mask][idx_sort], triangles[~mask]))
+        self.mesh = create_open_3d_mesh(triangles, vertices)
+
+        self.kdtree = cKDTree(self.bucket_normals, leafsize=max_leaf_size, compact_nodes=True, balanced_tree=True)
 
     def integrate(self, normals):
         _, neighbors = self.kdtree.query(normals)
         np.add.at(self.accumulator, neighbors, 1)
+        return neighbors
         # for idx in neighbors:
         #     self.accumulator[idx] = self.accumulator[idx] + 1
     
