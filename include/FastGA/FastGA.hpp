@@ -11,6 +11,7 @@
 #define FastGA_MAX_PHI 100
 #define FastGA_MAX_LEAF_SIZE 10
 #define FastGA_KDTREE_EPS 0.0
+#define FastGA_EXHAUSTIVE 0
 namespace FastGA {
 template<class T>
 class GaussianAccumulator
@@ -45,6 +46,16 @@ class GaussianAccumulatorKD : public GaussianAccumulator<uint32_t>
     const NFA::BUCKET2KD bucket2kd; // The adaptor
     const nanoflann::KDTreeSingleIndexAdaptorParams index_params;
     std::unique_ptr<NFA::nano_kd_tree_t> kd_tree_ptr;
+};
+
+class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
+{
+
+  public:
+    GaussianAccumulatorOpt(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+    std::vector<size_t> Integrate(const MatX3d &normals, const bool exhaustive = FastGA_EXHAUSTIVE);
+
+  protected:
 };
 
 } // namespace FastGA

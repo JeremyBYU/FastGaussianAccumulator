@@ -30,11 +30,16 @@ def plot_hilbert_curve(ga:GaussianAccumulatorKDPy):
     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
     colors = get_colors(normalized_counts)[:,:3]
     bucket_normals_hv = np.asarray(ga.get_bucket_indices())
+
     # print(bucket_normals_hv)
     num_buckets = ga.num_buckets
     # print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
     idx_sort = np.argsort(bucket_normals_hv)
+    bucket_normals_hv_sorted = bucket_normals_hv[idx_sort]
     proj = proj[idx_sort, :]
+
+    # print(bucket_normals_hv)
+    # print(bucket_normals_hv_sorted)
 
     accumulator_normalized_sorted = normalized_counts[idx_sort]
     gaussian_normals_sorted = normals[idx_sort, :]
@@ -110,8 +115,11 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     # integrate normals
     if type(ga).__name__ == 'GaussianAccumulatorKD':
         to_integrate_normals = MatX3d(to_integrate_normals)
-        mask = np.ma.make_mask(mask)
+        mask = np.ones((np.asarray(ga.mesh.triangles).shape[0],), dtype=bool)
+        mask[num_buckets:] = False
+        # mask = np.ma.make_mask(mask)
 
+    # triangles = np.asarray(ga.mesh.triangles)
     t0 = time.perf_counter()
     ga.integrate(to_integrate_normals)
     t1 = time.perf_counter()
@@ -120,6 +128,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
         num_buckets, query_size, elapsed_time))
     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
     color_counts = get_colors(normalized_counts)[:,:3]
+    # print(normalized_counts)
 
     refined_icosahedron_mesh = create_open_3d_mesh(np.asarray(ga.mesh.triangles), np.asarray(ga.mesh.vertices))
 
@@ -155,7 +164,7 @@ def main():
         # plot_projection(ga)
         # plot_hilbert_curve(ga)
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, example_mesh)
-        # plot_hilbert_curve(ga_py_kdd)
+        plot_hilbert_curve(ga_py_kdd)
         normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
 

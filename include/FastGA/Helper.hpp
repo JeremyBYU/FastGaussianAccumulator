@@ -7,6 +7,8 @@
 #include <limits>
 #include <tuple>
 #include <iostream>
+#include <ostream>
+#include <iterator>
 #include <algorithm>
 #include <numeric>
 #include <map>
@@ -18,6 +20,17 @@
 #define _USE_MATH_DEFINES
 #define degreesToRadians(angleDegrees) ((angleDegrees)*M_PI / 180.0)
 #define radiansToDegrees(angleRadians) ((angleRadians)*180.0 / M_PI)
+
+
+template <typename T>
+std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
+  if ( !v.empty() ) {
+    out << '[';
+    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+    out << "\b\b]";
+  }
+  return out;
+}
 
 namespace FastGA {
 
@@ -44,7 +57,7 @@ const static double EPSILON = 1e-5;
 template <typename T, typename Compare>
 inline std::vector<std::size_t> sort_permutation(
     const std::vector<T>& vec,
-    Compare& compare)
+    Compare compare)
 {
     std::vector<std::size_t> p(vec.size());
     std::iota(p.begin(), p.end(), 0);
@@ -54,12 +67,32 @@ inline std::vector<std::size_t> sort_permutation(
 }
 
 template <typename T>
-inline void apply_permutation_in_place(
+inline std::vector<T> BubbleDownMask(const std::vector<T>& vec, std::vector<uint8_t> mask)
+{
+    std::vector<T> start;
+    std::vector<T> end;
+    for (size_t i = 0; i < mask.size(); i++)
+    {
+        if (mask[i] > 0)
+        {
+            start.push_back(vec[i]);
+        }
+        else
+        {
+            end.push_back(vec[i]);
+        }
+    }
+    start.insert(start.end(), end.begin(), end.end());
+    return start;
+}
+
+template <typename T>
+inline void ApplyPermutationInPlace(
     std::vector<T>& vec,
     const std::vector<std::size_t>& p)
 {
-    std::vector<bool> done(vec.size());
-    for (std::size_t i = 0; i < vec.size(); ++i)
+    std::vector<bool> done(p.size());
+    for (std::size_t i = 0; i < p.size(); ++i)
     {
         if (done[i])
         {
@@ -79,15 +112,27 @@ inline void apply_permutation_in_place(
 }
 
 template <typename T>
-inline std::vector<T> apply_permutation(
+inline std::vector<T> ApplyPermutation(
     const std::vector<T>& vec,
     const std::vector<std::size_t>& p)
 {
-    std::vector<T> sorted_vec(vec.size());
+    std::vector<T> sorted_vec(p.size());
     std::transform(p.begin(), p.end(), sorted_vec.begin(),
         [&](std::size_t i){ return vec[i]; });
+    sorted_vec.insert(sorted_vec.end(), vec.begin() + p.size(), vec.end());
     return sorted_vec;
 }
+
+// template <typename T>
+// inline std::vector<T> apply_permutation(
+//     const std::vector<T>& vec,
+//     const std::vector<std::size_t>& p)
+// {
+//     std::vector<T> sorted_vec(vec.size());
+//     std::transform(p.begin(), p.end(), sorted_vec.begin(),
+//         [&](std::size_t i){ return vec[i]; });
+//     return sorted_vec;
+// }
 
 struct BBOX
 {

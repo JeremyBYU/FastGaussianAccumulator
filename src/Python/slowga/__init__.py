@@ -54,13 +54,7 @@ class GaussianAccumulatorKDPy(object):
         self.bucket_projection = azimuth_equidistant(bucket_normals)
 
     def integrate(self, normals):
-        # query_size = normals.shape[0]
-        # t0 = time.perf_counter()
         _, neighbors = self.kdtree.query(normals)
-        # t1 = time.perf_counter()
-        # elapsed_time = (t1 - t0) * 1000
-        # print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
-        #     self.num_buckets, query_size, elapsed_time))
         np.add.at(self.accumulator, neighbors, 1)
         # for idx in neighbors:
         #     self.accumulator[idx] = self.accumulator[idx] + 1
@@ -69,6 +63,7 @@ class GaussianAccumulatorKDPy(object):
         return self.bucket_normals
 
     def get_normalized_bucket_counts(self):
+        # print(np.max(self.accumulator))
         self.accumulator_normalized = self.accumulator / np.max(self.accumulator)
         return self.accumulator_normalized
 
@@ -199,7 +194,7 @@ def plot_hilbert_curve(ga):
     colors = ga.colors
     proj = azimuth_equidistant(bucket_normals)
     bucket_normals_hv = assign_hilbert_curve(ga.gaussian_normals)
-    print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
+    # print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
     idx_sort = np.argsort(bucket_normals_hv)
     proj = proj[idx_sort, :]
     accumulator_normalized_sorted = ga.accumulator_normalized[idx_sort]

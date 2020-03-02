@@ -100,13 +100,11 @@ def plot_meshes(*meshes, shift=True):
             for mesh_ in inner_meshes:
                 mesh_ = deepcopy(mesh_)
                 if translate_amt is not None:
-                    print(translate_amt)
                     translate_meshes.append(mesh_.translate(translate_amt, relative=True))
                 else:
                     bbox = mesh_.get_axis_aligned_bounding_box()
                     x_extent = bbox.get_extent()[0]
                     translate_amt = [current_x + x_extent / 2.0, 0, 0]
-                    print(translate_amt)
                     translate_meshes.append(mesh_.translate(translate_amt, relative=True))
                     current_x += x_extent + 0.5
     else:
