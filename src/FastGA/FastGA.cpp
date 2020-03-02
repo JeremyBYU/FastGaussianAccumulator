@@ -5,7 +5,7 @@ namespace FastGA {
 
 
 template<class T>
-GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox()
+GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox(), num_buckets(0)
 {
     // Create refined mesh of the icosahedron
     mesh = FastGA::Ico::RefineIcosahedron(level);
@@ -25,29 +25,33 @@ GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_ph
         }
     }
 
-    // // Create buckets from refined icosahedron mesh
-    // std::transform(mesh.triangle_normals.begin(), mesh.triangle_normals.end(), std::back_inserter(buckets),
-    //                [](std::array<double, 3>& normal) -> Bucket { return {normal, 0, 0, {0, 0}}; });
-
-    // // Remove buckets whose phi (related to min_z) is too great
-    // // This wouldn't be necessary if there was a std::transform_if, or just used for loop
-    // // TODO switch to basic for loop?
-    // buckets.erase(std::remove_if(buckets.begin(), buckets.end(),
-    //                              [&min_z](Bucket& b) { return b.normal[2] < min_z; }),
-    //               buckets.end());
+    num_buckets = buckets.size();
 
     // Get projected coordinates of these buckets
     projected_bbox = Helper::InitializeProjection(buckets);
+
     // Compute Hilbert Values for these buckets
     auto x_range = projected_bbox.max_x - projected_bbox.min_x;
     auto y_range = projected_bbox.max_y - projected_bbox.min_y;
+    // std::cout << x_range << ", " << y_range << ", " << projected_bbox.min_x << std::endl;
     std::array<uint32_t, 2> xy_int;
     for(auto &bucket: buckets)
     {
         auto &projection = bucket.projection;
         Helper::ScaleXYToUInt32(&(projection[0]), xy_int.data(), projected_bbox.min_x, projected_bbox.min_y, x_range, y_range);
+        // std::cout << "Int Proj: " << xy_int[0] << ", " << xy_int[1] <<std::endl;;
         bucket.hilbert_value = static_cast<T>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
     }
+}
+
+template<class T>
+MatX3d GaussianAccumulator<T>::GetBucketNormals()
+{
+    MatX3d bucket_normals;
+    bucket_normals.reserve(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_normals),
+                   [](const Bucket<T> &bucket) -> std::array<double,3> { return bucket.normal; });
+    return bucket_normals;
 }
 
 template<class T>
@@ -66,20 +70,32 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts()
 template<class T>
 std::vector<T> GaussianAccumulator<T>::GetBucketIndices()
 {
-    std::vector<T> bucket_indices(buckets.size());
+    std::vector<T> bucket_indices;
+    bucket_indices.reserve(buckets.size());
     std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_indices),
                    [](const Bucket<T> &bucket) -> T { return bucket.hilbert_value; });
     return bucket_indices;
 }
 
 template<class T>
-std::vector<std::array<double,2>> GaussianAccumulator<T>::GetBucketProjection()
+MatX2d GaussianAccumulator<T>::GetBucketProjection()
 {
-    std::vector<std::array<double,2>> bucket_projection(buckets.size());
+    std::vector<std::array<double,2>> bucket_projection;
+    bucket_projection.reserve(buckets.size());
     std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_projection),
                    [](const Bucket<T> &bucket) -> std::array<double,2> { return bucket.projection; });
     return bucket_projection;
 }
+
+template<class T>
+void GaussianAccumulator<T>::ClearCount()
+{
+    for(Bucket<T> &bucket: buckets)
+    {
+        bucket.count = 0;
+    }
+}
+
     // std::vector<std::array<double,2>> GetBucketProjection();
 
 // And this is the "dataset to kd-tree" adaptor class:

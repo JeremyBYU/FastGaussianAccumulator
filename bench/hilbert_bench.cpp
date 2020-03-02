@@ -78,7 +78,9 @@ BENCHMARK_DEFINE_F(Normals, BM_ScaleXYToUInt32)
         double range_y = projected_bounds.max_y - projected_bounds.min_y;
         for (int i = 0; i < N; i++)
         {
-            FastGA::Helper::ScaleXYToUInt32(&projection[i][0], &projection_uint32[i][0], projected_bounds.min_x, projected_bounds.min_y, range_x, range_y);
+            FastGA::Helper::ScaleXYToUInt32(&(projection[i][0]), &(projection_uint32[i][0]), projected_bounds.min_x, projected_bounds.min_y, range_x, range_y);
+            benchmark::DoNotOptimize(projection_uint32.data());
+            benchmark::ClobberMemory();
         }
     }
 }

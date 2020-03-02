@@ -106,9 +106,12 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("mesh", &FastGA::GaussianAccumulator<uint32_t>::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint32_t>::buckets)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint32_t>::mask)
+        .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint32_t>::num_buckets)
+        .def("get_bucket_normals", &FastGA::GaussianAccumulator<uint32_t>::GetBucketNormals)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCounts)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint32_t>::GetBucketIndices)
-        .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint32_t>::GetBucketProjection);
+        .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint32_t>::GetBucketProjection)
+        .def("clear_count", &FastGA::GaussianAccumulator<uint32_t>::ClearCount);
 
     py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD")
         .def(py::init<const int, const double, const size_t>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI, "max_leaf_size"_a=FastGA_MAX_LEAF_SIZE)

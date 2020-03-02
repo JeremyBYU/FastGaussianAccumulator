@@ -142,6 +142,9 @@ def normalize_box(a:np.ndarray):
     range_y = max_y - min_y
     a[:, 0] = (a[:, 0] - min_x) / range_x
     a[:, 1] = (a[:, 1] - min_y) / range_y
+
+    # print(range_x, range_y, min_x)
+    # print(a)
     return a
 
 

@@ -12,10 +12,16 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: Module",
+            "name": "Python: Module Slow",
             "type": "python",
             "request": "launch",
             "module": "src.Python.slowga"
+        },
+        {
+            "name": "Run Meshes",
+            "type": "python",
+            "request": "launch",
+            "module": "examples.python.run_meshes"
         },
         {
             "name": "GDB Attach",

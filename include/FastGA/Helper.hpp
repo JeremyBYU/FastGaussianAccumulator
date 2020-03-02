@@ -37,7 +37,7 @@ struct Bucket
 
 namespace Helper {
 
-const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint32_t>::max();
+const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint16_t>::max();
 
 const static double EPSILON = 1e-5;
 
@@ -181,11 +181,20 @@ inline void AzimuthProjectionXYZ(double* xyz, T* xy)
     xy[0] = static_cast<T>(phi * xyz[1] * scale);
     xy[1] = static_cast<T>(-phi * xyz[0] * scale);
 }
+
 template<class T>
 inline void ScaleXYToUInt32(const T* xy, uint32_t* scale, T min_x, T min_y, T x_range, T y_range)
 {
-    scale[0] = static_cast<uint32_t>(((xy[0] - min_x) / x_range) * HILBERT_MAX_32);
-    scale[1] = static_cast<uint32_t>(((xy[1] - min_y) / y_range) * HILBERT_MAX_32);
+    // TODO UINT Overflow, need min and max
+    // Technically dont do this if you make sure that xy is already min and maxed.
+    // T scale_x = std::max(std::min((xy[0] - min_x) / x_range, 1.0), 0.0);
+    // T scale_y = std::max(std::min((xy[1] - min_y) / y_range, 1.0), 0.0);
+
+    T scale_x = ((xy[0] - min_x) / x_range);
+    T scale_y = ((xy[1] - min_y) / y_range);
+
+    scale[0] = static_cast<uint32_t>(scale_x * HILBERT_MAX_32);
+    scale[1] = static_cast<uint32_t>(scale_y * HILBERT_MAX_32);
 }
 
 template<class T>

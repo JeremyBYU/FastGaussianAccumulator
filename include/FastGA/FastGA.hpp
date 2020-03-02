@@ -21,11 +21,14 @@ class GaussianAccumulator
     std::vector<Bucket<T>> buckets;
     std::vector<uint8_t> mask;
     Helper::BBOX projected_bbox;
+    size_t num_buckets;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+    MatX3d GetBucketNormals();
     std::vector<double> GetNormalizedBucketCounts();
     std::vector<T> GetBucketIndices();
-    std::vector<std::array<double,2>> GetBucketProjection();
+    MatX2d GetBucketProjection();
+    void ClearCount();
 
   protected:
     void SortBucketsByIndices();

@@ -46,26 +46,41 @@ class GaussianAccumulatorKDPy(object):
         self.bucket_normals = bucket_normals
         self.mask = mask
         self.mesh = mesh
-        self.nbuckets = bucket_normals.shape[0]
+        self.num_buckets = bucket_normals.shape[0]
         self.kdtree = cKDTree(bucket_normals, leafsize=max_leaf_size, compact_nodes=True, balanced_tree=True)
-        self.accumulator = np.zeros(self.nbuckets, dtype=np.int32)
-        self.accumulator_normalized = np.zeros(self.nbuckets, dtype=np.float64)
+        self.accumulator = np.zeros(self.num_buckets, dtype=np.int32)
+        self.accumulator_normalized = np.zeros(self.num_buckets, dtype=np.float64)
+        self.bucket_indices = assign_hilbert_curve(bucket_normals)
+        self.bucket_projection = azimuth_equidistant(bucket_normals)
 
     def integrate(self, normals):
-        query_size = normals.shape[0]
-        t0 = time.perf_counter()
+        # query_size = normals.shape[0]
+        # t0 = time.perf_counter()
         _, neighbors = self.kdtree.query(normals)
-        t1 = time.perf_counter()
-        elapsed_time = (t1 - t0) * 1000
-        print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
-            self.nbuckets, query_size, elapsed_time))
-        for idx in neighbors:
-            self.accumulator[idx] = self.accumulator[idx] + 1
+        # t1 = time.perf_counter()
+        # elapsed_time = (t1 - t0) * 1000
+        # print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
+        #     self.num_buckets, query_size, elapsed_time))
+        np.add.at(self.accumulator, neighbors, 1)
+        # for idx in neighbors:
+        #     self.accumulator[idx] = self.accumulator[idx] + 1
+    
+    def get_bucket_normals(self):
+        return self.bucket_normals
 
     def get_normalized_bucket_counts(self):
         self.accumulator_normalized = self.accumulator / np.max(self.accumulator)
         return self.accumulator_normalized
-        # self.colors = get_colors(self.accumulator, plt.cm.viridis)[:, :3]
+
+    def get_bucket_indices(self):
+        return self.bucket_indices
+
+    def get_bucket_projection(self):
+        return self.bucket_projection
+
+    def clear_count(self):
+        self.accumulator.fill(0)
+
 
 class GaussianAccumulator(object):
     def __init__(self, gaussian_normals, leafsize=16):
@@ -151,11 +166,25 @@ def filter_normals_by_phi(normals, max_phi=100, return_mask=True):
         return normals[mask, :]
 
 
-def assign_hilbert_curve(ga: GaussianAccumulator):
+# def assign_hilbert_curve(ga: GaussianAccumulator):
+#     dtype = np.uint32
+#     max_length_axis = 2**16 - 1
+#     bucket_normals = ga.gaussian_normals
+#     bucket_normals_xy = (azimuth_equidistant(bucket_normals) * max_length_axis).astype(dtype)
+#     hilbert_curve = HilbertCurve(16, 2)
+#     bucket_normals_hv = []
+#     for i in range(bucket_normals_xy.shape[0]):
+#         hv = hilbert_curve.distance_from_coordinates(bucket_normals_xy[i, :])
+#         bucket_normals_hv.append(hv)
+#     bucket_normals_hv = np.array(bucket_normals_hv)
+#     return bucket_normals_hv
+
+def assign_hilbert_curve(normals:np.ndarray):
     dtype = np.uint32
     max_length_axis = 2**16 - 1
-    bucket_normals = ga.gaussian_normals
+    bucket_normals = normals
     bucket_normals_xy = (azimuth_equidistant(bucket_normals) * max_length_axis).astype(dtype)
+    # print(bucket_normals_xy)
     hilbert_curve = HilbertCurve(16, 2)
     bucket_normals_hv = []
     for i in range(bucket_normals_xy.shape[0]):
@@ -169,7 +198,7 @@ def plot_hilbert_curve(ga):
     bucket_normals = ga.gaussian_normals
     colors = ga.colors
     proj = azimuth_equidistant(bucket_normals)
-    bucket_normals_hv = assign_hilbert_curve(ga)
+    bucket_normals_hv = assign_hilbert_curve(ga.gaussian_normals)
     print(np.max(bucket_normals_hv), np.min(bucket_normals_hv))
     idx_sort = np.argsort(bucket_normals_hv)
     proj = proj[idx_sort, :]
