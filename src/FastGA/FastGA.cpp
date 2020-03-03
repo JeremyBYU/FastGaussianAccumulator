@@ -154,13 +154,15 @@ std::vector<size_t> GaussianAccumulatorKD::Integrate(const MatX3d& normals, cons
 }
 
 // Optimal Search
-GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi)
+GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi), bucket_neighbors()
 {
     // Sort buckets and triangles by their unique index (hilbert curve value)
     auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
+
+    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, num_buckets);
 }
 
 std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const bool exhaustive)
@@ -172,7 +174,7 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
 
     Bucket<uint32_t> to_find = {{0, 0, 0}, 0, 0, {0, 0}};
     auto best_idx = buckets.begin();
-    std::cout<< "Opt Before Loop" <<std::endl;
+    std::array<double, 4> min_distances;
     for (size_t i = 0; i < normals.size(); i++)
     {
         auto &hv = hilbert_values[i];
@@ -186,8 +188,35 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
         auto lower_dist = Helper::SquaredDistance(normal, lower_idx->normal);
         auto upper_dist = Helper::SquaredDistance(normal, uppper_idx->normal);
         // Best idx chosen
-        best_idx = lower_dist < upper_dist ? lower_idx : uppper_idx;
+        best_idx = lower_idx;
+        min_distances[0] = lower_dist;
+        if (lower_dist > upper_dist)
+        {
+            best_idx = uppper_idx;
+            min_distances[0] = upper_dist;
+        }
+        auto best_idx_int = std::distance( buckets.begin(), best_idx );
+        
         // TODO search 3 neighbors
+        auto &nb_1_idx = bucket_neighbors[best_idx_int][0];
+        auto &nb_2_idx = bucket_neighbors[best_idx_int][1];
+        auto &nb_3_idx = bucket_neighbors[best_idx_int][2];
+
+        min_distances[1] = Helper::SquaredDistance(normal, buckets[nb_1_idx].normal);
+        min_distances[2] = Helper::SquaredDistance(normal, buckets[nb_2_idx].normal);
+        min_distances[3] = Helper::SquaredDistance(normal, buckets[nb_3_idx].normal);
+
+        auto best_min_distance_iter = std::min_element(min_distances.begin(), min_distances.end());
+        auto best_min_distance_int = std::distance( min_distances.begin(), best_min_distance_iter );
+        
+        if (best_min_distance_int == 1UL)
+            best_idx = buckets.begin() + nb_1_idx;
+        else if (best_min_distance_int == 2UL)
+            best_idx = buckets.begin() + nb_2_idx;
+        else if (best_min_distance_int == 3UL)
+            best_idx = buckets.begin() + nb_3_idx;
+        
+
         best_idx->count += 1;
         bucket_indexes[i] = best_idx - buckets.begin();
         if (exhaustive)
@@ -196,7 +225,6 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
             bucket_indexes[i] = best_idx - buckets.begin();
         }
     }
-    std::cout<< "Opt After Loop" <<std::endl;
     return bucket_indexes;
 
 }

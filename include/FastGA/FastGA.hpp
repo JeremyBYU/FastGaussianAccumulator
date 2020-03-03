@@ -52,6 +52,7 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
 {
 
   public:
+    MatX3I bucket_neighbors;
     GaussianAccumulatorOpt(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<size_t> Integrate(const MatX3d &normals, const bool exhaustive = FastGA_EXHAUSTIVE);
 

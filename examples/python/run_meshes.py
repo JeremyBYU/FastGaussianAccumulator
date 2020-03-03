@@ -145,13 +145,15 @@ def create_line_set(normals_sorted):
     return o3d.geometry.LineSet(normals_o3d, line_idx_o3d)
 
 def main():
-    kwargs_kdd = dict(level=4, max_phi=100, max_leaf_size=16)
     kwargs_opt = dict(level=4, max_phi=100)
+    kwargs_kdd = dict(**kwargs_opt, max_leaf_size=16)
     # print(gaussian_normals)
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
     ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
+
+    print(np.asarray(ga_cpp_opt.bucket_neighbors))
 
     # print(np.asarray(ga_py_kdd.get_bucket_normals()))
     # print(np.asarray(ga_cpp_kdd.get_bucket_normals()))
@@ -169,7 +171,8 @@ def main():
         colored_icosahedron_cpp, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
         colored_icosahedron_opt, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh)
 
-        idx, = np.nonzero(neighbors_py - neighbors_cpp.astype(np.int64))
+        idx, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
+        print(idx.shape)
         print(idx)
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)

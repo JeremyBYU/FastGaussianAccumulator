@@ -26,7 +26,7 @@ struct IcoMesh
     MatX3d vertices;
     MatX3I triangles;
     MatX3d triangle_normals;
-    IcoMesh() : vertices(), triangles(), triangle_normals(){}
+    IcoMesh() : vertices(), triangles(), triangle_normals() {}
 };
 
 // using TriangleMesh = std::tuple<Vertices<T>, Triangles<T>>;
@@ -162,5 +162,99 @@ inline const IcoMesh RefineIcosahedron(const int level = 1)
 
     return mesh;
 }
+
+inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
+{
+    // auto before = std::chrono::high_resolution_clock::now();
+    size_t max_limit = std::numeric_limits<size_t>::max();
+
+    std::vector<size_t> halfedges(triangles.size() * 3, max_limit);
+    MatX2I halfedges_pi(triangles.size() * 3);
+    std::unordered_map<size_t, size_t> vertex_indices_to_half_edge_index;
+    vertex_indices_to_half_edge_index.reserve(triangles.size() * 3);
+    // auto after = std::chrono::high_resolution_clock::now();
+    // auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after - before);
+    // std::cout << "Create Datastructures took " << elapsed.count() << " milliseconds" << std::endl;
+
+    for (size_t triangle_index = 0; triangle_index < triangles.size(); triangle_index++)
+    {
+
+        const std::array<size_t, 3>& triangle = triangles[triangle_index];
+        size_t num_half_edges = triangle_index * 3;
+
+        size_t he_0_index = num_half_edges;
+        size_t he_1_index = num_half_edges + 1;
+        size_t he_2_index = num_half_edges + 2;
+        size_t he_0_mapped = CantorMapping(triangle[0], triangle[1]);
+        size_t he_1_mapped = CantorMapping(triangle[1], triangle[2]);
+        size_t he_2_mapped = CantorMapping(triangle[2], triangle[0]);
+
+        std::array<size_t, 2>& he_0 = halfedges_pi[he_0_index];
+        std::array<size_t, 2>& he_1 = halfedges_pi[he_1_index];
+        std::array<size_t, 2>& he_2 = halfedges_pi[he_2_index];
+
+        he_0[0] = triangle[0];
+        he_0[1] = triangle[1];
+        he_1[0] = triangle[1];
+        he_1[1] = triangle[2];
+        he_2[0] = triangle[2];
+        he_2[1] = triangle[0];
+
+        vertex_indices_to_half_edge_index[he_0_mapped] = he_0_index;
+        vertex_indices_to_half_edge_index[he_1_mapped] = he_1_index;
+        vertex_indices_to_half_edge_index[he_2_mapped] = he_2_index;
+    }
+
+    // auto after2 = std::chrono::high_resolution_clock::now();
+    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after2 - after);
+    // std::cout << "Triangle loop took " << elapsed.count() << " milliseconds" << std::endl;
+    // Fill twin half-edge. In the previous step, it is already guaranteed that
+    // each half-edge can have at most one twin half-edge.
+    for (size_t this_he_index = 0; this_he_index < halfedges.size(); this_he_index++)
+    {
+        size_t& that_he_index = halfedges[this_he_index];
+        std::array<size_t, 2>& this_he = halfedges_pi[this_he_index];
+        size_t that_he_mapped = CantorMapping(this_he[1], this_he[0]);
+        if (that_he_index == max_limit &&
+            vertex_indices_to_half_edge_index.find(that_he_mapped) !=
+                vertex_indices_to_half_edge_index.end())
+        {
+            size_t twin_he_index =
+                vertex_indices_to_half_edge_index[that_he_mapped];
+            halfedges[this_he_index] = twin_he_index;
+            halfedges[twin_he_index] = this_he_index;
+        }
+    }
+    // auto after3 = std::chrono::high_resolution_clock::now();
+    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after3 - after2);
+    // std::cout << "Half Edge loop took " << elapsed.count() << " milliseconds" << std::endl;
+
+    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after3 - before);
+    // std::cout << "Total time took " << elapsed.count() << " milliseconds" << std::endl;
+
+
+    return halfedges;
+}
+
+inline MatX3I ComputeTriangleNeighbors(const MatX3I& triangles, const size_t max_idx)
+{
+    size_t max_limit = std::numeric_limits<size_t>::max();
+    MatX3I neighbors(triangles.size());
+    auto halfedges = ExtractHalfEdges(triangles);
+    for(size_t i = 0; i < triangles.size(); i++)
+    {
+
+        auto he_idx = i * 3;
+        auto first_neighbor = halfedges[he_idx] / 3;
+        auto second_neighbor = halfedges[he_idx + 1] / 3;
+        auto third_neighbor = halfedges[he_idx+ 2] / 3;
+        first_neighbor = first_neighbor > max_idx ? max_limit : first_neighbor;
+        second_neighbor = second_neighbor > max_idx ? max_limit : second_neighbor;
+        third_neighbor = third_neighbor > max_idx ? max_limit : third_neighbor;
+        neighbors[i] = {first_neighbor, second_neighbor, third_neighbor};
+    }
+    return neighbors;
+}
+
 } // namespace Ico
 } // namespace FastGA

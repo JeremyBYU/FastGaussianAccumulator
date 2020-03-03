@@ -123,6 +123,7 @@ PYBIND11_MODULE(fastga, m)
 
     py::class_<FastGA::GaussianAccumulatorOpt,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
+        .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorOpt::bucket_neighbors)
         .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "exhaustive"_a=FastGA_EXHAUSTIVE)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorOpt& a) {
