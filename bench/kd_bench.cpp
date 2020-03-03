@@ -62,5 +62,6 @@ BENCHMARK_DEFINE_F(Normals, BM_FastGAOpt)
     }
 }
 
+
 BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt)->UseRealTime()->Unit(benchmark::kMillisecond);

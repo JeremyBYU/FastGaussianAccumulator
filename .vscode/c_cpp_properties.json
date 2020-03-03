@@ -7,6 +7,7 @@
                 "${workspaceFolder}/thirdparty/benchmark/include/**",
                 "${workspaceFolder}/thirdparty/nanoflann/include/**",
                 "${workspaceFolder}/thirdparty/googletest/googletest/include/**",
+                "${workspaceFolder}/thirdparty/s2geometry/src/**",
                 "${workspaceFolder}/thirdparty/Catch2/single_include/",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/thirdparty/pybind11/include/**",

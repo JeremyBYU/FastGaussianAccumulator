@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
+# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 # Project Details
 set(PROJECT_NAME "FastGA")
 set(PROJECT_VERSION 0.0.1)
@@ -24,7 +25,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # Build Options
-option(WERROR "Add -Werror flag to build (turns warnings into errors)" ON)
+option(WERROR "Add -Werror flag to build (turns warnings into errors)" OFF)
 
 # Configure optimization
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -63,6 +64,7 @@ add_subdirectory("thirdparty/benchmark")
 add_subdirectory("thirdparty/Catch2")
 
 set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
+# set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 add_subdirectory("thirdparty/s2geometry")
 
 
@@ -108,13 +110,17 @@ target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2:
 #### Benchmark Executables
 file(GLOB BENCH_SOURCES bench/*.cpp)
 add_executable(bench-run ${BENCH_SOURCES})
-target_link_libraries(bench-run benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME})
+set(BENCHMARK_INCLUDE ${PROJECT_SOURCE_DIR}/bench)
+target_include_directories(bench-run PRIVATE ${BENCHMARK_INCLUDE})
+target_link_libraries(bench-run benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME} s2)
 
 #### Example Executables
 add_executable(example-kd "examples/cpp/example_kd.cpp")
 target_link_libraries(example-kd ${PROJECT_NAME})
 add_executable(example-nano "examples/cpp/example_nano.cpp")
 target_link_libraries(example-nano ${PROJECT_NAME})
+add_executable(example-s2 "examples/cpp/example_s2.cpp")
+target_link_libraries(example-s2 ${PROJECT_NAME} s2)
 
 # Python Bindings
 if(NOT DEFINED PYPI_PACKAGE_NAME)

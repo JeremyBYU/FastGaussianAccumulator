@@ -1,6 +1,6 @@
 
 # Whether to turn compiler warnings into errors
-export WERROR ?= true
+export WERROR ?= false
 export BUILD_DIR ?= cmake-build
 MAKEFLAGS += --no-print-directory
 default: release

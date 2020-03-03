@@ -34,6 +34,16 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
   return out;
 }
 
+template <typename T>
+std::ostream& operator<< (std::ostream& out, const std::array<T, 3>& v) {
+  if ( !v.empty() ) {
+    out << '[';
+    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+    out << "\b\b]";
+  }
+  return out;
+}
+
 namespace FastGA {
 
 using MatX3d = std::vector<std::array<double, 3>>;
