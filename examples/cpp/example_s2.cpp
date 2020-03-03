@@ -37,13 +37,15 @@ int main(int argc, char const *argv[])
     {
         auto &normal = normals[i];
         S2Point s2_point(normal[0], normal[1], normal[2]);
+        S2CellId s2_id(s2_point);
+        auto id = s2_id.id();
         S2ClosestPointQuery<int>::PointTarget target(s2_point);
         auto results = query.FindClosestPoints(&target);
         // std::cout << "Result Size: " << results.size() << std::endl;
         if (results.size() > 0)
         {
             auto bucket_point = results[0].point();
-            std::cout << "Looking for: " << normal << ";Found " << bucket_point.x() << ", " << bucket_point.y() << ", " << bucket_point.z() << std::endl;
+            std::cout << "Looking for: " << normal << "; S2ID is: " << id << "; Found " << bucket_point.x() << ", " << bucket_point.y() << ", " << bucket_point.z() << std::endl;
         }
     }
 

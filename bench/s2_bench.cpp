@@ -68,7 +68,26 @@ static void BM_S2PointQuery_1 (benchmark::State& st)
     }
 }
 
+static void BM_S2CellID (benchmark::State& st)
+{
+    auto normals = initialize_normals(100000);
+    // std::cout<< "Bucket Size: " << GA.buckets.size() << std::endl;
+    for (auto _ : st)
+    {
+        for (size_t i = 0; i < normals.size(); i++)
+        {
+            auto& normal = normals[i];
+            S2Point s2_point(normal[0], normal[1], normal[2]);
+            S2CellId s2_id(s2_point); 
+            auto id = s2_id.id();
+            benchmark::DoNotOptimize(id);
+            benchmark::ClobberMemory();
+        }
+    }
+}
+
 BENCHMARK(BM_S2PointQuery_1)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_S2CellID)->UseRealTime()->Unit(benchmark::kMillisecond);
 
 // BENCHMARK_DEFINE_F(Normals, BM_S2PointQuery_2)
 // (benchmark::State& st)
