@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
-from fastga import GaussianAccumulatorKD, MatX3d
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, MatX3d
 import matplotlib.pyplot as plt
 
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, 
@@ -117,7 +117,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     mask = np.ones((np.asarray(ga.mesh.triangles).shape[0],), dtype=bool)
     mask[num_buckets:] = False
     # integrate normals
-    if type(ga).__name__ == 'GaussianAccumulatorKD':
+    if type(ga).__name__ == 'GaussianAccumulatorKD' or type(ga).__name__ == 'GaussianAccumulatorOpt'  :
         to_integrate_normals = MatX3d(to_integrate_normals)
         # mask = np.ma.make_mask(mask)
 
@@ -145,11 +145,13 @@ def create_line_set(normals_sorted):
     return o3d.geometry.LineSet(normals_o3d, line_idx_o3d)
 
 def main():
-    kwargs = dict(level=4, max_phi=100, max_leaf_size=16)
+    kwargs_kdd = dict(level=4, max_phi=100, max_leaf_size=16)
+    kwargs_opt = dict(level=4, max_phi=100)
     # print(gaussian_normals)
     # Get an Example Mesh
-    ga_py_kdd = GaussianAccumulatorKDPy(**kwargs)
-    ga_cpp_kdd = GaussianAccumulatorKD(**kwargs)
+    ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
+    ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
+    ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
 
     # print(np.asarray(ga_py_kdd.get_bucket_normals()))
     # print(np.asarray(ga_cpp_kdd.get_bucket_normals()))
@@ -165,16 +167,19 @@ def main():
 
         colored_icosahedron_py, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh)
         colored_icosahedron_cpp, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
+        colored_icosahedron_opt, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh)
 
         idx, = np.nonzero(neighbors_py - neighbors_cpp.astype(np.int64))
         print(idx)
-        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, example_mesh)
+        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)
         normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
+        normals_sorted = plot_hilbert_curve(ga_cpp_opt)
         plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()
+        ga_cpp_opt.clear_count()
 
 
 if __name__ == "__main__":

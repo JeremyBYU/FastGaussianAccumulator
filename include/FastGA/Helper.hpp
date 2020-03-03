@@ -46,6 +46,11 @@ struct Bucket
     uint32_t count;
     T hilbert_value;
     std::array<double, 2> projection;
+    // Bucket(const std::array<double, 3> normal_, uint32_t count_, T hilbert_value_, const std::array<double, 2> projection_): normal(normal_), count(count_), hilbert_value(hilbert_value_), projection(projection_) {}
+    bool operator<(const Bucket & other) const
+    {
+        return hilbert_value < other.hilbert_value;
+    }
 };
 
 namespace Helper {
@@ -64,6 +69,15 @@ inline std::vector<std::size_t> sort_permutation(
     std::sort(p.begin(), p.end(),
         [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
     return p;
+}
+
+template <typename T> 
+inline T SquaredDistance(const std::array<T, 3> &a, const std::array<T, 3> &b)
+{
+    auto x = (a[0] - b[0]);
+    auto y = (a[1] - b[1]);
+    auto z = (a[2] - b[2]);
+    return x*x + y*y + z*z;
 }
 
 template <typename T>
@@ -210,7 +224,7 @@ void ScaleArrayInPlace(std::vector<std::array<T, dim>>& array, T scalar)
 }
 
 template<class T>
-inline void AzimuthProjectionXYZ(double* xyz, T* xy)
+inline void AzimuthProjectionXYZ(const double* xyz, T* xy)
 {
     double phi = acos(xyz[2]);
     double scale = 0.0;
@@ -249,7 +263,7 @@ inline void AzimuthProjectionPhiTheta(T* pt, T* xy)
     xy[1] = -pt[0] * cos(pt[1]);
 }
 
-inline BBOX InitializeProjection(MatX3d& normals, MatX2d& projection)
+inline BBOX InitializeProjection(const MatX3d& normals, MatX2d& projection)
 {
     size_t N = normals.size();
     double min_x = std::numeric_limits<double>::max();
@@ -313,7 +327,7 @@ inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
     return {min_x, min_y, max_x, max_y};
 }
 
-inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(MatX3d& normals, BBOX &bbox)
+inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(const MatX3d& normals, BBOX &bbox)
 {
     size_t N = normals.size();
     MatX2d projection(N);

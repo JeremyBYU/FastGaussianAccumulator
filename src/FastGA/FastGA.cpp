@@ -166,10 +166,39 @@ GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max
 std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const bool exhaustive)
 {
     std::vector<size_t> bucket_indexes(normals.size());
-    if (exhaustive)
-        return bucket_indexes;
-    else
-        return bucket_indexes;
+    MatX2d projection;
+    std::vector<uint32_t> hilbert_values;
+    std::tie(projection, hilbert_values) = Helper::ConvertNormalsToHilbert(normals, projected_bbox);
+
+    Bucket<uint32_t> to_find = {{0, 0, 0}, 0, 0, {0, 0}};
+    auto best_idx = buckets.begin();
+    std::cout<< "Opt Before Loop" <<std::endl;
+    for (size_t i = 0; i < normals.size(); i++)
+    {
+        auto &hv = hilbert_values[i];
+        auto &normal = normals[i];
+        to_find.hilbert_value = hv;
+        auto lower_idx = std::lower_bound(buckets.begin(), buckets.end(), to_find); 
+        auto uppper_idx = lower_idx + 1;
+        if (uppper_idx == buckets.end())
+            uppper_idx = buckets.begin();
+        
+        auto lower_dist = Helper::SquaredDistance(normal, lower_idx->normal);
+        auto upper_dist = Helper::SquaredDistance(normal, uppper_idx->normal);
+        // Best idx chosen
+        best_idx = lower_dist < upper_dist ? lower_idx : uppper_idx;
+        // TODO search 3 neighbors
+        best_idx->count += 1;
+        bucket_indexes[i] = best_idx - buckets.begin();
+        if (exhaustive)
+        {
+            // TODO search 9 neighbors
+            bucket_indexes[i] = best_idx - buckets.begin();
+        }
+    }
+    std::cout<< "Opt After Loop" <<std::endl;
+    return bucket_indexes;
+
 }
 
 template class FastGA::GaussianAccumulator<uint32_t>;

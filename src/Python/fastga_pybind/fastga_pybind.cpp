@@ -121,6 +121,14 @@ PYBIND11_MODULE(fastga, m)
                  return "<FastGA::GAKD; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
+    py::class_<FastGA::GaussianAccumulatorOpt,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt")
+        .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
+        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "exhaustive"_a=FastGA_EXHAUSTIVE)
+        .def("__repr__",
+             [](const FastGA::GaussianAccumulatorOpt& a) {
+                 return "<FastGA::GAOPT; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
+             });
+
     // Functions
     // m.def("convert_normals_to_hilbert", &convert_normals_to_hilbert, "normals"_a);
 #ifdef VERSION_INFO
