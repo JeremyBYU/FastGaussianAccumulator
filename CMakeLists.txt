@@ -62,6 +62,9 @@ add_subdirectory("thirdparty/googletest")
 add_subdirectory("thirdparty/benchmark")
 add_subdirectory("thirdparty/Catch2")
 
+set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
+add_subdirectory("thirdparty/s2geometry")
+
 
 ### Set Project File List
 set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src/FastGA")

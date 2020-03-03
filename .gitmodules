@@ -13,3 +13,6 @@
 [submodule "thirdparty/nanoflann"]
 	path = thirdparty/nanoflann
 	url = https://github.com/jlblancoc/nanoflann.git
+[submodule "thirdparty/s2geometry"]
+	path = thirdparty/s2geometry
+	url = https://github.com/google/s2geometry.git
