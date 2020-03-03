@@ -24,7 +24,7 @@ class Normals : public benchmark::Fixture
         initialize_normals();
         projected_bounds = FastGA::Helper::InitializeProjection(normals, projection);
     }
-    void initialize_normals(double max_phi_degrees = 100)
+    void initialize_normals(double max_phi_degrees = 95)
     {
         auto max_phi_radians = degreesToRadians(max_phi_degrees);
         for (int i = 0; i < N;)
@@ -42,7 +42,7 @@ class Normals : public benchmark::Fixture
     }
 };
 
-BENCHMARK_DEFINE_F(Normals, BM_KDTreeQuery)
+BENCHMARK_DEFINE_F(Normals, BM_FastGAKD)
 (benchmark::State& st)
 {
     FastGA::GaussianAccumulatorKD GA = FastGA::GaussianAccumulatorKD(4, 100.0, st.range(0));
@@ -52,4 +52,15 @@ BENCHMARK_DEFINE_F(Normals, BM_KDTreeQuery)
     }
 }
 
-BENCHMARK_REGISTER_F(Normals, BM_KDTreeQuery)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK_DEFINE_F(Normals, BM_FastGAOpt)
+(benchmark::State& st)
+{
+    FastGA::GaussianAccumulatorOpt GA = FastGA::GaussianAccumulatorOpt(4, 100.0);
+    for (auto _ : st)
+    {
+        auto test = GA.Integrate(normals);
+    }
+}
+
+BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt)->UseRealTime()->Unit(benchmark::kMillisecond);
