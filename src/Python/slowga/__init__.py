@@ -62,7 +62,6 @@ class GaussianAccumulatorKDPy(object):
         vertices = np.asarray(self.mesh.vertices)
         triangles = np.vstack((triangles[mask][idx_sort], triangles[~mask]))
         self.mesh = create_open_3d_mesh(triangles, vertices)
-
         self.kdtree = cKDTree(self.bucket_normals, leafsize=max_leaf_size, compact_nodes=True, balanced_tree=True)
 
     def integrate(self, normals):

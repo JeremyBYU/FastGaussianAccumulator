@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <numeric>
 #include <unordered_map>
+#include <unordered_set>
 #include <map>
 #include <string>
 #include "Hilbert/Hilbert.hpp"
@@ -37,6 +38,7 @@ namespace FastGA {
 
 using MatX3d = std::vector<std::array<double, 3>>;
 using MatX3I = std::vector<std::array<size_t, 3>>;
+using MatX12I = std::vector<std::array<size_t, 12>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2I = std::vector<std::array<size_t, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;

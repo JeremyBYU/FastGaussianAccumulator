@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, MatX3d
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, MatX3d, convert_normals_to_hilbert
 import matplotlib.pyplot as plt
 
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, 
@@ -98,11 +98,11 @@ def plot_hilbert_curve(ga:GaussianAccumulatorKDPy):
     return gaussian_normals_sorted
 
 
-def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000):
+def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000, max_phi=100):
     num_buckets = ga.num_buckets
     to_integrate_normals = np.asarray(mesh.triangle_normals)
     # remove normals on bottom half of sphere
-    to_integrate_normals, _ = filter_normals_by_phi(to_integrate_normals)
+    to_integrate_normals, _ = filter_normals_by_phi(to_integrate_normals, max_phi=max_phi)
     # determine optimal sampling
     num_normals = to_integrate_normals.shape[0]
     ds_normals = int(num_normals / ds)
@@ -110,7 +110,6 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     ds_step = int(num_normals / to_sample)
     # perform sampling of normals
     to_integrate_normals = to_integrate_normals[0:num_normals:ds_step, :]
-
     mask = np.asarray(ga.mask)
     query_size = to_integrate_normals.shape[0]
 
@@ -136,7 +135,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
 
     # Colorize normal buckets
     colored_icosahedron = assign_vertex_colors(refined_icosahedron_mesh, color_counts, mask)
-    return colored_icosahedron, neighbors_idx
+    return colored_icosahedron, np.asarray(to_integrate_normals), neighbors_idx
 
 def create_line_set(normals_sorted):
     normals_o3d = o3d.utility.Vector3dVector(normals_sorted)
@@ -144,19 +143,130 @@ def create_line_set(normals_sorted):
     line_idx_o3d = o3d.utility.Vector2iVector(line_idx)
     return o3d.geometry.LineSet(normals_o3d, line_idx_o3d)
 
+def plot_issues_2(idx, normals, chosen_buckets, ga, mesh):
+
+    normal_idx = idx[0]
+    bad_normals = normals[idx,:]
+    bad_chosen_triangles = chosen_buckets[idx]
+
+    chosen_triangle = bad_chosen_triangles[0]
+    bad_normal = np.expand_dims(bad_normals[0, :], axis=0)
+    print(bad_normal)
+    # chosen_normal = 
+
+    # Get all bucket normals
+    bucket_normals_sorted = np.asarray(ga.get_bucket_normals())
+
+    # Get 2D projection of bad normal
+    projected_normals, hv = convert_normals_to_hilbert(MatX3d(normals), ga.projected_bbox)
+    projected_normals = np.asarray(projected_normals)
+    bad_projected_normal = projected_normals[normal_idx, :]
+
+    # Get Projected coordinates of buckets
+    proj = np.asarray(ga.get_bucket_projection())
+    normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
+    colors = get_colors(normalized_counts)[:,:3]
+
+
+    # Get Projected Coordinates of Buckets and normals!
+    all_normals = np.vstack((bucket_normals_sorted, normals))
+    all_projected_normals, all_hv = convert_normals_to_hilbert(MatX3d(all_normals), ga.projected_bbox)
+    all_projected_normals = np.asarray(all_projected_normals)
+    all_hv = np.asarray(all_hv)
+
+    idx_sort = np.argsort(all_hv)
+    all_projected_normals = all_projected_normals[idx_sort]
+    all_normals_sorted = np.ascontiguousarray(all_normals[idx_sort])
+
+    
+
+    fig, axs = plt.subplots(1, 1, figsize=(5, 5))
+    ax = axs
+    # plot buckets
+    scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
+    scatter2 = ax.scatter(proj[chosen_triangle, 0], proj[chosen_triangle, 1], c='r', label='Chosen Triangle')
+    # scatter3 = ax.scatter(proj[133, 0], proj[133, 1], c='g', label='Hilbert Mapped Triangle')
+    scatter4 = ax.scatter(bad_projected_normal[0], bad_projected_normal[1], c=[[0.5, 0.5, 0.5]], label='Projected Normal')
+    line1 = ax.plot(all_projected_normals[:, 0], all_projected_normals[:, 1], c='k', label='Hilbert Curve Connections')[0]
+    leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+    # scatter2 = ax.scatter(proj[133, 0], proj[133, 1], c='k')
+    plt.show()
+
+
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(bad_normal)
+    pcd.colors = o3d.utility.Vector3dVector([[0.5, 0.5, 0.5]])
+
+    pcd2 = o3d.geometry.PointCloud()
+    pcd2.points = o3d.utility.Vector3dVector(bucket_normals_sorted)
+    pcd2.colors = o3d.utility.Vector3dVector([[0.0, 1.0, 0]])
+
+    vertex_colors = np.asarray(mesh.vertex_colors)
+    triangles = np.asarray(mesh.triangles)
+    p_idx = triangles[chosen_triangle,:]
+    vertex_colors[p_idx] = [1, 0, 0]
+    # p_idx = triangles[133,:]
+    # vertex_colors[p_idx] = [0, 1, 0]
+
+    ls = create_line_set(all_normals_sorted * 1.002)
+    o3d.visualization.draw_geometries([mesh, pcd, pcd2, ls])
+
+# def plot_issues(idx, normals, chosen_buckets, ga, mesh):
+
+#     normal_idx = idx[0]
+#     bad_normals = normals[idx,:]
+#     bad_chosen_triangles = chosen_buckets[idx]
+
+#     chosen_triangle = bad_chosen_triangles[0]
+#     bad_normal = np.expand_dims(bad_normals[0, :], axis=0)
+#     # chosen_normal = 
+
+#     # Get all bucket normals
+#     bucket_normals_sorted = np.asarray(ga.get_bucket_normals())
+#     # Get 2D projection of bad normal
+#     projected_normals, hv = convert_normals_to_hilbert(MatX3d(normals), ga.projected_bbox)
+#     projected_normals = np.asarray(projected_normals)
+#     bad_projected_normal = projected_normals[normal_idx, :]
+
+#     # Get Projected coordinates of buckets
+#     proj = np.asarray(ga.get_bucket_projection())
+#     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
+#     colors = get_colors(normalized_counts)[:,:3]
+
+#     fig, axs = plt.subplots(1, 1, figsize=(5, 5))
+#     ax = axs
+#     # plot buckets
+#     scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
+#     scatter2 = ax.scatter(proj[chosen_triangle, 0], proj[chosen_triangle, 1], c='r', label='Chosen Triangle')
+#     scatter3 = ax.scatter(proj[133, 0], proj[133, 1], c='g', label='Hilbert Mapped Triangle')
+#     scatter4 = ax.scatter(bad_projected_normal[0], bad_projected_normal[1], c=[[0.5, 0.5, 0.5]], label='Projected Normal')
+#     line1 = ax.plot(proj[:, 0], proj[:, 1], c='k', label='Hilbert Curve Connections')[0]
+#     leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+#     # scatter2 = ax.scatter(proj[133, 0], proj[133, 1], c='k')
+#     plt.show()
+
+
+#     pcd = o3d.geometry.PointCloud()
+#     pcd.points = o3d.utility.Vector3dVector(bad_normal)
+#     vertex_colors = np.asarray(mesh.vertex_colors)
+#     triangles = np.asarray(mesh.triangles)
+#     p_idx = triangles[chosen_triangle,:]
+#     vertex_colors[p_idx] = [1, 0, 0]
+#     p_idx = triangles[133,:]
+#     vertex_colors[p_idx] = [0, 1, 0]
+
+#     ls = create_line_set(bucket_normals_sorted * 1.01)
+#     o3d.visualization.draw_geometries([mesh, pcd, ls])
+
 def main():
-    kwargs_opt = dict(level=4, max_phi=100)
-    kwargs_kdd = dict(**kwargs_opt, max_leaf_size=16)
-    # print(gaussian_normals)
+    kwargs_base = dict(level=4, max_phi=100)
+    kwargs_kdd = dict(**kwargs_base, max_leaf_size=16)
+    kwargs_opt = dict(**kwargs_base)
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
     ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
 
-    print(np.asarray(ga_cpp_opt.bucket_neighbors))
-
-    # print(np.asarray(ga_py_kdd.get_bucket_normals()))
-    # print(np.asarray(ga_cpp_kdd.get_bucket_normals()))
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 0:
             continue
@@ -167,16 +277,20 @@ def main():
             example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh.compute_triangle_normals()
 
-        colored_icosahedron_py, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh)
-        colored_icosahedron_cpp, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh)
-        colored_icosahedron_opt, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh)
+        colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh, max_phi=95)
+        colored_icosahedron_cpp, normals, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh, max_phi=95)
+        colored_icosahedron_opt, normals, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh, max_phi=95)
 
         idx, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
-        print(idx.shape)
-        print(idx)
+        print("Fast GaussianAccumulator incorrectly assigned : {}".format(idx.shape[0]))
+        # print(idx)
+        if idx.shape[0] > 0:
+            pass
+            # plot_issues_2(idx, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
+
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)
-        normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
+        # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         normals_sorted = plot_hilbert_curve(ga_cpp_opt)
         plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
 

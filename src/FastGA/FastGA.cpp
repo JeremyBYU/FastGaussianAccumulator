@@ -162,10 +162,10 @@ GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
 
-    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, num_buckets);
+    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, buckets, num_buckets);
 }
 
-std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const bool exhaustive)
+std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const int num_nbr)
 {
     std::vector<size_t> bucket_indexes(normals.size());
     MatX2d projection;
@@ -173,57 +173,85 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
     std::tie(projection, hilbert_values) = Helper::ConvertNormalsToHilbert(normals, projected_bbox);
 
     Bucket<uint32_t> to_find = {{0, 0, 0}, 0, 0, {0, 0}};
-    auto best_idx = buckets.begin();
-    std::array<double, 4> min_distances;
+    auto centered_tri_iter = buckets.begin();
+    size_t best_bucket_idx = 0;
+    double best_bucket_dist = 10.0;
+    // std::array<double, 4> min_distances;
+    size_t max_limit = std::numeric_limits<size_t>::max();
+
     for (size_t i = 0; i < normals.size(); i++)
     {
         auto &hv = hilbert_values[i];
         auto &normal = normals[i];
         to_find.hilbert_value = hv;
-        auto lower_idx = std::lower_bound(buckets.begin(), buckets.end(), to_find); 
-        auto uppper_idx = lower_idx + 1;
-        if (uppper_idx == buckets.end())
-            uppper_idx = buckets.begin();
+        auto upper_idx = std::upper_bound(buckets.begin(), buckets.end(), to_find); 
+        auto lower_idx = upper_idx - 1;
+        if (upper_idx == buckets.end())
+            upper_idx = buckets.begin();
         
         auto lower_dist = Helper::SquaredDistance(normal, lower_idx->normal);
-        auto upper_dist = Helper::SquaredDistance(normal, uppper_idx->normal);
+        auto upper_dist = Helper::SquaredDistance(normal, upper_idx->normal);
         // Best idx chosen
-        best_idx = lower_idx;
-        min_distances[0] = lower_dist;
+        centered_tri_iter = lower_idx;
+        best_bucket_dist = lower_dist;
+        // min_distances[0] = lower_dist;
         if (lower_dist > upper_dist)
         {
-            best_idx = uppper_idx;
-            min_distances[0] = upper_dist;
+            centered_tri_iter = upper_idx;
+            best_bucket_dist = upper_dist;
+            // min_distances[0] = upper_dist;
         }
-        auto best_idx_int = std::distance( buckets.begin(), best_idx );
+        auto centered_tri_idx = std::distance( buckets.begin(), centered_tri_iter );
+        best_bucket_idx = centered_tri_idx;
+
+        for(int nbr_counter = 0; nbr_counter < num_nbr; nbr_counter++)
+        {
+            auto &bucket_nbr_idx = bucket_neighbors[centered_tri_idx][nbr_counter];
+            if (bucket_nbr_idx == max_limit)
+                break;
+            auto dist = Helper::SquaredDistance(normal, buckets[bucket_nbr_idx].normal);
+            if (dist < best_bucket_dist)
+            {
+                best_bucket_dist = dist;
+                best_bucket_idx = bucket_nbr_idx;
+                // std::cout << "Found a better" << std::endl;
+            }
+        }
+
+
         
         // TODO search 3 neighbors
-        auto &nb_1_idx = bucket_neighbors[best_idx_int][0];
-        auto &nb_2_idx = bucket_neighbors[best_idx_int][1];
-        auto &nb_3_idx = bucket_neighbors[best_idx_int][2];
+        // auto &nb_1_idx = bucket_neighbors[best_idx_int][0];
+        // auto &nb_2_idx = bucket_neighbors[best_idx_int][1];
+        // auto &nb_3_idx = bucket_neighbors[best_idx_int][2];
 
-        min_distances[1] = Helper::SquaredDistance(normal, buckets[nb_1_idx].normal);
-        min_distances[2] = Helper::SquaredDistance(normal, buckets[nb_2_idx].normal);
-        min_distances[3] = Helper::SquaredDistance(normal, buckets[nb_3_idx].normal);
+        // min_distances[1] = Helper::SquaredDistance(normal, buckets[nb_1_idx].normal);
+        // min_distances[2] = Helper::SquaredDistance(normal, buckets[nb_2_idx].normal);
+        // min_distances[3] = Helper::SquaredDistance(normal, buckets[nb_3_idx].normal);
 
-        auto best_min_distance_iter = std::min_element(min_distances.begin(), min_distances.end());
-        auto best_min_distance_int = std::distance( min_distances.begin(), best_min_distance_iter );
+        // auto best_min_distance_iter = std::min_element(min_distances.begin(), min_distances.end());
+        // auto best_min_distance_int = std::distance( min_distances.begin(), best_min_distance_iter );
         
-        if (best_min_distance_int == 1UL)
-            best_idx = buckets.begin() + nb_1_idx;
-        else if (best_min_distance_int == 2UL)
-            best_idx = buckets.begin() + nb_2_idx;
-        else if (best_min_distance_int == 3UL)
-            best_idx = buckets.begin() + nb_3_idx;
-        
+        // if (best_min_distance_int == 1UL)
+        //     best_idx = buckets.begin() + nb_1_idx;
+        // else if (best_min_distance_int == 2UL)
+        //     best_idx = buckets.begin() + nb_2_idx;
+        // else if (best_min_distance_int == 3UL)
+        //     best_idx = buckets.begin() + nb_3_idx;
 
-        best_idx->count += 1;
-        bucket_indexes[i] = best_idx - buckets.begin();
-        if (exhaustive)
-        {
-            // TODO search 9 neighbors
-            bucket_indexes[i] = best_idx - buckets.begin();
-        }
+        // Point Index to Triangle Set, dont include triangles that are not in bucket list
+        // For each triangle, get point indices, union their triangle sets.
+        // Convert this joined set into array, sort array by distance from center triangle
+        // now you have all 12 neighbors.
+        
+        buckets[best_bucket_idx].count += 1;
+        // best_idx->count += 1;
+        bucket_indexes[i] = best_bucket_idx;
+        // if (exhaustive)
+        // {
+        //     // TODO search 9 neighbors
+        //     bucket_indexes[i] = best_idx - buckets.begin();
+        // }
     }
     return bucket_indexes;
 

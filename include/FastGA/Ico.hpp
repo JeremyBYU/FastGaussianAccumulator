@@ -232,27 +232,72 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
     // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after3 - before);
     // std::cout << "Total time took " << elapsed.count() << " milliseconds" << std::endl;
 
-
     return halfedges;
 }
 
-inline MatX3I ComputeTriangleNeighbors(const MatX3I& triangles, const size_t max_idx)
+inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& triangle_normals, const std::vector<Bucket<uint32_t>>& buckets, const size_t max_idx)
 {
     size_t max_limit = std::numeric_limits<size_t>::max();
-    MatX3I neighbors(triangles.size());
-    auto halfedges = ExtractHalfEdges(triangles);
-    for(size_t i = 0; i < triangles.size(); i++)
+    std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset;
+    MatX12I neighbors(triangles.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
+    if (buckets[0].count > 1)
+        std::cout << "dumb";
+    for (size_t i = 0; i < triangles.size(); i++)
     {
 
-        auto he_idx = i * 3;
-        auto first_neighbor = halfedges[he_idx] / 3;
-        auto second_neighbor = halfedges[he_idx + 1] / 3;
-        auto third_neighbor = halfedges[he_idx+ 2] / 3;
-        first_neighbor = first_neighbor > max_idx ? max_limit : first_neighbor;
-        second_neighbor = second_neighbor > max_idx ? max_limit : second_neighbor;
-        third_neighbor = third_neighbor > max_idx ? max_limit : third_neighbor;
-        neighbors[i] = {first_neighbor, second_neighbor, third_neighbor};
+        if (i >= max_idx)
+            continue;
+        auto& pi0 = triangles[i][0];
+        auto& pi1 = triangles[i][1];
+        auto& pi2 = triangles[i][2];
+
+        auto& tri_set_p0 = pi_to_triset[pi0];
+        auto& tri_set_p1 = pi_to_triset[pi1];
+        auto& tri_set_p2 = pi_to_triset[pi2];
+
+        tri_set_p0.insert(i);
+        tri_set_p1.insert(i);
+        tri_set_p2.insert(i);
     }
+
+    for (size_t i = 0; i < triangles.size(); i++)
+    {
+
+        if (i >= max_idx)
+            continue;
+
+        auto this_normal = triangle_normals[i];
+        std::unordered_set<size_t> neighbors_set;
+
+        auto& pi0 = triangles[i][0];
+        auto& pi1 = triangles[i][1];
+        auto& pi2 = triangles[i][2];
+
+        auto& tri_set_p0 = pi_to_triset[pi0];
+        auto& tri_set_p1 = pi_to_triset[pi1];
+        auto& tri_set_p2 = pi_to_triset[pi2];
+
+        neighbors_set.insert(tri_set_p0.begin(), tri_set_p0.end());
+        neighbors_set.insert(tri_set_p1.begin(), tri_set_p1.end());
+        neighbors_set.insert(tri_set_p2.begin(), tri_set_p2.end());
+
+        std::vector<std::tuple<size_t, double>> neighbor_idx_and_dist;
+        std::transform(neighbors_set.begin(), neighbors_set.end(), std::back_inserter(neighbor_idx_and_dist),
+                       [&this_normal, &triangle_normals](const size_t& nbr_idx) { return std::make_tuple(nbr_idx, Helper::SquaredDistance(this_normal, triangle_normals[nbr_idx])); });
+
+        std::sort(neighbor_idx_and_dist.begin(), neighbor_idx_and_dist.end(),
+                  [](const std::tuple<size_t, double>& a, const std::tuple<size_t, double>& b) { return std::get<1>(a) < std::get<1>(b); });
+
+        for (size_t nbr_list_idx = 0; nbr_list_idx < neighbor_idx_and_dist.size(); nbr_list_idx++)
+        {
+            if (nbr_list_idx == 0)
+                continue;
+            auto& nbr_idx_dist = neighbor_idx_and_dist[nbr_list_idx];
+            auto& nbr_tri_idx = std::get<0>(nbr_idx_dist);
+            neighbors[i][nbr_list_idx - 1] = nbr_tri_idx;
+        }
+    }
+
     return neighbors;
 }
 

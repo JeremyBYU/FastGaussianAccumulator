@@ -76,7 +76,6 @@ PYBIND11_MODULE(fastga, m)
         });
 
     // Classes
-
     py::class_<FastGA::Bucket<uint32_t>>(m, "BucketUInt32")
         .def(py::init<>())
         .def_readonly("normal", &FastGA::Bucket<uint32_t>::normal)
@@ -85,6 +84,13 @@ PYBIND11_MODULE(fastga, m)
         .def("__repr__",
              [](const FastGA::Bucket<uint32_t>& a) {
                  return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) + "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) +  "'>");
+             });
+
+    py::class_<FastGA::Helper::BBOX>(m, "BBOX")
+        .def(py::init<>())
+        .def("__repr__",
+             [](const FastGA::Bucket<uint32_t>& a) {
+                 return ("<BBOX>");
              });
 
     py::class_<FastGA::Ico::IcoMesh>(m, "IcoMesh")
@@ -107,6 +113,7 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint32_t>::buckets)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint32_t>::mask)
         .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint32_t>::num_buckets)
+        .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint32_t>::projected_bbox)
         .def("get_bucket_normals", &FastGA::GaussianAccumulator<uint32_t>::GetBucketNormals)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCounts)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint32_t>::GetBucketIndices)
@@ -124,14 +131,14 @@ PYBIND11_MODULE(fastga, m)
     py::class_<FastGA::GaussianAccumulatorOpt,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
         .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorOpt::bucket_neighbors)
-        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "exhaustive"_a=FastGA_EXHAUSTIVE)
+        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a=FastGA_TRI_NBRS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorOpt& a) {
                  return "<FastGA::GAOPT; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
     // Functions
-    // m.def("convert_normals_to_hilbert", &convert_normals_to_hilbert, "normals"_a);
+    m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
