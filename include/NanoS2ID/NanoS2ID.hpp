@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <cmath>
 #include <mutex>
+#include "Hilbert/Hilbert.hpp"
 
 namespace NanoS2ID {
 
@@ -24,6 +25,7 @@ using uint64 = unsigned long long;
 
 const int kMaxCellLevel = 30;
 const int kLimitIJ = 1 << kMaxCellLevel; // == S2CellId::kMaxSize
+const int kLimitIJ_UINT32 = 1 << 15; //
 unsigned const int kMaxSiTi = 1U << (kMaxCellLevel + 1);
 static const int kLookupBits = 4;
 static uint16 lookup_pos[1 << (2 * kLookupBits + 2)];
@@ -283,6 +285,12 @@ inline int STtoIJ(double s)
                                 FastIntRound(kLimitIJ * s - 0.5)));
 }
 
+inline int STtoIJ_UINT32(double s)
+{
+    return std::max(0, std::min(kLimitIJ_UINT32 - 1,
+                                FastIntRound(kLimitIJ_UINT32 * s - 0.5)));
+}
+
 inline int GetFace(const std::array<double, 3>& p)
 {
     int face = LargestAbsComponent(p);
@@ -339,6 +347,26 @@ inline uint64 S2CellId(const std::array<double, 3>& p)
     uint64 id = FromFaceIJ(face, i, j);
     return id;
 }
+
+inline uint64 FromFaceIJ_UINT32(int face, int i, int j)
+{
+    uint64 n = static_cast<uint64>(face) << (kPosBits - 1);
+    // TODO need to flip i,j on odd faces, but stopped because its not as fast as Googles hilbert curve, so whats the point
+    auto hv = static_cast<uint64>(Hilbert::hilbertXYToIndex(16, i, j));
+    return n + hv;
+}   
+
+// NOT COMPLETED
+inline uint64 S2CellId_UINT32(const std::array<double, 3>& p)
+{
+    double u, v;
+    int face = XYZtoFaceUV(p, &u, &v);
+    int i = STtoIJ_UINT32(UVtoST(u));
+    int j = STtoIJ_UINT32(UVtoST(v));
+    uint64 id = FromFaceIJ_UINT32(face, i, j);
+    return id;
+}
+
 ///////////////////////////////////////////////
 //       End Public API Fuctions          ///
 ///////////////////////////////////////////////

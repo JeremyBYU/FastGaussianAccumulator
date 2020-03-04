@@ -102,9 +102,26 @@ static void BM_S2NanoCellID (benchmark::State& st)
     }
 }
 
+static void BM_S2NanoCellID_UINT32 (benchmark::State& st)
+{
+    auto normals = initialize_normals(100000);
+    // std::cout<< "Bucket Size: " << GA.buckets.size() << std::endl;
+    for (auto _ : st)
+    {
+        for (size_t i = 0; i < normals.size(); i++)
+        {
+            auto& normal = normals[i];
+            auto id = NanoS2ID::S2CellId_UINT32(normal);
+            benchmark::DoNotOptimize(id);
+            benchmark::ClobberMemory();
+        }
+    }
+}
+
 BENCHMARK(BM_S2PointQuery_1)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_S2CellID)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_S2NanoCellID)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_S2NanoCellID_UINT32)->UseRealTime()->Unit(benchmark::kMillisecond);
 
 // BENCHMARK_DEFINE_F(Normals, BM_S2PointQuery_2)
 // (benchmark::State& st)
