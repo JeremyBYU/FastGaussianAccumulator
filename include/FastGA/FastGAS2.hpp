@@ -2,7 +2,6 @@
 #define FASTGA_S2_HPP
 
 #include "FastGA/FastGA.hpp"
-#include "s2/s2point_index.h"
 
 namespace FastGA {
 class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>

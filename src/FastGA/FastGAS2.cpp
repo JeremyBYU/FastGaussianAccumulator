@@ -1,6 +1,6 @@
 #include "FastGA/FastGAS2.hpp"
+#include "FastGA.hpp"
 #include <algorithm>
-// #include <chrono>
 
 namespace FastGA {
 
@@ -10,10 +10,7 @@ GaussianAccumulatorS2::GaussianAccumulatorS2(const int level, const double max_p
     for(size_t i =0; i < buckets.size(); i++)
     {
         auto& normal = buckets[i].normal;
-        S2Point s2_point(normal[0], normal[1], normal[2]);
-        S2CellId s2_id(s2_point);
-        auto id = s2_id.id();
-        buckets[i].hilbert_value = id;
+        buckets[i].hilbert_value = NanoS2ID::S2CellId(normal);
     }
     // Sort buckets and triangles by their unique index (hilbert curve value)
     auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint64_t> const& a, Bucket<uint64_t> const& b) { return a.hilbert_value < b.hilbert_value; });
@@ -44,9 +41,10 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
         auto& normal = normals[i];
 
         // auto before = std::chrono::high_resolution_clock::now();
-        S2Point s2_point(normal[0], normal[1], normal[2]);
-        S2CellId s2_id(s2_point);
-        to_find.hilbert_value = s2_id.id();
+        // S2Point s2_point(normal[0], normal[1], normal[2]);
+        // S2CellId s2_id(s2_point);
+        // to_find.hilbert_value = s2_id.id();
+        to_find.hilbert_value = NanoS2ID::S2CellId(normal);
         // auto after = std::chrono::high_resolution_clock::now();
         // float elapsed_d = static_cast<std::chrono::duration<float, std::milli>>(after - before).count();
         // total_hv_creation += elapsed_d;

@@ -6,8 +6,6 @@
 #include "FastGA/Helper.hpp"
 #include "FastGA/NanoFlannAdaptors.hpp"
 #include <memory>
-// TODO guard
-#include "s2/s2point_index.h"
 
 #define FastGA_LEVEL 1
 #define FastGA_MAX_PHI 100

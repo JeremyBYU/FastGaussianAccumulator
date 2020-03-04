@@ -11,6 +11,17 @@ namespace NanoS2ID {
 ///////////////////////////////////////////////
 //           Start S2 Constants             ///
 ///////////////////////////////////////////////
+
+using int8 = signed char;
+using int16 = short;
+using int32 = int;
+using int64 = long long;
+
+using uint8 = unsigned char;
+using uint16 = unsigned short;
+using uint32 = unsigned int;
+using uint64 = unsigned long long;
+
 const int kMaxCellLevel = 30;
 const int kLimitIJ = 1 << kMaxCellLevel; // == S2CellId::kMaxSize
 unsigned const int kMaxSiTi = 1U << (kMaxCellLevel + 1);
@@ -28,44 +39,32 @@ int constexpr kSwapMask = 0x01;
 int constexpr kInvertMask = 0x02;
 // kIJtoPos[orientation][ij] -> pos
 const int kIJtoPos[4][4] = {
-  // (0,0) (0,1) (1,0) (1,1)
-  {     0,    1,    3,    2  },  // canonical order
-  {     0,    3,    1,    2  },  // axes swapped
-  {     2,    3,    1,    0  },  // bits inverted
-  {     2,    1,    3,    0  },  // swapped & inverted
+    // (0,0) (0,1) (1,0) (1,1)
+    {0, 1, 3, 2}, // canonical order
+    {0, 3, 1, 2}, // axes swapped
+    {2, 3, 1, 0}, // bits inverted
+    {2, 1, 3, 0}, // swapped & inverted
 };
 
 // kPosToIJ[orientation][pos] -> ij
 const int kPosToIJ[4][4] = {
-  // 0  1  2  3
-  {  0, 1, 3, 2 },    // canonical order:    (0,0), (0,1), (1,1), (1,0)
-  {  0, 2, 3, 1 },    // axes swapped:       (0,0), (1,0), (1,1), (0,1)
-  {  3, 2, 0, 1 },    // bits inverted:      (1,1), (1,0), (0,0), (0,1)
-  {  3, 1, 0, 2 },    // swapped & inverted: (1,1), (0,1), (0,0), (1,0)
+    // 0  1  2  3
+    {0, 1, 3, 2}, // canonical order:    (0,0), (0,1), (1,1), (1,0)
+    {0, 2, 3, 1}, // axes swapped:       (0,0), (1,0), (1,1), (0,1)
+    {3, 2, 0, 1}, // bits inverted:      (1,1), (1,0), (0,0), (0,1)
+    {3, 1, 0, 2}, // swapped & inverted: (1,1), (0,1), (0,0), (1,0)
 };
 // kPosToOrientation[pos] -> orientation_modifier
 const int kPosToOrientation[4] = {
-  kSwapMask,
-  0,
-  0,
-  kInvertMask + kSwapMask,
+    kSwapMask,
+    0,
+    0,
+    kInvertMask + kSwapMask,
 };
-
-using int8 = signed char;
-using int16 = short;
-using int32 = int;
-using int64 = long long;
-
-using uint8 = unsigned char;
-using uint16 = unsigned short;
-using uint32 = unsigned int;
-using uint64 = unsigned long long;
 
 ///////////////////////////////////////////////
 //            End S2 Constants             ///
-///////////////////////////////////////////////   
-
-
+///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
 //      Start Math Utility Functions         //
@@ -123,7 +122,7 @@ static int64 FastInt64Round(double x)
 inline std::array<double, 3> Abs(const std::array<double, 3>& p)
 {
     using std::abs;
-    std::array<double, 3> a1{ {abs(p[0]), abs(p[1]), abs(p[2])} };
+    std::array<double, 3> a1{{abs(p[0]), abs(p[1]), abs(p[2])}};
     return a1;
 }
 
@@ -137,7 +136,6 @@ inline int LargestAbsComponent(const std::array<double, 3>& p)
 ///////////////////////////////////////////////
 //       End Math Utility Functions         //
 ///////////////////////////////////////////////
-
 
 ///////////////////////////////////////////////
 //      Start Hilbert Curve Functions       ///
@@ -181,7 +179,7 @@ inline static void MaybeInit()
     });
 }
 
-inline void GET_BITS_FUNCTION(int k, uint64 &n, uint64 &bits, int &i, int &j)
+inline void GET_BITS_FUNCTION(int k, uint64& n, uint64& bits, int& i, int& j)
 {
     const int mask = (1 << kLookupBits) - 1;
     bits += ((i >> (k * kLookupBits)) & mask) << (kLookupBits + 2);
@@ -198,26 +196,6 @@ inline uint64 FromFaceIJ(int face, int i, int j)
 
     uint64 n = static_cast<uint64>(face) << (kPosBits - 1);
     uint64 bits = (face & kSwapMask);
-// #define GET_BITS(k)                                                     \
-//     do                                                                  \
-//     {                                                                   \
-//         const int mask = (1 << kLookupBits) - 1;                        \
-//         bits += ((i >> (k * kLookupBits)) & mask) << (kLookupBits + 2); \
-//         bits += ((j >> (k * kLookupBits)) & mask) << 2;                 \
-//         bits = lookup_pos[bits];                                        \
-//         n |= (bits >> 2) << (k * 2 * kLookupBits);                      \
-//         bits &= (kSwapMask | kInvertMask);                              \
-//     } while (0)
-
-//     GET_BITS(7);
-//     GET_BITS(6);
-//     GET_BITS(5);
-//     GET_BITS(4);
-//     GET_BITS(3);
-//     GET_BITS(2);
-//     GET_BITS(1);
-//     GET_BITS(0);
-// #undef GET_BITS
     GET_BITS_FUNCTION(7, n, bits, i, j);
     GET_BITS_FUNCTION(6, n, bits, i, j);
     GET_BITS_FUNCTION(5, n, bits, i, j);
@@ -295,6 +273,10 @@ inline double UVtoST(double u)
 //       End Cubic Projections Fuctions     ///
 ///////////////////////////////////////////////
 
+///////////////////////////////////////////////
+//       Start Public API Fuctions          ///
+///////////////////////////////////////////////
+
 inline int STtoIJ(double s)
 {
     return std::max(0, std::min(kLimitIJ - 1,
@@ -356,8 +338,10 @@ inline uint64 S2CellId(const std::array<double, 3>& p)
     int j = STtoIJ(UVtoST(v));
     uint64 id = FromFaceIJ(face, i, j);
     return id;
-    // return face;
 }
+///////////////////////////////////////////////
+//       End Public API Fuctions          ///
+///////////////////////////////////////////////
 
 } // namespace NanoS2ID
 

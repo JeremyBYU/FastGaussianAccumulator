@@ -99,8 +99,7 @@ PRIVATE src)
 
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
-target_link_libraries_system(${PROJECT_NAME} s2)
-# target_link_libraries(${PROJECT_NAME} PRIVATE s2)
+# target_link_libraries_system(${PROJECT_NAME} s2)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)
 # find_program(CLANG_TIDY
