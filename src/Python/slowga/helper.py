@@ -3,6 +3,7 @@ import numpy as np
 import open3d as o3d
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from scipy.spatial.transform import Rotation as R
 
 COLOR_PALETTE = list(map(colors.to_rgb, plt.rcParams['axes.prop_cycle'].by_key()['color']))
 
@@ -155,5 +156,102 @@ def normalize_box(a:np.ndarray):
     # print(range_x, range_y, min_x)
     # print(a)
     return a
+
+
+def vector_magnitude(vec):
+    """
+    Calculates a vector's magnitude.
+    Args:
+        - vec (): 
+    """
+    magnitude = np.sqrt(np.sum(vec**2))
+    return(magnitude)
+
+
+def align_vector_to_another(a=np.array([0, 0, 1]), b=np.array([1, 0, 0])):
+    """
+    Aligns vector a to vector b with axis angle rotation
+    """
+    if np.array_equal(a, b):
+        return None, None
+    axis_ = np.cross(a, b)
+    axis_ = axis_ / np.linalg.norm(axis_)
+    angle = np.arccos(np.dot(a, b))
+
+    return axis_, angle
+
+def create_arrow(scale=1):
+    """
+    Create an arrow in for Open3D
+    """
+    cone_height = scale*0.2
+    cylinder_height = scale*0.8
+    cone_radius = scale/10
+    cylinder_radius = scale/20
+    mesh_frame = o3d.geometry.TriangleMesh.create_arrow(cone_radius=cone_radius,
+        cone_height=cone_height,
+        cylinder_radius=cylinder_radius,
+        cylinder_height=cylinder_height)
+    return(mesh_frame)
+
+def get_arrow(origin=[0,0,0],end=None,vec=None):
+    """
+    Creates an arrow from an origin point to an end point,
+    or create an arrow from a vector vec starting from origin.
+    Args:
+        - end (): End point. [x,y,z]
+        - vec (): Vector. [i,j,k]
+    """
+    # print(end)
+    scale = 10; beta = 0; gamma = 0
+    T = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+    T[:3,-1] = origin
+    if end is not None:
+        vec = np.array(end) - np.array(origin)
+    elif vec is not None:
+        vec = np.array(vec)
+    if end is not None or vec is not None:
+        scale = vector_magnitude(vec)
+        mesh = create_arrow(scale)
+        axis, angle = align_vector_to_another(b=vec/ scale)
+        if axis is None:
+            axis_a = axis
+        else:
+            axis_a = axis * angle
+        rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
+    # mesh.transform(T)
+    mesh = mesh.rotate(rotation_3x3, center=False)
+    mesh.translate(origin)
+    return(mesh)
+
+def get_colors(inp, colormap=plt.cm.viridis, vmin=None, vmax=None):
+    norm = plt.Normalize(vmin, vmax)
+    return colormap(norm(inp))
+
+def get_pc_all_peaks(peaks, clusters, normals):
+    pcd = o3d.geometry.PointCloud()
+    peak_normals = np.ascontiguousarray(normals[peaks, :]) * 1.01
+    pcd.points = o3d.utility.Vector3dVector(peak_normals)
+    colors = get_colors(clusters, colormap=plt.cm.tab20)
+    pcd.colors = o3d.utility.Vector3dVector(colors[:, :3])
+    return pcd
+
+def get_point_normals(avg_peaks, avg_weights):
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(avg_peaks * 1.01)
+    pcd.paint_uniform_color([0, 1, 0])
+    meshes = [pcd]
+
+    return meshes
+
+def get_arrow_normals(avg_peaks, avg_weights):
+    meshes = []
+    for i in range(avg_peaks.shape[0]):
+        pass
+        avg_peak = avg_peaks[i,:]
+        mesh = get_arrow(avg_peak, avg_peak * 1.2)
+        meshes.append(mesh)
+
+    return meshes
 
 

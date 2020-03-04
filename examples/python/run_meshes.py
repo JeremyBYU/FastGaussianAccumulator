@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors,
                                create_open_3d_mesh, assign_vertex_colors, plot_meshes, find_peaks_from_accumulator)
+from src.Python.slowga.helper import get_arrow, get_pc_all_peaks, get_arrow_normals
 
 
 THIS_DIR = Path(__file__).parent
@@ -24,16 +25,8 @@ ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
-def get_pc_peaks(peaks, clusters, normals):
-    pcd = o3d.geometry.PointCloud()
-    peak_normals = np.ascontiguousarray(normals[peaks, :]) * 1.01
-    pcd.points = o3d.utility.Vector3dVector(peak_normals)
-    colors = get_colors(clusters, colormap=plt.cm.tab20)
-    pcd.colors = o3d.utility.Vector3dVector(colors[:, :3])
-    return pcd
 
-
-def plot_hilbert_curve(ga: GaussianAccumulatorKDPy):
+def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
     proj = np.asarray(ga.get_bucket_projection())
     normals = np.asarray(ga.get_bucket_normals())
     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
@@ -50,63 +43,65 @@ def plot_hilbert_curve(ga: GaussianAccumulatorKDPy):
     gaussian_normals_sorted = normals[idx_sort, :]
 
     # Find Peaks
-    peaks, clusters = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
+    peaks, clusters, avg_peaks, avg_weights = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
 
-    class_name_str = type(ga).__name__
-    if class_name_str == 'GaussianAccumulatorS2':
-        fig, ax = plt.subplots(1, 1, figsize=(5, 5))
+    # 2D Plots
+    if plot:
+        class_name_str = type(ga).__name__
+        if class_name_str == 'GaussianAccumulatorS2':
+            fig, ax = plt.subplots(1, 1, figsize=(5, 5))
 
-    else:
-        fig, axs = plt.subplots(2, 1, figsize=(8, 10))
-        ax = axs[0]
-        scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
-        scatter2 = ax.scatter(proj[peaks, :][:, 0], proj[peaks, :][:, 1],
-                              marker='x', c=clusters, label='Clusters', cmap='tab20')
-        ax.set_title("Hilbert Curve with Azimuth Equidistant Projection")
-        ax.set_xlabel("x*")
-        ax.set_ylabel("y*")
-        line1 = ax.plot(proj[:, 0], proj[:, 1], c='k', label='Hilbert Curve Connections')[0]
-        ax.axis('equal')
-        leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+        else:
+            fig, axs = plt.subplots(2, 1, figsize=(8, 10))
+            ax = axs[0]
+            scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
+            scatter2 = ax.scatter(proj[peaks, :][:, 0], proj[peaks, :][:, 1],
+                                marker='x', c=clusters, label='Clusters', cmap='tab20')
+            ax.set_title("Hilbert Curve with Azimuth Equidistant Projection")
+            ax.set_xlabel("x*")
+            ax.set_ylabel("y*")
+            line1 = ax.plot(proj[:, 0], proj[:, 1], c='k', label='Hilbert Curve Connections')[0]
+            ax.axis('equal')
+            leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
 
-        # we will set up a dict mapping legend line to orig line, and enable
-        # picking on the legend line
-        lines = [line1, scatter1, scatter2]
-        lined = dict()
-        for legline, origline in zip(leg.legendHandles, lines):
-            legline.set_picker(5)  # 5 pts tolerance
-            lined[legline] = origline
+            # we will set up a dict mapping legend line to orig line, and enable
+            # picking on the legend line
+            lines = [line1, scatter1, scatter2]
+            lined = dict()
+            for legline, origline in zip(leg.legendHandles, lines):
+                legline.set_picker(5)  # 5 pts tolerance
+                lined[legline] = origline
 
-        def onpick(event):
-            # on the pick event, find the orig line corresponding to the
-            # legend proxy line, and toggle the visibility
-            legline = event.artist
-            origline = lined[legline]
-            vis = not origline.get_visible()
-            origline.set_visible(vis)
-            # Change the alpha on the line in the legend so we can see what lines
-            # have been toggled
-            if vis:
-                legline.set_alpha(1.0)
-            else:
-                legline.set_alpha(0.2)
-            fig.canvas.draw()
+            def onpick(event):
+                # on the pick event, find the orig line corresponding to the
+                # legend proxy line, and toggle the visibility
+                legline = event.artist
+                origline = lined[legline]
+                vis = not origline.get_visible()
+                origline.set_visible(vis)
+                # Change the alpha on the line in the legend so we can see what lines
+                # have been toggled
+                if vis:
+                    legline.set_alpha(1.0)
+                else:
+                    legline.set_alpha(0.2)
+                fig.canvas.draw()
 
-        ax = axs[1]
-        fig.canvas.mpl_connect('pick_event', onpick)
+            ax = axs[1]
+            fig.canvas.mpl_connect('pick_event', onpick)
 
-    ax.bar(np.arange(num_buckets), accumulator_normalized_sorted)
-    ax.scatter(peaks, accumulator_normalized_sorted[peaks], marker='x', c=clusters, cmap='tab20')
+        ax.bar(np.arange(num_buckets), accumulator_normalized_sorted)
+        ax.scatter(peaks, accumulator_normalized_sorted[peaks], marker='x', c=clusters, cmap='tab20')
 
-    ax.set_title("Histogram of Normal Counts sorted by Hilbert Values")
-    ax.set_xlabel("Hilbert Value (Ascending)")
-    ax.set_ylabel("Normal Counts")
-
-    # ax.axis('equal')
-    fig.tight_layout()
-    plt.show()
-    pcd = get_pc_peaks(peaks, clusters, gaussian_normals_sorted)
-    return pcd
+        ax.set_title("Histogram of Normal Counts sorted by Hilbert Values")
+        ax.set_xlabel("Hilbert Value (Ascending)")
+        ax.set_ylabel("Normal Counts")
+        fig.tight_layout()
+        plt.show()
+    
+    pcd_all_peaks = get_pc_all_peaks(peaks, clusters, gaussian_normals_sorted)
+    arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
+    return [pcd_all_peaks, *arrow_avg_peaks]
 
 
 def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000, max_phi=100, integrate_kwargs=dict()):
@@ -239,7 +234,7 @@ def main():
     kwargs_opt = dict(**kwargs_base)
     kwargs_s2 = dict(**kwargs_base)
 
-    kwargs_opt_integrate = dict(num_nbr=12)
+    kwargs_opt_integrate = dict(num_nbr=10)
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
@@ -249,7 +244,7 @@ def main():
     query_max_phi = kwargs_base['max_phi'] - 5
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 1:
+        if i < 0:
             continue
         fname = mesh_fpath.stem
         # print(fname)
@@ -288,8 +283,8 @@ def main():
 
         normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())
         normals_sorted_cube_hilbert = np.asarray(ga_cpp_s2.get_bucket_normals())
-        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01), pcd_cpp_opt],
-                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), pcd_cpp_s2])
+        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01), *pcd_cpp_opt],
+                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()

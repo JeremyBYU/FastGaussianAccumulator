@@ -5,14 +5,13 @@ import open3d as o3d
 import numpy as np
 from scipy.spatial import cKDTree, KDTree
 from scipy.spatial.transform import Rotation as R
-from scipy.signal import find_peaks
-from scipy.cluster.hierarchy import linkage, fcluster
 import matplotlib.pyplot as plt
 from hilbertcurve.hilbertcurve import HilbertCurve
 
 from .helper import assign_vertex_colors, create_open_3d_mesh, calc_angle_delta, plot_meshes, draw_normals
 from .icosahedron import create_icosahedron, refine_icosahedron, create_icosahedron_mesh
 from .projections import plot_projection, convert_lat_long, azimuth_equidistant
+from .peak_and_cluster import find_peaks_from_accumulator
 
 THIS_DIR = Path(__file__).parent
 FIXTURES_DIR = THIS_DIR / "../../../fixtures/"
@@ -212,7 +211,7 @@ def plot_hilbert_curve(ga):
     gaussian_normals_sorted = ga.gaussian_normals[idx_sort]
 
     # Find Peaks
-    peaks, clusters = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
+    peaks, clusters, _, _ = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
 
     colors = colors[idx_sort, :]
     fig, axs = plt.subplots(2, 1, figsize=(8, 10))
@@ -262,21 +261,20 @@ def plot_hilbert_curve(ga):
     fig.tight_layout()
     plt.show()
 
-def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted,
-               find_peaks_kwargs=dict(height=0.10, threshold=None, distance=4, width=None, prominence=0.07),
-               cluster_kwargs=dict(t=0.15, criterion='distance')):
-    t0 = time.perf_counter()
-    peaks, _ = find_peaks(accumulator_normalized_sorted, **find_peaks_kwargs)
-    t1 = time.perf_counter()
+# def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted,
+#                find_peaks_kwargs=dict(height=0.10, threshold=None, distance=4, width=None, prominence=None),
+#                cluster_kwargs=dict(t=0.15, criterion='distance')):
+#     t0 = time.perf_counter()
+#     peaks, _ = find_peaks(accumulator_normalized_sorted, **find_peaks_kwargs)
+#     t1 = time.perf_counter()
 
-    gaussian_normal_1d_clusters = gaussian_normals_sorted[peaks,:]
-    Z = linkage(gaussian_normal_1d_clusters, 'single')
-    clusters = fcluster(Z, **cluster_kwargs)
-    t2 = time.perf_counter()
+#     gaussian_normal_1d_clusters = gaussian_normals_sorted[peaks,:]
+#     Z = linkage(gaussian_normal_1d_clusters, 'single')
+#     clusters = fcluster(Z, **cluster_kwargs)
+#     t2 = time.perf_counter()
 
-
-    print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
-    return peaks, clusters
+#     print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
+#     return peaks, clusters
 
 
 def visualize_gaussian_integration(refined_icosahedron_mesh, gaussian_normals, mesh, ds=50, min_samples=10000, plot=False):
