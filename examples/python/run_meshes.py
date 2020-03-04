@@ -212,8 +212,16 @@ def plot_issues_2(idx, normals, chosen_buckets, ga, mesh):
     ls = create_line_set(all_normals_sorted * 1.002)
     o3d.visualization.draw_geometries([mesh, pcd, pcd2, ls])
 
+def reorder_single_hv_to_s2(ga_cpp_kdd, ga_cpp_s2):
+    s2_normals = ga_cpp_s2.get_bucket_normals()
+    _, hv = convert_normals_to_hilbert(s2_normals, ga_cpp_kdd.projected_bbox)
+    hv = np.asarray(hv)
+    idx_sort = np.argsort(hv)
+    hv = hv[idx_sort]
+    return idx_sort
+
 def main():
-    kwargs_base = dict(level=4, max_phi=100)
+    kwargs_base = dict(level=4, max_phi=150)
     kwargs_kdd = dict(**kwargs_base, max_leaf_size=10)
     kwargs_opt = dict(**kwargs_base)
     kwargs_s2 = dict(**kwargs_base)
@@ -225,6 +233,8 @@ def main():
     ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
 
+    query_max_phi = kwargs_base['max_phi'] - 5
+
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 1:
             continue
@@ -235,18 +245,21 @@ def main():
             example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh.compute_triangle_normals()
 
-        colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh, max_phi=95)
-        colored_icosahedron_cpp, normals, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh, max_phi=95)
-        colored_icosahedron_opt, normals, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh, max_phi=95, integrate_kwargs=kwargs_opt_integrate)
-        colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(ga_cpp_s2, example_mesh, max_phi=95, integrate_kwargs=kwargs_opt_integrate)
+        colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh, max_phi=query_max_phi)
+        colored_icosahedron_cpp, normals, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh, max_phi=query_max_phi)
+        colored_icosahedron_opt, normals, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
+        colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(ga_cpp_s2, example_mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
 
         idx_opt, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
         print("Fast GaussianAccumulatorOpt (Hemisphere) incorrectly assigned : {}".format(idx_opt.shape[0]))
-        # idx_s2, = np.nonzero(neighbors_s2.astype(np.int64) - neighbors_cpp.astype(np.int64))
-        # print("Fast GaussianAccumulatorS2 (Full Sphere) incorrectly assigned : {}".format(idx_s2.shape[0])) # Doesn't work because sorting is different
+
+        reorder_s2 = reorder_single_hv_to_s2(ga_cpp_kdd, ga_cpp_s2)
+        idx_s2, = np.nonzero(reorder_s2[neighbors_cpp].astype(np.int64) - neighbors_s2.astype(np.int64))
+        print("Fast GaussianAccumulatorS2 (Full Sphere) incorrectly assigned : {}".format(idx_s2.shape[0])) # Doesn't work because sorting is different
+
         if idx_opt.shape[0] > 0:
             pass
-            plot_issues_2(idx_opt, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
+            # plot_issues_2(idx_opt, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
 
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, colored_icosahedron_s2, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)

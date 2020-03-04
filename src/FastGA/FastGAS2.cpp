@@ -1,5 +1,6 @@
 #include "FastGA/FastGAS2.hpp"
 #include <algorithm>
+// #include <chrono>
 
 namespace FastGA {
 
@@ -36,14 +37,26 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
     double best_bucket_dist = 10.0;
     size_t max_limit = std::numeric_limits<size_t>::max();
 
+    // float total_binary_search = 0.0;
+    // float total_hv_creation = 0.0;
     for (size_t i = 0; i < normals.size(); i++)
     {
         auto& normal = normals[i];
+
+        // auto before = std::chrono::high_resolution_clock::now();
         S2Point s2_point(normal[0], normal[1], normal[2]);
         S2CellId s2_id(s2_point);
-        auto hv = s2_id.id();
-        to_find.hilbert_value = hv;
+        to_find.hilbert_value = s2_id.id();
+        // auto after = std::chrono::high_resolution_clock::now();
+        // float elapsed_d = static_cast<std::chrono::duration<float, std::milli>>(after - before).count();
+        // total_hv_creation += elapsed_d;
+
+        // before = std::chrono::high_resolution_clock::now();
         auto upper_idx = std::upper_bound(buckets.begin(), buckets.end(), to_find);
+        // after = std::chrono::high_resolution_clock::now();
+        // elapsed_d = static_cast<std::chrono::duration<float, std::milli>>(after - before).count();
+        // total_binary_search += elapsed_d;
+
         auto lower_idx = upper_idx - 1;
         if (upper_idx == buckets.end())
             upper_idx = buckets.begin();
@@ -80,6 +93,7 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
         buckets[best_bucket_idx].count += 1;
         bucket_indexes[i] = best_bucket_idx;
     }
+    // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
     return bucket_indexes;
 }
 
