@@ -6,6 +6,8 @@
 #include "FastGA/Helper.hpp"
 #include "FastGA/NanoFlannAdaptors.hpp"
 #include <memory>
+// TODO guard
+#include "s2/s2point_index.h"
 
 #define FastGA_LEVEL 1
 #define FastGA_MAX_PHI 100
@@ -59,6 +61,20 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
 
   protected:
 };
+
+// class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
+// {
+
+//   public:
+//     MatX12I bucket_neighbors;
+//     GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+//     std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+
+//   protected:
+// };
+
+// template class FastGA::GaussianAccumulator<uint64_t>;
+// template class FastGA::GaussianAccumulator<uint32_t>;
 
 } // namespace FastGA
 #endif

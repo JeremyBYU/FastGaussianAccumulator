@@ -6,5 +6,6 @@
 #define FASTGA_HPP
 
 #include "FastGA/FastGA.hpp"
+#include "FastGA/FastGAS2.hpp"
 #include "FastGA/Helper.hpp"
 #endif

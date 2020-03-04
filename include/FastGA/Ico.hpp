@@ -235,13 +235,11 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
     return halfedges;
 }
 
-inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& triangle_normals, const std::vector<Bucket<uint32_t>>& buckets, const size_t max_idx)
+inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& triangle_normals, const size_t max_idx)
 {
     size_t max_limit = std::numeric_limits<size_t>::max();
     std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset;
     MatX12I neighbors(triangles.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
-    if (buckets[0].count > 1)
-        std::cout << "dumb";
     for (size_t i = 0; i < triangles.size(); i++)
     {
 

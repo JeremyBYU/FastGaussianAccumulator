@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, MatX3d, convert_normals_to_hilbert
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert
 import matplotlib.pyplot as plt
 
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, 
@@ -115,8 +115,9 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
 
     mask = np.ones((np.asarray(ga.mesh.triangles).shape[0],), dtype=bool)
     mask[num_buckets:] = False
+    class_name_str = type(ga).__name__
     # integrate normals
-    if type(ga).__name__ == 'GaussianAccumulatorKD' or type(ga).__name__ == 'GaussianAccumulatorOpt'  :
+    if class_name_str in ['GaussianAccumulatorKD', 'GaussianAccumulatorOpt', 'GaussianAccumulatorS2']:
         to_integrate_normals = MatX3d(to_integrate_normals)
         # mask = np.ma.make_mask(mask)
 
@@ -125,8 +126,8 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     neighbors_idx = np.asarray(ga.integrate(to_integrate_normals, **integrate_kwargs))
     t1 = time.perf_counter()
     elapsed_time = (t1 - t0) * 1000
-    print("KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
-        num_buckets, query_size, elapsed_time))
+    print("{}; KD tree size: {}; Query Size (K): {}; Execution Time(ms): {:.1f}".format(
+        class_name_str, num_buckets, query_size, elapsed_time))
     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
     color_counts = get_colors(normalized_counts)[:,:3]
     # print(normalized_counts)
@@ -215,12 +216,14 @@ def main():
     kwargs_base = dict(level=4, max_phi=100)
     kwargs_kdd = dict(**kwargs_base, max_leaf_size=10)
     kwargs_opt = dict(**kwargs_base)
+    kwargs_s2 = dict(**kwargs_base)
 
     kwargs_opt_integrate = dict(num_nbr=12)
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
     ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
+    ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
         if i < 1:
@@ -235,23 +238,28 @@ def main():
         colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(ga_py_kdd, example_mesh, max_phi=95)
         colored_icosahedron_cpp, normals, neighbors_cpp = visualize_gaussian_integration(ga_cpp_kdd, example_mesh, max_phi=95)
         colored_icosahedron_opt, normals, neighbors_opt = visualize_gaussian_integration(ga_cpp_opt, example_mesh, max_phi=95, integrate_kwargs=kwargs_opt_integrate)
+        colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(ga_cpp_s2, example_mesh, max_phi=95, integrate_kwargs=kwargs_opt_integrate)
 
-        idx, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
-        print("Fast GaussianAccumulator incorrectly assigned : {}".format(idx.shape[0]))
-        # print(idx)
-        if idx.shape[0] > 0:
+        idx_opt, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
+        print("Fast GaussianAccumulatorOpt (Hemisphere) incorrectly assigned : {}".format(idx_opt.shape[0]))
+        # idx_s2, = np.nonzero(neighbors_s2.astype(np.int64) - neighbors_cpp.astype(np.int64))
+        # print("Fast GaussianAccumulatorS2 (Full Sphere) incorrectly assigned : {}".format(idx_s2.shape[0])) # Doesn't work because sorting is different
+        if idx_opt.shape[0] > 0:
             pass
-            # plot_issues_2(idx, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
+            plot_issues_2(idx_opt, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
 
-        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, example_mesh)
+        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp, colored_icosahedron_opt, colored_icosahedron_s2, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
-        normals_sorted = plot_hilbert_curve(ga_cpp_opt)
-        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted * 1.01)])
+        plot_hilbert_curve(ga_cpp_opt)
+        normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())
+        normals_sorted_cube_hilbert = np.asarray(ga_cpp_s2.get_bucket_normals())
+        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01)], [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01)])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()
         ga_cpp_opt.clear_count()
+        ga_cpp_s2.clear_count()
 
 
 if __name__ == "__main__":

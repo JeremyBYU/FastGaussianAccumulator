@@ -1,4 +1,5 @@
 #include "FastGA.hpp"
+// #include "FastGAS.hpp"
 #include <algorithm>
 
 namespace FastGA {
@@ -39,22 +40,6 @@ GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_ph
     mesh.triangles = Helper::BubbleDownMask(mesh.triangles, mask);
 
     num_buckets = buckets.size();
-
-    // Get projected coordinates of these buckets
-    projected_bbox = Helper::InitializeProjection(buckets);
-
-    // Compute Hilbert Values for these buckets
-    auto x_range = projected_bbox.max_x - projected_bbox.min_x;
-    auto y_range = projected_bbox.max_y - projected_bbox.min_y;
-    // std::cout << x_range << ", " << y_range << ", " << projected_bbox.min_x << std::endl;
-    std::array<uint32_t, 2> xy_int;
-    for (auto& bucket : buckets)
-    {
-        auto& projection = bucket.projection;
-        Helper::ScaleXYToUInt32(&(projection[0]), xy_int.data(), projected_bbox.min_x, projected_bbox.min_y, x_range, y_range);
-        // std::cout << "Int Proj: " << xy_int[0] << ", " << xy_int[1] <<std::endl;;
-        bucket.hilbert_value = static_cast<T>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
-    }
 }
 
 template <class T>
@@ -110,12 +95,22 @@ void GaussianAccumulator<T>::ClearCount()
     }
 }
 
-// std::vector<std::array<double,2>> GetBucketProjection();
-
-// And this is the "dataset to kd-tree" adaptor class:
-// GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator(level, max_phi), index_params(max_leaf_size)
 GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator<uint32_t>(level, max_phi), bucket2kd(buckets), index_params(max_leaf_size), kd_tree_ptr()
 {
+    // Get projected coordinates of these buckets
+    projected_bbox = Helper::InitializeProjection(buckets);
+    // Compute Hilbert Values for these buckets
+    auto x_range = projected_bbox.max_x - projected_bbox.min_x;
+    auto y_range = projected_bbox.max_y - projected_bbox.min_y;
+    // std::cout << x_range << ", " << y_range << ", " << projected_bbox.min_x << std::endl;
+    std::array<uint32_t, 2> xy_int;
+    for (auto& bucket : buckets)
+    {
+        auto& projection = bucket.projection;
+        Helper::ScaleXYToUInt32(&(projection[0]), xy_int.data(), projected_bbox.min_x, projected_bbox.min_y, x_range, y_range);
+        // std::cout << "Int Proj: " << xy_int[0] << ", " << xy_int[1] <<std::endl;;
+        bucket.hilbert_value = static_cast<uint32_t>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
+    }
     // Sort buckets and triangles by their unique index (hilbert curve value)
     auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
@@ -156,13 +151,27 @@ std::vector<size_t> GaussianAccumulatorKD::Integrate(const MatX3d& normals, cons
 // Optimal Search
 GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi), bucket_neighbors()
 {
+    // Get projected coordinates of these buckets
+    projected_bbox = Helper::InitializeProjection(buckets);
+    // Compute Hilbert Values for these buckets
+    auto x_range = projected_bbox.max_x - projected_bbox.min_x;
+    auto y_range = projected_bbox.max_y - projected_bbox.min_y;
+    // std::cout << x_range << ", " << y_range << ", " << projected_bbox.min_x << std::endl;
+    std::array<uint32_t, 2> xy_int;
+    for (auto& bucket : buckets)
+    {
+        auto& projection = bucket.projection;
+        Helper::ScaleXYToUInt32(&(projection[0]), xy_int.data(), projected_bbox.min_x, projected_bbox.min_y, x_range, y_range);
+        // std::cout << "Int Proj: " << xy_int[0] << ", " << xy_int[1] <<std::endl;;
+        bucket.hilbert_value = static_cast<uint32_t>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
+    }
     // Sort buckets and triangles by their unique index (hilbert curve value)
     auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
 
-    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, buckets, num_buckets);
+    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, num_buckets);
 }
 
 std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const int num_nbr)
@@ -225,5 +234,6 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
 }
 
 template class FastGA::GaussianAccumulator<uint32_t>;
+template class FastGA::GaussianAccumulator<uint64_t>;
 
 } // namespace FastGA

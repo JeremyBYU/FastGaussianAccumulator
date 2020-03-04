@@ -24,6 +24,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
+# CMake Functions
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Extras.txt)
+
 # Build Options
 option(WERROR "Add -Werror flag to build (turns warnings into errors)" OFF)
 
@@ -71,7 +74,7 @@ add_subdirectory("thirdparty/s2geometry")
 ### Set Project File List
 set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src/FastGA")
 set(GI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-set(GI_SRC_FILES ${GI_SRC_DIR}/FastGA.cpp ${GI_SRC_DIR}/Helper.cpp)
+set(GI_SRC_FILES ${GI_SRC_DIR}/FastGA.cpp ${GI_SRC_DIR}/Helper.cpp ${GI_SRC_DIR}/FastGAS2.cpp )
 file(GLOB ALL_HEADERS ${GI_INCLUDE_DIR}/FastGA/*.hpp)
 set(GI_HEADER_FILES ${GI_INCLUDE_DIR}/FastGA.hpp ALL_HEADERS)
 
@@ -96,6 +99,8 @@ PRIVATE src)
 
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
+target_link_libraries_system(${PROJECT_NAME} s2)
+# target_link_libraries(${PROJECT_NAME} PRIVATE s2)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)
 # find_program(CLANG_TIDY
