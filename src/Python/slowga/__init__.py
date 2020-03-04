@@ -25,7 +25,6 @@ ALL_MESHES = [EXAMPLE_MESH_1, EXAMPLE_MESH_2, EXAMPLE_MESH_3]
 ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
-
 def get_colors(inp, colormap=plt.cm.viridis, vmin=None, vmax=None):
     norm = plt.Normalize(vmin, vmax)
     return colormap(norm(inp))
