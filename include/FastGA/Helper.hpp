@@ -16,6 +16,7 @@
 #include <map>
 #include <string>
 #include "Hilbert/Hilbert.hpp"
+#include "NanoS2ID/NanoS2ID.hpp"
 
 // #include "str"
 
@@ -150,17 +151,6 @@ inline std::vector<T> ApplyPermutation(
     sorted_vec.insert(sorted_vec.end(), vec.begin() + p.size(), vec.end());
     return sorted_vec;
 }
-
-// template <typename T>
-// inline std::vector<T> apply_permutation(
-//     const std::vector<T>& vec,
-//     const std::vector<std::size_t>& p)
-// {
-//     std::vector<T> sorted_vec(vec.size());
-//     std::transform(p.begin(), p.end(), sorted_vec.begin(),
-//         [&](std::size_t i){ return vec[i]; });
-//     return sorted_vec;
-// }
 
 struct BBOX
 {
@@ -358,6 +348,19 @@ inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(const M
         hilbert_values[i] = Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]);
     }
     return std::make_tuple(std::move(projection), std::move(hilbert_values));
+}
+
+inline std::vector<uint64_t> ConvertNormalsToS2ID(const MatX3d& normals)
+{
+    size_t N = normals.size();
+    MatX2d projection(N);
+    std::vector<uint64_t> s2_ids(N);
+    for (size_t i = 0; i < N; i++)
+    {
+        auto &normal = normals[i];
+        s2_ids[i] = NanoS2ID::S2CellId(normal);
+    }
+    return s2_ids;
 }
 
 void inline ComputeTriangleNormals(const MatX3d& vertices, const MatX3I& triangles, MatX3d& triangle_normals)

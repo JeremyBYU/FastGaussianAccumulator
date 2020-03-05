@@ -102,57 +102,23 @@ static void BM_S2NanoCellID (benchmark::State& st)
     }
 }
 
-static void BM_S2NanoCellID_UINT32 (benchmark::State& st)
-{
-    auto normals = initialize_normals(100000);
-    // std::cout<< "Bucket Size: " << GA.buckets.size() << std::endl;
-    for (auto _ : st)
-    {
-        for (size_t i = 0; i < normals.size(); i++)
-        {
-            auto& normal = normals[i];
-            auto id = NanoS2ID::S2CellId_UINT32(normal);
-            benchmark::DoNotOptimize(id);
-            benchmark::ClobberMemory();
-        }
-    }
-}
-
-BENCHMARK(BM_S2PointQuery_1)->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_S2CellID)->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_S2NanoCellID)->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_S2NanoCellID_UINT32)->UseRealTime()->Unit(benchmark::kMillisecond);
-
-// BENCHMARK_DEFINE_F(Normals, BM_S2PointQuery_2)
-// (benchmark::State& st)
+// static void BM_S2NanoCellID_UINT32 (benchmark::State& st)
 // {
-//     S2PointIndex<int> s2_index;
-
-//     for(size_t i = 0; i < GA.buckets.size(); i++)
-//     {
-//         auto &bucket_normal = GA.buckets[i].normal;
-//         S2Point s2_point(bucket_normal[0], bucket_normal[1], bucket_normal[2]);
-//         s2_index.Add(s2_point, i);
-//     }
-//     S2ClosestPointQuery<int> query(&s2_index);
-//     query.mutable_options()->set_max_results(1);
-//     std::vector<S2ClosestPointQuery<int>::PointTarget> point_targets;
-//     for (size_t i =0; i < normals.size(); i++)
-//     {
-//         auto &normal = normals[i];
-//         S2Point s2_point(normal[0], normal[1], normal[2]);
-//         S2ClosestPointQuery<int>::PointTarget target(s2_point);
-//         point_targets.push_back(target);
-//     }
-
+//     auto normals = initialize_normals(100000);
+//     // std::cout<< "Bucket Size: " << GA.buckets.size() << std::endl;
 //     for (auto _ : st)
 //     {
-//         for (size_t i =0; i < point_targets.size(); i++)
+//         for (size_t i = 0; i < normals.size(); i++)
 //         {
-//             auto results = query.FindClosestPoints(&point_targets[i]);
+//             auto& normal = normals[i];
+//             auto id = NanoS2ID::S2CellId_UINT32(normal);
+//             benchmark::DoNotOptimize(id);
+//             benchmark::ClobberMemory();
 //         }
 //     }
 // }
 
-// BENCHMARK_REGISTER_F(Normals, BM_S2PointQuery_1)->UseRealTime()->Unit(benchmark::kMillisecond);
-// BENCHMARK_REGISTER_F(Normals, BM_S2PointQuery_2)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_S2PointQuery_1)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_S2CellID)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_S2NanoCellID)->UseRealTime()->Unit(benchmark::kMillisecond);
+// BENCHMARK(BM_S2NanoCellID_UINT32)->UseRealTime()->Unit(benchmark::kMillisecond);

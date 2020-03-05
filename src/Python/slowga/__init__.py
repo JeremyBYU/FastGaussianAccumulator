@@ -316,7 +316,7 @@ def main():
         print("Refinement Level: {}; Number of Vertices: {}, Number of Triangles: {}, Angle Difference: {:.1f}".format(
             level, np.array(mesh.vertices).shape[0], np.array(mesh.triangles).shape[0], angle_diff))
     meshes.insert(0, sphere)
-    # plot_meshes(*meshes)
+    plot_meshes(*meshes)
     # Show our chosen refined example
     refined_icosphere, gaussian_normals = visualize_refinement(
         ico_copy, level=4, plot=False)

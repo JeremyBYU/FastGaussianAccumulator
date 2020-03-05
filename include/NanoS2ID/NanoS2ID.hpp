@@ -1,3 +1,26 @@
+// Copyright 2018 Google Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS-IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+// Author: ericv@google.com (Eric Veach)
+///////////////////////////////////////////////////////////////////////////
+// MODIFICATIONS made by Jeremy Castagno Copyright 2020
+// All modifications are dual licensed under Apache V2 or MIT
+// Summary of Modifications:
+//      Isolated all code which converts a point (xyz) on a unit sphere to a s2id (uint64)
+
+
 #ifndef NANOS2ID_HPP
 #define NANOS2ID_HPP
 
@@ -5,7 +28,7 @@
 #include <type_traits>
 #include <cmath>
 #include <mutex>
-#include "Hilbert/Hilbert.hpp"
+// #include "Hilbert/Hilbert.hpp"
 
 namespace NanoS2ID {
 
@@ -124,8 +147,8 @@ static void InitLookupCell(int level, int i, int j, int orig_orientation,
     if (level == kLookupBits)
     {
         int ij = (i << kLookupBits) + j;
-        lookup_pos[(ij << 2) + orig_orientation] = (pos << 2) + orientation;
-        lookup_ij[(pos << 2) + orig_orientation] = (ij << 2) + orientation;
+        lookup_pos[(ij << 2) + orig_orientation] = static_cast<uint16>((pos << 2) + orientation);
+        lookup_ij[(pos << 2) + orig_orientation] = static_cast<uint16>((ij << 2) + orientation);
     }
     else
     {

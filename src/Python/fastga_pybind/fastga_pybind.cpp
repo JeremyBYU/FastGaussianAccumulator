@@ -165,6 +165,7 @@ PYBIND11_MODULE(fastga, m)
 
     // Functions
     m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a);
+    m.def("convert_normals_to_s2id", &FastGA::Helper::ConvertNormalsToS2ID, "normals"_a);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

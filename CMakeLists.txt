@@ -114,13 +114,15 @@ target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2:
 
 #### Benchmark Executables
 set(BENCH_SOURCES bench/run.cpp bench/hilbert_bench.cpp bench/kd_bench.cpp)
+set(BENCH_LINK_LIBRARIES benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME} )
 if(${WITH_S2_GEOMETRY})
     list(APPEND BENCH_SOURCES bench/s2_bench)
+    list(APPEND BENCH_LINK_LIBRARIES s2)
 endif()
 add_executable(bench-run ${BENCH_SOURCES})
 set(BENCHMARK_INCLUDE ${PROJECT_SOURCE_DIR}/bench)
 target_include_directories(bench-run PRIVATE ${BENCHMARK_INCLUDE})
-target_link_libraries(bench-run benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME} s2)
+target_link_libraries(bench-run ${BENCH_LINK_LIBRARIES})
 
 #### Example Executables
 add_executable(example-kd "examples/cpp/example_kd.cpp")
