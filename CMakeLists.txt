@@ -29,21 +29,22 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Extras.txt)
 
 # Build Options
 option(WERROR "Add -Werror flag to build (turns warnings into errors)" OFF)
+option(WITH_S2_GEOMETRY "Build S2 Examples" OFF)
 
 # Configure optimization
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-set(OPTIMIZATION_FLAGS "-O0 -DDEBUG")
-message("-- Configuring debug build")
+    set(OPTIMIZATION_FLAGS "-O0 -DDEBUG")
+    message("-- Configuring debug build")
 else()
-set(OPTIMIZATION_FLAGS "-O3 -DNDEBUG")
-message("-- Configuring release build")
+    set(OPTIMIZATION_FLAGS "-O3 -DNDEBUG")
+    message("-- Configuring release build")
 endif()
 
 # Enable extra warnings to adhere to https://github.com/mapbox/cpp/issues/37
 set(DESIRED_WARNINGS "-Wall -Wextra -Wconversion -Wunreachable-code -Wuninitialized -pedantic-errors -Wold-style-cast -Wno-error=unused-variable -Wshadow -Wfloat-equal -Weffc++")
 set(MINIMAL_DESIRED_WARNINGS "-Wall -Wextra -pedantic-errors")
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Wmost")
+    set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Wmost")
 endif()
 separate_arguments(DESIRED_WARNINGS)
 separate_arguments(MINIMAL_DESIRED_WARNINGS)
@@ -51,7 +52,7 @@ separate_arguments(MINIMAL_DESIRED_WARNINGS)
 ### Set GLOBAL CMAKE_CXX_FLAGS
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTIMIZATION_FLAGS}")
 if (WERROR)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 endif()
 
 #### Project Dependencies
@@ -66,9 +67,10 @@ add_subdirectory("thirdparty/googletest")
 add_subdirectory("thirdparty/benchmark")
 add_subdirectory("thirdparty/Catch2")
 
-set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
-# set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
-add_subdirectory("thirdparty/s2geometry")
+if (${WITH_S2_GEOMETRY})
+    set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
+    add_subdirectory("thirdparty/s2geometry")
+endif()
 
 
 ### Set Project File List
@@ -99,7 +101,6 @@ PRIVATE src)
 
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
-# target_link_libraries_system(${PROJECT_NAME} s2)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GI_HEADER_FILES}")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSITION_INDEPENDENT_CODE ON)
 # find_program(CLANG_TIDY
@@ -112,7 +113,10 @@ add_executable(unit-tests ${TEST_SOURCES})
 target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2::Catch2 ${PROJECT_NAME} )
 
 #### Benchmark Executables
-file(GLOB BENCH_SOURCES bench/*.cpp)
+set(BENCH_SOURCES bench/run.cpp bench/hilbert_bench.cpp bench/kd_bench.cpp)
+if(${WITH_S2_GEOMETRY})
+    list(APPEND BENCH_SOURCES bench/s2_bench)
+endif()
 add_executable(bench-run ${BENCH_SOURCES})
 set(BENCHMARK_INCLUDE ${PROJECT_SOURCE_DIR}/bench)
 target_include_directories(bench-run PRIVATE ${BENCHMARK_INCLUDE})
@@ -123,8 +127,11 @@ add_executable(example-kd "examples/cpp/example_kd.cpp")
 target_link_libraries(example-kd ${PROJECT_NAME})
 add_executable(example-nano "examples/cpp/example_nano.cpp")
 target_link_libraries(example-nano ${PROJECT_NAME})
-add_executable(example-s2 "examples/cpp/example_s2.cpp")
-target_link_libraries(example-s2 ${PROJECT_NAME} s2)
+
+if(${WITH_S2_GEOMETRY})
+    add_executable(example-s2 "examples/cpp/example_s2.cpp")
+    target_link_libraries(example-s2 ${PROJECT_NAME} s2)
+endif()
 
 # Python Bindings
 if(NOT DEFINED PYPI_PACKAGE_NAME)
@@ -132,9 +139,3 @@ if(NOT DEFINED PYPI_PACKAGE_NAME)
 endif()
 add_subdirectory("thirdparty/pybind11")
 add_subdirectory(src/Python)
-
-# get_cmake_property(_variableNames VARIABLES)
-# list (SORT _variableNames)
-# foreach (_variableName ${_variableNames})
-#     message(STATUS "${_variableName}=${${_variableName}}")
-# endforeach()

@@ -96,31 +96,6 @@ static int32 FastIntRound(double x)
 #endif // if defined __GNUC__ && ...
 }
 
-static int64 FastInt64Round(double x)
-{
-#if defined __GNUC__ && (defined __i386__ || defined __x86_64__)
-#if defined __x86_64__
-    // SSE2.
-    int64 result;
-    __asm__ __volatile__("cvtsd2si %1, %0"
-                         : "=r"(result) // Output operand is a register
-                         : "x"(x));     // Input operand is an xmm register
-    return result;
-#elif defined __i386__
-    // There is no CVTSD2SI in i386 to produce a 64 bit int, even with SSE2.
-    // FPU stack.  Adapted from /usr/include/bits/mathinline.h.
-    int64 result;
-    __asm__ __volatile__("fistpll %0"
-                         : "=m"(result) // Output operand is a memory location
-                         : "t"(x)       // Input operand is top of FP stack
-                         : "st");       // Clobbers (pops) top of FP stack
-    return result;
-#endif // if defined __i386__
-#else
-    return Round<int64, double>(x);
-#endif // if defined __GNUC__ && ...
-}
-
 inline std::array<double, 3> Abs(const std::array<double, 3>& p)
 {
     using std::abs;
@@ -348,24 +323,24 @@ inline uint64 S2CellId(const std::array<double, 3>& p)
     return id;
 }
 
-inline uint64 FromFaceIJ_UINT32(int face, int i, int j)
-{
-    uint64 n = static_cast<uint64>(face) << (kPosBits - 1);
-    // TODO need to flip i,j on odd faces, but stopped because its not as fast as Googles hilbert curve, so whats the point
-    auto hv = static_cast<uint64>(Hilbert::hilbertXYToIndex(16, i, j));
-    return n + hv;
-}   
+// inline uint64 FromFaceIJ_UINT32(int face, int i, int j)
+// {
+//     uint64 n = static_cast<uint64>(face) << (kPosBits - 1);
+//     // TODO need to flip i,j on odd faces, but stopped because its not as fast as Googles hilbert curve, so whats the point
+//     auto hv = static_cast<uint64>(Hilbert::hilbertXYToIndex(16, i, j));
+//     return n + hv;
+// }   
 
-// NOT COMPLETED
-inline uint64 S2CellId_UINT32(const std::array<double, 3>& p)
-{
-    double u, v;
-    int face = XYZtoFaceUV(p, &u, &v);
-    int i = STtoIJ_UINT32(UVtoST(u));
-    int j = STtoIJ_UINT32(UVtoST(v));
-    uint64 id = FromFaceIJ_UINT32(face, i, j);
-    return id;
-}
+// // NOT COMPLETED
+// inline uint64 S2CellId_UINT32(const std::array<double, 3>& p)
+// {
+//     double u, v;
+//     int face = XYZtoFaceUV(p, &u, &v);
+//     int i = STtoIJ_UINT32(UVtoST(u));
+//     int j = STtoIJ_UINT32(UVtoST(v));
+//     uint64 id = FromFaceIJ_UINT32(face, i, j);
+//     return id;
+// }
 
 ///////////////////////////////////////////////
 //       End Public API Fuctions          ///
