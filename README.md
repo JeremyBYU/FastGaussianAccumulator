@@ -38,3 +38,25 @@ If you want to run the examples then you need to install the following (from mai
 
 1. `pip install -r requirements-dev.txt` 
 
+
+## Build with S2
+
+To build with S2 you must apply this patch first.
+
+```
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5ecd280..d67bf76 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -411,7 +411,7 @@ install(TARGETS s2 s2testing DESTINATION lib)
+
+ message("GTEST_ROOT: ${GTEST_ROOT}")
+ if (GTEST_ROOT)
+-  add_subdirectory(${GTEST_ROOT} build_gtest)
++#   add_subdirectory(${GTEST_ROOT} build_gtest)
+   include_directories(${GTEST_ROOT}/include)
+
+   set(S2TestFiles
+```
+
+Then enable the option for CMake.
