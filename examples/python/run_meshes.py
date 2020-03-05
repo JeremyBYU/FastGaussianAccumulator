@@ -234,7 +234,7 @@ def main():
     kwargs_opt = dict(**kwargs_base)
     kwargs_s2 = dict(**kwargs_base)
 
-    kwargs_opt_integrate = dict(num_nbr=10)
+    kwargs_opt_integrate = dict(num_nbr=12)
     # Get an Example Mesh
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
