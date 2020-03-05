@@ -8,9 +8,11 @@ function(target_link_libraries_system target)
 endfunction(target_link_libraries_system)
 
 macro(add_subdirectory_if_not_exists LIBRARY SUB_DIR)
-  if(NOT TARGET LIBRARY)
+  if(NOT TARGET ${LIBRARY})
       message("-- INFO - Trying to add ${LIBRARY} from thirdparty submodule")
       add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}")
+  else()
+      message("-- INFO - Skipping add_subdirectory(${LIBRARY}) because it has already been added")
   endif()
 endmacro(add_subdirectory_if_not_exists)
 
