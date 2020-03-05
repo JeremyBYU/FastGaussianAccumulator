@@ -7,6 +7,13 @@ function(target_link_libraries_system target)
   endforeach(lib)
 endfunction(target_link_libraries_system)
 
+macro(add_subdirectory_if_not_exists LIBRARY SUB_DIR)
+  if(NOT TARGET LIBRARY)
+      message("-- INFO - Trying to add ${LIBRARY} from thirdparty submodule")
+      add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}")
+  endif()
+endmacro(add_subdirectory_if_not_exists)
+
 # get_cmake_property(_variableNames VARIABLES)
 # list (SORT _variableNames)
 # foreach (_variableName ${_variableNames})

@@ -25,10 +25,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # CMake Functions
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Extras.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Extras.cmake)
 
 # Build Options
 option(WERROR "Add -Werror flag to build (turns warnings into errors)" OFF)
+option(GA_BUILD_PYMODULE "Build Python Module" ON)
 option(WITH_S2_GEOMETRY "Build S2 Examples" OFF)
 
 # Configure optimization
@@ -63,15 +64,14 @@ set(BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
 add_subdirectory("thirdparty/nanoflann")
 ### Google Testing and Benchmarks Libraries
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library." FORCE)
-add_subdirectory("thirdparty/googletest")
-add_subdirectory("thirdparty/benchmark")
-add_subdirectory("thirdparty/Catch2")
-
+add_subdirectory_if_not_exists(gtest_main "thirdparty/googletest")
+add_subdirectory_if_not_exists(benchmark::benchmark "thirdparty/benchmark")
+add_subdirectory_if_not_exists(Catch2::Catch2 "thirdparty/Catch2")
+### If buidling with S2
 if (${WITH_S2_GEOMETRY})
     set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
-    add_subdirectory("thirdparty/s2geometry")
+    add_subdirectory_if_not_exists(s2 "thirdparty/s2geometry")
 endif()
-
 
 ### Set Project File List
 set(GI_SRC_DIR "${PROJECT_SOURCE_DIR}/src/FastGA")
@@ -110,7 +110,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} POSI
 #### Testing Executables
 file(GLOB TEST_SOURCES test/*.cpp)
 add_executable(unit-tests ${TEST_SOURCES})
-target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2::Catch2 ${PROJECT_NAME} )
+target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2::Catch2 ${PROJECT_NAME})
 
 #### Benchmark Executables
 set(BENCH_SOURCES bench/run.cpp bench/hilbert_bench.cpp bench/kd_bench.cpp)
@@ -135,9 +135,11 @@ if(${WITH_S2_GEOMETRY})
     target_link_libraries(example-s2 ${PROJECT_NAME} s2)
 endif()
 
-# Python Bindings
-if(NOT DEFINED PYPI_PACKAGE_NAME)
-    set(PYPI_PACKAGE_NAME "fastga")
+if(${GA_BUILD_PYMODULE})
+    # Python Bindings
+    if(NOT DEFINED PYPI_PACKAGE_NAME)
+        set(PYPI_PACKAGE_NAME "fastga")
+    endif()
+    add_subdirectory("thirdparty/pybind11")
+    add_subdirectory(src/Python)
 endif()
-add_subdirectory("thirdparty/pybind11")
-add_subdirectory(src/Python)
