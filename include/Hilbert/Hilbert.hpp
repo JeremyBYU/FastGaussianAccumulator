@@ -1,8 +1,8 @@
 // From https://github.com/rawrunprotected/hilbert_curves/blob/master/hilbert_curves.cpp
 // LICENSE - Public Domain
-#include <cstdint>
 #ifndef HILBERT_HPP
 #define HILBERT_HPP
+#include <cstdint>
 
 namespace Hilbert {
 

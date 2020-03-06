@@ -4,6 +4,8 @@
  */
 #ifndef FASTGA_HPP
 #define FASTGA_HPP
+#define _USE_MATH_DEFINES
+#include <cmath> 
 
 #include "FastGA/FastGA.hpp"
 #include "FastGA/Helper.hpp"

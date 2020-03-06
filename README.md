@@ -24,7 +24,7 @@ This project uses CMake. You can build using the provided Makefile which will ca
 
 1. `mkdir cmake-build && cd cmake-build` 
 2. `cd cmake-build` 
-3. `cmake ../ -DCMAKE_BUILD_TYPE=Release -DWERROR=0` 
+3. `cmake ../ -DCMAKE_BUILD_TYPE=Release -DWERROR=0`. For windows also add `-DCMAKE_GENERATOR_PLATFORM=x64`
 4. `cmake --build . -j$(nproc)` 
 
 ### Python

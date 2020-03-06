@@ -23,7 +23,7 @@
 
 #ifndef NANOS2ID_HPP
 #define NANOS2ID_HPP
-
+#include <array>
 #include <algorithm>
 #include <type_traits>
 #include <cmath>
@@ -94,6 +94,16 @@ const int kPosToOrientation[4] = {
 ///////////////////////////////////////////////
 //      Start Math Utility Functions         //
 ///////////////////////////////////////////////
+
+
+template <class IntOut, class FloatIn>
+static IntOut Round(FloatIn x) {
+    // We don't use sgn(x) below because there is no need to distinguish the
+    // (x == 0) case.  Also note that there are specialized faster versions
+    // of this function for Intel processors at the bottom of this file.
+    return static_cast<IntOut>(x < 0 ? (x - 0.5) : (x + 0.5));
+}
+
 static int32 FastIntRound(double x)
 {
 

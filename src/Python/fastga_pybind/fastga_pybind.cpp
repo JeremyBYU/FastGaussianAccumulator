@@ -35,12 +35,13 @@ PYBIND11_MODULE(fastga, m)
         // .def(py::init([](py::array_t<double, py::array::c_style> my_array) {return FastGA::MatX3d();} ))
         .def(py::init(&py_array_to_vectors<double, 3>))
         .def_buffer([](FastGA::MatX3d& m) -> py::buffer_info {
+            const size_t cols = 3;
             return py::buffer_info(
                 m.data(),                                /* Pointer to buffer */
                 sizeof(double),                          /* Size of one scalar */
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
-                2L,                                      /* Number of dimensions */
-                {m.size(), 3UL},                         /* Buffer dimensions */
+                2UL,                                      /* Number of dimensions */
+                {m.size(), cols},                         /* Buffer dimensions */
                 {sizeof(double) * 3,                     /* Strides (in bytes) for each index */
                  sizeof(double)});
         })
@@ -53,24 +54,26 @@ PYBIND11_MODULE(fastga, m)
 
     py::class_<FastGA::MatX3I>(m, "MatX3I", py::buffer_protocol())
         .def_buffer([](FastGA::MatX3I& m) -> py::buffer_info {
+            const size_t cols = 3;
             return py::buffer_info(
                 m.data(),                                /* Pointer to buffer */
                 sizeof(size_t),                          /* Size of one scalar */
                 py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
-                2L,                                      /* Number of dimensions */
-                {m.size(), 3UL},                         /* Buffer dimensions */
+                2UL,                                      /* Number of dimensions */
+                {m.size(), cols},                         /* Buffer dimensions */
                 {sizeof(size_t) * 3,                     /* Strides (in bytes) for each index */
                  sizeof(size_t)});
         });
 
     py::class_<FastGA::MatX2d>(m, "MatX2d", py::buffer_protocol())
         .def_buffer([](FastGA::MatX2d& m) -> py::buffer_info {
+            const size_t cols = 3;
             return py::buffer_info(
                 m.data(),                                /* Pointer to buffer */
                 sizeof(double),                          /* Size of one scalar */
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
-                2L,                                      /* Number of dimensions */
-                {m.size(), 2UL},                         /* Buffer dimensions */
+                2UL,                                      /* Number of dimensions */
+                {m.size(), cols},                         /* Buffer dimensions */
                 {sizeof(double) * 2,                     /* Strides (in bytes) for each index */
                  sizeof(double)});
         });

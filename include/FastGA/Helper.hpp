@@ -1,5 +1,7 @@
 #ifndef FASTGA_HELPER_HPP
 #define FASTGA_HELPER_HPP
+#define _USE_MATH_DEFINES
+#include <cmath> 
 
 #include <cmath>
 #include <vector>
@@ -18,9 +20,9 @@
 #include "Hilbert/Hilbert.hpp"
 #include "NanoS2ID/NanoS2ID.hpp"
 
-// #include "str"
-
-#define _USE_MATH_DEFINES
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 #define degreesToRadians(angleDegrees) ((angleDegrees)*M_PI / 180.0)
 #define radiansToDegrees(angleRadians) ((angleRadians)*180.0 / M_PI)
 
@@ -210,7 +212,7 @@ inline void normalize3(double* normal)
 template <class T, int dim>
 std::array<T, dim> Mean(std::array<T, dim>& a, std::array<T, dim>& b)
 {
-    std::array<T, dim> mean;
+    std::array<T, dim> mean = {{0, 0, 0}};
     for (size_t i = 0; i < a.size(); i++)
     {
         mean[i] = (a[i] + b[i]) / 2.0;
