@@ -251,16 +251,19 @@ def main():
         example_mesh = o3d.io.read_triangle_mesh(str(mesh_fpath))
         if r is not None:
             example_mesh = example_mesh.rotate(r.as_matrix())
-        example_mesh.compute_triangle_normals()
+        example_mesh_filtered = example_mesh
+        # example_mesh_filtered = example_mesh.filter_smooth_taubin(1)
+        # example_mesh_filtered = example_mesh.filter_smooth_simple(2)
+        example_mesh_filtered.compute_triangle_normals()
 
         colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(
-            ga_py_kdd, example_mesh, max_phi=query_max_phi)
+            ga_py_kdd, example_mesh_filtered, max_phi=query_max_phi)
         colored_icosahedron_cpp, normals, neighbors_cpp = visualize_gaussian_integration(
-            ga_cpp_kdd, example_mesh, max_phi=query_max_phi)
+            ga_cpp_kdd, example_mesh_filtered, max_phi=query_max_phi)
         colored_icosahedron_opt, normals, neighbors_opt = visualize_gaussian_integration(
-            ga_cpp_opt, example_mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
+            ga_cpp_opt, example_mesh_filtered, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
         colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(
-            ga_cpp_s2, example_mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
+            ga_cpp_s2, example_mesh_filtered, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
 
         idx_opt, = np.nonzero(neighbors_opt.astype(np.int64) - neighbors_cpp.astype(np.int64))
         print("Fast GaussianAccumulatorOpt (Hemisphere) incorrectly assigned : {}".format(idx_opt.shape[0]))
@@ -275,7 +278,7 @@ def main():
             # plot_issues_2(idx_opt, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
 
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp,
-                    colored_icosahedron_opt, colored_icosahedron_s2, example_mesh)
+                    colored_icosahedron_opt, colored_icosahedron_s2, example_mesh_filtered)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=True)
