@@ -228,22 +228,30 @@ void ScaleArrayInPlace(std::vector<std::array<T, dim>>& array, T scalar)
 }
 
 template<class T>
-inline void AzimuthProjectionXYZ(const double* xyz, T* xy)
+inline void AzimuthEqualAreaProjectionXYZ(const double* xyz, T* xy)
 {
-    double phi = acos(xyz[2]);
-    double scale = 0.0;
-    if (phi < EPSILON)
-    {
-        scale = 0.0;
-    }
-    else
-    {
-        scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
-    }
-    // scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
-    xy[0] = static_cast<T>(phi * xyz[1] * scale);
-    xy[1] = static_cast<T>(-phi * xyz[0] * scale);
+    T top = std::sqrt(2.0 / (1 + xyz[2]));
+    xy[0] = top * xyz[0];
+    xy[1] = top * xyz[1];
 }
+
+// template<class T>
+// inline void AzimuthEqualDistantProjectionXYZ(const double* xyz, T* xy)
+// {
+//     double phi = acos(xyz[2]);
+//     double scale = 0.0;
+//     if (phi < EPSILON)
+//     {
+//         scale = 0.0;
+//     }
+//     else
+//     {
+//         scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
+//     }
+//     // scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
+//     xy[0] = static_cast<T>(phi * xyz[1] * scale);
+//     xy[1] = static_cast<T>(-phi * xyz[0] * scale);
+// }
 
 template<class T>
 inline void ScaleXYToUInt32(const T* xy, uint32_t* scale, T min_x, T min_y, T x_range, T y_range)
@@ -276,7 +284,7 @@ inline BBOX InitializeProjection(const MatX3d& normals, MatX2d& projection)
     double max_y = std::numeric_limits<double>::lowest();
     for (size_t i = 0; i < N; i++)
     {
-        AzimuthProjectionXYZ(&(normals[i][0]), &(projection[i][0]));
+        AzimuthEqualAreaProjectionXYZ(&(normals[i][0]), &(projection[i][0]));
         if (projection[i][0] < min_x)
         {
             min_x = projection[i][0];
@@ -309,7 +317,7 @@ inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
     for (size_t i = 0; i < N; i++)
     {
         auto &projection = buckets[i].projection;
-        AzimuthProjectionXYZ(&(buckets[i].normal[0]), &projection[0]);
+        AzimuthEqualAreaProjectionXYZ(&(buckets[i].normal[0]), &projection[0]);
         if (projection[0] < min_x)
         {
             min_x = projection[0];

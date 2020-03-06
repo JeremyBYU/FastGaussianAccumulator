@@ -45,13 +45,26 @@ class Normals : public benchmark::Fixture
 BENCHMARK_DEFINE_F(Normals, BM_ProjectXYZ_TO_XY)
 (benchmark::State& st)
 {
-    std::vector<uint32_t> hilbert_values(N);
-    // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
     for (auto _ : st)
     {
         projected_bounds = FastGA::Helper::InitializeProjection(normals, projection);
     }
 }
+
+// Benchmarks showed that EqualArea is Faster than Equal Distant
+// BENCHMARK_DEFINE_F(Normals, BM_Project_AEA_XYZ_TO_XY)
+// (benchmark::State& st)
+// {
+//     for (auto _ : st)
+//     {
+//         for(size_t i =0; i< normals.size(); i++)
+//         {
+//             auto &normal = normals[i];
+//             auto &proj = projection[i];
+//             FastGA::Helper::AzimuthEqualAreaProjectionXYZ<double>(&normal[0], &(proj[0]));
+//         }
+//     }
+// }
 
 BENCHMARK_DEFINE_F(Normals, BM_MeanTwoPointsBaseline)
 (benchmark::State& st)
@@ -114,6 +127,7 @@ BENCHMARK_DEFINE_F(Normals, BM_NormalsToHilbert)
 
 BENCHMARK_REGISTER_F(Normals, BM_MeanTwoPointsBaseline)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_ProjectXYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
+// BENCHMARK_REGISTER_F(Normals, BM_Project_AEA_XYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_ScaleXYToUInt32)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_HilbertXY32)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_NormalsToHilbert)->UseRealTime()->Unit(benchmark::kMicrosecond);

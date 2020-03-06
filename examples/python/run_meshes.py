@@ -278,7 +278,7 @@ def main():
                     colored_icosahedron_opt, colored_icosahedron_s2, example_mesh)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
-        pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt)
+        pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=True)
         pcd_cpp_s2 = plot_hilbert_curve(ga_cpp_s2)
 
         normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())

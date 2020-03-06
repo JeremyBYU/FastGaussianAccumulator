@@ -6,7 +6,6 @@
 #define FASTGA_HPP
 
 #include "FastGA/FastGA.hpp"
-#include "FastGA/FastGAS2.hpp"
 #include "FastGA/Helper.hpp"
 #include "NanoS2ID/NanoS2ID.hpp"
 #endif

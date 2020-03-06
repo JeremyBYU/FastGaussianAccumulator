@@ -60,19 +60,17 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
   protected:
 };
 
-// class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
-// {
 
-//   public:
-//     MatX12I bucket_neighbors;
-//     GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
-//     std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
+{
 
-//   protected:
-// };
+  public:
+    MatX12I bucket_neighbors;
+    GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+    std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
 
-// template class FastGA::GaussianAccumulator<uint64_t>;
-// template class FastGA::GaussianAccumulator<uint32_t>;
+  protected:
+};
 
 } // namespace FastGA
 #endif
