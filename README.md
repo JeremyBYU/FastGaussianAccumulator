@@ -60,3 +60,9 @@ index 5ecd280..d67bf76 100644
 ```
 
 Then enable the option for CMake.
+
+
+## Profiling
+
+1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000`
+2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof`

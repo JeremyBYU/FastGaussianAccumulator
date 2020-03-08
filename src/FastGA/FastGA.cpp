@@ -196,7 +196,9 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
         auto upper_idx = std::upper_bound(buckets.begin(), buckets.end(), to_find);
         auto lower_idx = upper_idx - 1;
         if (upper_idx == buckets.end())
-            upper_idx = buckets.begin();
+            upper_idx = lower_idx;
+        else if (upper_idx == buckets.begin())
+            lower_idx = upper_idx;
 
         auto lower_dist = Helper::SquaredDistance(normal, lower_idx->normal);
         auto upper_dist = Helper::SquaredDistance(normal, upper_idx->normal);
@@ -268,37 +270,23 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
     for (size_t i = 0; i < normals.size(); i++)
     {
         auto& normal = normals[i];
-
-        // auto before = std::chrono::high_resolution_clock::now();
-        // S2Point s2_point(normal[0], normal[1], normal[2]);
-        // S2CellId s2_id(s2_point);
-        // to_find.hilbert_value = s2_id.id();
         to_find.hilbert_value = NanoS2ID::S2CellId(normal);
-        // auto after = std::chrono::high_resolution_clock::now();
-        // float elapsed_d = static_cast<std::chrono::duration<float, std::milli>>(after - before).count();
-        // total_hv_creation += elapsed_d;
-
-        // before = std::chrono::high_resolution_clock::now();
         auto upper_idx = std::upper_bound(buckets.begin(), buckets.end(), to_find);
-        // after = std::chrono::high_resolution_clock::now();
-        // elapsed_d = static_cast<std::chrono::duration<float, std::milli>>(after - before).count();
-        // total_binary_search += elapsed_d;
-
         auto lower_idx = upper_idx - 1;
         if (upper_idx == buckets.end())
-            upper_idx = buckets.begin();
+            upper_idx = lower_idx;
+        else if (upper_idx == buckets.begin())
+            lower_idx = upper_idx;
 
         auto lower_dist = Helper::SquaredDistance(normal, lower_idx->normal);
         auto upper_dist = Helper::SquaredDistance(normal, upper_idx->normal);
         // Best idx chosen
         centered_tri_iter = lower_idx;
         best_bucket_dist = lower_dist;
-        // min_distances[0] = lower_dist;
         if (lower_dist > upper_dist)
         {
             centered_tri_iter = upper_idx;
             best_bucket_dist = upper_dist;
-            // min_distances[0] = upper_dist;
         }
         centered_tri_idx = std::distance(buckets.begin(), centered_tri_iter);
         best_bucket_idx = centered_tri_idx;

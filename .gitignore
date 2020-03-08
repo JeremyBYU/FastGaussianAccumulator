@@ -1,3 +1,4 @@
+*.prof
 fixtures
 .DS_Store
 mason_packages

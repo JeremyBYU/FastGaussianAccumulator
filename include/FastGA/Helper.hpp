@@ -1,7 +1,7 @@
 #ifndef FASTGA_HELPER_HPP
 #define FASTGA_HELPER_HPP
 #define _USE_MATH_DEFINES
-#include <cmath> 
+#include <cmath>
 
 #include <cmath>
 #include <vector>
@@ -26,25 +26,28 @@
 #define degreesToRadians(angleDegrees) ((angleDegrees)*M_PI / 180.0)
 #define radiansToDegrees(angleRadians) ((angleRadians)*180.0 / M_PI)
 
-
 template <typename T>
-std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
-  if ( !v.empty() ) {
-    out << '[';
-    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-    out << "\b\b]";
-  }
-  return out;
+std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
+{
+    if (!v.empty())
+    {
+        out << '[';
+        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+        out << "\b\b]";
+    }
+    return out;
 }
 
 template <typename T>
-std::ostream& operator<< (std::ostream& out, const std::array<T, 3>& v) {
-  if ( !v.empty() ) {
-    out << '[';
-    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-    out << "\b\b]";
-  }
-  return out;
+std::ostream& operator<<(std::ostream& out, const std::array<T, 3>& v)
+{
+    if (!v.empty())
+    {
+        out << '[';
+        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+        out << "\b\b]";
+    }
+    return out;
 }
 
 namespace FastGA {
@@ -56,7 +59,7 @@ using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2I = std::vector<std::array<size_t, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
 
-template<class T>
+template <class T>
 struct Bucket
 {
     std::array<double, 3> normal;
@@ -64,7 +67,7 @@ struct Bucket
     T hilbert_value;
     std::array<double, 2> projection;
     // Bucket(const std::array<double, 3> normal_, uint32_t count_, T hilbert_value_, const std::array<double, 2> projection_): normal(normal_), count(count_), hilbert_value(hilbert_value_), projection(projection_) {}
-    bool operator<(const Bucket & other) const
+    bool operator<(const Bucket& other) const
     {
         return hilbert_value < other.hilbert_value;
     }
@@ -84,17 +87,17 @@ inline std::vector<std::size_t> sort_permutation(
     std::vector<std::size_t> p(vec.size());
     std::iota(p.begin(), p.end(), 0);
     std::sort(p.begin(), p.end(),
-        [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
+              [&](std::size_t i, std::size_t j) { return compare(vec[i], vec[j]); });
     return p;
 }
 
-template <typename T> 
-inline T SquaredDistance(const std::array<T, 3> &a, const std::array<T, 3> &b)
+template <typename T>
+inline T SquaredDistance(const std::array<T, 3>& a, const std::array<T, 3>& b)
 {
     auto x = (a[0] - b[0]);
     auto y = (a[1] - b[1]);
     auto z = (a[2] - b[2]);
-    return x*x + y*y + z*z;
+    return x * x + y * y + z * z;
 }
 
 template <typename T>
@@ -115,6 +118,33 @@ inline std::vector<T> BubbleDownMask(const std::vector<T>& vec, std::vector<uint
     }
     start.insert(start.end(), end.begin(), end.end());
     return start;
+}
+
+template <class T>
+std::tuple<double, double> LinearRegression(const std::vector<T>& x, const std::vector<T>& y)
+{
+    if (x.size() != y.size())
+    {
+        throw std::exception("Arguments must be the same size");
+    }
+    size_t n = x.size();
+
+    double x_bar = std::accumulate(x.begin(), x.end(), 0.0) / n;
+    double y_bar = std::accumulate(y.begin(), y.end(), 0.0) / n;
+
+    double numerator = 0.0;
+    double denominator = 0.0;
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        numerator += (x[i] - x_bar) * (y[i] - y_bar);
+        denominator += (x[i] - x_bar) * (x[i] - x_bar);
+    }
+
+    double slope = numerator / denominator;
+    double intercept = y_bar - slope * x_bar;
+
+    return std::make_tuple(slope, intercept);
 }
 
 template <typename T>
@@ -149,7 +179,7 @@ inline std::vector<T> ApplyPermutation(
 {
     std::vector<T> sorted_vec(p.size());
     std::transform(p.begin(), p.end(), sorted_vec.begin(),
-        [&](std::size_t i){ return vec[i]; });
+                   [&](std::size_t i) { return vec[i]; });
     sorted_vec.insert(sorted_vec.end(), vec.begin() + p.size(), vec.end());
     return sorted_vec;
 }
@@ -229,7 +259,7 @@ void ScaleArrayInPlace(std::vector<std::array<T, dim>>& array, T scalar)
     }
 }
 
-template<class T>
+template <class T>
 inline void AzimuthEqualAreaProjectionXYZ(const double* xyz, T* xy)
 {
     T top = std::sqrt(2.0 / (1 + xyz[2]));
@@ -255,7 +285,7 @@ inline void AzimuthEqualAreaProjectionXYZ(const double* xyz, T* xy)
 //     xy[1] = static_cast<T>(-phi * xyz[0] * scale);
 // }
 
-template<class T>
+template <class T>
 inline void ScaleXYToUInt32(const T* xy, uint32_t* scale, T min_x, T min_y, T x_range, T y_range)
 {
     // TODO UINT Overflow, need min and max
@@ -270,7 +300,7 @@ inline void ScaleXYToUInt32(const T* xy, uint32_t* scale, T min_x, T min_y, T x_
     scale[1] = static_cast<uint32_t>(scale_y * HILBERT_MAX_32);
 }
 
-template<class T>
+template <class T>
 inline void AzimuthProjectionPhiTheta(T* pt, T* xy)
 {
     xy[0] = pt[0] * sin(pt[1]);
@@ -308,8 +338,8 @@ inline BBOX InitializeProjection(const MatX3d& normals, MatX2d& projection)
     return {min_x, min_y, max_x, max_y};
 }
 
-template<class T>
-inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
+template <class T>
+inline BBOX InitializeProjection(std::vector<Bucket<T>>& buckets)
 {
     size_t N = buckets.size();
     double min_x = std::numeric_limits<double>::max();
@@ -318,7 +348,7 @@ inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
     double max_y = std::numeric_limits<double>::lowest();
     for (size_t i = 0; i < N; i++)
     {
-        auto &projection = buckets[i].projection;
+        auto& projection = buckets[i].projection;
         AzimuthEqualAreaProjectionXYZ(&(buckets[i].normal[0]), &projection[0]);
         if (projection[0] < min_x)
         {
@@ -341,7 +371,7 @@ inline BBOX InitializeProjection(std::vector<Bucket<T>> &buckets)
     return {min_x, min_y, max_x, max_y};
 }
 
-inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(const MatX3d& normals, BBOX &bbox)
+inline std::tuple<MatX2d, std::vector<uint32_t>> ConvertNormalsToHilbert(const MatX3d& normals, BBOX& bbox)
 {
     size_t N = normals.size();
     MatX2d projection(N);
@@ -367,7 +397,7 @@ inline std::vector<uint64_t> ConvertNormalsToS2ID(const MatX3d& normals)
     std::vector<uint64_t> s2_ids(N);
     for (size_t i = 0; i < N; i++)
     {
-        auto &normal = normals[i];
+        auto& normal = normals[i];
         s2_ids[i] = NanoS2ID::S2CellId(normal);
     }
     return s2_ids;

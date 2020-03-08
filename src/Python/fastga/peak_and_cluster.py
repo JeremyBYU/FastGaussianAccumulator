@@ -40,6 +40,10 @@ def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_tota
         clusters_averaged.append(avg_point)
         clusters_total_weight.append(total_weight)
     normals = np.array(clusters_averaged)
+    weights = np.array(clusters_total_weight)
     normals, _ = normalized(normals)
+    idx = np.argsort(weights)[::-1]
+    normals = normals[idx]
+    weights = weights[idx]
 
-    return normals, np.array(clusters_total_weight)
+    return normals, weights

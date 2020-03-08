@@ -244,7 +244,7 @@ def main():
     query_max_phi = kwargs_base['max_phi'] - 5
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 0:
+        if i < 1:
             continue
         fname = mesh_fpath.stem
         # print(fname)

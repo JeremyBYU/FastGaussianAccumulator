@@ -34,6 +34,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Extras.cmake)
 option(WERROR "Add -Werror flag to build (turns warnings into errors)" OFF)
 option(GA_BUILD_PYMODULE "Build Python Module" ON)
 option(WITH_S2_GEOMETRY "Build S2 Examples" OFF)
+option(WITH_PROFILE "Enable Profiling" ON)
 
 # Configure optimization
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -74,6 +75,12 @@ add_subdirectory_if_not_exists(Catch2::Catch2 "thirdparty/Catch2")
 if (${WITH_S2_GEOMETRY})
     set(GTEST_ROOT "${PROJECT_SOURCE_DIR}/thirdparty/googletest/googletest" CACHE STRING "" FORCE)
     add_subdirectory_if_not_exists(s2 "thirdparty/s2geometry")
+endif()
+# OPTION Build Profiing Binary
+if (WITH_PROFILE)
+    MESSAGE(STATUS "Building with Profiling Enabled")
+    set (Gperftools_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake/")
+    find_package(Gperftools REQUIRED)
 endif()
 
 ### Set Project File List
@@ -129,7 +136,7 @@ target_link_libraries(bench-run ${BENCH_LINK_LIBRARIES})
 
 #### Example Executables
 add_executable(example-kd "examples/cpp/example_kd.cpp")
-target_link_libraries(example-kd ${PROJECT_NAME})
+target_link_libraries(example-kd ${PROJECT_NAME} ${GPERFTOOLS_PROFILER})
 add_executable(example-nano "examples/cpp/example_nano.cpp")
 target_link_libraries(example-nano ${PROJECT_NAME})
 
