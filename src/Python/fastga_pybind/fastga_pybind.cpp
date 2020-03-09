@@ -151,7 +151,7 @@ PYBIND11_MODULE(fastga, m)
     py::class_<FastGA::GaussianAccumulatorOpt,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
         .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorOpt::bucket_neighbors)
-        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a=FastGA_TRI_NBRS)
+        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate2, "normals"_a, "num_nbr"_a=FastGA_TRI_NBRS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorOpt& a) {
                  return "<FastGA::GAOPT; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";

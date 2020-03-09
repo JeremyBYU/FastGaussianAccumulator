@@ -7,8 +7,10 @@
 #include <vector>
 #include <cstdint>
 #include <limits>
+#include <climits>
 #include <tuple>
 #include <iostream>
+#include <type_traits>
 #include <ostream>
 #include <iterator>
 #include <algorithm>
@@ -58,7 +60,24 @@ using MatX12I = std::vector<std::array<size_t, 12>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2I = std::vector<std::array<size_t, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
-
+struct Regression
+{
+    double slope;
+    double intercept;
+    int pos_error;
+    int neg_error;
+    int subtract_index;
+    int to_index;
+    int PredictSlope(uint32_t value)
+    {
+        return static_cast<int>(intercept + slope * static_cast<double>(value));
+    }
+    int PredictSlope(uint64_t value)
+    {
+        return static_cast<int>(intercept + slope * static_cast<double>(value));
+    }
+};
+constexpr size_t max_limit = std::numeric_limits<size_t>::max();
 template <class T>
 struct Bucket
 {
@@ -76,8 +95,18 @@ struct Bucket
 namespace Helper {
 
 const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint16_t>::max();
-
 const static double EPSILON = 1e-5;
+
+template <typename UnsignedType>
+UnsignedType round_up_to_power_of_2(UnsignedType v) {
+  static_assert(std::is_unsigned<UnsignedType>::value, "Only works for unsigned types");
+  v--;
+  for (size_t i = 1; i < sizeof(v) * CHAR_BIT; i *= 2) //Prefer size_t "Warning comparison between signed and unsigned integer"
+  {
+    v |= v >> i;
+  }
+  return ++v;
+}
 
 template <typename T, typename Compare>
 inline std::vector<std::size_t> sort_permutation(
@@ -119,32 +148,62 @@ inline std::vector<T> BubbleDownMask(const std::vector<T>& vec, std::vector<uint
     start.insert(start.end(), end.begin(), end.end());
     return start;
 }
+template <class T>
+double MovingAverage(const std::vector<T>& x)
+{
+    double moving_average = 0.0;
+    for (size_t i = 0; i < x.size(); i++)
+    {
+        moving_average += (static_cast<double>(x[i]) - moving_average) / static_cast<double>(i + 1);
+    }
+    return moving_average;
+}
 
 template <class T>
-std::tuple<double, double> LinearRegression(const std::vector<T>& x, const std::vector<T>& y)
+void LinearRegression(const std::vector<T>& x, const std::vector<T>& y, Regression& r)
 {
     if (x.size() != y.size())
     {
-        throw std::exception("Arguments must be the same size");
+        throw std::runtime_error("Arguments must be the same size");
     }
     size_t n = x.size();
 
-    double x_bar = std::accumulate(x.begin(), x.end(), 0.0) / n;
-    double y_bar = std::accumulate(y.begin(), y.end(), 0.0) / n;
+    double x_bar = MovingAverage(x);
+    double y_bar = MovingAverage(y);
 
     double numerator = 0.0;
     double denominator = 0.0;
 
     for (size_t i = 0; i < n; ++i)
     {
-        numerator += (x[i] - x_bar) * (y[i] - y_bar);
-        denominator += (x[i] - x_bar) * (x[i] - x_bar);
+        numerator += (static_cast<double>(x[i]) - x_bar) * (static_cast<double>(y[i]) - y_bar);
+        denominator += (static_cast<double>(x[i]) - x_bar) * (static_cast<double>(x[i]) - x_bar);
     }
 
     double slope = numerator / denominator;
     double intercept = y_bar - slope * x_bar;
 
-    return std::make_tuple(slope, intercept);
+    // Set slope and intercept
+    r.intercept = intercept;
+    r.slope = slope;
+    // Determine worst bounds of predictions
+    int neg_error = 10000000;
+    int pos_error = -10000000;
+    for (size_t i = 0; i < n; ++i)
+    {
+        auto predicted = r.PredictSlope(x[i]);
+        auto error = predicted - static_cast<int>(y[i]);
+        if (error < neg_error)
+            neg_error = error;
+        if (error > pos_error)
+            pos_error = error;
+    }
+    r.pos_error = pos_error;
+    r.neg_error = neg_error;
+    // Get power of 2 bounds
+    auto max_val = static_cast<uint32_t>(std::abs(r.pos_error) + std::abs(r.neg_error));
+    r.to_index = round_up_to_power_of_2(max_val);
+    r.subtract_index = r.to_index / 2;
 }
 
 template <typename T>

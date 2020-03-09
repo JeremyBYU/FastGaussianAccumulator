@@ -33,7 +33,11 @@ def plot_indices(ga_opt, ga_s2):
     plt.show()
 
 def calc_linear_regression(bucket_positions, indices, ax):
+    max_hv = np.max(indices)
+    min_hv = np.min(indices)
+    print("max, min", max_hv, min_hv)
     slope, intercept, r_value, p_value, std_err = stats.linregress(indices, bucket_positions)
+    print("Slope and Intercept", slope, intercept)
     predicted = intercept + slope*indices
     ax.plot(indices, predicted, 'g', label=r'Fitted Line, $R^2$ = {:.1}'.format(r_value))
     # Plot Error

@@ -6,7 +6,7 @@
 #include "FastGA/FastGA.hpp"
 #include "Hilbert/Hilbert.hpp"
 #include <benchmark/benchmark.h>
-
+#define max_phi 180.0
 class Normals : public benchmark::Fixture
 {
   public:
@@ -21,7 +21,7 @@ class Normals : public benchmark::Fixture
     void SetUp(const ::benchmark::State& state)
     {
         // generate N random numbers
-        initialize_normals();
+        initialize_normals(max_phi - 5.0);
         projected_bounds = FastGA::Helper::InitializeProjection(normals, projection);
     }
     void initialize_normals(double max_phi_degrees = 95)
@@ -45,7 +45,7 @@ class Normals : public benchmark::Fixture
 BENCHMARK_DEFINE_F(Normals, BM_FastGAKD)
 (benchmark::State& st)
 {
-    FastGA::GaussianAccumulatorKD GA = FastGA::GaussianAccumulatorKD(4, 100.0, st.range(0));
+    FastGA::GaussianAccumulatorKD GA = FastGA::GaussianAccumulatorKD(4, max_phi, st.range(0));
     // float eps = 0.1 * st.range(1);
     for (auto _ : st)
     {
@@ -56,17 +56,37 @@ BENCHMARK_DEFINE_F(Normals, BM_FastGAKD)
 BENCHMARK_DEFINE_F(Normals, BM_FastGAOpt)
 (benchmark::State& st)
 {
-    FastGA::GaussianAccumulatorOpt GA = FastGA::GaussianAccumulatorOpt(4, 100.0);
+    FastGA::GaussianAccumulatorOpt GA = FastGA::GaussianAccumulatorOpt(4, max_phi);
     for (auto _ : st)
     {
         auto test = GA.Integrate(normals, st.range(0));
     }
 }
 
+// BENCHMARK_DEFINE_F(Normals, BM_FastGAOpt2)
+// (benchmark::State& st)
+// {
+//     FastGA::GaussianAccumulatorOpt GA = FastGA::GaussianAccumulatorOpt(4, max_phi);
+//     for (auto _ : st)
+//     {
+//         auto test = GA.Integrate2(normals, st.range(0));
+//     }
+// }
+
 BENCHMARK_DEFINE_F(Normals, BM_FastGAS2)
 (benchmark::State& st)
 {
-    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, 100.0);
+    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
+    for (auto _ : st)
+    {
+        auto test = GA.Integrate(normals, st.range(0));
+    }
+}
+
+BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Interpolate)
+(benchmark::State& st)
+{
+    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
     for (auto _ : st)
     {
         auto test = GA.Integrate(normals, st.range(0));
@@ -77,4 +97,6 @@ BENCHMARK_DEFINE_F(Normals, BM_FastGAS2)
 BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{8, 8}, {2, 20}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+// BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Normals, BM_FastGAS2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Interpolate)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
