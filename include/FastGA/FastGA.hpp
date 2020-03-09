@@ -15,7 +15,7 @@
 #define FastGA_EXHAUSTIVE 0
 #define FastGA_TRI_NBRS 12
 namespace FastGA {
-template<class T>
+template <class T>
 class GaussianAccumulator
 {
 
@@ -43,7 +43,7 @@ class GaussianAccumulatorKD : public GaussianAccumulator<uint32_t>
 
   public:
     GaussianAccumulatorKD(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI, const size_t max_leaf_size = FastGA_MAX_LEAF_SIZE);
-    std::vector<size_t> Integrate(const MatX3d &normals, const float eps = FastGA_KDTREE_EPS);
+    std::vector<size_t> Integrate(const MatX3d& normals, const float eps = FastGA_KDTREE_EPS);
 
   protected:
     const NFA::BUCKET2KD bucket2kd; // The adaptor
@@ -57,9 +57,9 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
   public:
     std::vector<uint32_t> bucket_hv;
     MatX12I bucket_neighbors;
-    Regression regression; 
+    Regression regression;
     GaussianAccumulatorOpt(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
-    std::vector<size_t> Integrate(const MatX3d &normals, const int num_nbr = FastGA_TRI_NBRS);
+    std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
     // std::vector<size_t> Integrate2(const MatX3d &normals, const int num_nbr = FastGA_TRI_NBRS);
 
   protected:
@@ -71,12 +71,9 @@ class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
   public:
     std::vector<uint64_t> bucket_hv;
     MatX12I bucket_neighbors;
-    Regression regression; 
+    Regression regression;
     GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    // std::vector<size_t> Integrate2(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    // std::vector<size_t> Integrate3(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    // std::vector<size_t> Integrate4(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
 
   protected:
 };

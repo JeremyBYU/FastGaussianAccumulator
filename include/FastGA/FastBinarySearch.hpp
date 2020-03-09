@@ -49,7 +49,7 @@ inline int binary_search_branchless (const T *arr, int n, T key) {
         pos = (arr[pos + step] < key ? pos + step : pos);
         step >>= 1;
     }
-    return pos + 1;
+    return static_cast<int>(pos + 1);
 }
 
 
