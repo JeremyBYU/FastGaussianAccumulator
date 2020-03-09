@@ -27,6 +27,7 @@ class GaussianAccumulator
     size_t num_buckets;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
+    // GaussianAccumulator(const int level = FastGA_LEVEL);
     MatX3d GetBucketNormals();
     std::vector<double> GetNormalizedBucketCounts();
     std::vector<T> GetBucketIndices();
@@ -56,9 +57,10 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
   public:
     std::vector<uint32_t> bucket_hv;
     MatX12I bucket_neighbors;
+    Regression regression; 
     GaussianAccumulatorOpt(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<size_t> Integrate(const MatX3d &normals, const int num_nbr = FastGA_TRI_NBRS);
-    std::vector<size_t> Integrate2(const MatX3d &normals, const int num_nbr = FastGA_TRI_NBRS);
+    // std::vector<size_t> Integrate2(const MatX3d &normals, const int num_nbr = FastGA_TRI_NBRS);
 
   protected:
 };
@@ -72,9 +74,9 @@ class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
     Regression regression; 
     GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    std::vector<size_t> Integrate2(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    std::vector<size_t> Integrate3(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
-    std::vector<size_t> Integrate4(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+    // std::vector<size_t> Integrate2(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+    // std::vector<size_t> Integrate3(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+    // std::vector<size_t> Integrate4(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
 
   protected:
 };

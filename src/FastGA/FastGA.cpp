@@ -42,6 +42,26 @@ GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_ph
     num_buckets = buckets.size();
 }
 
+// template <class T>
+// GaussianAccumulator<T>::GaussianAccumulator(const int level) : mesh(), buckets(), mask(), projected_bbox(), num_buckets(0)
+// {
+//     // Create refined mesh of the icosahedron
+//     mesh = FastGA::Ico::RefineIcosahedron(level);
+//     // Indicates which triangle normals are part of buckets
+//     mask.resize(mesh.triangle_normals.size(), 1);
+//     // Create the angle buckets which are no greater than phi
+//     buckets.reserve(mesh.triangle_normals.size());
+//     for (size_t i = 0; i < mesh.triangle_normals.size(); i++)
+//     {
+//         buckets.push_back({mesh.triangle_normals[i], 0, 0, {0, 0}});
+//     }
+//     // Put all valid triangles (mask == 1) in the front of the list
+//     mesh.triangle_normals = Helper::BubbleDownMask(mesh.triangle_normals, mask);
+//     mesh.triangles = Helper::BubbleDownMask(mesh.triangles, mask);
+
+//     num_buckets = buckets.size();
+// }
+
 template <class T>
 MatX3d GaussianAccumulator<T>::GetBucketNormals()
 {
@@ -149,7 +169,7 @@ std::vector<size_t> GaussianAccumulatorKD::Integrate(const MatX3d& normals, cons
 }
 
 // Optimal Search
-GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi), bucket_hv(), bucket_neighbors()
+GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi), bucket_hv(), bucket_neighbors(), regression()
 {
     // Get projected coordinates of these buckets
     projected_bbox = Helper::InitializeProjection(buckets);
@@ -173,6 +193,10 @@ GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max
 
     bucket_hv = this->GetBucketIndices();
     bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, num_buckets);
+
+    std::vector<size_t> seq(bucket_hv.size());
+    std::for_each(seq.begin(), seq.end(), [i=0] (size_t& x) mutable {x = i++;});   
+    Helper::LinearRegression(bucket_hv, seq, regression);
 }
 
 template <class T>
@@ -206,6 +230,45 @@ inline size_t LocalSearch(size_t lower_idx, size_t upper_idx, const std::array<d
     return best_bucket_idx;
 }
 
+template<class T>
+inline void CalculateSearchBounds(T hv, int &start_index, int &end_index, int &size, Regression & regression)
+{
+    auto bucket_index = static_cast<int>(regression.intercept + regression.slope * static_cast<double>(hv));
+    start_index = bucket_index - regression.subtract_index;
+    start_index = start_index < 0 ? 0 : start_index;
+    end_index = start_index + regression.power_of_2 >= size ? size : start_index + regression.power_of_2;
+    start_index = end_index == size ? end_index - regression.power_of_2 : start_index;
+}
+
+// std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const int num_nbr)
+// {
+//     std::vector<size_t> bucket_indexes(normals.size());
+//     MatX2d projection;
+//     std::vector<uint32_t> hilbert_values;
+//     std::tie(projection, hilbert_values) = Helper::ConvertNormalsToHilbert(normals, projected_bbox);
+
+//     for (size_t i = 0; i < normals.size(); i++)
+//     {
+//         auto& hv = hilbert_values[i];
+//         auto& normal = normals[i];
+//         auto upper_idx = std::upper_bound(bucket_hv.begin(), bucket_hv.end(), hv);
+//         auto lower_idx = upper_idx - 1;
+//         if (upper_idx == bucket_hv.end())
+//             upper_idx = lower_idx;
+//         else if (upper_idx == bucket_hv.begin())
+//             lower_idx = upper_idx;
+        
+//         auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
+//         auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
+
+//         auto best_bucket_idx = LocalSearch<uint32_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
+
+//         buckets[best_bucket_idx].count += 1;
+//         bucket_indexes[i] = best_bucket_idx;
+//     }
+//     return bucket_indexes;
+// }
+
 std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, const int num_nbr)
 {
     std::vector<size_t> bucket_indexes(normals.size());
@@ -213,54 +276,28 @@ std::vector<size_t> GaussianAccumulatorOpt::Integrate(const MatX3d& normals, con
     std::vector<uint32_t> hilbert_values;
     std::tie(projection, hilbert_values) = Helper::ConvertNormalsToHilbert(normals, projected_bbox);
 
+    int size = static_cast<int>(bucket_hv.size());
+    auto start_index_int = 0;
+    auto end_index_int = 0;
+
     for (size_t i = 0; i < normals.size(); i++)
     {
-        auto& hv = hilbert_values[i];
-        auto& normal = normals[i];
-        auto upper_idx = std::upper_bound(bucket_hv.begin(), bucket_hv.end(), hv);
-        auto lower_idx = upper_idx - 1;
-        if (upper_idx == bucket_hv.end())
-            upper_idx = lower_idx;
-        else if (upper_idx == bucket_hv.begin())
-            lower_idx = upper_idx;
-        
-        auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
-        auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
+        auto &normal = normals[i];
+        auto &hv = hilbert_values[i];
+        // Reduce search bounds by linearly interpolating where the bucket should be given a hilbert value
+        CalculateSearchBounds<uint32_t>(hv, start_index_int, end_index_int, size, regression);
+        // this is a faster lower_bound
+        auto upper_idx_int = FBS::binary_search_branchless(&bucket_hv[start_index_int], regression.power_of_2, hv) + start_index_int;
+        auto lower_idx_int = upper_idx_int - 1;
+        lower_idx_int = lower_idx_int < 0 ? 0 : lower_idx_int;
+        upper_idx_int = upper_idx_int > size ? size -1 : upper_idx_int;
 
         auto best_bucket_idx = LocalSearch<uint32_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
 
         buckets[best_bucket_idx].count += 1;
         bucket_indexes[i] = best_bucket_idx;
     }
-    return bucket_indexes;
-}
 
-std::vector<size_t> GaussianAccumulatorOpt::Integrate2(const MatX3d& normals, const int num_nbr)
-{
-    std::vector<size_t> bucket_indexes(normals.size());
-    MatX2d projection;
-    std::vector<uint32_t> hilbert_values;
-    std::tie(projection, hilbert_values) = Helper::ConvertNormalsToHilbert(normals, projected_bbox);
-
-    for (size_t i = 0; i < normals.size(); i++)
-    {
-        auto& hv = hilbert_values[i];
-        auto& normal = normals[i];
-        auto upper_idx = std::upper_bound(bucket_hv.begin(), bucket_hv.end(), hv);
-        auto lower_idx = upper_idx - 1;
-        if (upper_idx == bucket_hv.end())
-            upper_idx = lower_idx;
-        else if (upper_idx == bucket_hv.begin())
-            lower_idx = upper_idx;
-        
-        auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
-        auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
-
-        auto best_bucket_idx = LocalSearch<uint32_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
-
-        buckets[best_bucket_idx].count += 1;
-        bucket_indexes[i] = best_bucket_idx;
-    }
     return bucket_indexes;
 }
 
@@ -287,118 +324,110 @@ GaussianAccumulatorS2::GaussianAccumulatorS2(const int level, const double max_p
     // std::cout << "Negative Error:" << regression.neg_error << "; Positive Error: " << regression.pos_error << "; Subtract: " << regression.subtract_index << "; Power of 2: " << regression.power_of_2 <<  std::endl;
 }
 
+// std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, const int num_nbr)
+// {
+//     std::vector<size_t> bucket_indexes(normals.size());
+//     for (size_t i = 0; i < normals.size(); i++)
+//     {
+//         auto& normal = normals[i];
+//         auto hv = NanoS2ID::S2CellId(normal);
+//         auto upper_idx = std::upper_bound(bucket_hv.begin(), bucket_hv.end(), hv);
+//         auto lower_idx = upper_idx - 1;
+//         if (upper_idx == bucket_hv.end())
+//             upper_idx = lower_idx;
+//         else if (upper_idx == bucket_hv.begin())
+//             lower_idx = upper_idx;
+        
+//         auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
+//         auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
+
+//         auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
+
+//         buckets[best_bucket_idx].count += 1;
+//         bucket_indexes[i] = best_bucket_idx;
+//     }
+//     // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
+//     return bucket_indexes;
+// }
+
+
+
+// std::vector<size_t> GaussianAccumulatorS2::Integrate2(const MatX3d& normals, const int num_nbr)
+// {
+//     // std::cout << "Integrate2 - S2" << std::endl;
+//     std::vector<size_t> bucket_indexes(normals.size());
+//     int size = static_cast<int>(bucket_hv.size());
+//     auto begin_iter = bucket_hv.begin();
+//     auto start_index_int = 0;
+//     auto end_index_int = 0;
+//     for (size_t i = 0; i < normals.size(); i++)
+//     {
+//         auto& normal = normals[i];
+//         auto hv = NanoS2ID::S2CellId(normal);
+//         CalculateSearchBounds<uint64_t>(hv, start_index_int, end_index_int, size, regression);
+//         auto iterator_start = begin_iter + start_index_int;
+//         auto iterator_end = begin_iter + end_index_int;
+//         auto upper_idx = std::upper_bound(iterator_start, iterator_end, hv);
+//         auto lower_idx = upper_idx - 1;
+//         upper_idx = upper_idx == bucket_hv.end() ? lower_idx : upper_idx;
+//         lower_idx = upper_idx == bucket_hv.begin() ? upper_idx : lower_idx;
+        
+//         auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
+//         auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
+
+//         auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
+
+//         buckets[best_bucket_idx].count += 1;
+//         bucket_indexes[i] = best_bucket_idx;
+//     }
+//     // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
+//     return bucket_indexes;
+// }
+
+// std::vector<size_t> GaussianAccumulatorS2::Integrate3(const MatX3d& normals, const int num_nbr)
+// {
+//     size_t num_normals = normals.size();
+//     std::vector<size_t> bucket_indexes(num_normals);
+//     std::vector<uint64_t> hilbert_values(num_normals);
+
+//     int size = static_cast<int>(bucket_hv.size());
+//     auto begin_iter = bucket_hv.begin();
+//     // Its faster to create compute the hilbert values for all the normals first
+//     for (size_t i = 0; i < num_normals; i++)
+//     {
+//         auto& normal = normals[i];
+//         hilbert_values[i] = NanoS2ID::S2CellId(normal);
+//     }
+
+//     auto start_index_int = 0;
+//     auto end_index_int = 0;
+//     // Integrate the normal into the bucket
+//     for (size_t i = 0; i < normals.size(); i++)
+//     {
+//         auto& normal = normals[i];
+//         auto &hv = hilbert_values[i];
+//         // Reduce search bounds by linearly interpolating where the bucket should be given a hilbert value
+//         CalculateSearchBounds<uint64_t>(hv, start_index_int, end_index_int, size, regression);
+//         auto iterator_start = begin_iter + start_index_int;
+//         auto iterator_end = begin_iter + end_index_int;
+//         auto upper_idx = std::upper_bound(iterator_start, iterator_end, hv);
+//         auto lower_idx = upper_idx - 1;
+//         upper_idx = upper_idx == bucket_hv.end() ? lower_idx : upper_idx;
+//         lower_idx = upper_idx == bucket_hv.begin() ? upper_idx : lower_idx;
+        
+//         auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
+//         auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
+//         // auto best_bucket_idx = lower_idx_int;
+//         auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
+
+//         buckets[best_bucket_idx].count += 1;
+//         bucket_indexes[i] = best_bucket_idx;
+//     }
+//     // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
+//     return bucket_indexes;
+// }
+
 std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, const int num_nbr)
-{
-    std::vector<size_t> bucket_indexes(normals.size());
-    for (size_t i = 0; i < normals.size(); i++)
-    {
-        auto& normal = normals[i];
-        auto hv = NanoS2ID::S2CellId(normal);
-        auto upper_idx = std::upper_bound(bucket_hv.begin(), bucket_hv.end(), hv);
-        auto lower_idx = upper_idx - 1;
-        if (upper_idx == bucket_hv.end())
-            upper_idx = lower_idx;
-        else if (upper_idx == bucket_hv.begin())
-            lower_idx = upper_idx;
-        
-        auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
-        auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
-
-        auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
-
-        buckets[best_bucket_idx].count += 1;
-        bucket_indexes[i] = best_bucket_idx;
-    }
-    // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
-    return bucket_indexes;
-}
-
-template<class T>
-inline void CalculateSearchBounds(T hv, int &start_index, int &end_index, int &size, Regression & regression)
-{
-    auto bucket_index = static_cast<int>(regression.intercept + regression.slope * static_cast<double>(hv));
-    start_index = bucket_index - regression.subtract_index;
-    start_index = start_index < 0 ? 0 : start_index;
-    end_index = start_index + regression.power_of_2 >= size ? size : start_index + regression.power_of_2;
-    start_index = end_index == size ? end_index - regression.power_of_2 : start_index;
-}
-
-std::vector<size_t> GaussianAccumulatorS2::Integrate2(const MatX3d& normals, const int num_nbr)
-{
-    // std::cout << "Integrate2 - S2" << std::endl;
-    std::vector<size_t> bucket_indexes(normals.size());
-    int size = static_cast<int>(bucket_hv.size());
-    auto begin_iter = bucket_hv.begin();
-    auto start_index_int = 0;
-    auto end_index_int = 0;
-    for (size_t i = 0; i < normals.size(); i++)
-    {
-        auto& normal = normals[i];
-        auto hv = NanoS2ID::S2CellId(normal);
-        CalculateSearchBounds<uint64_t>(hv, start_index_int, end_index_int, size, regression);
-        auto iterator_start = begin_iter + start_index_int;
-        auto iterator_end = begin_iter + end_index_int;
-        auto upper_idx = std::upper_bound(iterator_start, iterator_end, hv);
-        auto lower_idx = upper_idx - 1;
-        upper_idx = upper_idx == bucket_hv.end() ? lower_idx : upper_idx;
-        lower_idx = upper_idx == bucket_hv.begin() ? upper_idx : lower_idx;
-        
-        auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
-        auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
-
-        auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
-
-        buckets[best_bucket_idx].count += 1;
-        bucket_indexes[i] = best_bucket_idx;
-    }
-    // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
-    return bucket_indexes;
-}
-
-std::vector<size_t> GaussianAccumulatorS2::Integrate3(const MatX3d& normals, const int num_nbr)
-{
-    size_t num_normals = normals.size();
-    std::vector<size_t> bucket_indexes(num_normals);
-    std::vector<uint64_t> hilbert_values(num_normals);
-
-    int size = static_cast<int>(bucket_hv.size());
-    auto begin_iter = bucket_hv.begin();
-    // Its faster to create compute the hilbert values for all the normals first
-    for (size_t i = 0; i < num_normals; i++)
-    {
-        auto& normal = normals[i];
-        hilbert_values[i] = NanoS2ID::S2CellId(normal);
-    }
-
-    auto start_index_int = 0;
-    auto end_index_int = 0;
-    // Integrate the normal into the bucket
-    for (size_t i = 0; i < normals.size(); i++)
-    {
-        auto& normal = normals[i];
-        auto &hv = hilbert_values[i];
-        // Reduce search bounds by linearly interpolating where the bucket should be given a hilbert value
-        CalculateSearchBounds<uint64_t>(hv, start_index_int, end_index_int, size, regression);
-        auto iterator_start = begin_iter + start_index_int;
-        auto iterator_end = begin_iter + end_index_int;
-        auto upper_idx = std::upper_bound(iterator_start, iterator_end, hv);
-        auto lower_idx = upper_idx - 1;
-        upper_idx = upper_idx == bucket_hv.end() ? lower_idx : upper_idx;
-        lower_idx = upper_idx == bucket_hv.begin() ? upper_idx : lower_idx;
-        
-        auto lower_idx_int = std::distance(bucket_hv.begin(), lower_idx);
-        auto upper_idx_int = std::distance(bucket_hv.begin(), upper_idx);
-        // auto best_bucket_idx = lower_idx_int;
-        auto best_bucket_idx = LocalSearch<uint64_t>(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
-
-        buckets[best_bucket_idx].count += 1;
-        bucket_indexes[i] = best_bucket_idx;
-    }
-    // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
-    return bucket_indexes;
-}
-
-std::vector<size_t> GaussianAccumulatorS2::Integrate4(const MatX3d& normals, const int num_nbr)
 {
     size_t num_normals = normals.size();
     std::vector<size_t> bucket_indexes(num_normals);

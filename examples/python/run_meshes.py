@@ -229,7 +229,7 @@ def reorder_single_hv_to_s2(ga_cpp_kdd, ga_cpp_s2):
 
 
 def main():
-    kwargs_base = dict(level=4, max_phi=150)
+    kwargs_base = dict(level=4, max_phi=180)
     kwargs_kdd = dict(**kwargs_base, max_leaf_size=10)
     kwargs_opt = dict(**kwargs_base)
     kwargs_s2 = dict(**kwargs_base)

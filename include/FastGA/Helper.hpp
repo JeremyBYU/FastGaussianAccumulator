@@ -159,8 +159,8 @@ double MovingAverage(const std::vector<T>& x)
     return moving_average;
 }
 
-template <class T>
-void LinearRegression(const std::vector<T>& x, const std::vector<T>& y, Regression& r)
+template <class T, class G>
+void LinearRegression(const std::vector<T>& x, const std::vector<G>& y, Regression& r)
 {
     if (x.size() != y.size())
     {

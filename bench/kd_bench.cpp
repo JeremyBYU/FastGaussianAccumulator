@@ -83,41 +83,41 @@ BENCHMARK_DEFINE_F(Normals, BM_FastGAS2)
     }
 }
 
-BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Interpolate)
-(benchmark::State& st)
-{
-    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
-    for (auto _ : st)
-    {
-        auto test = GA.Integrate2(normals, st.range(0));
-    }
-}
+// BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Interpolate)
+// (benchmark::State& st)
+// {
+//     FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
+//     for (auto _ : st)
+//     {
+//         auto test = GA.Integrate2(normals, st.range(0));
+//     }
+// }
 
-BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Interpolate3)
-(benchmark::State& st)
-{
-    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
-    for (auto _ : st)
-    {
-        auto test = GA.Integrate3(normals, st.range(0));
-    }
-}
+// BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Interpolate3)
+// (benchmark::State& st)
+// {
+//     FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
+//     for (auto _ : st)
+//     {
+//         auto test = GA.Integrate3(normals, st.range(0));
+//     }
+// }
 
-BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_InterpolateFastBS)
-(benchmark::State& st)
-{
-    FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
-    for (auto _ : st)
-    {
-        auto test = GA.Integrate4(normals, st.range(0));
-    }
-}
+// BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_InterpolateFastBS)
+// (benchmark::State& st)
+// {
+//     FastGA::GaussianAccumulatorS2 GA = FastGA::GaussianAccumulatorS2(4, max_phi);
+//     for (auto _ : st)
+//     {
+//         auto test = GA.Integrate4(normals, st.range(0));
+//     }
+// }
 
 BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{8, 8}, {2, 20}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Normals, BM_FastGAS2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Interpolate)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Interpolate3)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_InterpolateFastBS)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+// BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Interpolate)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+// BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Interpolate3)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+// BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_InterpolateFastBS)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
