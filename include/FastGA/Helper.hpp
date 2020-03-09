@@ -67,12 +67,12 @@ struct Regression
     int pos_error;
     int neg_error;
     int subtract_index;
-    int to_index;
-    int PredictSlope(uint32_t value)
+    int power_of_2;
+    int Predict(uint32_t value)
     {
         return static_cast<int>(intercept + slope * static_cast<double>(value));
     }
-    int PredictSlope(uint64_t value)
+    int Predict(uint64_t value)
     {
         return static_cast<int>(intercept + slope * static_cast<double>(value));
     }
@@ -191,7 +191,7 @@ void LinearRegression(const std::vector<T>& x, const std::vector<T>& y, Regressi
     int pos_error = -10000000;
     for (size_t i = 0; i < n; ++i)
     {
-        auto predicted = r.PredictSlope(x[i]);
+        auto predicted = r.Predict(x[i]);
         auto error = predicted - static_cast<int>(y[i]);
         if (error < neg_error)
             neg_error = error;
@@ -202,8 +202,8 @@ void LinearRegression(const std::vector<T>& x, const std::vector<T>& y, Regressi
     r.neg_error = neg_error;
     // Get power of 2 bounds
     auto max_val = static_cast<uint32_t>(std::abs(r.pos_error) + std::abs(r.neg_error));
-    r.to_index = round_up_to_power_of_2(max_val);
-    r.subtract_index = r.to_index / 2;
+    r.power_of_2 = round_up_to_power_of_2(max_val) - 1;
+    r.subtract_index = r.power_of_2 / 2 + 1;
 }
 
 template <typename T>

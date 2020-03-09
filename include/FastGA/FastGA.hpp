@@ -4,6 +4,7 @@
 #include <string>
 #include "FastGA/Ico.hpp"
 #include "FastGA/Helper.hpp"
+#include "FastGA/FastBinarySearch.hpp"
 #include "FastGA/NanoFlannAdaptors.hpp"
 #include <memory>
 
@@ -68,10 +69,12 @@ class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>
   public:
     std::vector<uint64_t> bucket_hv;
     MatX12I bucket_neighbors;
-    // Regression regression; 
+    Regression regression; 
     GaussianAccumulatorS2(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     std::vector<size_t> Integrate(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
     std::vector<size_t> Integrate2(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+    std::vector<size_t> Integrate3(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
+    std::vector<size_t> Integrate4(const MatX3d& normals, const int num_nbr = FastGA_TRI_NBRS);
 
   protected:
 };

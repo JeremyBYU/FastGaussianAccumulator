@@ -72,9 +72,9 @@ BENCHMARK_DEFINE_F(Normals, BM_MeanTwoPointsBaseline)
     FastGA::MatX3d assign(normals);
     for (auto _ : st)
     {
-        for(size_t i = 0; i < normals.size() -1; i++)
+        for (size_t i = 0; i < normals.size() - 1; i++)
         {
-            assign[i] = FastGA::Helper::Mean<double, 3>(normals[i], normals[i+1]);
+            assign[i] = FastGA::Helper::Mean<double, 3>(normals[i], normals[i + 1]);
         }
         benchmark::DoNotOptimize(assign.data());
         benchmark::ClobberMemory();
@@ -124,6 +124,22 @@ BENCHMARK_DEFINE_F(Normals, BM_NormalsToHilbert)
     }
 }
 
+BENCHMARK_DEFINE_F(Normals, BM_NormalsToS2Nano)
+(benchmark::State& st)
+{
+    // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
+    std::vector<uint64_t> hilbert_values(N);
+    auto id = NanoS2ID::S2CellId({{0, 0, 1}});
+    for (auto _ : st)
+    {
+        for (size_t i = 0; i < normals.size(); i++)
+        {
+            auto& normal = normals[i];
+            auto id = NanoS2ID::S2CellId(normal);
+            hilbert_values[i] = id;
+        }
+    }
+}
 
 BENCHMARK_REGISTER_F(Normals, BM_MeanTwoPointsBaseline)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_ProjectXYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
@@ -131,3 +147,4 @@ BENCHMARK_REGISTER_F(Normals, BM_ProjectXYZ_TO_XY)->UseRealTime()->Unit(benchmar
 BENCHMARK_REGISTER_F(Normals, BM_ScaleXYToUInt32)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_HilbertXY32)->UseRealTime()->Unit(benchmark::kMicrosecond);
 BENCHMARK_REGISTER_F(Normals, BM_NormalsToHilbert)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(Normals, BM_NormalsToS2Nano)->UseRealTime()->Unit(benchmark::kMicrosecond);

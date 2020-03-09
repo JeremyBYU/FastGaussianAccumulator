@@ -62,6 +62,7 @@ endif()
 
 #### Project Dependencies
 find_package(OpenMP)
+find_package(Threads REQUIRED)
 # NanoFlann
 set(BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
@@ -124,7 +125,7 @@ target_link_libraries(unit-tests benchmark::benchmark OpenMP::OpenMP_CXX Catch2:
 
 #### Benchmark Executables
 set(BENCH_SOURCES bench/run.cpp bench/hilbert_bench.cpp bench/kd_bench.cpp)
-set(BENCH_LINK_LIBRARIES benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME} )
+set(BENCH_LINK_LIBRARIES benchmark::benchmark OpenMP::OpenMP_CXX ${PROJECT_NAME} Threads::Threads)
 if(${WITH_S2_GEOMETRY})
     list(APPEND BENCH_SOURCES bench/s2_bench)
     list(APPEND BENCH_LINK_LIBRARIES s2)
@@ -136,9 +137,9 @@ target_link_libraries(bench-run ${BENCH_LINK_LIBRARIES})
 
 #### Example Executables
 add_executable(example-kd "examples/cpp/example_kd.cpp")
-target_link_libraries(example-kd ${PROJECT_NAME} ${GPERFTOOLS_PROFILER})
+target_link_libraries(example-kd ${PROJECT_NAME} ${GPERFTOOLS_PROFILER} Threads::Threads)
 add_executable(example-nano "examples/cpp/example_nano.cpp")
-target_link_libraries(example-nano ${PROJECT_NAME})
+target_link_libraries(example-nano ${PROJECT_NAME} Threads::Threads)
 
 if(${WITH_S2_GEOMETRY})
     add_executable(example-s2 "examples/cpp/example_s2.cpp")

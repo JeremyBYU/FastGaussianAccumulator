@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
     auto ga = FastGA::GaussianAccumulatorS2(4, 180.0);
     FastGA::MatX3d normals = initialize_normals(1000, 180, 1);
     std::cout << normals[0] << std::endl;
-    auto values = ga.Integrate(normals, 12);
+    auto values = ga.Integrate4(normals, 12);
     std::cout << values[0] << std::endl;
     return 0;
 }
