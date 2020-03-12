@@ -43,7 +43,8 @@ def decompose(ico):
     return triangles, vertices, ico_o3d
 
 def analyze_mesh(mesh):
-    kwargs_base = dict(level=2, max_phi=180)
+    LEVEL = 3
+    kwargs_base = dict(level=LEVEL, max_phi=180)
     kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
     query_max_phi = kwargs_base['max_phi'] - 5
@@ -51,8 +52,28 @@ def analyze_mesh(mesh):
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
     colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(
             ga_cpp_s2, mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
+    num_triangles = ga_cpp_s2.num_buckets
 
-    plot_meshes(colored_icosahedron_s2, mesh)
+    # for verification
+    ico_s2_organized_mesh = ga_cpp_s2.copy_ico_mesh(True)
+    _, _, ico_o3d_s2_om = decompose(ico_s2_organized_mesh)
+    colors_s2 = get_colors(range(num_triangles), colormap=plt.cm.tab20)[:, :3]
+    colored_ico_s2_organized_mesh = assign_vertex_colors(ico_o3d_s2_om, colors_s2)
+
+    # bucket_normals = np.asarray(ga_cpp_s2.get_bucket_normals(True))
+    bucket_counts = np.asarray(ga_cpp_s2.get_normalized_bucket_counts(True))
+    bucket_colors = get_colors(bucket_counts)[:,:3]
+    charts = []
+    for chart_idx in range(5):
+        chart_size = int(num_triangles / 5)
+        chart_start_idx = chart_idx * chart_size
+        chart_end_idx = chart_start_idx + chart_size
+        icochart_square = refine_icochart(level=LEVEL, square=True)
+        _, _, icochart_square_o3d = decompose(icochart_square)
+        colored_icochart_square = assign_vertex_colors(icochart_square_o3d, bucket_colors[chart_start_idx:chart_end_idx, :])
+        charts.append(colored_icochart_square)
+
+    plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, *charts, mesh)
 
 def main():
     LEVEL = 2
@@ -66,17 +87,11 @@ def main():
     icochart_square = refine_icochart(level=LEVEL, square=True)
     _, _, icochart_square_o3d = decompose(icochart_square)
 
-    # colors_vertices = o3d.utility.Vector3dVector(get_colors(range(vertices.shape[0]), colormap=plt.cm.Paired)[:, :3])
-    # pcd = o3d.geometry.PointCloud()
-    # pcd.points = o3d.utility.Vector3dVector(vertices)
-    # pcd.colors = colors_vertices
-
 
     colors = get_colors(range(triangles_ico.shape[0]), colormap=plt.cm.tab20)[:, :3]
     colors_s2 = get_colors(range(triangles_s2_om.shape[0]), colormap=plt.cm.tab20)[:, :3]
     # To verify colormapping
     # colors_s2 = np.vstack((colors_s2[::4,:], colors_s2[::4,:], colors_s2[::4,:], colors_s2[::4,:]))
-
 
     colored_ico = assign_vertex_colors(ico_o3d, colors)
     colored_ico_s2 = assign_vertex_colors(ico_o3d_s2_om, colors_s2)
@@ -84,11 +99,10 @@ def main():
     colored_icochart_slanted = assign_vertex_colors(icochart_slanted_o3d, colors_s2[start_idx:end_idx, :])
     colored_icochart_square = assign_vertex_colors(icochart_square_o3d, colors_s2[start_idx:end_idx, :])
 
-    # plot_meshes([colored_ico, pcd])
     plot_meshes([colored_ico], [colored_ico_s2], colored_icochart, colored_icochart_slanted, colored_icochart_square)
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 2:
+        if i < 0:
             continue
         fname = mesh_fpath.stem
         # print(fname)

@@ -29,11 +29,11 @@ class GaussianAccumulator
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
     // GaussianAccumulator(const int level = FastGA_LEVEL);
-    MatX3d GetBucketNormals();
-    std::vector<double> GetNormalizedBucketCounts();
+    MatX3d GetBucketNormals(const bool reverse_sort=false);
+    std::vector<double> GetNormalizedBucketCounts(const bool reverse_sort=false);
     std::vector<T> GetBucketIndices();
     MatX2d GetBucketProjection();
-    Ico::IcoMesh CopyIcoMesh(bool reverse_sort=false);
+    Ico::IcoMesh CopyIcoMesh(const bool reverse_sort=false);
     void ClearCount();
 
   protected:

@@ -43,17 +43,23 @@ GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_ph
 }
 
 template <class T>
-MatX3d GaussianAccumulator<T>::GetBucketNormals()
+MatX3d GaussianAccumulator<T>::GetBucketNormals(const bool reverse_sort)
 {
     MatX3d bucket_normals;
     bucket_normals.reserve(buckets.size());
     std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_normals),
                    [](const Bucket<T>& bucket) -> std::array<double, 3> { return bucket.normal; });
-    return bucket_normals;
+
+    if (!reverse_sort)
+        return bucket_normals;
+    
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_bucket_normals = Helper::ApplyPermutation(bucket_normals, reversed_sort_idx);
+    return new_bucket_normals;
 }
 
 template <class T>
-std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts()
+std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts(const bool reverse_sort)
 {
     std::vector<double> normalized_counts(buckets.size());
     auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const Bucket<T>& lhs, const Bucket<T>& rhs) { return lhs.count < rhs.count; });
@@ -63,7 +69,13 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts()
     {
         normalized_counts[i] = static_cast<double>(buckets[i].count / static_cast<double>(max_count));
     }
-    return normalized_counts;
+
+    if (!reverse_sort)
+        return normalized_counts;
+
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_normalized_counts = Helper::ApplyPermutation(normalized_counts, reversed_sort_idx);
+    return new_normalized_counts;
 }
 
 template <class T>
@@ -96,7 +108,7 @@ void GaussianAccumulator<T>::ClearCount()
 }
 
 template <class T>
-Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(bool reverse_sort)
+Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(const bool reverse_sort)
 {
     if (!reverse_sort)
         return mesh;
