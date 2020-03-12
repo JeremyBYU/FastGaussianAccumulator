@@ -174,7 +174,7 @@ PYBIND11_MODULE(fastga, m)
     m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a);
     m.def("convert_normals_to_s2id", &FastGA::Helper::ConvertNormalsToS2ID, "normals"_a);
     m.def("refine_icosahedron", &FastGA::Ico::RefineIcosahedron, "level"_a);
-    m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a);
+    m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a=0, "square"_a=false);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

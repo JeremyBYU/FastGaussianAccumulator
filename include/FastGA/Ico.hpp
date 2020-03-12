@@ -30,66 +30,31 @@ struct IcoMesh
     IcoMesh() : vertices(), triangles(), triangle_normals() {}
 };
 
-// using TriangleMesh = std::tuple<Vertices<T>, Triangles<T>>;
-
-// inline const IcoMesh
-// CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
-// {
-//     const double p = GOLDEN_RATIO;
-//     IcoMesh mesh;
-//     MatX3d& vertices = mesh.vertices;
-//     MatX3I& triangles = mesh.triangles;
-//     vertices.push_back({-1, 0, p});
-//     vertices.push_back({1, 0, p});
-//     vertices.push_back({1, 0, -p});
-//     vertices.push_back({-1, 0, -p});
-//     vertices.push_back({0, -p, 1});
-//     vertices.push_back({0, p, 1});
-//     vertices.push_back({0, p, -1});
-//     vertices.push_back({0, -p, -1});
-//     vertices.push_back({-p, -1, 0});
-//     vertices.push_back({p, -1, 0});
-//     vertices.push_back({p, 1, 0});
-//     vertices.push_back({-p, 1, 0});
-
-//     FastGA::Helper::ScaleArrayInPlace<double, 3>(vertices, scale);
-
-//     triangles.push_back({0, 4, 1});
-//     triangles.push_back({0, 1, 5});
-//     triangles.push_back({1, 4, 9});
-//     triangles.push_back({1, 9, 10});
-//     triangles.push_back({1, 10, 5});
-//     triangles.push_back({0, 8, 4});
-//     triangles.push_back({0, 11, 8});
-//     triangles.push_back({0, 5, 11});
-//     triangles.push_back({5, 6, 11});
-//     triangles.push_back({5, 10, 6});
-//     triangles.push_back({4, 8, 7});
-//     triangles.push_back({4, 7, 9});
-//     triangles.push_back({3, 6, 2});
-//     triangles.push_back({3, 2, 7});
-//     triangles.push_back({2, 6, 10});
-//     triangles.push_back({2, 10, 9});
-//     triangles.push_back({2, 9, 7});
-//     triangles.push_back({3, 11, 6});
-//     triangles.push_back({3, 8, 11});
-//     triangles.push_back({3, 7, 8});
-//     return mesh;
-// }
-
-inline const IcoMesh CreateIcoChart()
+inline const IcoMesh CreateIcoChart(bool square = false)
 {
     IcoMesh mesh;
     MatX3d& vertices = mesh.vertices;
     MatX3I& triangles = mesh.triangles;
     const double half_edge = 0.5;
 
-    vertices.push_back({0, 0, 0});                                        // 0
-    vertices.push_back({-half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});      //1
-    vertices.push_back({half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});       // 2
-    vertices.push_back({1, 0, 0});                                        // 3
-    vertices.push_back({half_edge + 1.0, EQUILATERAL_TRIANGLE_RATIO, 0}); // 4
-    vertices.push_back({2, 0, 0});                                        // 5
+    if (square)
+    {
+        vertices.push_back({0, 0, 0}); // 0
+        vertices.push_back({0, 1, 0}); // 1
+        vertices.push_back({1, 1, 0}); // 2
+        vertices.push_back({1, 0, 0}); // 3
+        vertices.push_back({2, 1, 0}); // 4
+        vertices.push_back({2, 0, 0}); // 5
+    }
+    else
+    {
+        vertices.push_back({0, 0, 0});                                        // 0
+        vertices.push_back({-half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});      //1
+        vertices.push_back({half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});       // 2
+        vertices.push_back({1, 0, 0});                                        // 3
+        vertices.push_back({half_edge + 1.0, EQUILATERAL_TRIANGLE_RATIO, 0}); // 4
+        vertices.push_back({2, 0, 0});                                        // 5
+    }
 
     // Chart
     triangles.push_back({0, 2, 1});
@@ -138,9 +103,9 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
     triangles.push_back({9, 10, 1}); // check
     triangles.push_back({9, 2, 10}); // check
     triangles.push_back({10, 2, 6}); // check
-    triangles.push_back({3, 6, 2}); // check
+    triangles.push_back({3, 6, 2});  // check
     // Chart Four
-    triangles.push_back({10, 5, 1}); 
+    triangles.push_back({10, 5, 1});
     triangles.push_back({10, 6, 5});
     triangles.push_back({5, 6, 11});
     triangles.push_back({3, 11, 6});
@@ -242,9 +207,9 @@ inline void RefineMesh(IcoMesh& mesh, const int level = 1, bool scale = true)
     }
 }
 
-inline const IcoMesh RefineIcoChart(const int level = 1)
+inline const IcoMesh RefineIcoChart(const int level = 1, bool square = false)
 {
-    auto mesh = CreateIcoChart();
+    auto mesh = CreateIcoChart(square);
     RefineMesh(mesh, level, false);
     FastGA::Helper::ComputeTriangleNormals(mesh.vertices, mesh.triangles, mesh.triangle_normals);
     return mesh;
