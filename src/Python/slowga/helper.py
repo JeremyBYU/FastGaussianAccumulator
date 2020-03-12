@@ -64,7 +64,7 @@ def split_triangles(mesh):
     return mesh_return
 
 
-def assign_vertex_colors(mesh, normal_colors, mask):
+def assign_vertex_colors(mesh, normal_colors, mask=None):
     """Assigns vertex colors by given normal colors
     NOTE: New mesh is returned
 
@@ -77,7 +77,9 @@ def assign_vertex_colors(mesh, normal_colors, mask):
     """
     split_mesh = split_triangles(mesh)
     vertex_colors = np.asarray(split_mesh.vertex_colors)
-    triangles = np.asarray(split_mesh.triangles)[mask, :]
+    triangles = np.asarray(split_mesh.triangles)
+    if mask is not None:
+        triangles = triangles[mask, :]
     for i in range(triangles.shape[0]):
         # import ipdb; ipdb.set_trace()
         color = normal_colors[i, :]

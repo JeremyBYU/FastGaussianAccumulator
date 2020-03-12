@@ -16,7 +16,7 @@ std::ostream& operator<<(std::ostream& out, const std::array<double, 3>& v)
 }
 
 template <class T>
-GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox(), num_buckets(0)
+GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), sort_idx(), mask(), projected_bbox(), num_buckets(0)
 {
     // Create refined mesh of the icosahedron
     mesh = FastGA::Ico::RefineIcosahedron(level);
@@ -95,6 +95,23 @@ void GaussianAccumulator<T>::ClearCount()
     }
 }
 
+template <class T>
+Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(bool reverse_sort)
+{
+    if (!reverse_sort)
+        return mesh;
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_triangle_normals = Helper::ApplyPermutation(mesh.triangle_normals, reversed_sort_idx);
+    auto new_triangles = Helper::ApplyPermutation(mesh.triangles, reversed_sort_idx);
+    Ico::IcoMesh new_mesh;
+    new_mesh.triangle_normals = new_triangle_normals;
+    new_mesh.triangles = new_triangles;
+    new_mesh.vertices = mesh.vertices;
+
+    return new_mesh;
+}
+
+
 GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator<uint32_t>(level, max_phi), bucket2kd(buckets), index_params(max_leaf_size), kd_tree_ptr()
 {
     // Get projected coordinates of these buckets
@@ -112,7 +129,7 @@ GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_p
         bucket.hilbert_value = static_cast<uint32_t>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
     }
     // Sort buckets and triangles by their unique index (hilbert curve value)
-    auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
+    sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
@@ -166,7 +183,7 @@ GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max
         bucket.hilbert_value = static_cast<uint32_t>(Hilbert::hilbertXYToIndex(16u, xy_int[0], xy_int[1]));
     }
     // Sort buckets and triangles by their unique index (hilbert curve value)
-    auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
+    sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint32_t> const& a, Bucket<uint32_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
@@ -257,7 +274,7 @@ GaussianAccumulatorS2::GaussianAccumulatorS2(const int level, const double max_p
         buckets[i].hilbert_value = NanoS2ID::S2CellId(normal);
     }
     // Sort buckets and triangles by their unique index (hilbert curve value)
-    auto sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint64_t> const& a, Bucket<uint64_t> const& b) { return a.hilbert_value < b.hilbert_value; });
+    sort_idx = Helper::sort_permutation(buckets, [](Bucket<uint64_t> const& a, Bucket<uint64_t> const& b) { return a.hilbert_value < b.hilbert_value; });
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);

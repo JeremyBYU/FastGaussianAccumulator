@@ -41,9 +41,11 @@ def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
 
     accumulator_normalized_sorted = normalized_counts[idx_sort]
     gaussian_normals_sorted = normals[idx_sort, :]
-
+    # print(gaussian_normals_sorted)
     # Find Peaks
     peaks, clusters, avg_peaks, avg_weights = find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted)
+
+    # print(avg_peaks)
 
     # 2D Plots
     if plot:
@@ -108,7 +110,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     num_buckets = ga.num_buckets
     to_integrate_normals = np.asarray(mesh.triangle_normals)
     # remove normals on bottom half of sphere
-    to_integrate_normals, _ = filter_normals_by_phi(to_integrate_normals, max_phi=max_phi)
+    to_integrate_normals, _ = filter_normals_by_phi(to_integrate_normals, max_phi=180)
     # determine optimal sampling
     num_normals = to_integrate_normals.shape[0]
     ds_normals = int(num_normals / ds)
@@ -125,6 +127,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
     # integrate normals
     if class_name_str in ['GaussianAccumulatorKD', 'GaussianAccumulatorOpt', 'GaussianAccumulatorS2']:
         to_integrate_normals = MatX3d(to_integrate_normals)
+
         # mask = np.ma.make_mask(mask)
 
     # triangles = np.asarray(ga.mesh.triangles)
@@ -244,7 +247,7 @@ def main():
     query_max_phi = kwargs_base['max_phi'] - 5
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 1:
+        if i < 2:
             continue
         fname = mesh_fpath.stem
         # print(fname)
@@ -281,7 +284,7 @@ def main():
                     colored_icosahedron_opt, colored_icosahedron_s2, example_mesh_filtered)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
-        pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=True)
+        pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=False)
         pcd_cpp_s2 = plot_hilbert_curve(ga_cpp_s2)
 
         normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())

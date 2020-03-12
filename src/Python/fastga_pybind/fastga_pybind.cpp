@@ -114,6 +114,7 @@ PYBIND11_MODULE(fastga, m)
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator<uint32_t>::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint32_t>::buckets)
+        .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint32_t>::sort_idx)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint32_t>::mask)
         .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint32_t>::num_buckets)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint32_t>::projected_bbox)
@@ -121,7 +122,8 @@ PYBIND11_MODULE(fastga, m)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCounts)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint32_t>::GetBucketIndices)
         .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint32_t>::GetBucketProjection)
-        .def("clear_count", &FastGA::GaussianAccumulator<uint32_t>::ClearCount);
+        .def("clear_count", &FastGA::GaussianAccumulator<uint32_t>::ClearCount)
+        .def("copy_ico_mesh", &FastGA::GaussianAccumulator<uint32_t>::CopyIcoMesh, "reverse_sort"_a=false);
 
     py::class_<FastGA::GaussianAccumulator<uint64_t>>(m, "GaussianAccumulatorUI64")
         .def(py::init<const int, const double>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI)
@@ -131,6 +133,7 @@ PYBIND11_MODULE(fastga, m)
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator<uint64_t>::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint64_t>::buckets)
+        .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint64_t>::sort_idx)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint64_t>::mask)
         .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint64_t>::num_buckets)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint64_t>::projected_bbox)
@@ -138,7 +141,8 @@ PYBIND11_MODULE(fastga, m)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint64_t>::GetNormalizedBucketCounts)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint64_t>::GetBucketIndices)
         .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint64_t>::GetBucketProjection)
-        .def("clear_count", &FastGA::GaussianAccumulator<uint64_t>::ClearCount);
+        .def("clear_count", &FastGA::GaussianAccumulator<uint64_t>::ClearCount)
+        .def("copy_ico_mesh", &FastGA::GaussianAccumulator<uint64_t>::CopyIcoMesh, "reverse_sort"_a=false);
 
     py::class_<FastGA::GaussianAccumulatorKD,FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD")
         .def(py::init<const int, const double, const size_t>(), "level"_a=FastGA_LEVEL, "max_phi"_a=FastGA_MAX_PHI, "max_leaf_size"_a=FastGA_MAX_LEAF_SIZE)
@@ -169,6 +173,8 @@ PYBIND11_MODULE(fastga, m)
     // Functions
     m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a);
     m.def("convert_normals_to_s2id", &FastGA::Helper::ConvertNormalsToS2ID, "normals"_a);
+    m.def("refine_icosahedron", &FastGA::Ico::RefineIcosahedron, "level"_a);
+    m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a);
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

@@ -9,7 +9,7 @@
 #include <memory>
 
 #define FastGA_LEVEL 1
-#define FastGA_MAX_PHI 100
+#define FastGA_MAX_PHI 180
 #define FastGA_MAX_LEAF_SIZE 10
 #define FastGA_KDTREE_EPS 0.0
 #define FastGA_EXHAUSTIVE 0
@@ -22,6 +22,7 @@ class GaussianAccumulator
   public:
     Ico::IcoMesh mesh;
     std::vector<Bucket<T>> buckets;
+    std::vector<size_t> sort_idx;
     std::vector<uint8_t> mask;
     Helper::BBOX projected_bbox;
     size_t num_buckets;
@@ -32,6 +33,7 @@ class GaussianAccumulator
     std::vector<double> GetNormalizedBucketCounts();
     std::vector<T> GetBucketIndices();
     MatX2d GetBucketProjection();
+    Ico::IcoMesh CopyIcoMesh(bool reverse_sort=false);
     void ClearCount();
 
   protected:
