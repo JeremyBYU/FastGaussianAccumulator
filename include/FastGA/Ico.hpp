@@ -1,18 +1,22 @@
 #include "FastGA/Helper.hpp"
 
 namespace FastGA {
+
 namespace Ico {
 const static double GOLDEN_RATIO = (1.0 + sqrt(5.0)) / 2.0;
 const static double EQUILATERAL_TRIANGLE_RATIO = sqrt(3.0) / 2.0;
 const static double ICOSAHEDRON_TRUE_RADIUS = sqrt(1.0 + GOLDEN_RATIO * GOLDEN_RATIO);
 const static double ICOSAHEDRON_SCALING = 1.0 / ICOSAHEDRON_TRUE_RADIUS;
-
+const static int NUMBER_OF_CHARTS = 5;
 // using Triangles = std::vector<std::array<size_t, 3>>;
 // using Vertices = std::vector<std::array<double, 3>>;
 
 inline constexpr int IcoMeshFaces(int level = 1)
 {
-    return 20 * level;
+    if (level == 0)
+        return 20;
+    else
+        return IcoMeshFaces(level - 1) * 4;
 }
 
 inline constexpr int IcoMeshVertices(int level = 1)
@@ -27,7 +31,33 @@ struct IcoMesh
     MatX3d vertices;
     MatX3I triangles;
     MatX3d triangle_normals;
-    IcoMesh() : vertices(), triangles(), triangle_normals() {}
+    MatX6I adjacency_matrix;
+    IcoMesh() : vertices(), triangles(), triangle_normals(), adjacency_matrix() {}
+};
+
+class Image
+{
+  public:
+    std::vector<uint> buffer_;
+    int rows_;
+    int cols_;
+    int bytes_per_channel_;
+    Image(int rows, int cols, int bytes_per_channel) : buffer_(), rows_(rows), cols_(cols), bytes_per_channel_(bytes_per_channel)
+    {
+        AllocateBuffer();
+    }
+    template <typename T>
+    T* PointerAt(int u, int v) const
+    {
+        // return (T *)(buffer_.data() + (v * cols_ + u) * sizeof(T));
+        return reinterpret_cast<T*>(buffer_.data() + (v * cols_ + u) * sizeof(T));
+    }
+
+  private:
+    void AllocateBuffer()
+    {
+        buffer_.resize(cols_ * rows_ * bytes_per_channel_);
+    }
 };
 
 inline const IcoMesh CreateIcoChart(bool square = false)
@@ -49,7 +79,7 @@ inline const IcoMesh CreateIcoChart(bool square = false)
     else
     {
         vertices.push_back({0, 0, 0});                                        // 0
-        vertices.push_back({-half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});      //1
+        vertices.push_back({-half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});      // 1
         vertices.push_back({half_edge, EQUILATERAL_TRIANGLE_RATIO, 0});       // 2
         vertices.push_back({1, 0, 0});                                        // 3
         vertices.push_back({half_edge + 1.0, EQUILATERAL_TRIANGLE_RATIO, 0}); // 4
@@ -90,20 +120,20 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
     // Specifically arranged into face groups (aka Charts)
     // Each chart start near the top (high z) and goes down
     // Chart One
-    triangles.push_back({0, 4, 1}); // check
-    triangles.push_back({0, 8, 4}); // check
-    triangles.push_back({4, 8, 7}); // check
-    triangles.push_back({3, 7, 8}); // check
+    triangles.push_back({0, 4, 1});
+    triangles.push_back({0, 8, 4});
+    triangles.push_back({4, 8, 7});
+    triangles.push_back({3, 7, 8});
     // Chart Two
-    triangles.push_back({4, 9, 1}); // check
-    triangles.push_back({4, 7, 9}); // check
-    triangles.push_back({9, 7, 2}); // check
-    triangles.push_back({3, 2, 7}); // check
+    triangles.push_back({4, 9, 1});
+    triangles.push_back({4, 7, 9});
+    triangles.push_back({9, 7, 2});
+    triangles.push_back({3, 2, 7});
     // Chart Three
-    triangles.push_back({9, 10, 1}); // check
-    triangles.push_back({9, 2, 10}); // check
-    triangles.push_back({10, 2, 6}); // check
-    triangles.push_back({3, 6, 2});  // check
+    triangles.push_back({9, 10, 1});
+    triangles.push_back({9, 2, 10});
+    triangles.push_back({10, 2, 6});
+    triangles.push_back({3, 6, 2});
     // Chart Four
     triangles.push_back({10, 5, 1});
     triangles.push_back({10, 6, 5});
@@ -116,6 +146,45 @@ CreateIcosahedron(const double scale = ICOSAHEDRON_SCALING)
     triangles.push_back({3, 8, 11});
 
     return mesh;
+}
+
+inline std::unordered_map<size_t, std::unordered_set<size_t>> ComputeAdjacencySet(const MatX3I& triangles)
+{
+    std::unordered_map<size_t, std::unordered_set<size_t>> adjacency_set;
+    for (size_t i = 0; i < triangles.size(); i++)
+    {
+        auto& pi0 = triangles[i][0];
+        auto& pi1 = triangles[i][1];
+        auto& pi2 = triangles[i][2];
+
+        auto& tri_set_p0 = adjacency_set[pi0];
+        auto& tri_set_p1 = adjacency_set[pi1];
+        auto& tri_set_p2 = adjacency_set[pi2];
+
+        tri_set_p0.insert(i);
+        tri_set_p1.insert(i);
+        tri_set_p2.insert(i);
+    }
+    return adjacency_set;
+}
+
+inline MatX6I ComputeAdjacencyMatrix(const MatX3I& triangles, const MatX3d& vertices)
+{
+    size_t max_limit = std::numeric_limits<size_t>::max();
+    std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset = ComputeAdjacencySet(triangles);
+    MatX6I adjacency_matrix(vertices.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
+
+    for (size_t p_idx = 0; p_idx < vertices.size(); p_idx++)
+    {
+        auto& tri_set = pi_to_triset[p_idx];
+        int counter = 0;
+        for (const auto& tri_idx : tri_set)
+        {
+            adjacency_matrix[p_idx][counter] = tri_idx;
+            counter++;
+        }
+    }
+    return adjacency_matrix;
 }
 
 inline size_t CantorMapping(const size_t k1, const size_t k2)
@@ -205,14 +274,7 @@ inline void RefineMesh(IcoMesh& mesh, const int level = 1, bool scale = true)
         // copy constructor
         triangles = triangles_refined;
     }
-}
-
-inline const IcoMesh RefineIcoChart(const int level = 1, bool square = false)
-{
-    auto mesh = CreateIcoChart(square);
-    RefineMesh(mesh, level, false);
-    FastGA::Helper::ComputeTriangleNormals(mesh.vertices, mesh.triangles, mesh.triangle_normals);
-    return mesh;
+    mesh.adjacency_matrix = ComputeAdjacencyMatrix(triangles, vertices);
 }
 
 inline const IcoMesh RefineIcosahedron(const int level = 1)
@@ -299,25 +361,9 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
 inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& triangle_normals, const size_t max_idx)
 {
     size_t max_limit = std::numeric_limits<size_t>::max();
-    std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset;
+    // Must compute adjacency set again because triangle indices may been sorted by hilbert values
+    std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset = ComputeAdjacencySet(triangles);
     MatX12I neighbors(triangles.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
-    for (size_t i = 0; i < triangles.size(); i++)
-    {
-
-        if (i >= max_idx)
-            continue;
-        auto& pi0 = triangles[i][0];
-        auto& pi1 = triangles[i][1];
-        auto& pi2 = triangles[i][2];
-
-        auto& tri_set_p0 = pi_to_triset[pi0];
-        auto& tri_set_p1 = pi_to_triset[pi1];
-        auto& tri_set_p2 = pi_to_triset[pi2];
-
-        tri_set_p0.insert(i);
-        tri_set_p1.insert(i);
-        tri_set_p2.insert(i);
-    }
 
     for (size_t i = 0; i < triangles.size(); i++)
     {
@@ -359,6 +405,77 @@ inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& t
 
     return neighbors;
 }
+
+inline const IcoMesh RefineIcoChart(const int level = 1, bool square = false)
+{
+    auto mesh = CreateIcoChart(square);
+    RefineMesh(mesh, level, false);
+    return mesh;
+}
+
+inline MatX2I CreateChartImageIndices(const int level, IcoMesh& chart_template)
+{
+    double scale_to_integer = std::pow(2, level);
+    auto& vertices = chart_template.vertices;
+    // Convert doubles to integer
+    MatX2I point_idx_to_image_idx;
+    point_idx_to_image_idx.reserve(vertices.size());
+    std::transform(vertices.begin(), vertices.end(), std::back_inserter(point_idx_to_image_idx), [scale_to_integer](std::array<double, 3>& a) -> std::array<size_t, 2> {
+        auto u = static_cast<size_t>(scale_to_integer * a[0]);
+        auto v = static_cast<size_t>(scale_to_integer * a[1]);
+        return {{u, v}};
+    });
+
+    return point_idx_to_image_idx;
+}
+
+inline std::vector<size_t> Create_Local_To_Global_Point_Idx_Map(IcoMesh &sphere_mesh, IcoMesh &chart_template, int chart_idx)
+{
+    MatX3I &sphere_triangles = sphere_mesh.triangles; // all triangles on S2
+    MatX3I &chart_triangles = chart_template.triangles; // 
+    auto num_chart_triangles = chart_triangles.size();
+    auto num_chart_vertices = chart_template.vertices.size();
+    std::vector<size_t> local_to_global_point_idx_map(num_chart_vertices);
+
+    auto chart_tri_start_idx = chart_idx * num_chart_triangles;
+
+    for (size_t i = 0; i < num_chart_triangles; ++i)
+    {
+        auto &local_tri = chart_triangles[i];
+        auto &global_tri = sphere_triangles[chart_tri_start_idx + i];
+        for (size_t idx = 0; idx < 3; ++idx)
+        {
+            local_to_global_point_idx_map[local_tri[idx]] = global_tri[idx];
+        }
+    }
+    return local_to_global_point_idx_map;
+
+}
+
+class IcoChart
+{
+  public:
+    int level;
+    MatX2I point_idx_to_image_idx;
+    std::vector<std::vector<size_t>> local_to_global_point_idx_map;
+    IcoChart(const int level_ = 1) : level(level_), point_idx_to_image_idx(),
+                                     local_to_global_point_idx_map(NUMBER_OF_CHARTS), sphere_mesh(), chart_template()
+    {
+        sphere_mesh = RefineIcosahedron(level);
+        chart_template = RefineIcoChart(level, true);
+        point_idx_to_image_idx = CreateChartImageIndices(level, chart_template);
+        for(int i = 0; i < NUMBER_OF_CHARTS; ++i)
+        {
+            local_to_global_point_idx_map[i] = Create_Local_To_Global_Point_Idx_Map(sphere_mesh, chart_template, i);
+        }
+    }
+
+  protected:
+
+  private:
+    IcoMesh sphere_mesh;    // Full Refined Icosahedron Mesh on S2
+    IcoMesh chart_template; // Single 2D Chart Template
+};
 
 } // namespace Ico
 } // namespace FastGA

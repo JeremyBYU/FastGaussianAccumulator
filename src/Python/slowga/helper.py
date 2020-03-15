@@ -89,6 +89,20 @@ def assign_vertex_colors(mesh, normal_colors, mask=None):
     return split_mesh
 
 
+def translate_meshes(mesh_list, current_translation=0.0, axis=0):
+    translate_amt = None
+    translate_meshes = []
+    for mesh_ in mesh_list:
+        mesh_ = deepcopy(mesh_)
+
+        bbox = mesh_.get_axis_aligned_bounding_box()
+        x_extent = bbox.get_extent()[axis]
+        translate_amt = [0, 0, 0]
+        translate_amt[axis] = current_translation + x_extent / 2.0
+        translate_meshes.append(mesh_.translate(translate_amt, relative=False))
+        current_translation += x_extent + 0.5
+    return translate_meshes
+
 def plot_meshes(*meshes, shift=True):
     axis = o3d.geometry.TriangleMesh.create_coordinate_frame()
     axis.translate([-2.0, 0, 0])

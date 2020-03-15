@@ -138,6 +138,8 @@ target_link_libraries(bench-run ${BENCH_LINK_LIBRARIES})
 #### Example Executables
 add_executable(example-kd "examples/cpp/example_kd.cpp")
 target_link_libraries(example-kd ${PROJECT_NAME} ${GPERFTOOLS_PROFILER} Threads::Threads)
+add_executable(example-icochart "examples/cpp/example_icochart.cpp")
+target_link_libraries(example-icochart ${PROJECT_NAME} ${GPERFTOOLS_PROFILER} Threads::Threads)
 add_executable(example-nano "examples/cpp/example_nano.cpp")
 target_link_libraries(example-nano ${PROJECT_NAME} Threads::Threads)
 

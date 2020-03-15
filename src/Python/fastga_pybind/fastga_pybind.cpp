@@ -44,7 +44,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(double) * 3,                     /* Strides (in bytes) for each index */
+                {sizeof(double) * cols,                     /* Strides (in bytes) for each index */
                  sizeof(double)});
         })
         .def("__copy__", [](FastGA::MatX3d& v) {
@@ -63,7 +63,19 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(size_t) * 3,                     /* Strides (in bytes) for each index */
+                {sizeof(size_t) * cols,                     /* Strides (in bytes) for each index */
+                 sizeof(size_t)});
+        });
+    py::class_<FastGA::MatX2I>(m, "MatX2I", py::buffer_protocol())
+        .def_buffer([](FastGA::MatX2I& m) -> py::buffer_info {
+            const size_t cols = 2;
+            return py::buffer_info(
+                m.data(),                                /* Pointer to buffer */
+                sizeof(size_t),                          /* Size of one scalar */
+                py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
+                2UL,                                     /* Number of dimensions */
+                {m.size(), cols},                        /* Buffer dimensions */
+                {sizeof(size_t) * cols,                     /* Strides (in bytes) for each index */
                  sizeof(size_t)});
         });
 
@@ -76,7 +88,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(double) * 2,                     /* Strides (in bytes) for each index */
+                {sizeof(double) * cols,                     /* Strides (in bytes) for each index */
                  sizeof(double)});
         });
 
@@ -106,7 +118,8 @@ PYBIND11_MODULE(fastga, m)
              })
         .def_readonly("triangles", &FastGA::Ico::IcoMesh::triangles)
         .def_readonly("vertices", &FastGA::Ico::IcoMesh::vertices)
-        .def_readonly("triangle_normals", &FastGA::Ico::IcoMesh::triangle_normals);
+        .def_readonly("triangle_normals", &FastGA::Ico::IcoMesh::triangle_normals)
+        .def_readonly("adjacency_matrix", &FastGA::Ico::IcoMesh::adjacency_matrix);
 
     py::class_<FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorUI32")
         .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
@@ -122,6 +135,7 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint32_t>::projected_bbox)
         .def("get_bucket_normals", &FastGA::GaussianAccumulator<uint32_t>::GetBucketNormals, "reverse_sort"_a = false)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCounts, "reverse_sort"_a = false)
+        .def("get_normalized_bucket_counts_by_vertex", &FastGA::GaussianAccumulator<uint32_t>::GetNormalizedBucketCountsByVertex, "reverse_sort"_a = false)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint32_t>::GetBucketIndices)
         .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint32_t>::GetBucketProjection)
         .def("clear_count", &FastGA::GaussianAccumulator<uint32_t>::ClearCount)
@@ -141,6 +155,7 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint64_t>::projected_bbox)
         .def("get_bucket_normals", &FastGA::GaussianAccumulator<uint64_t>::GetBucketNormals, "reverse_sort"_a = false)
         .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulator<uint64_t>::GetNormalizedBucketCounts, "reverse_sort"_a = false)
+        .def("get_normalized_bucket_counts_by_vertex", &FastGA::GaussianAccumulator<uint64_t>::GetNormalizedBucketCountsByVertex, "reverse_sort"_a = false)
         .def("get_bucket_indices", &FastGA::GaussianAccumulator<uint64_t>::GetBucketIndices)
         .def("get_bucket_projection", &FastGA::GaussianAccumulator<uint64_t>::GetBucketProjection)
         .def("clear_count", &FastGA::GaussianAccumulator<uint64_t>::ClearCount)
@@ -170,6 +185,15 @@ PYBIND11_MODULE(fastga, m)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorS2& a) {
                  return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
+             });
+
+    py::class_<FastGA::Ico::IcoChart>(m, "IcoChart")
+        .def(py::init<const int>(), "level"_a = FastGA_LEVEL)
+        .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
+        .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
+        .def("__repr__",
+             [](const FastGA::Ico::IcoChart& a) {
+                 return "<IcoChart; Level: '" + std::to_string(a.level) + "'>";
              });
 
     // Functions

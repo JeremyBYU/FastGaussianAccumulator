@@ -56,6 +56,7 @@ namespace FastGA {
 
 using MatX3d = std::vector<std::array<double, 3>>;
 using MatX3I = std::vector<std::array<size_t, 3>>;
+using MatX6I = std::vector<std::array<size_t, 6>>;
 using MatX12I = std::vector<std::array<size_t, 12>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2I = std::vector<std::array<size_t, 2>>;
@@ -307,6 +308,72 @@ std::array<T, dim> Mean(std::array<T, dim>& a, std::array<T, dim>& b)
         mean[i] = (a[i] + b[i]) / 2.0;
     }
     return mean;
+}
+
+template <class T, int dim>
+void InPlaceAdd(const std::array<T, dim>& a, std::array<T, dim>& b)
+{
+    for (size_t i = 0; i < dim; i++)
+    {
+        b[i] = (a[i] + b[i]);
+    }
+}
+
+template <class T, int dim>
+void InPlaceDivide(const std::array<T, dim>& a, double value)
+{
+    for (size_t i = 0; i < dim; i++)
+    {
+        a[i] = a[i] / value;
+    }
+}
+
+template <size_t dim_indexes>
+std::vector<double> Mean(std::vector<std::array<size_t, dim_indexes>>& indexes, std::vector<double> values)
+{
+    size_t num_values = indexes.size();
+    std::vector<double> mean_values(num_values);
+    for (size_t i = 0; i < indexes.size(); i++)
+    {
+        double total_mean = 0.0;
+        size_t idx_i = 0;
+        for (idx_i = 0; idx_i < dim_indexes; ++idx_i)
+        {
+            auto &value_idx = indexes[i][idx_i]; 
+            if (value_idx == max_limit)
+                break;
+            total_mean += values[value_idx];
+        }
+        idx_i++;
+        total_mean /= static_cast<double>(idx_i);
+        mean_values[i] = total_mean;
+    }
+    
+    return mean_values;
+}
+
+template <class T, size_t dim_indexes, size_t dim_values>
+std::vector<double> Mean(std::vector<std::array<size_t, dim_indexes>>& indexes, std::vector<std::array<T, dim_values>> values)
+{
+    size_t num_values = indexes.size();
+    std::vector<std::array<T, dim_values>> mean_values(num_values);
+    for (size_t i = 0; i < indexes.size(); i++)
+    {
+        std::array<T, dim_values> total_mean;
+        size_t idx_i = 0;
+        for (idx_i = 0; idx_i < dim_indexes; ++idx_i)
+        {
+            auto &value_idx = indexes[i][idx_i]; 
+            if (value_idx == max_limit)
+                break;
+            InPlaceAdd(values[value_idx], total_mean);
+        }
+        idx_i++;
+        InPlaceDivide(total_mean, static_cast<double>(idx_i));
+        mean_values[i] = total_mean;
+    }
+    
+    return mean_values;
 }
 
 template <class T, int dim>

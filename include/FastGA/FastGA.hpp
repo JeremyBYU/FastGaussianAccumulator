@@ -31,6 +31,7 @@ class GaussianAccumulator
     // GaussianAccumulator(const int level = FastGA_LEVEL);
     MatX3d GetBucketNormals(const bool reverse_sort=false);
     std::vector<double> GetNormalizedBucketCounts(const bool reverse_sort=false);
+    std::vector<double> GetNormalizedBucketCountsByVertex(const bool reverse_sort=false);
     std::vector<T> GetBucketIndices();
     MatX2d GetBucketProjection();
     Ico::IcoMesh CopyIcoMesh(const bool reverse_sort=false);
