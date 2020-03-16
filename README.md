@@ -16,7 +16,7 @@ To do this one must **find** the cell that corresponds to the point. This is a s
     - `GaussianAccumulatorKD` One implementation uses C++ nanoflann.
 * Global Index and Local Search - A 3D point is transformed to a unique integer id. The unique ids have the property that ids close to each other will be close to each other in 3D space. The closest id is found corresponding to a triangle cell. A local search of triangle neighbors is performed to find closest triangle cell to the point.
     - `GaussianAccumulatorOpt` - Works good on top hemisphere. Projects 3D point to plane using Azimuth Equidistant projection. Convert 2D point to int32 index using Hilbert Curve.
-    - `GaussianAccumulatorKDS2`- Works on full sphere! Uses Googles S2 Global index. 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face.
+    - `GaussianAccumulatorKDS2` - Works on full sphere! Uses Googles S2 Global index. 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face.
 
 ## Installation
 
@@ -24,7 +24,7 @@ This project uses CMake. You can build using the provided Makefile which will ca
 
 1. `mkdir cmake-build && cd cmake-build` 
 2. `cd cmake-build` 
-3. `cmake ../ -DCMAKE_BUILD_TYPE=Release -DWERROR=0`. For windows also add `-DCMAKE_GENERATOR_PLATFORM=x64`
+3. `cmake ../ -DCMAKE_BUILD_TYPE=Release -DWERROR=0` . For windows also add `-DCMAKE_GENERATOR_PLATFORM=x64` 
 4. `cmake --build . -j$(nproc)` 
 
 ### Python
@@ -38,12 +38,11 @@ If you want to run the examples then you need to install the following (from mai
 
 1. `pip install -r requirements-dev.txt` 
 
-
 ## Build with S2
 
 To build with S2 you must apply this patch first.
 
-```
+``` 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 5ecd280..d67bf76 100644
 --- a/CMakeLists.txt
@@ -52,7 +51,9 @@ index 5ecd280..d67bf76 100644
 
  message("GTEST_ROOT: ${GTEST_ROOT}")
  if (GTEST_ROOT)
--  add_subdirectory(${GTEST_ROOT} build_gtest)
+
+*  add_subdirectory(${GTEST_ROOT} build_gtest)
+
 +#   add_subdirectory(${GTEST_ROOT} build_gtest)
    include_directories(${GTEST_ROOT}/include)
 
@@ -61,8 +62,40 @@ index 5ecd280..d67bf76 100644
 
 Then enable the option for CMake.
 
-
 ## Profiling
 
-1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000`
-2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof`
+1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000` 
+2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof` 
+
+## Notes
+
+Indices copying
+
+* Copy Row to Col (Left column)
+
+```python
+level = 2
+sub_block_width = 2 ** level
+to_indices = [[[i * chart_height + 1, i * chart_height + 1 + sub_block_width], [0,1]] for i in range(num_charts)]
+from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1, sub_block_width]] for i in range(num_charts)]
+```
+
+* Copy Row to Row (Extra row, left side)
+
+```
+level = 2
+sub_block_width = 2 ** level
+to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1, sub_block_width + 1]] for i in range(num_charts)]
+from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
+```
+
+* Copy Col to Row (Extra row, right side)
+
+```
+level = 2
+sub_block_width = 2 ** level
+total_width = 2 ** (level + 1)
+to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
+from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 1 + sub_block_width], [total_width, total_width + 1]] for i in range(num_charts)]
+```
+

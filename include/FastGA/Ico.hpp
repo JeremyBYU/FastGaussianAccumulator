@@ -35,31 +35,6 @@ struct IcoMesh
     IcoMesh() : vertices(), triangles(), triangle_normals(), adjacency_matrix() {}
 };
 
-class Image
-{
-  public:
-    std::vector<uint> buffer_;
-    int rows_;
-    int cols_;
-    int bytes_per_channel_;
-    Image(int rows, int cols, int bytes_per_channel) : buffer_(), rows_(rows), cols_(cols), bytes_per_channel_(bytes_per_channel)
-    {
-        AllocateBuffer();
-    }
-    template <typename T>
-    T* PointerAt(int u, int v) const
-    {
-        // return (T *)(buffer_.data() + (v * cols_ + u) * sizeof(T));
-        return reinterpret_cast<T*>(buffer_.data() + (v * cols_ + u) * sizeof(T));
-    }
-
-  private:
-    void AllocateBuffer()
-    {
-        buffer_.resize(cols_ * rows_ * bytes_per_channel_);
-    }
-};
-
 inline const IcoMesh CreateIcoChart(bool square = false)
 {
     IcoMesh mesh;
@@ -429,10 +404,10 @@ inline MatX2I CreateChartImageIndices(const int level, IcoMesh& chart_template)
     return point_idx_to_image_idx;
 }
 
-inline std::vector<size_t> Create_Local_To_Global_Point_Idx_Map(IcoMesh &sphere_mesh, IcoMesh &chart_template, int chart_idx)
+inline std::vector<size_t> Create_Local_To_Global_Point_Idx_Map(IcoMesh& sphere_mesh, IcoMesh& chart_template, int chart_idx)
 {
-    MatX3I &sphere_triangles = sphere_mesh.triangles; // all triangles on S2
-    MatX3I &chart_triangles = chart_template.triangles; // 
+    MatX3I& sphere_triangles = sphere_mesh.triangles;   // all triangles on S2
+    MatX3I& chart_triangles = chart_template.triangles; //
     auto num_chart_triangles = chart_triangles.size();
     auto num_chart_vertices = chart_template.vertices.size();
     std::vector<size_t> local_to_global_point_idx_map(num_chart_vertices);
@@ -441,40 +416,121 @@ inline std::vector<size_t> Create_Local_To_Global_Point_Idx_Map(IcoMesh &sphere_
 
     for (size_t i = 0; i < num_chart_triangles; ++i)
     {
-        auto &local_tri = chart_triangles[i];
-        auto &global_tri = sphere_triangles[chart_tri_start_idx + i];
+        auto& local_tri = chart_triangles[i];
+        auto& global_tri = sphere_triangles[chart_tri_start_idx + i];
         for (size_t idx = 0; idx < 3; ++idx)
         {
             local_to_global_point_idx_map[local_tri[idx]] = global_tri[idx];
         }
     }
     return local_to_global_point_idx_map;
-
 }
+
+class Image
+{
+  public:
+    std::vector<uint8_t> buffer_;
+    int rows_;
+    int cols_;
+    int bytes_per_channel_;
+    bool is_float_;
+    // Image() = default;
+    Image(int rows, int cols, int bytes_per_channel, bool is_float = false) : buffer_(), rows_(rows), cols_(cols), bytes_per_channel_(bytes_per_channel), is_float_(is_float)
+    {
+        AllocateBuffer();
+    }
+    template <typename T>
+    T* PointerAt(int u, int v)
+    {
+        return reinterpret_cast<T*>(buffer_.data() + (v * cols_ + u) * sizeof(T));
+    }
+
+  private:
+    void AllocateBuffer()
+    {
+        buffer_.resize(cols_ * rows_ * bytes_per_channel_);
+    }
+};
+
+constexpr int get_chart_width(int level, int padding)
+{
+    return static_cast<int>(std::pow(2, level + 1)) + (2 * padding);
+}
+
+constexpr int get_chart_height(int level, int padding)
+{
+    return static_cast<int>(std::pow(2, level)) + (2 * padding);
+}
+
+template int *Image::PointerAt<int>(int u, int v);
+template uint8_t *Image::PointerAt<uint8_t>(int u, int v);
+
 
 class IcoChart
 {
   public:
     int level;
+    int padding;
     MatX2I point_idx_to_image_idx;
     std::vector<std::vector<size_t>> local_to_global_point_idx_map;
-    IcoChart(const int level_ = 1) : level(level_), point_idx_to_image_idx(),
-                                     local_to_global_point_idx_map(NUMBER_OF_CHARTS), sphere_mesh(), chart_template()
+    // int chart_width_padded;
+    // int chart_height_padded;
+    Image image;
+    // each position/pixel on the image is directly mapped to a vertex on the refined icosahedron
+    Image image_to_vertex_idx;
+    IcoChart(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), sphere_mesh(), chart_template()
     {
         sphere_mesh = RefineIcosahedron(level);
         chart_template = RefineIcoChart(level, true);
         point_idx_to_image_idx = CreateChartImageIndices(level, chart_template);
-        for(int i = 0; i < NUMBER_OF_CHARTS; ++i)
+        for (int i = 0; i < NUMBER_OF_CHARTS; ++i)
         {
             local_to_global_point_idx_map[i] = Create_Local_To_Global_Point_Idx_Map(sphere_mesh, chart_template, i);
+        }
+        ConstructImageToVertexIdx();
+
+    }
+    void FillImage(std::vector<double> normalized_vertex_count)
+    {
+        for(int row = 0; row < image.rows_; ++row)
+        {
+            for(int col = 0; col < image.cols_; ++col)
+            {
+                // get vertex index that corresponds to this image position
+                auto ico_vertex_index = *image_to_vertex_idx.PointerAt<int>(col, row);
+                // get pointer to our image at this position
+                auto img_pointer = image.PointerAt<uint8_t>(col, row);
+                // set value of the image
+                *img_pointer = static_cast<uint8_t>(255.0 * normalized_vertex_count[ico_vertex_index]);
+            }
+
         }
     }
 
   protected:
-
   private:
     IcoMesh sphere_mesh;    // Full Refined Icosahedron Mesh on S2
     IcoMesh chart_template; // Single 2D Chart Template
+
+    void ConstructImageToVertexIdx()
+    {
+        auto chart_height = get_chart_height(level, padding);
+        for (int chart_idx = 0; chart_idx < NUMBER_OF_CHARTS; ++chart_idx)
+        {
+            int chart_height_offset = (NUMBER_OF_CHARTS - chart_idx - 1) * chart_height;
+            // Get the mapping from the local point idx to global point index for this chart
+            auto &local_to_global_point_idx_map_chart = local_to_global_point_idx_map[chart_idx];
+            for (size_t local_point_idx = 0; local_point_idx < point_idx_to_image_idx.size(); ++local_point_idx)
+            {
+                const auto &global_point_idx = local_to_global_point_idx_map_chart[local_point_idx];
+                const auto &img_coords = point_idx_to_image_idx[local_point_idx];
+                const auto img_row = chart_height_offset + (chart_height - static_cast<int>(img_coords[1]) - 1);
+                const auto img_col = static_cast<int>(img_coords[0]) + 1;
+                auto img_ptr = image_to_vertex_idx.PointerAt<int>(img_col, img_row);
+                *img_ptr = static_cast<int>(global_point_idx);
+            }
+        }
+    }
 };
 
 } // namespace Ico

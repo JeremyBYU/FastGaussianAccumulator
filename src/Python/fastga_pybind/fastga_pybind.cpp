@@ -93,6 +93,48 @@ PYBIND11_MODULE(fastga, m)
         });
 
     // Classes
+    py::class_<FastGA::Ico::Image>(m, "Image", py::buffer_protocol())
+        .def_buffer([](FastGA::Ico::Image& m) -> py::buffer_info {
+            const size_t cols = m.cols_;
+            const size_t rows = m.rows_;
+            std::string format;
+                switch (m.bytes_per_channel_) {
+                    case 1:
+                        format = py::format_descriptor<uint8_t>::format();
+                        break;
+                    case 2:
+                        format = py::format_descriptor<uint16_t>::format();
+                        break;
+                    case 4:
+                        if (m.is_float_)
+                        {
+                            format = py::format_descriptor<float>::format();
+                        }
+                        else
+                        {
+                            format = py::format_descriptor<int>::format();
+                        }
+                        break;
+                    default:
+                        throw std::runtime_error(
+                                "Image has unrecognized bytes_per_channel.");
+                        break;
+            }
+            return py::buffer_info(
+                m.buffer_.data(),                                /* Pointer to buffer */
+                m.bytes_per_channel_,                          /* Size of one scalar */
+                format, /* Python struct-style format descriptor */
+                2UL,                                     /* Number of dimensions */
+                {rows, cols},                        /* Buffer dimensions */
+                {m.bytes_per_channel_ * cols,                     /* Strides (in bytes) for each index */
+                 static_cast<size_t>(m.bytes_per_channel_)});
+        })
+        .def("__repr__",
+        [](const FastGA::Ico::Image &img) {
+            return std::string("Image of size ") +
+                std::to_string(img.cols_) + std::string("x") +
+                std::to_string(img.rows_);});
+
     py::class_<FastGA::Bucket<uint32_t>>(m, "BucketUInt32")
         .def(py::init<>())
         .def_readonly("normal", &FastGA::Bucket<uint32_t>::normal)
@@ -191,6 +233,9 @@ PYBIND11_MODULE(fastga, m)
         .def(py::init<const int>(), "level"_a = FastGA_LEVEL)
         .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
         .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
+        .def_readonly("image", &FastGA::Ico::IcoChart::image)
+        .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoChart::image_to_vertex_idx)
+        .def("fill_image", &FastGA::Ico::IcoChart::FillImage, "normalized_vertex_count"_a)
         .def("__repr__",
              [](const FastGA::Ico::IcoChart& a) {
                  return "<IcoChart; Level: '" + std::to_string(a.level) + "'>";

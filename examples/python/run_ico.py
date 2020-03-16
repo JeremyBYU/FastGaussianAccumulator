@@ -34,6 +34,59 @@ def IcoMeshVertices(level = 1):
         return 12
     return IcoMeshVertices(level - 1) + int(1.5 * IcoMeshFaces(level - 1))
 
+def get_chart_height(level, padding=1):
+    return 2 ** (level) + (2 * padding)
+
+# constexpr int get_chart_height(int level, int padding)
+# {
+#     return static_cast<int>(std::pow(2, level)) + (2 * padding);
+# }
+
+def collapse_range(row_col_idx, flattened_indices):
+    row_idx = row_col_idx[0]
+    col_idx = row_col_idx[1]
+    for row in range(row_idx[0], row_idx[1]):
+        for col in range(col_idx[0], col_idx[1]):
+            flattened_indices.append([row, col])
+
+def reduce_index_list(indices, flattened_indices):
+    for row_col_idx in indices:
+        collapse_range(row_col_idx, flattened_indices)
+
+def geneate_copy_indices(level=2):
+    sub_block_width = 2 ** level
+    total_width = 2 ** (level + 1)
+    chart_height = get_chart_height(level)
+    num_charts = 5
+    from_flattened_indices = []
+    # Copies for first column
+    to_flattened_indices = []
+    to_indices = [[[i * chart_height + 1, i * chart_height + 1 + sub_block_width], [0,1]] for i in range(num_charts)]
+    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1, sub_block_width + 1]] for i in range(num_charts)]
+    
+    reduce_index_list(to_indices, to_flattened_indices)
+    reduce_index_list(from_indices, from_flattened_indices)
+
+    # Copies for ghost row, left block
+    to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1, sub_block_width + 1]] for i in range(num_charts)]
+    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
+
+    reduce_index_list(to_indices, to_flattened_indices)
+    reduce_index_list(from_indices, from_flattened_indices)
+
+    # Copies for ghost row, right block
+    to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
+    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 1 + sub_block_width], [total_width, total_width + 1]] for i in range(num_charts)]
+
+    reduce_index_list(to_indices, to_flattened_indices)
+    reduce_index_list(from_indices, from_flattened_indices)
+
+    print(to_flattened_indices)
+    print(from_flattened_indices)
+    return to_flattened_indices, from_flattened_indices
+
+
+
 def extract_chart(mesh, chart_idx=0):
     triangles = np.asarray(mesh.triangles)
     vertices = np.asarray(mesh.vertices)
@@ -77,7 +130,6 @@ def create_chart_image(ga, mesh, level=2, chart_idx=0):
     chart_vertices = np.asarray(icochart_square.vertices)
     chart_triangles = np.asarray(icochart_square.triangles)
 
-    print(chart_triangles.shape[0], chart_vertices.shape[0])
     local_global_point_idx_map = create_local_to_global_point_index_map(all_triangles, chart_triangles, chart_idx, chart_vertices.shape[0])
     
     padding = 1
@@ -91,10 +143,15 @@ def create_chart_image(ga, mesh, level=2, chart_idx=0):
     scale = 2 ** level
     point_idx_to_image_idx = (chart_vertices * scale).astype(np.int)
 
-    ico_chart_ = IcoChart(level)
-    test = np.asarray(ico_chart_.local_to_global_point_idx_map)
-    print(test.shape, test[0].shape)
-    print(local_global_point_idx_map)
+    # ico_chart_ = IcoChart(level)
+    # test = np.asarray(ico_chart_.local_to_global_point_idx_map)
+    # print(point_idx_to_image_idx)
+    # print(local_global_point_idx_map)
+    # print(test)
+
+    # test2 = np.asarray(ico_chart_.image_to_vertex_idx)
+    # print(test2.shape, test2.dtype)
+    # print(test2)
 
     normalized_bucket_counts_by_vertex = ga.get_normalized_bucket_counts_by_vertex(True)
 
@@ -117,6 +174,8 @@ def analyze_mesh(mesh):
     kwargs_opt_integrate = dict(num_nbr=12)
     query_max_phi = kwargs_base['max_phi'] - 5
 
+    geneate_copy_indices(LEVEL)
+
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
     colored_icosahedron_s2, _, _ = visualize_gaussian_integration(
         ga_cpp_s2, mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
@@ -128,7 +187,7 @@ def analyze_mesh(mesh):
     colors_s2 = get_colors(range(num_triangles), colormap=plt.cm.tab20)[:, :3]
     colored_ico_s2_organized_mesh = assign_vertex_colors(ico_o3d_s2_om, colors_s2)
 
-    image = create_chart_image(ga_cpp_s2, ico_s2_organized_mesh, level=LEVEL, chart_idx=3)
+    # image = create_chart_image(ga_cpp_s2, ico_s2_organized_mesh, level=LEVEL, chart_idx=0)
 
     # bucket_normals = np.asarray(ga_cpp_s2.get_bucket_normals(True))
     bucket_counts = np.asarray(ga_cpp_s2.get_normalized_bucket_counts(True))
@@ -149,7 +208,20 @@ def analyze_mesh(mesh):
     all_charts = functools.reduce(lambda a,b : a+b,new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
 
-    plt.imshow(image)
+
+    ico_chart_ = IcoChart(LEVEL)
+    # t0 = time.perf_counter()
+    normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
+    ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
+    # t1 = time.perf_counter() 
+    # print(t1 - t0) # 200 microseconds for level 4
+
+    full_image = np.asarray(ico_chart_.image)
+
+    # plt.imshow(image)
+    # plt.show()
+
+    plt.imshow(full_image)
     plt.show()
     # colored_image = np.ascontiguousarray(plt.cm.viridis(image)[:, :, :3], dtype=np.float32)
     
