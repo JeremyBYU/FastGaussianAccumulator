@@ -26,107 +26,6 @@ ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
-def IcoMeshFaces(level = 1):
-    if level == 0:
-        return 20
-    else:
-        return IcoMeshFaces(level -1) * 4
-
-def IcoMeshVertices(level = 1):
-    if level == 1:
-        return 12
-    return IcoMeshVertices(level - 1) + int(1.5 * IcoMeshFaces(level - 1))
-
-def get_chart_height(level, padding=1):
-    return 2 ** (level) + (2 * padding)
-
-# def get_high_intensity_peaks(image, mask, num_peaks=np.inf):
-#     """
-#     Return the highest intensity peak coordinates.
-#     """
-#     # get coordinates of peaks
-#     coord = np.nonzero(mask)
-#     coord = np.column_stack(coord)
-#     # Highest peak first
-#     return coord[::-1]
-
-# def find_peaks_from_icocharts(ico_charts, normalized_bucket_counts_by_vertex,
-#                find_peaks_kwargs=dict(threshold_abs=20, min_distance=1, exclude_border=False, indices=False),
-#                cluster_kwargs=dict(t=0.15, criterion='distance')):
-#     # Get data from ico chart
-#     image_to_vertex_idx = np.asarray(ico_charts.image_to_vertex_idx)
-#     image = np.asarray(ico_charts.image)
-#     mask = np.asarray(ico_charts.mask)
-#     mask = np.ma.make_mask(mask, copy=False)
-#     vertices_mesh = np.asarray(ico_charts.sphere_mesh.vertices)
-#     # 2D Peak Detection
-#     peak_mask = peak_local_max(image, **find_peaks_kwargs)
-#     # Filter out invalid peaks, get associated normals
-#     valid_peaks = mask & peak_mask
-#     peak_image_idx = get_high_intensity_peaks(image, valid_peaks)
-#     vertices_idx = image_to_vertex_idx[peak_image_idx[:, 0], peak_image_idx[:, 1]]
-#     unclustered_peak_normals = vertices_mesh[vertices_idx,:]
-
-
-#     Z = linkage(unclustered_peak_normals, 'single')
-#     clusters = fcluster(Z, **cluster_kwargs)
-
-#     weights_1d_clusters = normalized_bucket_counts_by_vertex[vertices_idx]
-#     average_peaks, average_weights = average_clusters(unclustered_peak_normals, weights_1d_clusters, clusters)
-
-#     print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
-#     return unclustered_peak_normals, clusters, average_peaks, average_weights
-
-
-#     return peak_image_idx
-
-def collapse_range(row_col_idx, flattened_indices):
-    row_idx = row_col_idx[0]
-    col_idx = row_col_idx[1]
-    for row in range(row_idx[0], row_idx[1]):
-        for col in range(col_idx[0], col_idx[1]):
-            flattened_indices.append([row, col])
-
-def reduce_index_list(indices, flattened_indices):
-    for row_col_idx in indices:
-        collapse_range(row_col_idx, flattened_indices)
-
-def geneate_copy_indices(level=2):
-    sub_block_width = 2 ** level
-    total_width = 2 ** (level + 1)
-    chart_height = get_chart_height(level)
-    num_charts = 5
-    from_flattened_indices = []
-    # Copies for first column
-    to_flattened_indices = []
-    to_indices = [[[i * chart_height + 1, i * chart_height + 1 + sub_block_width], [0,1]] for i in range(num_charts)]
-    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1, sub_block_width + 1]] for i in range(num_charts)]
-    
-    reduce_index_list(to_indices, to_flattened_indices)
-    reduce_index_list(from_indices, from_flattened_indices)
-
-    # Copies for ghost row, left block
-    to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1, sub_block_width + 1]] for i in range(num_charts)]
-    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 2], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
-
-    reduce_index_list(to_indices, to_flattened_indices)
-    reduce_index_list(from_indices, from_flattened_indices)
-
-    # Copies for ghost row, right block
-    to_indices = [[[chart_height * (i+1) - 1, chart_height * (i+1)], [1 + sub_block_width, 1 + 2*sub_block_width]] for i in range(num_charts)]
-    from_indices = [[[((i+1) % (num_charts)) * chart_height + 1, ((i+1) % (num_charts)) * chart_height + 1 + sub_block_width], [total_width, total_width + 1]] for i in range(num_charts)]
-
-    reduce_index_list(to_indices, to_flattened_indices)
-    reduce_index_list(from_indices, from_flattened_indices)
-
-    # print(to_flattened_indices)
-    # print(from_flattened_indices)
-    # print(len(to_flattened_indices))
-    # print(len(from_flattened_indices))
-    # 15, 30, 60, 120, 240
-    return to_flattened_indices, from_flattened_indices
-
-
 
 def extract_chart(mesh, chart_idx=0):
     triangles = np.asarray(mesh.triangles)
@@ -148,64 +47,6 @@ def decompose(ico):
     vertices = np.asarray(ico.vertices)
     ico_o3d = create_open_3d_mesh(triangles, vertices)
     return triangles, vertices, ico_o3d
-
-
-def create_local_to_global_point_index_map(all_triangles, chart_triangles, chart_idx, chart_num_vertices):
-    chart_num_triangles = chart_triangles.shape[0]
-    chart_tri_start_idx = chart_idx * chart_num_triangles
-    chart_tri_end_idx = chart_tri_start_idx + chart_num_triangles
-
-    global_chart_triangles = all_triangles[chart_tri_start_idx:chart_tri_end_idx, :]
-    local_global_point_idx_map = np.zeros((chart_num_vertices, ), dtype='int')
-    for tri_idx in range(chart_num_triangles):
-        local_tri = chart_triangles[tri_idx,:]
-        global_tri = global_chart_triangles[tri_idx, :]
-        for idx in range(3):
-            local_global_point_idx_map[local_tri[idx]] = global_tri[idx]
-    return local_global_point_idx_map
-
-def create_chart_image(ga, mesh, level=2, chart_idx=0):
-    all_triangles = np.asarray(mesh.triangles)
-
-    icochart_square = refine_icochart(level=level, square=True)
-    chart_vertices = np.asarray(icochart_square.vertices)
-    chart_triangles = np.asarray(icochart_square.triangles)
-
-    local_global_point_idx_map = create_local_to_global_point_index_map(all_triangles, chart_triangles, chart_idx, chart_vertices.shape[0])
-    
-    padding = 1
-    width = 2 ** (level + 1)
-    height = 2 ** level
-    width_padded = width + (2 * padding)
-    height_padded = height + (2 * padding)
-
-    image = np.zeros((height_padded, width_padded))
-
-    scale = 2 ** level
-    point_idx_to_image_idx = (chart_vertices * scale).astype(np.int)
-
-    # ico_chart_ = IcoChart(level)
-    # test = np.asarray(ico_chart_.local_to_global_point_idx_map)
-    # print(point_idx_to_image_idx)
-    # print(local_global_point_idx_map)
-    # print(test)
-
-    # test2 = np.asarray(ico_chart_.image_to_vertex_idx)
-    # print(test2.shape, test2.dtype)
-    # print(test2)
-
-    normalized_bucket_counts_by_vertex = ga.get_normalized_bucket_counts_by_vertex(True)
-
-    for local_point_idx in range(point_idx_to_image_idx.shape[0]):
-        global_point_idx =  local_global_point_idx_map[local_point_idx]
-        img_coords = point_idx_to_image_idx[local_point_idx]
-        img_row = img_coords[1]
-        img_col = img_coords[0] + 1
-        noralized_bucket_count = normalized_bucket_counts_by_vertex[global_point_idx]
-        image[img_row, img_col] = noralized_bucket_count
-
-
-    return image
 
 
 def analyze_mesh(mesh):
@@ -249,27 +90,14 @@ def analyze_mesh(mesh):
     all_charts = functools.reduce(lambda a,b : a+b,new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
 
-    geneate_copy_indices(LEVEL)
     ico_chart_ = IcoChart(LEVEL)
-    # image_to_vertex_idx = np.asarray(ico_chart_.image_to_vertex_idx)
-    np.set_printoptions(threshold=10000, linewidth=100000)
-    # print(image_to_vertex_idx)
-    # mask = np.asarray(ico_chart_.mask)
-    # print(mask)
-    # t0 = time.perf_counter()
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
 
     _, _, avg_peaks, _ = find_peaks_from_icocharts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex))
     print(avg_peaks)
 
-    # t1 = time.perf_counter() 
-    # print(t1 - t0) # 200 microseconds for level 4
-
     full_image = np.asarray(ico_chart_.image)
-
-    # plt.imshow(image)
-    # plt.show()
 
     plt.imshow(full_image)
     plt.xticks(np.arange(0, full_image.shape[1], step=1))
