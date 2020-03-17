@@ -6,10 +6,13 @@ from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 import open3d as o3d
 from fastga import GaussianAccumulatorS2, MatX3d, refine_icosahedron, refine_icochart, IcoChart
+from fastga.peak_and_cluster import find_peaks_from_icocharts
 from examples.python.run_meshes import visualize_gaussian_integration
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors,
                                create_open_3d_mesh, assign_vertex_colors, plot_meshes, find_peaks_from_accumulator)
 from src.Python.slowga.helper import translate_meshes
+
+from skimage.feature import peak_local_max
 
 THIS_DIR = Path(__file__).parent
 FIXTURES_DIR = THIS_DIR / "../../fixtures/"
@@ -37,10 +40,45 @@ def IcoMeshVertices(level = 1):
 def get_chart_height(level, padding=1):
     return 2 ** (level) + (2 * padding)
 
-# constexpr int get_chart_height(int level, int padding)
-# {
-#     return static_cast<int>(std::pow(2, level)) + (2 * padding);
-# }
+# def get_high_intensity_peaks(image, mask, num_peaks=np.inf):
+#     """
+#     Return the highest intensity peak coordinates.
+#     """
+#     # get coordinates of peaks
+#     coord = np.nonzero(mask)
+#     coord = np.column_stack(coord)
+#     # Highest peak first
+#     return coord[::-1]
+
+# def find_peaks_from_icocharts(ico_charts, normalized_bucket_counts_by_vertex,
+#                find_peaks_kwargs=dict(threshold_abs=20, min_distance=1, exclude_border=False, indices=False),
+#                cluster_kwargs=dict(t=0.15, criterion='distance')):
+#     # Get data from ico chart
+#     image_to_vertex_idx = np.asarray(ico_charts.image_to_vertex_idx)
+#     image = np.asarray(ico_charts.image)
+#     mask = np.asarray(ico_charts.mask)
+#     mask = np.ma.make_mask(mask, copy=False)
+#     vertices_mesh = np.asarray(ico_charts.sphere_mesh.vertices)
+#     # 2D Peak Detection
+#     peak_mask = peak_local_max(image, **find_peaks_kwargs)
+#     # Filter out invalid peaks, get associated normals
+#     valid_peaks = mask & peak_mask
+#     peak_image_idx = get_high_intensity_peaks(image, valid_peaks)
+#     vertices_idx = image_to_vertex_idx[peak_image_idx[:, 0], peak_image_idx[:, 1]]
+#     unclustered_peak_normals = vertices_mesh[vertices_idx,:]
+
+
+#     Z = linkage(unclustered_peak_normals, 'single')
+#     clusters = fcluster(Z, **cluster_kwargs)
+
+#     weights_1d_clusters = normalized_bucket_counts_by_vertex[vertices_idx]
+#     average_peaks, average_weights = average_clusters(unclustered_peak_normals, weights_1d_clusters, clusters)
+
+#     print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
+#     return unclustered_peak_normals, clusters, average_peaks, average_weights
+
+
+#     return peak_image_idx
 
 def collapse_range(row_col_idx, flattened_indices):
     row_idx = row_col_idx[0]
@@ -81,8 +119,11 @@ def geneate_copy_indices(level=2):
     reduce_index_list(to_indices, to_flattened_indices)
     reduce_index_list(from_indices, from_flattened_indices)
 
-    print(to_flattened_indices)
-    print(from_flattened_indices)
+    # print(to_flattened_indices)
+    # print(from_flattened_indices)
+    # print(len(to_flattened_indices))
+    # print(len(from_flattened_indices))
+    # 15, 30, 60, 120, 240
     return to_flattened_indices, from_flattened_indices
 
 
@@ -168,13 +209,13 @@ def create_chart_image(ga, mesh, level=2, chart_idx=0):
 
 
 def analyze_mesh(mesh):
-    LEVEL = 2
+    LEVEL = 4
     kwargs_base = dict(level=LEVEL, max_phi=180)
     kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
     query_max_phi = kwargs_base['max_phi'] - 5
 
-    geneate_copy_indices(LEVEL)
+
 
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
     colored_icosahedron_s2, _, _ = visualize_gaussian_integration(
@@ -208,11 +249,20 @@ def analyze_mesh(mesh):
     all_charts = functools.reduce(lambda a,b : a+b,new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
 
-
+    geneate_copy_indices(LEVEL)
     ico_chart_ = IcoChart(LEVEL)
+    # image_to_vertex_idx = np.asarray(ico_chart_.image_to_vertex_idx)
+    np.set_printoptions(threshold=10000, linewidth=100000)
+    # print(image_to_vertex_idx)
+    # mask = np.asarray(ico_chart_.mask)
+    # print(mask)
     # t0 = time.perf_counter()
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
+
+    _, _, avg_peaks, _ = find_peaks_from_icocharts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex))
+    print(avg_peaks)
+
     # t1 = time.perf_counter() 
     # print(t1 - t0) # 200 microseconds for level 4
 
@@ -222,6 +272,8 @@ def analyze_mesh(mesh):
     # plt.show()
 
     plt.imshow(full_image)
+    plt.xticks(np.arange(0, full_image.shape[1], step=1))
+    plt.yticks(np.arange(0, full_image.shape[0], step=1))
     plt.show()
     # colored_image = np.ascontiguousarray(plt.cm.viridis(image)[:, :, :3], dtype=np.float32)
     
@@ -262,7 +314,6 @@ def main():
         if r is not None:
             example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh.compute_triangle_normals()
-        print(example_mesh)
         analyze_mesh(example_mesh)
 
 

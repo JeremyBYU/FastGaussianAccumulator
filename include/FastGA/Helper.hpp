@@ -52,6 +52,32 @@ std::ostream& operator<<(std::ostream& out, const std::array<T, 3>& v)
     return out;
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const std::vector<std::array<T, 2>>& v)
+{
+    if (!v.empty())
+    {
+        for(auto &ar: v)
+        {
+            out << ar << ", ";
+        }
+    }
+    out << std::endl;
+    return out;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const std::array<T, 2>& v)
+{
+    if (!v.empty())
+    {
+        out << '[';
+        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+        out << "\b\b]";
+    }
+    return out;
+}
+
 namespace FastGA {
 
 using MatX3d = std::vector<std::array<double, 3>>;
@@ -61,6 +87,8 @@ using MatX12I = std::vector<std::array<size_t, 12>>;
 using MatX2d = std::vector<std::array<double, 2>>;
 using MatX2I = std::vector<std::array<size_t, 2>>;
 using MatX2ui = std::vector<std::array<uint32_t, 2>>;
+using MatX2i = std::vector<std::array<int, 2>>;
+using MatX4i = std::vector<std::array<int, 4>>;
 struct Regression
 {
     double slope;

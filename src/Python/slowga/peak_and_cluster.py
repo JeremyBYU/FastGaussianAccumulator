@@ -23,6 +23,7 @@ def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_
     print("Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
     return peaks, clusters, average_peaks, average_weights
 
+
 def get_point_clusters(points, point_weights, clusters):
     point_clusters = []
     cluster_groups = np.unique(clusters)

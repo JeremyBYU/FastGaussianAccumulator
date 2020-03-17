@@ -235,6 +235,8 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
         .def_readonly("image", &FastGA::Ico::IcoChart::image)
         .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoChart::image_to_vertex_idx)
+        .def_readonly("mask", &FastGA::Ico::IcoChart::mask)
+        .def_readonly("sphere_mesh", &FastGA::Ico::IcoChart::sphere_mesh)
         .def("fill_image", &FastGA::Ico::IcoChart::FillImage, "normalized_vertex_count"_a)
         .def("__repr__",
              [](const FastGA::Ico::IcoChart& a) {

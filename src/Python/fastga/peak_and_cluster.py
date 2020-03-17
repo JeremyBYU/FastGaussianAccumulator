@@ -1,7 +1,8 @@
-
+import time
 import numpy as np
 from scipy.signal import find_peaks
 from scipy.cluster.hierarchy import linkage, fcluster
+from skimage.feature import peak_local_max
 
 def normalized(a, axis=-1, order=2):
     """Normalizes a numpy array of points"""
@@ -19,6 +20,46 @@ def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_
     weights_1d_clusters = accumulator_normalized_sorted[peaks]
     average_peaks, average_weights = average_clusters(gaussian_normal_1d_clusters, weights_1d_clusters, clusters)
     return peaks, clusters, average_peaks, average_weights
+
+def get_high_intensity_peaks(image, mask, num_peaks=np.inf):
+    """
+    Return the highest intensity peak coordinates.
+    """
+    # get coordinates of peaks
+    coord = np.nonzero(mask)
+    coord = np.column_stack(coord)
+    # Highest peak first
+    return coord[::-1]
+
+def find_peaks_from_icocharts(ico_charts, normalized_bucket_counts_by_vertex,
+               find_peaks_kwargs=dict(threshold_abs=20, min_distance=1, exclude_border=False, indices=False),
+               cluster_kwargs=dict(t=0.15, criterion='distance')):
+    # Get data from ico chart
+    # t0 = time.perf_counter()
+    image_to_vertex_idx = np.asarray(ico_charts.image_to_vertex_idx)
+    image = np.asarray(ico_charts.image)
+    mask = np.asarray(ico_charts.mask)
+    mask = np.ma.make_mask(mask, copy=False)
+    vertices_mesh = np.asarray(ico_charts.sphere_mesh.vertices)
+    # 2D Peak Detection
+    peak_mask = peak_local_max(image, **find_peaks_kwargs)
+    # Filter out invalid peaks, get associated normals
+    valid_peaks = mask & peak_mask
+    peak_image_idx = get_high_intensity_peaks(image, valid_peaks)
+    vertices_idx = image_to_vertex_idx[peak_image_idx[:, 0], peak_image_idx[:, 1]]
+    unclustered_peak_normals = vertices_mesh[vertices_idx,:]
+    # t1 = time.perf_counter()
+
+
+    Z = linkage(unclustered_peak_normals, 'single')
+    clusters = fcluster(Z, **cluster_kwargs)
+    # t2 = time.perf_counter()
+
+    weights_1d_clusters = normalized_bucket_counts_by_vertex[vertices_idx]
+    average_peaks, average_weights = average_clusters(unclustered_peak_normals, weights_1d_clusters, clusters, average_filter=dict(min_total_weight=0.1))
+
+    # print("IcoChart Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
+    return unclustered_peak_normals, clusters, average_peaks, average_weights
 
 def get_point_clusters(points, point_weights, clusters):
     point_clusters = []

@@ -462,9 +462,8 @@ constexpr int get_chart_height(int level, int padding)
     return static_cast<int>(std::pow(2, level)) + (2 * padding);
 }
 
-template int *Image::PointerAt<int>(int u, int v);
-template uint8_t *Image::PointerAt<uint8_t>(int u, int v);
-
+template int* Image::PointerAt<int>(int u, int v);
+template uint8_t* Image::PointerAt<uint8_t>(int u, int v);
 
 class IcoChart
 {
@@ -473,12 +472,14 @@ class IcoChart
     int padding;
     MatX2I point_idx_to_image_idx;
     std::vector<std::vector<size_t>> local_to_global_point_idx_map;
-    // int chart_width_padded;
-    // int chart_height_padded;
+    // Unwrapped refined icosahedron as an image
     Image image;
-    // each position/pixel on the image is directly mapped to a vertex on the refined icosahedron
+    // each pixel on the image is directly mapped to a vertex idx on the refined icosahedron
     Image image_to_vertex_idx;
-    IcoChart(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), sphere_mesh(), chart_template()
+    // mask of image which indcates which cells are valid
+    Image mask;
+    IcoMesh sphere_mesh;    // Full Refined Icosahedron Mesh on S2
+    IcoChart(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), sphere_mesh(), chart_template()
     {
         sphere_mesh = RefineIcosahedron(level);
         chart_template = RefineIcoChart(level, true);
@@ -488,13 +489,13 @@ class IcoChart
             local_to_global_point_idx_map[i] = Create_Local_To_Global_Point_Idx_Map(sphere_mesh, chart_template, i);
         }
         ConstructImageToVertexIdx();
-
+        ConstructImageMask();
     }
     void FillImage(std::vector<double> normalized_vertex_count)
     {
-        for(int row = 0; row < image.rows_; ++row)
+        for (int row = 0; row < image.rows_; ++row)
         {
-            for(int col = 0; col < image.cols_; ++col)
+            for (int col = 0; col < image.cols_; ++col)
             {
                 // get vertex index that corresponds to this image position
                 auto ico_vertex_index = *image_to_vertex_idx.PointerAt<int>(col, row);
@@ -503,31 +504,147 @@ class IcoChart
                 // set value of the image
                 *img_pointer = static_cast<uint8_t>(255.0 * normalized_vertex_count[ico_vertex_index]);
             }
-
         }
     }
 
   protected:
   private:
-    IcoMesh sphere_mesh;    // Full Refined Icosahedron Mesh on S2
     IcoMesh chart_template; // Single 2D Chart Template
+    void ConstructImageMask()
+    {
+        // Start off with every pixel being valid
+        auto chart_height = get_chart_height(level, padding);
+        std::fill(mask.buffer_.begin(), mask.buffer_.end(), 255);
+        // Set first column to invalid (ghost column)
+        for(int row = 0; row < mask.rows_; ++row)
+        {
+            auto img_pointer = mask.PointerAt<uint8_t>(0, row);
+            *img_pointer = 0;
+        }
+        // Iterate through the 5 ghost rows, set all cols of these rows to 0
+        for (int chart_idx = 0; chart_idx < NUMBER_OF_CHARTS; ++chart_idx)
+        {
+            int row = (chart_idx + 1) * chart_height - 1;
+            for(int col = 0; col < mask.cols_; ++col)
+            {
+                auto img_pointer = mask.PointerAt<uint8_t>(col, row);
+                *img_pointer = 0;
+            }
+        }
 
+    }
     void ConstructImageToVertexIdx()
     {
         auto chart_height = get_chart_height(level, padding);
         for (int chart_idx = 0; chart_idx < NUMBER_OF_CHARTS; ++chart_idx)
         {
+            // Our y axis for our image will be growing DOWN. Basically we are inverting the y-axis
             int chart_height_offset = (NUMBER_OF_CHARTS - chart_idx - 1) * chart_height;
             // Get the mapping from the local point idx to global point index for this chart
-            auto &local_to_global_point_idx_map_chart = local_to_global_point_idx_map[chart_idx];
+            auto& local_to_global_point_idx_map_chart = local_to_global_point_idx_map[chart_idx];
             for (size_t local_point_idx = 0; local_point_idx < point_idx_to_image_idx.size(); ++local_point_idx)
             {
-                const auto &global_point_idx = local_to_global_point_idx_map_chart[local_point_idx];
-                const auto &img_coords = point_idx_to_image_idx[local_point_idx];
-                const auto img_row = chart_height_offset + (chart_height - static_cast<int>(img_coords[1]) - 1);
+                const auto& global_point_idx = local_to_global_point_idx_map_chart[local_point_idx];
+                const auto& img_coords = point_idx_to_image_idx[local_point_idx];
+                // Once again we need to flip the y-axis
+                const auto img_row = chart_height_offset + (chart_height - static_cast<int>(img_coords[1]) - 2);
                 const auto img_col = static_cast<int>(img_coords[0]) + 1;
                 auto img_ptr = image_to_vertex_idx.PointerAt<int>(img_col, img_row);
                 *img_ptr = static_cast<int>(global_point_idx);
+            }
+        }
+
+        // Fill in Ghost Cells
+        MatX2i to_flattened_indices;
+        MatX2i from_flattened_indices;
+        std::tie(to_flattened_indices, from_flattened_indices) = GetGhostCellIndices();
+        for (size_t i = 0; i < to_flattened_indices.size(); i++)
+        {
+            auto& to_index = to_flattened_indices[i];
+            auto& from_index = from_flattened_indices[i];
+            auto img_ptr = image_to_vertex_idx.PointerAt<int>(to_index[1], to_index[0]);
+            *img_ptr = *(image_to_vertex_idx.PointerAt<int>(from_index[1], from_index[0]));
+        }
+    }
+    std::tuple<MatX2i, MatX2i> GetGhostCellIndices()
+    {
+        auto chart_height = get_chart_height(level, padding);
+        auto sub_block_width = static_cast<int>(std::pow(2, level));
+        auto block_width = static_cast<int>(std::pow(2, level + 1));
+
+        // Create an range iterator....
+        std::vector<int> nums(NUMBER_OF_CHARTS);
+        std::iota(nums.begin(), nums.end(), 0);
+
+        MatX2i to_flattened_indices;
+        MatX2i from_flattened_indices;
+
+        MatX4i to_indices;
+        MatX4i from_indices;
+        // The ghost cells here assume 1 padding
+        // TODO make generic for padding
+        // Copies for first ghost column
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = i * chart_height + 1;
+            auto end_row = i * chart_height + 1 + sub_block_width;
+            to_indices.emplace_back(std::array<int, 4>{start_row, end_row, 0, 1});
+        });
+
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = ((i + 1) % NUMBER_OF_CHARTS) * chart_height + 1;
+            auto end_row = start_row + 1;
+            from_indices.emplace_back(std::array<int, 4>{start_row, end_row, 1, sub_block_width + 1});
+        });
+
+        // Copies for ghost row, left block
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = (i + 1) * chart_height - 1;
+            auto end_row = start_row + 1;
+            auto start_col = 1;
+            auto end_col = sub_block_width + 1;
+            to_indices.emplace_back(std::array<int, 4>{start_row, end_row, start_col, end_col});
+        });
+
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = ((i + 1) % NUMBER_OF_CHARTS) * chart_height + 1;
+            auto end_row = start_row + 1;
+            auto start_col = 1 + sub_block_width;
+            auto end_col = 1 + 2 * sub_block_width;
+            from_indices.emplace_back(std::array<int, 4>{start_row, end_row, start_col, end_col});
+        });
+
+        // Copies for ghost row, right block
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = (i + 1) * chart_height - 1;
+            auto end_row = start_row + 1;
+            auto start_col = 1 + sub_block_width;
+            auto end_col = 1 + 2 * sub_block_width;
+            to_indices.emplace_back(std::array<int, 4>{start_row, end_row, start_col, end_col});
+        });
+
+        std::for_each(nums.begin(), nums.end(), [&](int i) {
+            auto start_row = ((i + 1) % NUMBER_OF_CHARTS) * chart_height + 1;
+            auto end_row = start_row + sub_block_width;
+            auto start_col = block_width;
+            auto end_col = block_width + 1;
+            from_indices.emplace_back(std::array<int, 4>{start_row, end_row, start_col, end_col});
+        });
+
+        flatten_indices(to_indices, to_flattened_indices);
+        flatten_indices(from_indices, from_flattened_indices);
+
+        return std::make_tuple(to_flattened_indices, from_flattened_indices);
+    }
+    void flatten_indices(std::vector<std::array<int, 4>>& indices, std::vector<std::array<int, 2>>& flattened_indices)
+    {
+        for (auto& row_col_idx : indices)
+        {
+            for (auto row = row_col_idx[0]; row < row_col_idx[1]; ++row)
+            {
+                for (auto col = row_col_idx[2]; col < row_col_idx[3]; ++col)
+                {
+                    flattened_indices.emplace_back(std::array<int, 2>{row, col});
+                }
             }
         }
     }
