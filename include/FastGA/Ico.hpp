@@ -8,8 +8,6 @@ const static double EQUILATERAL_TRIANGLE_RATIO = sqrt(3.0) / 2.0;
 const static double ICOSAHEDRON_TRUE_RADIUS = sqrt(1.0 + GOLDEN_RATIO * GOLDEN_RATIO);
 const static double ICOSAHEDRON_SCALING = 1.0 / ICOSAHEDRON_TRUE_RADIUS;
 const static int NUMBER_OF_CHARTS = 5;
-// using Triangles = std::vector<std::array<size_t, 3>>;
-// using Vertices = std::vector<std::array<double, 3>>;
 
 inline constexpr int IcoMeshFaces(int level = 1)
 {
@@ -35,6 +33,8 @@ struct IcoMesh
     IcoMesh() : vertices(), triangles(), triangle_normals(), adjacency_matrix() {}
 };
 
+// An IcoChart is one of 5 face groups on an icosahedron
+// This function is used to create a 2D representation of one of these charts
 inline const IcoMesh CreateIcoChart(bool square = false)
 {
     IcoMesh mesh;
@@ -232,10 +232,6 @@ inline void RefineMesh(IcoMesh& mesh, const int level = 1, bool scale = true)
             auto p6_idx = GetPointIdx(p3_idx, p1_idx, point_to_idx, vertices, scale);
 
             // Create the four new triangles
-            // std::array<size_t, 3> t1 = {{p1_idx, p4_idx, p6_idx}};
-            // std::array<size_t, 3> t2 = {{p4_idx, p2_idx, p5_idx}};
-            // std::array<size_t, 3> t3 = {{p6_idx, p5_idx, p3_idx}};
-            // std::array<size_t, 3> t4 = {{p6_idx, p4_idx, p5_idx}};
             std::array<size_t, 3> t1 = {{p3_idx, p6_idx, p5_idx}};
             std::array<size_t, 3> t2 = {{p6_idx, p4_idx, p5_idx}};
             std::array<size_t, 3> t3 = {{p5_idx, p4_idx, p2_idx}};
@@ -270,9 +266,6 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
     MatX2I halfedges_pi(triangles.size() * 3);
     std::unordered_map<size_t, size_t> vertex_indices_to_half_edge_index;
     vertex_indices_to_half_edge_index.reserve(triangles.size() * 3);
-    // auto after = std::chrono::high_resolution_clock::now();
-    // auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after - before);
-    // std::cout << "Create Datastructures took " << elapsed.count() << " milliseconds" << std::endl;
 
     for (size_t triangle_index = 0; triangle_index < triangles.size(); triangle_index++)
     {
@@ -303,11 +296,6 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
         vertex_indices_to_half_edge_index[he_2_mapped] = he_2_index;
     }
 
-    // auto after2 = std::chrono::high_resolution_clock::now();
-    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after2 - after);
-    // std::cout << "Triangle loop took " << elapsed.count() << " milliseconds" << std::endl;
-    // Fill twin half-edge. In the previous step, it is already guaranteed that
-    // each half-edge can have at most one twin half-edge.
     for (size_t this_he_index = 0; this_he_index < halfedges.size(); this_he_index++)
     {
         size_t& that_he_index = halfedges[this_he_index];
@@ -323,12 +311,6 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
             halfedges[twin_he_index] = this_he_index;
         }
     }
-    // auto after3 = std::chrono::high_resolution_clock::now();
-    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after3 - after2);
-    // std::cout << "Half Edge loop took " << elapsed.count() << " milliseconds" << std::endl;
-
-    // elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after3 - before);
-    // std::cout << "Total time took " << elapsed.count() << " milliseconds" << std::endl;
 
     return halfedges;
 }
@@ -474,7 +456,7 @@ class IcoCharts
     Image image_to_vertex_idx; // each pixel on the image is directly mapped to a vertex idx on the refined icosahedron
     Image mask;                // mask of image which indcates which cells are valid, useful to know what pixels are ghost cells
     IcoMesh sphere_mesh;       // Full Refined Icosahedron Mesh on S2
-    IcoCharts(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), sphere_mesh(), chart_template(), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS)
+    IcoCharts(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), image(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 1), sphere_mesh(), chart_template(), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS)
     {
         sphere_mesh = RefineIcosahedron(level);
         chart_template = RefineIcoChart(level, true);

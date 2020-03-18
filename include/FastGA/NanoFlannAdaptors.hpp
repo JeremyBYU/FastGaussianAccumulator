@@ -1,11 +1,9 @@
 #include "nanoflann.hpp"
 #include "FastGA/Helper.hpp"
 
-namespace FastGA
-{
+namespace FastGA {
 
-namespace NFA
-{
+namespace NFA {
 
 template <typename Derived>
 struct BucketAdaptor
@@ -47,5 +45,5 @@ typedef nanoflann::KDTreeSingleIndexAdaptor<
     >
     nano_kd_tree_t;
 
-}
-}
+} // namespace NFA
+} // namespace FastGA

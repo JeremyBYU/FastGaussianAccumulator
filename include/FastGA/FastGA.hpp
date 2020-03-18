@@ -9,12 +9,13 @@
 #include <memory>
 
 #define FastGA_LEVEL 1
-#define FastGA_MAX_PHI 180
+#define FastGA_MAX_PHI 180.0
 #define FastGA_MAX_LEAF_SIZE 10
 #define FastGA_KDTREE_EPS 0.0
 #define FastGA_EXHAUSTIVE 0
 #define FastGA_TRI_NBRS 12
 namespace FastGA {
+// TODO This should be like an Abstract class maybe
 template <class T>
 class GaussianAccumulator
 {
@@ -28,7 +29,6 @@ class GaussianAccumulator
     size_t num_buckets;
     GaussianAccumulator();
     GaussianAccumulator(const int level = FastGA_LEVEL, const double max_phi = FastGA_MAX_PHI);
-    // GaussianAccumulator(const int level = FastGA_LEVEL);
     MatX3d GetBucketNormals(const bool reverse_sort=false);
     std::vector<double> GetNormalizedBucketCounts(const bool reverse_sort=false);
     std::vector<double> GetNormalizedBucketCountsByVertex(const bool reverse_sort=false);
@@ -54,6 +54,7 @@ class GaussianAccumulatorKD : public GaussianAccumulator<uint32_t>
     std::unique_ptr<NFA::nano_kd_tree_t> kd_tree_ptr;
 };
 
+// This Class is not very useful anymore
 class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
 {
 

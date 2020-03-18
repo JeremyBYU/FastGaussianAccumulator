@@ -295,6 +295,7 @@ def main():
 
         plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp,
                     colored_icosahedron_opt, colored_icosahedron_s2, example_mesh_filtered)
+        # plot_meshes(colored_icosahedron_s2, example_mesh_filtered)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=False)

@@ -4,17 +4,6 @@
 
 namespace FastGA {
 
-std::ostream& operator<<(std::ostream& out, const std::array<double, 3>& v)
-{
-    if (!v.empty())
-    {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<double>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
-
 template <class T>
 GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), sort_idx(), mask(), projected_bbox(), num_buckets(0)
 {
@@ -321,8 +310,6 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
     std::vector<uint64_t> hilbert_values(num_normals);
 
     int size = static_cast<int>(bucket_hv.size());
-    // auto begin_iter = bucket_hv.begin();
-    // Its faster to create compute the hilbert values for all the normals first
     for (size_t i = 0; i < num_normals; i++)
     {
         auto& normal = normals[i];
@@ -349,7 +336,6 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
         buckets[best_bucket_idx].count += 1;
         bucket_indexes[i] = best_bucket_idx;
     }
-    // std::cout << "HV Creation took (ms): " << total_hv_creation << "; Binary Search took (ms): " << total_binary_search << std::endl;
     return bucket_indexes;
 }
 

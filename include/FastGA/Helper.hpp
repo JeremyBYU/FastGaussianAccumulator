@@ -421,24 +421,6 @@ inline void AzimuthEqualAreaProjectionXYZ(const double* xyz, T* xy)
     xy[1] = top * xyz[1];
 }
 
-// template<class T>
-// inline void AzimuthEqualDistantProjectionXYZ(const double* xyz, T* xy)
-// {
-//     double phi = acos(xyz[2]);
-//     double scale = 0.0;
-//     if (phi < EPSILON)
-//     {
-//         scale = 0.0;
-//     }
-//     else
-//     {
-//         scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
-//     }
-//     // scale = 1.0 / (sqrt((xyz[0] * xyz[0]) + (xyz[1] * xyz[1])));
-//     xy[0] = static_cast<T>(phi * xyz[1] * scale);
-//     xy[1] = static_cast<T>(-phi * xyz[0] * scale);
-// }
-
 template <class T>
 inline void ScaleXYToUInt32(const T* xy, uint32_t* scale, T min_x, T min_y, T x_range, T y_range)
 {
