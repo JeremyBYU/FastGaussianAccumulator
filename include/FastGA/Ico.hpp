@@ -465,21 +465,16 @@ constexpr int get_chart_height(int level, int padding)
 template int* Image::PointerAt<int>(int u, int v);
 template uint8_t* Image::PointerAt<uint8_t>(int u, int v);
 
-class IcoChart
+class IcoCharts
 {
   public:
-    int level;
-    int padding;
-    MatX2I point_idx_to_image_idx;
-    std::vector<std::vector<size_t>> local_to_global_point_idx_map;
-    // Unwrapped refined icosahedron as an image
-    Image image;
-    // each pixel on the image is directly mapped to a vertex idx on the refined icosahedron
-    Image image_to_vertex_idx;
-    // mask of image which indcates which cells are valid
-    Image mask;
-    IcoMesh sphere_mesh;    // Full Refined Icosahedron Mesh on S2
-    IcoChart(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), sphere_mesh(), chart_template()
+    int level;                 // refinement level
+    int padding;               // padding around the image, padding = 1 for 3X3 kernel
+    Image image;               // Unwrapped refined icosahedron as an image
+    Image image_to_vertex_idx; // each pixel on the image is directly mapped to a vertex idx on the refined icosahedron
+    Image mask;                // mask of image which indcates which cells are valid, useful to know what pixels are ghost cells
+    IcoMesh sphere_mesh;       // Full Refined Icosahedron Mesh on S2
+    IcoCharts(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), image(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * 5, get_chart_width(level, padding), 1), sphere_mesh(), chart_template(), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS)
     {
         sphere_mesh = RefineIcosahedron(level);
         chart_template = RefineIcoChart(level, true);
@@ -507,16 +502,17 @@ class IcoChart
         }
     }
 
-  protected:
   private:
-    IcoMesh chart_template; // Single 2D Chart Template
+    IcoMesh chart_template;                                         // Single 2D Chart Template
+    MatX2I point_idx_to_image_idx;                                  // Maps a point index to an image index
+    std::vector<std::vector<size_t>> local_to_global_point_idx_map; // 5 vectors for each chart, maps a charts local point index to the global point index
     void ConstructImageMask()
     {
         // Start off with every pixel being valid
         auto chart_height = get_chart_height(level, padding);
         std::fill(mask.buffer_.begin(), mask.buffer_.end(), 255);
         // Set first column to invalid (ghost column)
-        for(int row = 0; row < mask.rows_; ++row)
+        for (int row = 0; row < mask.rows_; ++row)
         {
             auto img_pointer = mask.PointerAt<uint8_t>(0, row);
             *img_pointer = 0;
@@ -525,13 +521,12 @@ class IcoChart
         for (int chart_idx = 0; chart_idx < NUMBER_OF_CHARTS; ++chart_idx)
         {
             int row = (chart_idx + 1) * chart_height - 1;
-            for(int col = 0; col < mask.cols_; ++col)
+            for (int col = 0; col < mask.cols_; ++col)
             {
                 auto img_pointer = mask.PointerAt<uint8_t>(col, row);
                 *img_pointer = 0;
             }
         }
-
     }
     void ConstructImageToVertexIdx()
     {
@@ -554,7 +549,7 @@ class IcoChart
             }
         }
 
-        // Fill in Ghost Cells
+        // Fill in Ghost Cells (Copy Operations)
         MatX2i to_flattened_indices;
         MatX2i from_flattened_indices;
         std::tie(to_flattened_indices, from_flattened_indices) = GetGhostCellIndices();
@@ -572,7 +567,7 @@ class IcoChart
         auto sub_block_width = static_cast<int>(std::pow(2, level));
         auto block_width = static_cast<int>(std::pow(2, level + 1));
 
-        // Create an range iterator....
+        // Create a range iterator....
         std::vector<int> nums(NUMBER_OF_CHARTS);
         std::iota(nums.begin(), nums.end(), 0);
 

@@ -7,7 +7,7 @@
 
 int main(int argc, char const *argv[])
 {
-    auto ico = FastGA::Ico::IcoChart(2);
+    auto ico = FastGA::Ico::IcoCharts(2);
     
     return 0;
 }

@@ -5,11 +5,11 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
 import matplotlib.pyplot as plt
 
-from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors,
-                               create_open_3d_mesh, assign_vertex_colors, plot_meshes, find_peaks_from_accumulator)
+from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes)
 from src.Python.slowga.helper import get_arrow, get_pc_all_peaks, get_arrow_normals
 
 
@@ -25,6 +25,19 @@ ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
                         R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
 
 
+
+def get_image_peaks(ga_cpp_s2, level=2, **kwargs):
+    ico_chart = IcoCharts(level)
+    normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
+    ico_chart.fill_image(normalized_bucket_counts_by_vertex)
+
+
+    peaks, clusters, avg_peaks, avg_weights = find_peaks_from_ico_charts(ico_chart, np.asarray(normalized_bucket_counts_by_vertex))
+    gaussian_normals_sorted = np.asarray(ico_chart.sphere_mesh.vertices)
+    pcd_all_peaks = get_pc_all_peaks(peaks, clusters, gaussian_normals_sorted)
+    arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
+
+    return [pcd_all_peaks, *arrow_avg_peaks]
 
 def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
     proj = np.asarray(ga.get_bucket_projection())
@@ -247,7 +260,7 @@ def main():
     query_max_phi = kwargs_base['max_phi'] - 5
 
     for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
-        if i < 2:
+        if i < 0:
             continue
         fname = mesh_fpath.stem
         # print(fname)
@@ -286,11 +299,13 @@ def main():
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=False)
         pcd_cpp_s2 = plot_hilbert_curve(ga_cpp_s2)
+        pcd_cpp_s2_image = get_image_peaks(ga_cpp_s2, **kwargs_base)
 
         normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())
         normals_sorted_cube_hilbert = np.asarray(ga_cpp_s2.get_bucket_normals())
         plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01), *pcd_cpp_opt],
-                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2])
+                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2],
+                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2_image])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()

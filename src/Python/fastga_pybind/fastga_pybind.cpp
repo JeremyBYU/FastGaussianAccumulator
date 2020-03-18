@@ -229,17 +229,17 @@ PYBIND11_MODULE(fastga, m)
                  return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
-    py::class_<FastGA::Ico::IcoChart>(m, "IcoChart")
+    py::class_<FastGA::Ico::IcoCharts>(m, "IcoCharts")
         .def(py::init<const int>(), "level"_a = FastGA_LEVEL)
-        .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
-        .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
-        .def_readonly("image", &FastGA::Ico::IcoChart::image)
-        .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoChart::image_to_vertex_idx)
-        .def_readonly("mask", &FastGA::Ico::IcoChart::mask)
-        .def_readonly("sphere_mesh", &FastGA::Ico::IcoChart::sphere_mesh)
-        .def("fill_image", &FastGA::Ico::IcoChart::FillImage, "normalized_vertex_count"_a)
+        // .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
+        // .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
+        .def_readonly("image", &FastGA::Ico::IcoCharts::image)
+        .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoCharts::image_to_vertex_idx)
+        .def_readonly("mask", &FastGA::Ico::IcoCharts::mask)
+        .def_readonly("sphere_mesh", &FastGA::Ico::IcoCharts::sphere_mesh)
+        .def("fill_image", &FastGA::Ico::IcoCharts::FillImage, "normalized_vertex_count"_a)
         .def("__repr__",
-             [](const FastGA::Ico::IcoChart& a) {
+             [](const FastGA::Ico::IcoCharts& a) {
                  return "<IcoChart; Level: '" + std::to_string(a.level) + "'>";
              });
 

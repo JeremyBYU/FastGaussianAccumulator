@@ -5,8 +5,8 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 import open3d as o3d
-from fastga import GaussianAccumulatorS2, MatX3d, refine_icosahedron, refine_icochart, IcoChart
-from fastga.peak_and_cluster import find_peaks_from_icocharts
+from fastga import GaussianAccumulatorS2, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
+from fastga.peak_and_cluster import find_peaks_from_ico_charts
 from examples.python.run_meshes import visualize_gaussian_integration
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors,
                                create_open_3d_mesh, assign_vertex_colors, plot_meshes, find_peaks_from_accumulator)
@@ -90,11 +90,11 @@ def analyze_mesh(mesh):
     all_charts = functools.reduce(lambda a,b : a+b,new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
 
-    ico_chart_ = IcoChart(LEVEL)
+    ico_chart_ = IcoCharts(LEVEL)
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
 
-    _, _, avg_peaks, _ = find_peaks_from_icocharts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex))
+    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex))
     print(avg_peaks)
 
     full_image = np.asarray(ico_chart_.image)

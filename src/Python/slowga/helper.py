@@ -234,9 +234,10 @@ def get_arrow(origin=[0,0,0],end=None,vec=None):
             axis_a = axis
         else:
             axis_a = axis * angle
-        rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
+            rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
     # mesh.transform(T)
-    mesh = mesh.rotate(rotation_3x3, center=False)
+    if axis is not None:
+        mesh = mesh.rotate(rotation_3x3, center=False)
     mesh.translate(origin)
     return(mesh)
 
@@ -263,7 +264,6 @@ def get_point_normals(avg_peaks, avg_weights):
 def get_arrow_normals(avg_peaks, avg_weights):
     meshes = []
     for i in range(avg_peaks.shape[0]):
-        pass
         avg_peak = avg_peaks[i,:]
         mesh = get_arrow(avg_peak, avg_peak * 1.2)
         meshes.append(mesh)
