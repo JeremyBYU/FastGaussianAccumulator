@@ -33,7 +33,8 @@ def get_high_intensity_peaks(image, mask, num_peaks=np.inf):
 
 def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
                find_peaks_kwargs=dict(threshold_abs=25, min_distance=1, exclude_border=False, indices=False),
-               cluster_kwargs=dict(t=0.10, criterion='distance')):
+               cluster_kwargs=dict(t=0.10, criterion='distance'),
+               average_filter=dict(min_total_weight=0.15)):
     # Get data from ico chart
     # t0 = time.perf_counter()
     image_to_vertex_idx = np.asarray(ico_charts.image_to_vertex_idx)
@@ -56,7 +57,7 @@ def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
     # t2 = time.perf_counter()
 
     weights_1d_clusters = normalized_bucket_counts_by_vertex[vertices_idx]
-    average_peaks, average_weights = average_clusters(unclustered_peak_normals, weights_1d_clusters, clusters, average_filter=dict(min_total_weight=0.15))
+    average_peaks, average_weights = average_clusters(unclustered_peak_normals, weights_1d_clusters, clusters, average_filter=average_filter)
 
     # print("IcoChart Peak Detection - Find Peaks Execution Time (ms): {:.1f}; Hierarchical Clustering Execution Time (ms): {:.1f}".format((t1-t0) * 1000, (t2-t1) * 1000))
     return vertices_idx, clusters, average_peaks, average_weights

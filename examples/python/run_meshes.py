@@ -5,12 +5,13 @@ from collections import namedtuple
 import numpy as np
 import open3d as o3d
 from scipy.spatial.transform import Rotation as R
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
-from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
 import matplotlib.pyplot as plt
 
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
+from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals
+
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes)
-from src.Python.slowga.helper import get_arrow, get_pc_all_peaks, get_arrow_normals
 
 
 THIS_DIR = Path(__file__).parent
