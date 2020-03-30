@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/jeremy/miniconda3/envs/polylidar/bin/python",
+    "python.pythonPath": "C:\\Users\\Jeremy\\Miniconda3\\envs\\polylidar\\python.exe",
     "files.associations": {
         "iterator": "cpp",
         "random": "cpp",

@@ -32,8 +32,15 @@ def get_image_peaks(ga_cpp_s2, level=2, **kwargs):
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart.fill_image(normalized_bucket_counts_by_vertex)
 
+    # image = np.array(ico_chart.image)
+    # plt.imshow(image)
+    # plt.show()
 
-    peaks, clusters, avg_peaks, avg_weights = find_peaks_from_ico_charts(ico_chart, np.asarray(normalized_bucket_counts_by_vertex))
+    find_peaks_kwargs=dict(threshold_abs=25, min_distance=1, exclude_border=False, indices=False)
+    cluster_kwargs=dict(t=0.10, criterion='distance')
+    average_filter=dict(min_total_weight=0.10)
+
+    peaks, clusters, avg_peaks, avg_weights = find_peaks_from_ico_charts(ico_chart, np.asarray(normalized_bucket_counts_by_vertex), find_peaks_kwargs, cluster_kwargs, average_filter)
     gaussian_normals_sorted = np.asarray(ico_chart.sphere_mesh.vertices)
     pcd_all_peaks = get_pc_all_peaks(peaks, clusters, gaussian_normals_sorted)
     arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
@@ -41,18 +48,14 @@ def get_image_peaks(ga_cpp_s2, level=2, **kwargs):
     return [pcd_all_peaks, *arrow_avg_peaks]
 
 def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
-    proj = np.asarray(ga.get_bucket_projection())
     normals = np.asarray(ga.get_bucket_normals())
     normalized_counts = np.asarray(ga.get_normalized_bucket_counts())
     colors = get_colors(normalized_counts)[:, :3]
     bucket_normals_hv = np.asarray(ga.get_bucket_indices())
-
     num_buckets = ga.num_buckets
     idx_sort = np.argsort(bucket_normals_hv)
     bucket_normals_hv_sorted = bucket_normals_hv[idx_sort]
-    proj = proj[idx_sort, :]
     colors = colors[idx_sort, :]
-
     accumulator_normalized_sorted = normalized_counts[idx_sort]
     gaussian_normals_sorted = normals[idx_sort, :]
     # print(gaussian_normals_sorted)
@@ -68,6 +71,8 @@ def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
             fig, ax = plt.subplots(1, 1, figsize=(5, 5))
 
         else:
+            proj_ = np.asarray(ga.get_bucket_projection())
+            proj = proj_[idx_sort, :]
             fig, axs = plt.subplots(2, 1, figsize=(8, 10))
             ax = axs[0]
             scatter1 = ax.scatter(proj[:, 0], proj[:, 1], c=colors, label='Projected Buckets')
@@ -114,7 +119,7 @@ def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
         ax.set_ylabel("Normal Counts")
         fig.tight_layout()
         plt.show()
-    
+
     pcd_all_peaks = get_pc_all_peaks(peaks, clusters, gaussian_normals_sorted)
     arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
     return [pcd_all_peaks, *arrow_avg_peaks]
@@ -266,11 +271,11 @@ def main():
         fname = mesh_fpath.stem
         # print(fname)
         example_mesh = o3d.io.read_triangle_mesh(str(mesh_fpath))
-        if r is not None:
-            example_mesh = example_mesh.rotate(r.as_matrix())
         example_mesh_filtered = example_mesh
+        if r is not None:
+            example_mesh_filtered = example_mesh_filtered.rotate(r.as_matrix())
+            example_mesh_filtered = example_mesh_filtered.filter_smooth_laplacian(5)
         # example_mesh_filtered = example_mesh.filter_smooth_taubin(1)
-        # example_mesh_filtered = example_mesh.filter_smooth_simple(2)
         example_mesh_filtered.compute_triangle_normals()
 
         colored_icosahedron_py, normals, neighbors_py = visualize_gaussian_integration(
@@ -294,20 +299,23 @@ def main():
             pass
             # plot_issues_2(idx_opt, normals, neighbors_opt, ga_cpp_opt, colored_icosahedron_opt)
 
-        plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp,
-                    colored_icosahedron_opt, colored_icosahedron_s2, example_mesh_filtered)
+        plot_meshes(colored_icosahedron_s2, example_mesh_filtered)
+        # plot_meshes(colored_icosahedron_py, colored_icosahedron_cpp,
+        #             colored_icosahedron_opt, colored_icosahedron_s2, example_mesh_filtered)
         # plot_meshes(colored_icosahedron_s2, example_mesh_filtered)
         # plot_hilbert_curve(ga_py_kdd)
         # normals_sorted = plot_hilbert_curve(ga_cpp_kdd)
         pcd_cpp_opt = plot_hilbert_curve(ga_cpp_opt, plot=False)
-        pcd_cpp_s2 = plot_hilbert_curve(ga_cpp_s2)
+        pcd_cpp_s2 = plot_hilbert_curve(ga_cpp_s2, plot=False)
         pcd_cpp_s2_image = get_image_peaks(ga_cpp_s2, **kwargs_base)
 
         normals_sorted_proj_hilbert = np.asarray(ga_cpp_opt.get_bucket_normals())
         normals_sorted_cube_hilbert = np.asarray(ga_cpp_s2.get_bucket_normals())
-        plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01), *pcd_cpp_opt],
-                    [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2],
+        plot_meshes([colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2],
                     [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2_image])
+        # plot_meshes([colored_icosahedron_cpp, create_line_set(normals_sorted_proj_hilbert * 1.01), *pcd_cpp_opt],
+        #             [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2],
+        #             [colored_icosahedron_s2, create_line_set(normals_sorted_cube_hilbert * 1.01), *pcd_cpp_s2_image])
 
         ga_py_kdd.clear_count()
         ga_cpp_kdd.clear_count()

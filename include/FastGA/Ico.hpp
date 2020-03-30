@@ -434,12 +434,12 @@ class Image
     }
 };
 
-constexpr int get_chart_width(int level, int padding)
+inline int get_chart_width(int level, int padding)
 {
     return static_cast<int>(std::pow(2, level + 1)) + (2 * padding);
 }
 
-constexpr int get_chart_height(int level, int padding)
+inline int get_chart_height(int level, int padding)
 {
     return static_cast<int>(std::pow(2, level)) + (2 * padding);
 }

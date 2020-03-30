@@ -27,8 +27,8 @@ def plot_indices(ga_opt, ga_s2):
     calc_linear_regression(bucket_positions_opt, indices_opt, ax[1, 0])
     calc_linear_regression(bucket_positions_s2, indices_s2, ax[1, 1])
         
-    set_attributes([ax[0,0], ax[0, 1]], xlabel='Array Index', ylabel='Unique ID (Hilbert Value)')
-    set_attributes([ax[1,0], ax[1, 1]], ylabel='Array Index', xlabel='Unique ID (Hilbert Value)')
+    set_attributes([ax[0,0], ax[0, 1]], xlabel='Array Index', ylabel='Unique ID (S2 ID)')
+    set_attributes([ax[1,0], ax[1, 1]], ylabel='Array Index', xlabel='Unique ID (S2 ID)')
     fig.tight_layout()
     plt.show()
 
