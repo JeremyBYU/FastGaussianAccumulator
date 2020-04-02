@@ -1,7 +1,8 @@
 
 #include "fastga_pybind/fastga_pybind.hpp"
-#include "fastga_pybind/fastga_glue.hpp"
+#include "fastga_pybind/docstring/docstring.hpp"
 
+using namespace FastGA;
 // Makes a copy
 template <typename T, int dim>
 std::vector<std::array<T, dim>> py_array_to_vectors(
@@ -44,7 +45,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(double) * cols,                     /* Strides (in bytes) for each index */
+                {sizeof(double) * cols,                  /* Strides (in bytes) for each index */
                  sizeof(double)});
         })
         .def("__copy__", [](FastGA::MatX3d& v) {
@@ -63,7 +64,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(size_t) * cols,                     /* Strides (in bytes) for each index */
+                {sizeof(size_t) * cols,                  /* Strides (in bytes) for each index */
                  sizeof(size_t)});
         });
     py::class_<FastGA::MatX2I>(m, "MatX2I", py::buffer_protocol())
@@ -75,7 +76,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(size_t) * cols,                     /* Strides (in bytes) for each index */
+                {sizeof(size_t) * cols,                  /* Strides (in bytes) for each index */
                  sizeof(size_t)});
         });
 
@@ -88,7 +89,7 @@ PYBIND11_MODULE(fastga, m)
                 py::format_descriptor<double>::format(), /* Python struct-style format descriptor */
                 2UL,                                     /* Number of dimensions */
                 {m.size(), cols},                        /* Buffer dimensions */
-                {sizeof(double) * cols,                     /* Strides (in bytes) for each index */
+                {sizeof(double) * cols,                  /* Strides (in bytes) for each index */
                  sizeof(double)});
         });
 
@@ -98,42 +99,42 @@ PYBIND11_MODULE(fastga, m)
             const size_t cols = m.cols_;
             const size_t rows = m.rows_;
             std::string format;
-                switch (m.bytes_per_channel_) {
-                    case 1:
-                        format = py::format_descriptor<uint8_t>::format();
-                        break;
-                    case 2:
-                        format = py::format_descriptor<uint16_t>::format();
-                        break;
-                    case 4:
-                        if (m.is_float_)
-                        {
-                            format = py::format_descriptor<float>::format();
-                        }
-                        else
-                        {
-                            format = py::format_descriptor<int>::format();
-                        }
-                        break;
-                    default:
-                        throw std::runtime_error(
-                                "Image has unrecognized bytes_per_channel.");
-                        break;
+            switch (m.bytes_per_channel_)
+            {
+            case 1:
+                format = py::format_descriptor<uint8_t>::format();
+                break;
+            case 2:
+                format = py::format_descriptor<uint16_t>::format();
+                break;
+            case 4:
+                if (m.is_float_)
+                {
+                    format = py::format_descriptor<float>::format();
+                }
+                else
+                {
+                    format = py::format_descriptor<int>::format();
+                }
+                break;
+            default:
+                throw std::runtime_error(
+                    "Image has unrecognized bytes_per_channel.");
+                break;
             }
             return py::buffer_info(
-                m.buffer_.data(),                                /* Pointer to buffer */
-                m.bytes_per_channel_,                          /* Size of one scalar */
-                format, /* Python struct-style format descriptor */
-                2UL,                                     /* Number of dimensions */
-                {rows, cols},                        /* Buffer dimensions */
-                {m.bytes_per_channel_ * cols,                     /* Strides (in bytes) for each index */
+                m.buffer_.data(),             /* Pointer to buffer */
+                m.bytes_per_channel_,         /* Size of one scalar */
+                format,                       /* Python struct-style format descriptor */
+                2UL,                          /* Number of dimensions */
+                {rows, cols},                 /* Buffer dimensions */
+                {m.bytes_per_channel_ * cols, /* Strides (in bytes) for each index */
                  static_cast<size_t>(m.bytes_per_channel_)});
         })
         .def("__repr__",
-        [](const FastGA::Ico::Image &img) {
-            return std::string("Image of size ") +
-                std::to_string(img.cols_) + std::string("x") +
-                std::to_string(img.rows_);});
+             [](const FastGA::Ico::Image& img) { return std::string("Image of size ") +
+                                                        std::to_string(img.cols_) + std::string("x") +
+                                                        std::to_string(img.rows_); });
 
     py::class_<FastGA::Bucket<uint32_t>>(m, "BucketUInt32")
         .def(py::init<>())
@@ -145,14 +146,14 @@ PYBIND11_MODULE(fastga, m)
                  return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) + "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) + "'>");
              });
 
-    py::class_<FastGA::Helper::BBOX>(m, "BBOX")
+    py::class_<FastGA::Helper::BBOX>(m, "BBOX", "Contains extents for a projection")
         .def(py::init<>())
         .def("__repr__",
              [](const FastGA::Bucket<uint32_t>& a) {
                  return ("<BBOX>");
              });
 
-    py::class_<FastGA::Ico::IcoMesh>(m, "IcoMesh")
+    py::class_<FastGA::Ico::IcoMesh>(m, "IcoMesh", "A Triangle Mesh of Icosphere")
         .def(py::init<>())
         .def("__repr__",
              [](const FastGA::Ico::IcoMesh& a) {
@@ -203,51 +204,61 @@ PYBIND11_MODULE(fastga, m)
         .def("clear_count", &FastGA::GaussianAccumulator<uint64_t>::ClearCount)
         .def("copy_ico_mesh", &FastGA::GaussianAccumulator<uint64_t>::CopyIcoMesh, "reverse_sort"_a = false);
 
-    py::class_<FastGA::GaussianAccumulatorKD, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD")
-        .def(py::init<const int, const double, const size_t>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI, "max_leaf_size"_a = FastGA_MAX_LEAF_SIZE)
+    py::class_<FastGA::GaussianAccumulatorKD, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD", "A Fast Gaussian Accumulator. Works on Full Sphere using KD Trees")
+        .def(py::init<const int, const double, const size_t>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI, "max_leaf_size"_a = FastGA_MAX_LEAF_SIZE, "Will intergrate the normals into the S2 Historgram")
         .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a = FastGA_KDTREE_EPS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorKD& a) {
                  return "<FastGA::GAKD; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
-    py::class_<FastGA::GaussianAccumulatorOpt, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt")
+    py::class_<FastGA::GaussianAccumulatorOpt, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt", "A Fast Gaussian Accumulator on S2. Only works on top hemisphere.")
         .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
         .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorOpt::bucket_neighbors)
-        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS)
+        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorOpt& a) {
                  return "<FastGA::GAOPT; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
-    py::class_<FastGA::GaussianAccumulatorS2, FastGA::GaussianAccumulator<uint64_t>>(m, "GaussianAccumulatorS2")
+    py::class_<FastGA::GaussianAccumulatorS2, FastGA::GaussianAccumulator<uint64_t>>(m, "GaussianAccumulatorS2", "A Fast Gaussian Accumulator on S2. Works on full sphere.")
         .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
-        .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorS2::bucket_neighbors)
-        .def("integrate", &FastGA::GaussianAccumulatorS2::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS)
+        .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorS2::bucket_neighbors, "Fast lookup matrix to find neighbors of a bucket")
+        .def("integrate", &FastGA::GaussianAccumulatorS2::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorS2& a) {
                  return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
-    py::class_<FastGA::Ico::IcoCharts>(m, "IcoCharts")
+    py::class_<FastGA::Ico::IcoCharts>(m, "IcoCharts", "Contains charts of an unwrapped Icosahedron")
         .def(py::init<const int>(), "level"_a = FastGA_LEVEL)
         // .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
         // .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
-        .def_readonly("image", &FastGA::Ico::IcoCharts::image)
-        .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoCharts::image_to_vertex_idx)
-        .def_readonly("mask", &FastGA::Ico::IcoCharts::mask)
-        .def_readonly("sphere_mesh", &FastGA::Ico::IcoCharts::sphere_mesh)
-        .def("fill_image", &FastGA::Ico::IcoCharts::FillImage, "normalized_vertex_count"_a)
+        .def_readonly("image", &FastGA::Ico::IcoCharts::image, "Returns an unwrapped image of the IcoCharts")
+        .def_readonly("image_to_vertex_idx", &FastGA::Ico::IcoCharts::image_to_vertex_idx, "Fast lookup matrix for image creation. Each pixel hold the icosahedron vertex index it corresponds to")
+        .def_readonly("mask", &FastGA::Ico::IcoCharts::mask, "Boolean mask corresponding to valid cells. False(0) corresponds to ghost/halo cells")
+        .def_readonly("sphere_mesh", &FastGA::Ico::IcoCharts::sphere_mesh, "The full icosahedron the IcoChart is unwrapping")
+        .def("fill_image", &FastGA::Ico::IcoCharts::FillImage, "normalized_vertex_count"_a, "Fills the the image using the normalized vertex counts")
         .def("__repr__",
              [](const FastGA::Ico::IcoCharts& a) {
                  return "<IcoChart; Level: '" + std::to_string(a.level) + "'>";
              });
 
     // Functions
-    m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a);
-    m.def("convert_normals_to_s2id", &FastGA::Helper::ConvertNormalsToS2ID, "normals"_a);
-    m.def("refine_icosahedron", &FastGA::Ico::RefineIcosahedron, "level"_a);
-    m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a = 0, "square"_a = false);
+    m.def("convert_normals_to_hilbert", &FastGA::Helper::ConvertNormalsToHilbert, "normals"_a, "bbox"_a,
+          "Not recommended. Converts a numpy array of normals to uint32 Hilbert Values"
+          "Assumes EqualArea Azimuth Projection centered at north pole. Only good on for northern hemisphere.");
+    docstring::FunctionDocInject(m, "convert_normals_to_hilbert", {{"normals", "MatX3d; NX3 Array"}, {"bbox", "BBOX; bounding box of AzimuthProjection projection"}});
+
+    m.def("convert_normals_to_s2id", &FastGA::Helper::ConvertNormalsToS2ID, "normals"_a, "Converts unit normals to uint64 S2 ids");
+    docstring::FunctionDocInject(m, "convert_normals_to_s2id", {{"normals", "MatX3d; NX3 Array"}});
+
+    m.def("refine_icosahedron", &FastGA::Ico::RefineIcosahedron, "level"_a, "Creates a refined icosahedron mesh");
+    docstring::FunctionDocInject(m, "refine_icosahedron", {{"level", "The level of refinement of the icosahedron. Each level recursively subdived triangles"}});
+
+    m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a = 0, "square"_a = false, "Return an refined icochart");
+
+
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

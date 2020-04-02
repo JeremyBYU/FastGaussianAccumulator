@@ -1,3 +1,8 @@
+docs/python_api
+docs/cpp_api
+docs/_out
+
+
 *.prof
 fixtures
 .DS_Store
