@@ -188,7 +188,7 @@ def align_vector_to_another(a=np.array([0, 0, 1]), b=np.array([1, 0, 0])):
     """
     Aligns vector a to vector b with axis angle rotation
     """
-    if np.array_equal(a, b):
+    if np.allclose(np.abs(a),np.abs(b),atol=.01):
         return None, None
     axis_ = np.cross(a, b)
     axis_ = axis_ / np.linalg.norm(axis_)
