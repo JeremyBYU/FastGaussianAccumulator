@@ -80,6 +80,19 @@ PYBIND11_MODULE(fastga, m)
                  sizeof(size_t)});
         });
 
+    py::class_<FastGA::MatX12I>(m, "MatX12I", py::buffer_protocol())
+        .def_buffer([](FastGA::MatX12I& m) -> py::buffer_info {
+            const size_t cols = 12;
+            return py::buffer_info(
+                m.data(),                                /* Pointer to buffer */
+                sizeof(size_t),                          /* Size of one scalar */
+                py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
+                2UL,                                     /* Number of dimensions */
+                {m.size(), cols},                        /* Buffer dimensions */
+                {sizeof(size_t) * cols,                  /* Strides (in bytes) for each index */
+                 sizeof(size_t)});
+        });
+
     py::class_<FastGA::MatX2d>(m, "MatX2d", py::buffer_protocol())
         .def_buffer([](FastGA::MatX2d& m) -> py::buffer_info {
             const size_t cols = 3;

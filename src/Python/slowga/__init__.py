@@ -306,7 +306,7 @@ def main():
 
     ico, sphere = generate_sphere_examples()
     ico_copy = o3d.geometry.TriangleMesh(ico)
-    family = [1, 2, 3]
+    family = [1, 2, 3, 4]
     meshes = generate_family_of_icosahedron(np.asarray(
         ico.triangles), np.asarray(ico.vertices), family)
     family.insert(0, 0)
