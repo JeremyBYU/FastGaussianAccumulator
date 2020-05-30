@@ -306,7 +306,7 @@ def main():
 
     ico, sphere = generate_sphere_examples()
     ico_copy = o3d.geometry.TriangleMesh(ico)
-    family = [1, 2, 3, 4, 5, 6]
+    family = [1, 2, 3]
     meshes = generate_family_of_icosahedron(np.asarray(
         ico.triangles), np.asarray(ico.vertices), family)
     family.insert(0, 0)
@@ -315,8 +315,9 @@ def main():
         angle_diff = calc_angle_delta(mesh, level)
         print("Refinement Level: {}; Number of Vertices: {}, Number of Triangles: {}, Angle Difference: {:.1f}".format(
             level, np.array(mesh.vertices).shape[0], np.array(mesh.triangles).shape[0], angle_diff))
-    meshes.insert(0, sphere)
+    # meshes.insert(0, sphere)
     plot_meshes(*meshes)
+    return
     # Show our chosen refined example
     refined_icosphere, gaussian_normals = visualize_refinement(
         ico_copy, level=4, plot=False)
