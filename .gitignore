@@ -1,7 +1,8 @@
 docs/python_api
 docs/cpp_api
 docs/_out
-
+*.tex
+assets/*.json
 
 *.prof
 fixtures

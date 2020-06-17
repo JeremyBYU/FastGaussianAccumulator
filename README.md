@@ -1,4 +1,4 @@
-# Gaussian Accumulator
+# Fast Gaussian Accumulator
 
 A Gaussian Accumulator refers to the notion of discretizing the **surface** of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of **points** (aka unit normals) into these buckets.
 The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have the exact same **area** and **shape**. This process is done by *refining* an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahdron, the last object is the second level of refinement of an icosahedron.
@@ -66,7 +66,7 @@ Then enable the option for CMake.
 
 ### General Notes
 
-`NanoS2ID.hpp` is header only and which allows it to be optimized more easily (for developer). `S2Geometry` can be compiled as a shared library or a static library (I have tried both). Getting an S2ID is about 50% faster using `NanoS2ID` . My guess is that there is function call overhead in calling a library, vs inlining the function. However, I did build S2 as a static library and did enable link time optimization, but it didn't make it any faster. However I'm guessing I just made a mistake in this process and its *possible* to make `S2` as fast as `NanoS2ID` .
+`NanoS2ID.hpp` is header only and which allows it to be optimized more easily (for developer). `S2Geometry` can be compiled as a shared library or a static library (I have tried both). Getting an S2ID is about 50% faster using `NanoS2ID` . My guess is that there is function call overhead in calling a library, vs inlining the function. However, I did build S2 as a static library and did enable link time optimization, but it didn't make it any faster. However I'm guessing I just made a mistake in this process and its *possible* to make `S2Geometry` as fast as `NanoS2ID` .
 
 I also tried using S2 as a point index (similar to a KDTree) and found it was *significantly* slower, about 5X slower than using a KDTree.
 

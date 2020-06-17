@@ -7,7 +7,7 @@
 #include "Hilbert/Hilbert.hpp"
 #include <benchmark/benchmark.h>
 
-class Normals : public benchmark::Fixture
+class NormalsV2 : public benchmark::Fixture
 {
   public:
     unsigned seed = 1;
@@ -42,7 +42,7 @@ class Normals : public benchmark::Fixture
     }
 };
 
-BENCHMARK_DEFINE_F(Normals, BM_ProjectXYZ_TO_XY)
+BENCHMARK_DEFINE_F(NormalsV2, BM_ProjectXYZ_TO_XY)
 (benchmark::State& st)
 {
     for (auto _ : st)
@@ -52,7 +52,7 @@ BENCHMARK_DEFINE_F(Normals, BM_ProjectXYZ_TO_XY)
 }
 
 // Benchmarks showed that EqualArea is Faster than Equal Distant
-// BENCHMARK_DEFINE_F(Normals, BM_Project_AEA_XYZ_TO_XY)
+// BENCHMARK_DEFINE_F(NormalsV2, BM_Project_AEA_XYZ_TO_XY)
 // (benchmark::State& st)
 // {
 //     for (auto _ : st)
@@ -66,7 +66,7 @@ BENCHMARK_DEFINE_F(Normals, BM_ProjectXYZ_TO_XY)
 //     }
 // }
 
-BENCHMARK_DEFINE_F(Normals, BM_MeanTwoPointsBaseline)
+BENCHMARK_DEFINE_F(NormalsV2, BM_MeanTwoPointsBaseline)
 (benchmark::State& st)
 {
     FastGA::MatX3d assign(normals);
@@ -81,7 +81,7 @@ BENCHMARK_DEFINE_F(Normals, BM_MeanTwoPointsBaseline)
     }
 }
 
-BENCHMARK_DEFINE_F(Normals, BM_ScaleXYToUInt32)
+BENCHMARK_DEFINE_F(NormalsV2, BM_ScaleXYToUInt32)
 (benchmark::State& st)
 {
     // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
@@ -98,7 +98,7 @@ BENCHMARK_DEFINE_F(Normals, BM_ScaleXYToUInt32)
     }
 }
 
-BENCHMARK_DEFINE_F(Normals, BM_HilbertXY32)
+BENCHMARK_DEFINE_F(NormalsV2, BM_HilbertXY32)
 (benchmark::State& st)
 {
     std::vector<uint32_t> hilbert_values(N);
@@ -112,7 +112,7 @@ BENCHMARK_DEFINE_F(Normals, BM_HilbertXY32)
     }
 }
 
-BENCHMARK_DEFINE_F(Normals, BM_NormalsToHilbert)
+BENCHMARK_DEFINE_F(NormalsV2, BM_NormalsToHilbert)
 (benchmark::State& st)
 {
     // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
@@ -124,7 +124,7 @@ BENCHMARK_DEFINE_F(Normals, BM_NormalsToHilbert)
     }
 }
 
-BENCHMARK_DEFINE_F(Normals, BM_NormalsToS2Nano)
+BENCHMARK_DEFINE_F(NormalsV2, BM_NormalsToS2Nano)
 (benchmark::State& st)
 {
     // std::cout << "BBOX" << projected_bounds.min_x << ", " << projected_bounds.min_y << std::endl;
@@ -141,10 +141,10 @@ BENCHMARK_DEFINE_F(Normals, BM_NormalsToS2Nano)
     }
 }
 
-BENCHMARK_REGISTER_F(Normals, BM_MeanTwoPointsBaseline)->UseRealTime()->Unit(benchmark::kMicrosecond);
-BENCHMARK_REGISTER_F(Normals, BM_ProjectXYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
-// BENCHMARK_REGISTER_F(Normals, BM_Project_AEA_XYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
-BENCHMARK_REGISTER_F(Normals, BM_ScaleXYToUInt32)->UseRealTime()->Unit(benchmark::kMicrosecond);
-BENCHMARK_REGISTER_F(Normals, BM_HilbertXY32)->UseRealTime()->Unit(benchmark::kMicrosecond);
-BENCHMARK_REGISTER_F(Normals, BM_NormalsToHilbert)->UseRealTime()->Unit(benchmark::kMicrosecond);
-BENCHMARK_REGISTER_F(Normals, BM_NormalsToS2Nano)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_MeanTwoPointsBaseline)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_ProjectXYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
+// BENCHMARK_REGISTER_F(NormalsV2, BM_Project_AEA_XYZ_TO_XY)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_ScaleXYToUInt32)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_HilbertXY32)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_NormalsToHilbert)->UseRealTime()->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(NormalsV2, BM_NormalsToS2Nano)->UseRealTime()->Unit(benchmark::kMicrosecond);

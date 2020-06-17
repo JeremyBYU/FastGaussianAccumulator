@@ -31,6 +31,7 @@ def main():
         example_mesh_filtered = example_mesh_filtered.filter_smooth_laplacian(5)
 
     example_mesh_filtered.compute_triangle_normals()
+    np.save('fixtures/normals/basement.npy', np.asarray(example_mesh_filtered.triangle_normals))
     colored_icosahedron_s2, normals, neighbors_s2 = visualize_gaussian_integration(
         ga_cpp_s2, example_mesh_filtered, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
 
@@ -40,12 +41,16 @@ def main():
 
     # Visualize unwrapping
     ico_chart_ = IcoCharts(4)
+    t2 = time.perf_counter()
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
 
     find_peaks_kwargs=dict(threshold_abs=50,min_distance=1, exclude_border=False, indices=False)
+    print(np.asarray(ico_chart_.image).shape)
     cluster_kwargs=dict(t =0.1,criterion ='distance')
     _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex), find_peaks_kwargs=find_peaks_kwargs, cluster_kwargs=cluster_kwargs)
+    t3 = time.perf_counter()
+    print(t3 -t2)
     print(avg_peaks)
     full_image = np.asarray(ico_chart_.image)
 

@@ -69,6 +69,7 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "core": "cpp",
-        "geometry": "cpp"
+        "geometry": "cpp",
+        "csignal": "cpp"
     }
 }

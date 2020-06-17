@@ -26,5 +26,7 @@ if(${GA_WITH_S2_GEOMETRY})
     list(APPEND BENCH_LINK_LIBRARIES s2)
 endif()
 
+set(npy ${PROJECT_SOURCE_DIR}/thirdparty)
 add_executable(run-bench ${BENCH_SOURCES})
-target_link_libraries(run-bench ${BENCH_LINK_LIBRARIES})
+target_link_libraries(run-bench PRIVATE ${BENCH_LINK_LIBRARIES})
+target_include_directories(run-bench PRIVATE ${npy})
