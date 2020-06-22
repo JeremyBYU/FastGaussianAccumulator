@@ -24,12 +24,20 @@
             "module": "examples.python.run_meshes"
         },
         {
-            "name": "GDB Attach",
+            "name": "(gdb) Attach",
             "type": "cppdbg",
             "request": "attach",
-            "program": "/usr/bin/python3",
+            "program": "/home/jeremy/miniconda3/envs/ppb/bin/python",
             "processId": "${command:pickProcess}",
-            "MIMode": "gdb"
-        },
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "additionalSOLibSearchPath": "${workspaceFolder}/env/lib;/home/jeremy/Documents/UMICH/Research/polylidar/cmake-build/lib/python_package;/home/jeremy/Documents/UMICH/Research/GaussianIntegrator/cmake-build/lib/python_package"
+        }
     ]
 }

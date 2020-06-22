@@ -5,6 +5,8 @@ from fastga import GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Bbox
 import seaborn as sns
+# import tikzplotlib
+
 
 # sns.set()
 sns.set(font_scale=1.1, style='white')  # crazy big
@@ -34,39 +36,52 @@ def plot_indices(ga_s2):
 
     indices_s2 = np.asarray(ga_s2.get_bucket_indices())
     indices_s2 = indices_s2 - np.min(indices_s2)
-    fig, ax = plt.subplots(1, 3, figsize=(14, 4))
+    fig0, ax0 = plt.subplots(1, 1, figsize=(4.5, 4))
+    fig1, ax1 = plt.subplots(1, 1, figsize=(4.5, 4))
+    fig2, ax2 = plt.subplots(1, 1, figsize=(4.5, 4))
+
+
     bucket_positions_s2 = np.arange(indices_s2.shape[0])
-    ax[0].plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
+    ax0.plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
 
 
     
-    ax[1].plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
-    predicted, r_value, error = calc_linear_regression(bucket_positions_s2, indices_s2, ax[1])
+    ax1.plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
+    predicted, r_value, error = calc_linear_regression(bucket_positions_s2, indices_s2, ax1)
     # ax[1].legend(loc='upper left')
 
-    ax[2].plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
-    ax[2].plot(indices_s2, predicted, 'g', label=r'Fitted Line, $R^2$ = {:.1}'.format(r_value))
-    ax2 = ax[2].twinx()
-    ax2.set_ylabel(r"Error")
-    ax2.plot(indices_s2, error, '-r', label="Error")
+    ax2.plot(indices_s2, bucket_positions_s2 ,'.', markersize=2, label='Cells')
+    ax2.plot(indices_s2, predicted, 'g', label=r'Fitted Line, $R^2$ = {:.1}'.format(r_value))
+    ax3 = ax2.twinx()
+    ax3.set_ylabel(r"Error")
+    ax3.plot(indices_s2, error, '-r', label="Error")
     # Dummy line for legend
-    ax[2].plot(np.nan, '-r', label='Error')
+    ax2.plot(np.nan, '-r', label='Error')
         
 
-    set_attributes([ax[0], ax[1], ax[2]], ylabel='Cells Array Index', xlabel='S2ID')
-    ax[2].set_xlim([6.2e18, 7.2e18])
-    ax[2].set_ylim([2300, 2700])
-    fig.tight_layout()
+    set_attributes([ax0, ax1, ax2], ylabel='Cells Array Index', xlabel='S2ID')
+    ax2.set_xlim([6.2e18, 7.2e18])
+    ax2.set_ylim([2300, 2700])
+    fig0.tight_layout()
+    fig1.tight_layout()
+    fig2.tight_layout()
 
-    extent = full_extent(ax[0]).transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('assets/imgs/ga_linear_interp_0.pdf', bbox_inches=extent.expanded(1.0, 1.0))
+    fig0.savefig('assets/imgs/ga_linear_interp_0.pdf', bbox_inches='tight')
+    fig1.savefig('assets/imgs/ga_linear_interp_1.pdf', bbox_inches='tight')
+    fig2.savefig('assets/imgs/ga_linear_interp_2.pdf', bbox_inches='tight')
 
-    extent = full_extent(ax[1]).transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('assets/imgs/ga_linear_interp_1.pdf', bbox_inches=extent.expanded(1.0, 1.0))
 
-    items = [ax2.get_xaxis().get_label().get_window_extent(), ax2.get_yaxis().get_label().get_window_extent()]
-    extent = Bbox.union([full_extent(ax[2]), *items]).transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('assets/imgs/ga_linear_interp_2.pdf', bbox_inches=extent.expanded(1.0, 1.0))
+    # tikzplotlib.save("assets/imgs/ga_linear_interp_0.tex", figure=fig0)
+
+    # extent = full_extent(ax[0]).transformed(fig.dpi_scale_trans.inverted())
+    # fig.savefig('assets/imgs/ga_linear_interp_0.pdf', bbox_inches=extent.expanded(1.0, 1.0))
+
+    # extent = full_extent(ax[1]).transformed(fig.dpi_scale_trans.inverted())
+    # fig.savefig('assets/imgs/ga_linear_interp_1.pdf', bbox_inches=extent.expanded(1.0, 1.0))
+
+    # items = [ax2.get_xaxis().get_label().get_window_extent(), ax2.get_yaxis().get_label().get_window_extent()]
+    # extent = Bbox.union([full_extent(ax[2]), *items]).transformed(fig.dpi_scale_trans.inverted())
+    # fig.savefig('assets/imgs/ga_linear_interp_2.pdf', bbox_inches=extent.expanded(1.0, 1.0))
 
 
     # plt.show()

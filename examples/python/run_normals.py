@@ -33,6 +33,8 @@ def example_normals(normals:np.ndarray):
     kwargs_base = dict(level=LEVEL, max_phi=180)
     kwargs_s2 = dict(**kwargs_base)
 
+    # import ipdb; ipdb.set_trace()
+
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
     colored_icosahedron  = integrate_normals(normals, ga_cpp_s2)
     num_triangles = ga_cpp_s2.num_buckets
@@ -51,6 +53,12 @@ def example_normals(normals:np.ndarray):
     o3d.visualization.draw_geometries([colored_icosahedron])
 
     full_image = np.asarray(ico_chart_.image)
+
+
+    # plt.imshow(np.asarray(ico_chart_.image_to_vertex_idx))
+    # plt.xticks(np.arange(0, full_image.shape[1], step=1))
+    # plt.yticks(np.arange(0, full_image.shape[0], step=1))
+    # plt.show()
 
     plt.imshow(full_image)
     plt.xticks(np.arange(0, full_image.shape[1], step=1))
