@@ -149,13 +149,13 @@ void FunctionDocInject(
 /// Parse pybind docstring to FunctionDoc and inject argument docstrings for
 /// class methods
 void ClassMethodDocInject(
-    py::module& pybind_module,
-    const std::string& class_name,
-    const std::string& function_name,
-    const std::unordered_map<std::string, std::string>&
-        map_parameter_body_docs =
-            std::unordered_map<std::string, std::string>());
-
+        py::module& pybind_module,
+        const std::string& class_name,
+        const std::string& function_name,
+        const std::unordered_map<std::string, std::string>&
+                map_parameter_body_docs =
+                        std::unordered_map<std::string, std::string>(),
+        const bool force_init=false);
 extern py::handle static_property;
 
 } // namespace docstring

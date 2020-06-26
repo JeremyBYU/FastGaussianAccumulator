@@ -53,7 +53,7 @@ class GaussianAccumulator
      */
     GaussianAccumulator(const int level = FASTGA_LEVEL, const double max_phi = FASTGA_MAX_PHI);
     /**
-     * @brief Gets the sufrace normals of the buckets in the histogram.
+     * @brief Gets the surface normals of the buckets in the histogram.
      *        The order by default is sorted by the space filling curve value attached to each cell.
      * 
      * @param mesh_order    If true will return in the *actual* order of triangles of the underlying original mesh object. Useful for visualization.       
@@ -176,8 +176,8 @@ class GaussianAccumulatorOpt : public GaussianAccumulator<uint32_t>
  *        continuous thread. This class does not need S2 Geometry Library. We are using a port callsed s2nano
  *        that pulls out the essential SFC routine.
  * 
- *        It basically works by converting a normal to being integrated into a s2_id (SFC unique integer)
- *        It performs a faster interpolated and branchnless binary search to find the closest cell in buckets
+ *        It basically works by converting a normal to being integrated into a s2_id (SFC unique integer). 
+ *        It performs a faster interpolated and branchless binary search to find the closest cell in buckets. 
  *        It then performs a local neighborhood search centered around the cell which actually looks at the surface normal.
  */
 class GaussianAccumulatorS2 : public GaussianAccumulator<uint64_t>

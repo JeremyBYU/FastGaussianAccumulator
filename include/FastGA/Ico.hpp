@@ -25,8 +25,9 @@ inline constexpr int IcoMeshVertices(int level = 1)
 }
 
 /**
- * @brief This stores the mesh of a refined icosahedron
- * 
+ * @brief This stores the mesh of a refined icosahedron.
+ *        Note that the ordering of the vertices and triangles are very particular.
+ *        This ordering must be maintained for use during an unwrapping procedure.
  */
 struct IcoMesh
 {
@@ -484,7 +485,7 @@ template uint8_t* Image::PointerAt<uint8_t>(int u, int v);
 /**
  * @brief This is basically my implementation of unwrapping an 
  *        icosahedron as described in:
- *        Gauge Equivariant Convolutional Networks and the Icosahedral CNNhttps://arxiv.org/abs/1902.04615
+ *        Gauge Equivariant Convolutional Networks and the Icosahedral CNN - https://arxiv.org/abs/1902.04615
  * 
  */
 class IcoCharts

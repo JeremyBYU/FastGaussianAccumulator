@@ -102,11 +102,9 @@ void SplitString(std::vector<std::string>& tokens,
 py::handle static_property =
     py::handle((PyObject*)py::detail::get_internals().static_property_type);
 
-void ClassMethodDocInject(py::module& pybind_module,
-                          const std::string& class_name,
-                          const std::string& function_name,
-                          const std::unordered_map<std::string, std::string>&
-                              map_parameter_body_docs)
+void ClassMethodDocInject(py::module& pybind_module, const std::string& class_name, const std::string& function_name,
+                          const std::unordered_map<std::string, std::string>& map_parameter_body_docs,
+                          const bool force_init)
 {
     // Get function
     PyObject* module = pybind_module.ptr();
@@ -116,8 +114,7 @@ void ClassMethodDocInject(py::module& pybind_module,
         std::cerr << class_name << " docstring failed to inject." << std::endl;
         return;
     }
-    PyObject* class_method_obj =
-        PyObject_GetAttrString(class_obj, function_name.c_str());
+    PyObject* class_method_obj = PyObject_GetAttrString(class_obj, function_name.c_str());
     if (class_method_obj == nullptr)
     {
         std::cerr << class_name << ": " << function_name << " docstring failed to inject." << std::endl;
@@ -135,8 +132,7 @@ void ClassMethodDocInject(py::module& pybind_module,
 #else
     if (Py_TYPE(class_method_obj) == &PyInstanceMethod_Type)
     {
-        PyInstanceMethodObject* class_method =
-            (PyInstanceMethodObject*)class_method_obj;
+        PyInstanceMethodObject* class_method = (PyInstanceMethodObject*)class_method_obj;
         f = (PyCFunctionObject*)class_method->func;
     }
 #endif
@@ -152,7 +148,7 @@ void ClassMethodDocInject(py::module& pybind_module,
 
     // TODO: parse __init__ separately, currently __init__ can be overloaded
     // which might cause parsing error. So they are skipped.
-    if (function_name == "__init__")
+    if (function_name == "__init__" && !force_init)
     {
         return;
     }
@@ -163,8 +159,7 @@ void ClassMethodDocInject(py::module& pybind_module,
     // Inject docstring
     for (ArgumentDoc& ad : fd.argument_docs_)
     {
-        if (map_parameter_body_docs.find(ad.name_) !=
-            map_parameter_body_docs.end())
+        if (map_parameter_body_docs.find(ad.name_) != map_parameter_body_docs.end())
         {
             ad.body_ = map_parameter_body_docs.at(ad.name_);
         }
