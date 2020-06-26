@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Template Struct Bucket &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Struct BBOX" href="structFastGA_1_1Helper_1_1BBOX.html" />
+    <link rel="prev" title="Namespace NanoS2ID" href="namespace_NanoS2ID.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cpp_library_root.html">C++ Library API</a> &raquo;</li>
+        
+      <li>Template Struct Bucket</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="template-struct-bucket">
+<span id="exhale-struct-structfastga-1-1bucket"></span><h1>Template Struct Bucket<a class="headerlink" href="#template-struct-bucket" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_include_FastGA_Helper.hpp.html#file-include-fastga-helper-hpp"><span class="std std-ref">File Helper.hpp</span></a></p></li>
+</ul>
+<div class="section" id="struct-documentation">
+<h2>Struct Documentation<a class="headerlink" href="#struct-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv4I0EN6FastGA6BucketE">
+<span class="target" id="structFastGA_1_1Bucket"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><em class="property">struct </em><code class="sig-name descname">Bucket</code><a class="headerlink" href="#_CPPv4I0EN6FastGA6BucketE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The bucket class describes a cell on the S2 Histogram. It unfortunately has one member that should not really exist (projection). </p>
+<p><dl class="simple">
+<dt><strong>Template Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code>: </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv4NK6FastGA6BucketltERK6Bucket">
+<span class="target" id="structFastGA_1_1Bucket_1a6632898734f396a6e9ff0a7acd1b7f8d"></span>bool <code class="sig-name descname">operator&lt;</code><span class="sig-paren">(</span><em class="property">const</em> Bucket &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6FastGA6BucketltERK6Bucket" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N6FastGA6Bucket6normalE">
+<span class="target" id="structFastGA_1_1Bucket_1a1322ec976339cff1871273c79ef37702"></span>std::array&lt;double, 3&gt; <code class="sig-name descname">normal</code><a class="headerlink" href="#_CPPv4N6FastGA6Bucket6normalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The surface <strong>unit</strong> normal of the triangle cell. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA6Bucket5countE">
+<span class="target" id="structFastGA_1_1Bucket_1aed8c77a87691b3678d337db9b3d11dd6"></span>uint32_t <code class="sig-name descname">count</code><a class="headerlink" href="#_CPPv4N6FastGA6Bucket5countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Count variable for histogram. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA6Bucket13hilbert_valueE">
+<span class="target" id="structFastGA_1_1Bucket_1a92e7c0a40e34f5a3bd1fa6ac42a82eed"></span>T <code class="sig-name descname">hilbert_value</code><a class="headerlink" href="#_CPPv4N6FastGA6Bucket13hilbert_valueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Space Filling Curve value, may be Int32 or Uint64. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA6Bucket10projectionE">
+<span class="target" id="structFastGA_1_1Bucket_1aa499b7535793157dddd8340fb60412f4"></span>std::array&lt;double, 2&gt; <code class="sig-name descname">projection</code><a class="headerlink" href="#_CPPv4N6FastGA6Bucket10projectionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ignore this. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="structFastGA_1_1Helper_1_1BBOX.html" class="btn btn-neutral float-right" title="Struct BBOX" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="namespace_NanoS2ID.html" class="btn btn-neutral float-left" title="Namespace NanoS2ID" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

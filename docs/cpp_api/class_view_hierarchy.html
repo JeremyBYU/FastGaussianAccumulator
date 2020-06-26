@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Class Hierarchy &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Class Hierarchy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="class-hierarchy">
+<h1>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Permalink to this headline">¶</a></h1>
+<ul class="treeView" id="class-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li>Namespace <a href="namespace_FastGA.html#namespace-FastGA">FastGA</a><ul><li>Namespace <a href="namespace_FastGA__Helper.html#namespace-FastGA-Helper">FastGA::Helper</a><ul><li class="lastChild">Struct <a href="structFastGA_1_1Helper_1_1BBOX.html#exhale-struct-structFastGA-1-1Helper-1-1BBOX">BBOX</a></li></ul></li><li>Namespace <a href="namespace_FastGA__Ico.html#namespace-FastGA-Ico">FastGA::Ico</a><ul><li>Struct <a href="structFastGA_1_1Ico_1_1IcoMesh.html#exhale-struct-structFastGA-1-1Ico-1-1IcoMesh">IcoMesh</a></li><li>Class <a href="classFastGA_1_1Ico_1_1IcoCharts.html#exhale-class-classFastGA-1-1Ico-1-1IcoCharts">IcoCharts</a></li><li class="lastChild">Class <a href="classFastGA_1_1Ico_1_1Image.html#exhale-class-classFastGA-1-1Ico-1-1Image">Image</a></li></ul></li><li>Namespace <a href="namespace_FastGA__NFA.html#namespace-FastGA-NFA">FastGA::NFA</a><ul><li class="lastChild">Template Struct <a href="structFastGA_1_1NFA_1_1BucketAdaptor.html#exhale-struct-structFastGA-1-1NFA-1-1BucketAdaptor">BucketAdaptor</a></li></ul></li><li>Template Struct <a href="structFastGA_1_1Bucket.html#exhale-struct-structFastGA-1-1Bucket">Bucket</a></li><li>Struct <a href="structFastGA_1_1Regression.html#exhale-struct-structFastGA-1-1Regression">Regression</a></li><li>Template Class <a href="classFastGA_1_1GaussianAccumulator.html#exhale-class-classFastGA-1-1GaussianAccumulator">GaussianAccumulator</a></li><li>Class <a href="classFastGA_1_1GaussianAccumulatorKD.html#exhale-class-classFastGA-1-1GaussianAccumulatorKD">GaussianAccumulatorKD</a></li><li>Class <a href="classFastGA_1_1GaussianAccumulatorOpt.html#exhale-class-classFastGA-1-1GaussianAccumulatorOpt">GaussianAccumulatorOpt</a></li><li class="lastChild">Class <a href="classFastGA_1_1GaussianAccumulatorS2.html#exhale-class-classFastGA-1-1GaussianAccumulatorS2">GaussianAccumulatorS2</a></li></ul></li>
+    </ul>
+  </li><!-- only tree view element -->
+</ul><!-- /treeView class-treeView --></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

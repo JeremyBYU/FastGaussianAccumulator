@@ -52,7 +52,7 @@ sys.path.insert(
 # ones.
 extensions = [
     'sphinx.ext.mathjax', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',
-    'sphinx.ext.napoleon', 'breathe', 'exhale'
+    'sphinx.ext.napoleon', 'breathe', 'exhale', 'm2r', 'nbsphinx','nbsphinx_link',
 ]
 
 # Setup the breathe extension
@@ -132,6 +132,7 @@ todo_include_todos = False
 # theme_path = os.path.join(current_file_dir, "..", "3rdparty",
 #                           "open3d_sphinx_theme")
 html_theme = "sphinx_rtd_theme"
+html_logo = '_static/fastga_logo_small.png'
 # html_theme_path = [theme_path]
 html_favicon = ""
 

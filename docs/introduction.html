@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introducing Polylidar3D &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building Documentation" href="builddocs.html" />
+    <link rel="prev" title="FastGA: A Fast Gaussian Accumulator" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introducing Polylidar3D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fast-gaussian-accumulator">Fast Gaussian Accumulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#finding-the-cell">Finding the Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#peak-detection">Peak Detection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#d-image-peak-detection">2D Image Peak Detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#d-signal-peak-detection">1D Signal Peak Detection</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-project-library">Build Project Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-install-python-extension">Build and Install Python Extension</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_api/cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introducing Polylidar3D</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="introducing-polylidar3d">
+<span id="introduction"></span><h1>Introducing Polylidar3D<a class="headerlink" href="#introducing-polylidar3d" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fast-gaussian-accumulator">
+<h2>Fast Gaussian Accumulator<a class="headerlink" href="#fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h2>
+<p>A Gaussian Sphere Accumulator refers to the notion of discretizing the <strong>surface</strong> of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of <strong>points</strong> (aka unit normals) into these buckets.
+The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have the exact same <strong>area</strong> and <strong>shape</strong>. This process is done by <em>refining</em> an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png"><img alt="Icosahedron" src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png" /></a>
+<p>Once a level of refinement is chosen, one can then integrate point vectors into the cells/buckets. For example integrating the normals of a level four (4) icosahedron would look like the image below. Bright yellow indicates more counts for the triangle cells. This is basically showing that the floor [0, 0, 1] and walls [0, +/-1, 0] are common.</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png"><img alt="GaussianAccumulator" src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png" /></a>
+<div class="section" id="finding-the-cell">
+<h3>Finding the Cell<a class="headerlink" href="#finding-the-cell" title="Permalink to this headline">¶</a></h3>
+<p>To do this one must <strong>find</strong> the cell that corresponds to the point. This is a search process that has been implemented in several fashions in this repo. The main ways are as follows:</p>
+<ul class="simple">
+<li><p>3D KD Tree - Do a nearest neighbor search using a binary tree.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorKDPY</span></code> - One implementation using scipy kdtree.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorKD</span></code> One implementation uses C++ nanoflann.</p></li>
+</ul>
+</li>
+<li><p>Global Index and Local Search - A 3D point is transformed to a unique integer id. The unique ids have the property that ids close to each other will be close to each other in 3D space. The closest id is found corresponding to a triangle cell. A local search of triangle neighbors is performed to find closest triangle cell to the point.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorOpt</span></code> - Works good on <strong>only</strong> on the top hemisphere. Projects 3D point to plane using Azimuth Equal Area projection. Convert 2D point to int32 index using Hilbert Curve. This implementation is severely limited and is not recommended.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorS2</span></code> - Works on full sphere! Uses Googles S2 space filling curve (uint64). 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face. This is recommended, and what I use.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="peak-detection">
+<h3>Peak Detection<a class="headerlink" href="#peak-detection" title="Permalink to this headline">¶</a></h3>
+<p>There are two (2) peak detection methods of used within this repository. The user can choose which one best suite there needs.</p>
+<div class="section" id="d-image-peak-detection">
+<h4>2D Image Peak Detection<a class="headerlink" href="#d-image-peak-detection" title="Permalink to this headline">¶</a></h4>
+<p>This method basically unwraps the icosahedron as a 2D image in a very particular way as described by <a class="reference external" href="&quot;https://arxiv.org/abs/1902.04615">Gauge Equivariant Convolutional Networks and the Icosahedral CNN</a>. This unwrapping is hardcoded and fixed once a refinement level is chosen so its very fast. The library then uses a 2D peak detector algorithm followed up with agglomerative hierarchial clustering (AHC) to group similar peaks. All of this is user configurable.</p>
+</div>
+<div class="section" id="d-signal-peak-detection">
+<h4>1D Signal Peak Detection<a class="headerlink" href="#d-signal-peak-detection" title="Permalink to this headline">¶</a></h4>
+<p>This performs peak detection on the 1D thread following the hilbert curve. This produces more peaks which are actually near each other on S2 and are then grouped with AHC. This actually works pretty well, but I recommend to use the 2D Image Peak Detector.</p>
+</div>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher. No built binaries are included currently.</p>
+<div class="section" id="build-project-library">
+<h4>Build Project Library<a class="headerlink" href="#build-project-library" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">cmake-build</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">cmake-build</span></code>. - create build folder directory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">../</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span> <span class="pre">-DWERROR=0</span></code> . For windows also add <code class="docutils literal notranslate"><span class="pre">-DCMAKE_GENERATOR_PLATFORM=x64</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">-j$(nproc)</span></code>  - Build FastGA</p></li>
+</ol>
+</div>
+<div class="section" id="build-and-install-python-extension">
+<h4>Build and Install Python Extension<a class="headerlink" href="#build-and-install-python-extension" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Install <a class="reference external" href="https://conda.io/projects/conda/en/latest/">conda</a> or create a python virtual envrionment (<a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Why?</a>). I recommend conda for Windows users.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cmake-build</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--target</span> <span class="pre">python-package</span> <span class="pre">--config</span> <span class="pre">Release</span> <span class="pre">-j4</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">lib/python_package</span> <span class="pre">&amp;&amp;</span>&#160; <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></p></li>
+</ol>
+<p>If you want to run the examples then you need to install the following (from main directory):</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements-dev.txt</span></code></p></li>
+</ol>
+<!-- ###  Build with S2Geometry
+
+Googles S2Geometry library is **not** needed in this repository. I have encapsulated **all** code that transforms a unit normal (xyz point) to a unique integer id (uint64) into the header only file `include/NanoS2ID/NanoS2ID.hpp`. However if you desire to run some benchmarks comparing S2 geometry code with this `nano2sid` you must install download and install S2 but first applying the following patch to the source code.
+
+To build with S2 you must apply this patch first.
+
+```
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5ecd280..d67bf76 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -411,7 +411,7 @@ install(TARGETS s2 s2testing DESTINATION lib)
+
+ message("GTEST_ROOT: ${GTEST_ROOT}")
+ if (GTEST_ROOT)
+
+*  add_subdirectory(${GTEST_ROOT} build_gtest)
+
++#   add_subdirectory(${GTEST_ROOT} build_gtest)
+   include_directories(${GTEST_ROOT}/include)
+
+   set(S2TestFiles
+```
+
+Then enable the option for CMake. --></div>
+</div>
+<div class="section" id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<p>Please see documentation website for more details.</p>
+<!-- ## General Notes
+
+The main class of interest should be `GaussianAccumulatorS2`
+
+`NanoS2ID.hpp` is header only and which allows it to be optimized more easily (for developer). `S2Geometry` can be compiled as a shared library or a static library (I have tried both). Getting an S2ID is about 50% faster using `NanoS2ID` . My guess is that there is function call overhead in calling a library, vs inlining the function. However, I did build S2 as a static library and did enable link time optimization, but it didn't make it any faster. However I'm guessing I just made a mistake in this process and its *possible* to make `S2Geometry` as fast as `NanoS2ID` .
+
+I also tried using S2 as a point index (similar to a KDTree) and found it was *significantly* slower, about 5X slower than using a KDTree. --><!--
+### Profiling
+
+1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000`
+2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof`
+ --></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="builddocs.html" class="btn btn-neutral float-right" title="Building Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="FastGA: A Fast Gaussian Accumulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

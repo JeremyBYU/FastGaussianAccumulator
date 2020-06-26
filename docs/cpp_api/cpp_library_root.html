@@ -1,0 +1,1688 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>C++ Library API &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace FastGA" href="namespace_FastGA.html" />
+    <link rel="prev" title="fastga.refine_icosahedron" href="../python_api/fastga.refine_icosahedron.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-api">Full API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#namespaces">Namespaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="namespace_FastGA.html">Namespace FastGA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_FastGA__Helper.html">Namespace FastGA::Helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_FastGA__Ico.html">Namespace FastGA::Ico</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_FastGA__NFA.html">Namespace FastGA::NFA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_FBS.html">Namespace FBS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_Hilbert.html">Namespace Hilbert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_NanoS2ID.html">Namespace NanoS2ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structFastGA_1_1Bucket.html">Template Struct Bucket</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structFastGA_1_1Helper_1_1BBOX.html">Struct BBOX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structFastGA_1_1Ico_1_1IcoMesh.html">Struct IcoMesh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structFastGA_1_1NFA_1_1BucketAdaptor.html">Template Struct BucketAdaptor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structFastGA_1_1Regression.html">Struct Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1GaussianAccumulator.html">Template Class GaussianAccumulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html">Class GaussianAccumulatorKD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html">Class GaussianAccumulatorOpt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html">Class GaussianAccumulatorS2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1Ico_1_1IcoCharts.html">Class IcoCharts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classFastGA_1_1Ico_1_1Image.html">Class Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a6841f467ea59689e3780055ba04018de.html">Function FastGA::GetFastGAVersion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1ac1ac48c1431f1b9416be81e6f01790ab.html">Template Function FastGA::Helper::ApplyPermutation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a12f1ff1ac0ec5c452dc74cfbf37affff.html">Template Function FastGA::Helper::ApplyPermutationInPlace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a5f857dfd07b35dc06b84b9054bbaf707.html">Template Function FastGA::Helper::ArrayToString</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a1fa3232b865794091ec13cf2f20e1094.html">Template Function FastGA::Helper::AzimuthEqualAreaProjectionXYZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a5efc72370166189f49faadb9e134e196.html">Template Function FastGA::Helper::AzimuthProjectionPhiTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a3f4d4561a8f6b19f9953fd80bd2717d7.html">Template Function FastGA::Helper::BubbleDownMask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a287677cd6048771c3f1673b9a5460a44.html">Function FastGA::Helper::ComputeTriangleNormals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a8a584a140d821786021f78fa23953cbf.html">Function FastGA::Helper::ConvertNormalsToHilbert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a53734c02b95b01f72520fc9ef4827248.html">Function FastGA::Helper::ConvertNormalsToS2ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1ab18678d604fcec2215a63b599b43a0ea.html">Function FastGA::Helper::crossProduct3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a2c8cf6098a67741064ae14504d4240c6.html">Function FastGA::Helper::InitializeProjection(const MatX3d&amp;, MatX2d&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a9b48123a6bc70a102bda5263ee56f0c2.html">Template Function FastGA::Helper::InitializeProjection(std::vector&lt;Bucket&lt;T&gt;&gt;&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a7af871169a81ddd52efc0d533478444c.html">Template Function FastGA::Helper::InPlaceAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1aafaeae9c77d3c2458581262ea3c5ffb6.html">Template Function FastGA::Helper::InPlaceDivide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a879739ce7fa86508f74e1bb60a316833.html">Template Function FastGA::Helper::L2Norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a45c24e1140dbf2d8df117fd3c78fb780.html">Template Function FastGA::Helper::LinearRegression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a5911880d7aec6ec839b2a816266077c8.html">Template Function FastGA::Helper::Mean(std::array&lt;T, dim&gt;&amp;, std::array&lt;T, dim&gt;&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a230880d5bb34fb5a223534f24b0e2ace.html">Template Function FastGA::Helper::Mean(std::vector&lt;std::array&lt;size_t, dim_indexes&gt;&gt;&amp;, std::vector&lt;double&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a63f1e74ed34074b645020a0bc529ad11.html">Template Function FastGA::Helper::Mean(std::vector&lt;std::array&lt;size_t, dim_indexes&gt;&gt;&amp;, std::vector&lt;std::array&lt;T, dim_values&gt;&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1af37c43d27345a373e61865e65277c211.html">Template Function FastGA::Helper::MovingAverage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a2c048774ccf94e0ee63fdc1ae5912786.html">Function FastGA::Helper::normalize3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a4aba68e3afb14cceda3737db0c9d8ed4.html">Template Function FastGA::Helper::round_up_to_power_of_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1aa559aafd35312a95ed8ccb6f0684f250.html">Template Function FastGA::Helper::ScaleArrayInPlace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a6355a9fc4e46bce5b7dc212757eb9014.html">Template Function FastGA::Helper::ScaleItemInPlace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1ae5125023af43c66ed8c1e3c2c8887377.html">Template Function FastGA::Helper::ScaleXYToUInt32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1adf3efb3c1b1c8580187c70d88f54b2ad.html">Template Function FastGA::Helper::sort_permutation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a3053f6e29849ebdbec9696b97c1652d9.html">Template Function FastGA::Helper::SquaredDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a3290aaa8f542f56a613c1ed8ea41552f.html">Function FastGA::Ico::CantorMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1ab77ee240142cbc208eac0dd8dd7de3ee.html">Function FastGA::Ico::ComputeAdjacencyMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1ae45da345760021503fd0bd21d8431f38.html">Function FastGA::Ico::ComputeAdjacencySet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a4fb43134e0f0532ec0791ec4cbb99127.html">Function FastGA::Ico::ComputeTriangleNeighbors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1aa86859be85147b10cba0ea3ebe81550e.html">Function FastGA::Ico::ConstructMidPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a4bfa0f52db339fbe5f7f148d9e3dca61.html">Function FastGA::Ico::Create_Local_To_Global_Point_Idx_Map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1ad7867bae029d226cb937572ec0ba2d83.html">Function FastGA::Ico::CreateChartImageIndices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a1cfcbb61d50f5d7b7a8e25383f6f1fd6.html">Function FastGA::Ico::CreateIcoChart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a6bcd9224299fc7cab5c214740c9a7b14.html">Function FastGA::Ico::CreateIcosahedron</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a8c7e506ff3dcca994c841dd036ce6ace.html">Function FastGA::Ico::ExtractHalfEdges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a1fedfa274b23a16043b75fa6d451fd73.html">Function FastGA::Ico::GenerateKeyFromPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a032c7571d9b84e079f07e470b29f9ca3.html">Function FastGA::Ico::get_chart_height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a0c92fa70d6ad3fd3d7389c80833cb962.html">Function FastGA::Ico::get_chart_width</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1ae30574719687e50d345ee0c3127b9d01.html">Function FastGA::Ico::GetPointIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1af8bd26b46f775ce10678265db9a6fd8a.html">Function FastGA::Ico::IcoMeshFaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1ab12b693f0ccf985d82442fc1e2b39b3c.html">Function FastGA::Ico::IcoMeshVertices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a994b07cb68df2952278f4a7d848c633f.html">Function FastGA::Ico::RefineIcoChart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a541b6ea2eb5d90088f49fe077a191750.html">Function FastGA::Ico::RefineIcosahedron</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Ico_8hpp_1a18ffb38400d32c60c45bc8c299de1561.html">Function FastGA::Ico::RefineMesh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a7d48c405420a5ddb0f0b4f31a4af62c5.html">Function FBS::__attribute__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a5c4bfa9c125e1556100cd6bab885b64b.html">Template Function FBS::binary_search_branchless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Hilbert_8hpp_1adeeece4c0b3a3293735b89204c408b43.html">Function Hilbert::hilbertXYToIndex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Hilbert_8hpp_1a3fe71f5efa69b45c0050f01002eeb0b7.html">Function Hilbert::interleave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a6de660492c5eb4cd84f6e4bd21008240.html">Function NanoS2ID::Abs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1afe26fcc1b5b25bc4f8ec7a5adfa83eb8.html">Function NanoS2ID::FastIntRound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1adb53fbd9df95ff312b42f99218345305.html">Function NanoS2ID::FromFaceIJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a01095136072056878f9d45e589f1897d.html">Function NanoS2ID::GET_BITS_FUNCTION</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a05118432534fce0fd8b4e7f2da837597.html">Function NanoS2ID::GetFace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1ae16c97919923506de413e65c539786b2.html">Function NanoS2ID::InitLookupCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa01ef2dd487c9280c532fcdfbdb97fac.html">Function NanoS2ID::LargestAbsComponent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a51230ffe6511b678a743e1c3113a1d00.html">Function NanoS2ID::MaybeInit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa66882ff03ef4a6f692511dbeba390ed.html">Template Function NanoS2ID::Round</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7edf2555d3a2311d3ef4b29487829640.html">Function NanoS2ID::S2CellId</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a9830a5e8a6d3f285712d6b2925bf69b0.html">Function NanoS2ID::STtoIJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7b74bef1b35260b27cbdf4d803e64b81.html">Function NanoS2ID::STtoIJ_UINT32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a23f40cee2712f74db67f94207b880a64.html">Function NanoS2ID::STtoUV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a052bf27cf85a791af27a23190223a9a0.html">Function NanoS2ID::UVtoST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a5606d506153620296a2c6319646b7506.html">Function NanoS2ID::ValidFaceXYZtoUV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_NanoS2ID_8hpp_1a1eadda54c4a6ab3fb4b2137bf17a3c85.html">Function NanoS2ID::XYZtoFaceUV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Helper_8hpp_1a9d9d7c9e3217a953e08102f17de4a740.html">Template Function operator&lt;&lt;</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="variable_Helper_8hpp_1a4292cddc26d05e06e6acc12ba7a5f18e.html">Variable FastGA::Helper::EPSILON</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Helper_8hpp_1abcb18c5745a61a878c1c330ce9a8b960.html">Variable FastGA::Helper::HILBERT_MAX_32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Ico_8hpp_1a6f4ff7a2319959b7602bba664c4942c5.html">Variable FastGA::Ico::EQUILATERAL_TRIANGLE_RATIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Ico_8hpp_1af6eb5a10e0335da6c8ad3a80e4c13a94.html">Variable FastGA::Ico::GOLDEN_RATIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Ico_8hpp_1a7a7f988d1d83f4e70ef689128741a20d.html">Variable FastGA::Ico::ICOSAHEDRON_SCALING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Ico_8hpp_1af54d0caa9e04d6834b97bbd624361fa4.html">Variable FastGA::Ico::ICOSAHEDRON_TRUE_RADIUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Ico_8hpp_1a4fee99d845ab27990489a21ead484bde.html">Variable FastGA::Ico::NUMBER_OF_CHARTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html">Variable FastGA::max_limit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_FastBinarySearch_8hpp_1ac1c1273d7628823a193a74eb68a79dc5.html">Variable FBS::MINUS_ONE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aa22710b65805c0ed62305f6666dc7e23.html">Variable NanoS2ID::flag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a08bd2e65988978ef0054bf029e145fe6.html">Variable NanoS2ID::kFaceBits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1acace23640911326ee7ba792fc4acfd8a.html">Variable NanoS2ID::kIJtoPos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7e562d12f3be6666389967fc0ad0dc69.html">Variable NanoS2ID::kInvertMask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a00ec6034ba85bdf4258d734e2a26e89b.html">Variable NanoS2ID::kLimitIJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aab718e130abfa76e1795cf9a745cd4f8.html">Variable NanoS2ID::kLimitIJ_UINT32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7829ebcf36eb2136bcddfef4ca8695ef.html">Variable NanoS2ID::kLookupBits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a2e628d02e85bf585e10a62f939381682.html">Variable NanoS2ID::kMaxCellLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a32b9ce422e53ca91c27be24558abce7c.html">Variable NanoS2ID::kMaxLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1adf4bb58b750e4b6a52506ff1e2167c62.html">Variable NanoS2ID::kMaxSiTi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ada55ae903ac5130d15aa9039be0e23e7.html">Variable NanoS2ID::kMaxSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ae628ed7c9afb3e7d30c8106606477938.html">Variable NanoS2ID::kNumFaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1add5ca68f5164116e3770a9836d61769a.html">Variable NanoS2ID::kPosBits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a503950197773308b876e4a2269e367d5.html">Variable NanoS2ID::kPosToIJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a864dc744f83d722510573491c2b6a4f7.html">Variable NanoS2ID::kPosToOrientation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a8064352de61eb2591dabe2bccce493d6.html">Variable NanoS2ID::kSwapMask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a4e525f8ee3f3227ca738b2a6e6f85303.html">Variable NanoS2ID::lookup_ij</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ac8e22f64acaed42be9922fdebbf9675c.html">Variable NanoS2ID::lookup_pos</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#defines">Defines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Helper_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastBinarySearch_8hpp_1ada9d7622865275ae4289dff050f1589e.html">Define ALIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Helper_8hpp_1aa1121f797750b9f74f56b152d4245ec0.html">Define degreesToRadians</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a537938f4e4e78e5dc094178a5c679fc9.html">Define FASTGA_EXHAUSTIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a298a043757d91c9ccda553c68d16cedb.html">Define FASTGA_KDTREE_EPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ab19090cd661f9676afac2e12296c4afc.html">Define FASTGA_LEVEL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ac888787f8aede6570789b817d9b263fc.html">Define FASTGA_MAX_LEAF_SIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ae762b22d19892786aec6deca8a507573.html">Define FASTGA_MAX_PHI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a69f62396bed458a49483bdc07f1edbe4.html">Define FASTGA_TRI_NBRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a724fb9f82013c782db5c3c12ea36aac8.html">Define FORCEINLINE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Helper_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html">Define M_PI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a1b173d22e57d9395897acbd8de62d505.html">Define NOINLINE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Helper_8hpp_1aa101e273d8dae96156403a869e2f3b18.html">Define radiansToDegrees</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_NanoS2ID_8hpp_1a743b7a730d4ac0d4339829483fecf991.html">Define S2_LINEAR_PROJECTION</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_NanoS2ID_8hpp_1a54ea0bbe5b530b9fdf833b59a6ffa8d1.html">Define S2_PROJECTION</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_NanoS2ID_8hpp_1a77a043d3e4245009008f53babb9e1788.html">Define S2_QUADRATIC_PROJECTION</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_NanoS2ID_8hpp_1af29530fb057719841b41223c044891e7.html">Define S2_TAN_PROJECTION</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#typedefs">Typedefs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html">Typedef FastGA::MatX12I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html">Typedef FastGA::MatX2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html">Typedef FastGA::MatX2I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html">Typedef FastGA::MatX2i</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html">Typedef FastGA::MatX2ui</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html">Typedef FastGA::MatX3d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html">Typedef FastGA::MatX3I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html">Typedef FastGA::MatX4i</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_Helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html">Typedef FastGA::MatX6I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a53e59ab0834ea3d5a1c634369a24932e.html">Typedef FastGA::NFA::BUCKET2KD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a15fd83ed131c1b18529673f5c5bcca46.html">Typedef FastGA::NFA::nano_kd_tree_t</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a76b9c9fbaad5bb0a70514238bb86735b.html">Typedef NanoS2ID::int16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a19ba7ef8f7b3c704f0e69baee4a341a9.html">Typedef NanoS2ID::int32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1af430f90027e720788aae5d8b71423120.html">Typedef NanoS2ID::int64</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a00000c5f26b82ffe1aa4d18573d9453a.html">Typedef NanoS2ID::int8</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a7698036ecd793b6504ff3ac1acfc1c34.html">Typedef NanoS2ID::uint16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a278e372742aef8762596b22f5bf7aa33.html">Typedef NanoS2ID::uint32</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1ad18cfeea211e277e34bb1bcca71c8f22.html">Typedef NanoS2ID::uint64</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a0c65fb7bf1ee69cf31aca9288d93d648.html">Typedef NanoS2ID::uint8</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>C++ Library API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="c-library-api">
+<h1>C++ Library API<a class="headerlink" href="#c-library-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-hierarchy">
+<h2>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Permalink to this headline">¶</a></h2>
+<ul class="treeView" id="class-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li>Namespace <a href="namespace_FastGA.html#namespace-FastGA">FastGA</a><ul><li>Namespace <a href="namespace_FastGA__Helper.html#namespace-FastGA-Helper">FastGA::Helper</a><ul><li class="lastChild">Struct <a href="structFastGA_1_1Helper_1_1BBOX.html#exhale-struct-structFastGA-1-1Helper-1-1BBOX">BBOX</a></li></ul></li><li>Namespace <a href="namespace_FastGA__Ico.html#namespace-FastGA-Ico">FastGA::Ico</a><ul><li>Struct <a href="structFastGA_1_1Ico_1_1IcoMesh.html#exhale-struct-structFastGA-1-1Ico-1-1IcoMesh">IcoMesh</a></li><li>Class <a href="classFastGA_1_1Ico_1_1IcoCharts.html#exhale-class-classFastGA-1-1Ico-1-1IcoCharts">IcoCharts</a></li><li class="lastChild">Class <a href="classFastGA_1_1Ico_1_1Image.html#exhale-class-classFastGA-1-1Ico-1-1Image">Image</a></li></ul></li><li>Namespace <a href="namespace_FastGA__NFA.html#namespace-FastGA-NFA">FastGA::NFA</a><ul><li class="lastChild">Template Struct <a href="structFastGA_1_1NFA_1_1BucketAdaptor.html#exhale-struct-structFastGA-1-1NFA-1-1BucketAdaptor">BucketAdaptor</a></li></ul></li><li>Template Struct <a href="structFastGA_1_1Bucket.html#exhale-struct-structFastGA-1-1Bucket">Bucket</a></li><li>Struct <a href="structFastGA_1_1Regression.html#exhale-struct-structFastGA-1-1Regression">Regression</a></li><li>Template Class <a href="classFastGA_1_1GaussianAccumulator.html#exhale-class-classFastGA-1-1GaussianAccumulator">GaussianAccumulator</a></li><li>Class <a href="classFastGA_1_1GaussianAccumulatorKD.html#exhale-class-classFastGA-1-1GaussianAccumulatorKD">GaussianAccumulatorKD</a></li><li>Class <a href="classFastGA_1_1GaussianAccumulatorOpt.html#exhale-class-classFastGA-1-1GaussianAccumulatorOpt">GaussianAccumulatorOpt</a></li><li class="lastChild">Class <a href="classFastGA_1_1GaussianAccumulatorS2.html#exhale-class-classFastGA-1-1GaussianAccumulatorS2">GaussianAccumulatorS2</a></li></ul></li>
+    </ul>
+  </li><!-- only tree view element -->
+</ul><!-- /treeView class-treeView --></div>
+<div class="section" id="file-hierarchy">
+<h2>File Hierarchy<a class="headerlink" href="#file-hierarchy" title="Permalink to this headline">¶</a></h2>
+<ul class="treeView" id="file-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li class="lastChild">Directory <a href="dir_include.html#dir-include">include</a><ul><li>Directory <a href="dir_include_FastGA.html#dir-include-FastGA">FastGA</a><ul><li>File <a href="file_include_FastGA_FastBinarySearch.hpp.html#file-include-FastGA-FastBinarySearch.hpp">FastBinarySearch.hpp</a></li><li>File <a href="file_include_FastGA_FastGA.hpp.html#file-include-FastGA-FastGA.hpp">FastGA.hpp</a></li><li>File <a href="file_include_FastGA_Helper.hpp.html#file-include-FastGA-Helper.hpp">Helper.hpp</a></li><li>File <a href="file_include_FastGA_Ico.hpp.html#file-include-FastGA-Ico.hpp">Ico.hpp</a></li><li class="lastChild">File <a href="file_include_FastGA_NanoFlannAdaptors.hpp.html#file-include-FastGA-NanoFlannAdaptors.hpp">NanoFlannAdaptors.hpp</a></li></ul></li><li>Directory <a href="dir_include_Hilbert.html#dir-include-Hilbert">Hilbert</a><ul><li class="lastChild">File <a href="file_include_Hilbert_Hilbert.hpp.html#file-include-Hilbert-Hilbert.hpp">Hilbert.hpp</a></li></ul></li><li>Directory <a href="dir_include_NanoS2ID.html#dir-include-NanoS2ID">NanoS2ID</a><ul><li class="lastChild">File <a href="file_include_NanoS2ID_NanoS2ID.hpp.html#file-include-NanoS2ID-NanoS2ID.hpp">NanoS2ID.hpp</a></li></ul></li><li class="lastChild">File <a href="file_include_FastGA.hpp.html#file-include-FastGA.hpp">FastGA.hpp</a></li></ul></li>
+    </ul>
+  </li><!-- only tree view element -->
+</ul><!-- /treeView file-treeView --></div>
+<div class="section" id="full-api">
+<h2>Full API<a class="headerlink" href="#full-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="namespaces">
+<h3>Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_FastGA.html">Namespace FastGA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA.html#namespaces">Namespaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA.html#typedefs">Typedefs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_FastGA__Helper.html">Namespace FastGA::Helper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Helper.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Helper.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Helper.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_FastGA__Ico.html">Namespace FastGA::Ico</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Ico.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Ico.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__Ico.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_FastGA__NFA.html">Namespace FastGA::NFA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__NFA.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FastGA__NFA.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_FBS.html">Namespace FBS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FBS.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_FBS.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_Hilbert.html">Namespace Hilbert</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Hilbert.html#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_NanoS2ID.html">Namespace NanoS2ID</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_NanoS2ID.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_NanoS2ID.html#typedefs">Typedefs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_NanoS2ID.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="classes-and-structs">
+<h3>Classes and Structs<a class="headerlink" href="#classes-and-structs" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structFastGA_1_1Bucket.html">Template Struct Bucket</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structFastGA_1_1Bucket.html#struct-documentation">Struct Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structFastGA_1_1Helper_1_1BBOX.html">Struct BBOX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structFastGA_1_1Helper_1_1BBOX.html#struct-documentation">Struct Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structFastGA_1_1Ico_1_1IcoMesh.html">Struct IcoMesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structFastGA_1_1Ico_1_1IcoMesh.html#struct-documentation">Struct Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structFastGA_1_1NFA_1_1BucketAdaptor.html">Template Struct BucketAdaptor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structFastGA_1_1NFA_1_1BucketAdaptor.html#struct-documentation">Struct Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structFastGA_1_1Regression.html">Struct Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structFastGA_1_1Regression.html#struct-documentation">Struct Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1GaussianAccumulator.html">Template Class GaussianAccumulator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulator.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html">Class GaussianAccumulatorKD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html">Class GaussianAccumulatorOpt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html">Class GaussianAccumulatorS2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1Ico_1_1IcoCharts.html">Class IcoCharts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1Ico_1_1IcoCharts.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classFastGA_1_1Ico_1_1Image.html">Class Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classFastGA_1_1Ico_1_1Image.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a6841f467ea59689e3780055ba04018de.html">Function FastGA::GetFastGAVersion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a6841f467ea59689e3780055ba04018de.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1ac1ac48c1431f1b9416be81e6f01790ab.html">Template Function FastGA::Helper::ApplyPermutation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1ac1ac48c1431f1b9416be81e6f01790ab.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a12f1ff1ac0ec5c452dc74cfbf37affff.html">Template Function FastGA::Helper::ApplyPermutationInPlace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a12f1ff1ac0ec5c452dc74cfbf37affff.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a5f857dfd07b35dc06b84b9054bbaf707.html">Template Function FastGA::Helper::ArrayToString</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a5f857dfd07b35dc06b84b9054bbaf707.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a1fa3232b865794091ec13cf2f20e1094.html">Template Function FastGA::Helper::AzimuthEqualAreaProjectionXYZ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a1fa3232b865794091ec13cf2f20e1094.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a5efc72370166189f49faadb9e134e196.html">Template Function FastGA::Helper::AzimuthProjectionPhiTheta</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a5efc72370166189f49faadb9e134e196.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a3f4d4561a8f6b19f9953fd80bd2717d7.html">Template Function FastGA::Helper::BubbleDownMask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a3f4d4561a8f6b19f9953fd80bd2717d7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a287677cd6048771c3f1673b9a5460a44.html">Function FastGA::Helper::ComputeTriangleNormals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a287677cd6048771c3f1673b9a5460a44.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a8a584a140d821786021f78fa23953cbf.html">Function FastGA::Helper::ConvertNormalsToHilbert</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a8a584a140d821786021f78fa23953cbf.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a53734c02b95b01f72520fc9ef4827248.html">Function FastGA::Helper::ConvertNormalsToS2ID</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a53734c02b95b01f72520fc9ef4827248.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1ab18678d604fcec2215a63b599b43a0ea.html">Function FastGA::Helper::crossProduct3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1ab18678d604fcec2215a63b599b43a0ea.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a2c8cf6098a67741064ae14504d4240c6.html">Function FastGA::Helper::InitializeProjection(const MatX3d&amp;, MatX2d&amp;)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a2c8cf6098a67741064ae14504d4240c6.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a9b48123a6bc70a102bda5263ee56f0c2.html">Template Function FastGA::Helper::InitializeProjection(std::vector&lt;Bucket&lt;T&gt;&gt;&amp;)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a9b48123a6bc70a102bda5263ee56f0c2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a7af871169a81ddd52efc0d533478444c.html">Template Function FastGA::Helper::InPlaceAdd</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a7af871169a81ddd52efc0d533478444c.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1aafaeae9c77d3c2458581262ea3c5ffb6.html">Template Function FastGA::Helper::InPlaceDivide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1aafaeae9c77d3c2458581262ea3c5ffb6.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a879739ce7fa86508f74e1bb60a316833.html">Template Function FastGA::Helper::L2Norm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a879739ce7fa86508f74e1bb60a316833.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a45c24e1140dbf2d8df117fd3c78fb780.html">Template Function FastGA::Helper::LinearRegression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a45c24e1140dbf2d8df117fd3c78fb780.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a5911880d7aec6ec839b2a816266077c8.html">Template Function FastGA::Helper::Mean(std::array&lt;T, dim&gt;&amp;, std::array&lt;T, dim&gt;&amp;)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a5911880d7aec6ec839b2a816266077c8.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a230880d5bb34fb5a223534f24b0e2ace.html">Template Function FastGA::Helper::Mean(std::vector&lt;std::array&lt;size_t, dim_indexes&gt;&gt;&amp;, std::vector&lt;double&gt;)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a230880d5bb34fb5a223534f24b0e2ace.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a63f1e74ed34074b645020a0bc529ad11.html">Template Function FastGA::Helper::Mean(std::vector&lt;std::array&lt;size_t, dim_indexes&gt;&gt;&amp;, std::vector&lt;std::array&lt;T, dim_values&gt;&gt;)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a63f1e74ed34074b645020a0bc529ad11.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1af37c43d27345a373e61865e65277c211.html">Template Function FastGA::Helper::MovingAverage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1af37c43d27345a373e61865e65277c211.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a2c048774ccf94e0ee63fdc1ae5912786.html">Function FastGA::Helper::normalize3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a2c048774ccf94e0ee63fdc1ae5912786.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a4aba68e3afb14cceda3737db0c9d8ed4.html">Template Function FastGA::Helper::round_up_to_power_of_2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a4aba68e3afb14cceda3737db0c9d8ed4.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1aa559aafd35312a95ed8ccb6f0684f250.html">Template Function FastGA::Helper::ScaleArrayInPlace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1aa559aafd35312a95ed8ccb6f0684f250.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a6355a9fc4e46bce5b7dc212757eb9014.html">Template Function FastGA::Helper::ScaleItemInPlace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a6355a9fc4e46bce5b7dc212757eb9014.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1ae5125023af43c66ed8c1e3c2c8887377.html">Template Function FastGA::Helper::ScaleXYToUInt32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1ae5125023af43c66ed8c1e3c2c8887377.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1adf3efb3c1b1c8580187c70d88f54b2ad.html">Template Function FastGA::Helper::sort_permutation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1adf3efb3c1b1c8580187c70d88f54b2ad.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a3053f6e29849ebdbec9696b97c1652d9.html">Template Function FastGA::Helper::SquaredDistance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a3053f6e29849ebdbec9696b97c1652d9.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a3290aaa8f542f56a613c1ed8ea41552f.html">Function FastGA::Ico::CantorMapping</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a3290aaa8f542f56a613c1ed8ea41552f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1ab77ee240142cbc208eac0dd8dd7de3ee.html">Function FastGA::Ico::ComputeAdjacencyMatrix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1ab77ee240142cbc208eac0dd8dd7de3ee.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1ae45da345760021503fd0bd21d8431f38.html">Function FastGA::Ico::ComputeAdjacencySet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1ae45da345760021503fd0bd21d8431f38.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a4fb43134e0f0532ec0791ec4cbb99127.html">Function FastGA::Ico::ComputeTriangleNeighbors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a4fb43134e0f0532ec0791ec4cbb99127.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1aa86859be85147b10cba0ea3ebe81550e.html">Function FastGA::Ico::ConstructMidPoint</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1aa86859be85147b10cba0ea3ebe81550e.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a4bfa0f52db339fbe5f7f148d9e3dca61.html">Function FastGA::Ico::Create_Local_To_Global_Point_Idx_Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a4bfa0f52db339fbe5f7f148d9e3dca61.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1ad7867bae029d226cb937572ec0ba2d83.html">Function FastGA::Ico::CreateChartImageIndices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1ad7867bae029d226cb937572ec0ba2d83.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a1cfcbb61d50f5d7b7a8e25383f6f1fd6.html">Function FastGA::Ico::CreateIcoChart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a1cfcbb61d50f5d7b7a8e25383f6f1fd6.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a6bcd9224299fc7cab5c214740c9a7b14.html">Function FastGA::Ico::CreateIcosahedron</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a6bcd9224299fc7cab5c214740c9a7b14.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a8c7e506ff3dcca994c841dd036ce6ace.html">Function FastGA::Ico::ExtractHalfEdges</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a8c7e506ff3dcca994c841dd036ce6ace.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a1fedfa274b23a16043b75fa6d451fd73.html">Function FastGA::Ico::GenerateKeyFromPoint</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a1fedfa274b23a16043b75fa6d451fd73.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a032c7571d9b84e079f07e470b29f9ca3.html">Function FastGA::Ico::get_chart_height</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a032c7571d9b84e079f07e470b29f9ca3.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a0c92fa70d6ad3fd3d7389c80833cb962.html">Function FastGA::Ico::get_chart_width</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a0c92fa70d6ad3fd3d7389c80833cb962.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1ae30574719687e50d345ee0c3127b9d01.html">Function FastGA::Ico::GetPointIdx</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1ae30574719687e50d345ee0c3127b9d01.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1af8bd26b46f775ce10678265db9a6fd8a.html">Function FastGA::Ico::IcoMeshFaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1af8bd26b46f775ce10678265db9a6fd8a.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1ab12b693f0ccf985d82442fc1e2b39b3c.html">Function FastGA::Ico::IcoMeshVertices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1ab12b693f0ccf985d82442fc1e2b39b3c.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a994b07cb68df2952278f4a7d848c633f.html">Function FastGA::Ico::RefineIcoChart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a994b07cb68df2952278f4a7d848c633f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a541b6ea2eb5d90088f49fe077a191750.html">Function FastGA::Ico::RefineIcosahedron</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a541b6ea2eb5d90088f49fe077a191750.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Ico_8hpp_1a18ffb38400d32c60c45bc8c299de1561.html">Function FastGA::Ico::RefineMesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Ico_8hpp_1a18ffb38400d32c60c45bc8c299de1561.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a7d48c405420a5ddb0f0b4f31a4af62c5.html">Function FBS::__attribute__</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a7d48c405420a5ddb0f0b4f31a4af62c5.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a5c4bfa9c125e1556100cd6bab885b64b.html">Template Function FBS::binary_search_branchless</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_FastBinarySearch_8hpp_1a5c4bfa9c125e1556100cd6bab885b64b.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Hilbert_8hpp_1adeeece4c0b3a3293735b89204c408b43.html">Function Hilbert::hilbertXYToIndex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Hilbert_8hpp_1adeeece4c0b3a3293735b89204c408b43.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Hilbert_8hpp_1a3fe71f5efa69b45c0050f01002eeb0b7.html">Function Hilbert::interleave</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Hilbert_8hpp_1a3fe71f5efa69b45c0050f01002eeb0b7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a6de660492c5eb4cd84f6e4bd21008240.html">Function NanoS2ID::Abs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a6de660492c5eb4cd84f6e4bd21008240.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1afe26fcc1b5b25bc4f8ec7a5adfa83eb8.html">Function NanoS2ID::FastIntRound</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1afe26fcc1b5b25bc4f8ec7a5adfa83eb8.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1adb53fbd9df95ff312b42f99218345305.html">Function NanoS2ID::FromFaceIJ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1adb53fbd9df95ff312b42f99218345305.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a01095136072056878f9d45e589f1897d.html">Function NanoS2ID::GET_BITS_FUNCTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a01095136072056878f9d45e589f1897d.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a05118432534fce0fd8b4e7f2da837597.html">Function NanoS2ID::GetFace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a05118432534fce0fd8b4e7f2da837597.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1ae16c97919923506de413e65c539786b2.html">Function NanoS2ID::InitLookupCell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1ae16c97919923506de413e65c539786b2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa01ef2dd487c9280c532fcdfbdb97fac.html">Function NanoS2ID::LargestAbsComponent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa01ef2dd487c9280c532fcdfbdb97fac.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a51230ffe6511b678a743e1c3113a1d00.html">Function NanoS2ID::MaybeInit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a51230ffe6511b678a743e1c3113a1d00.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa66882ff03ef4a6f692511dbeba390ed.html">Template Function NanoS2ID::Round</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1aa66882ff03ef4a6f692511dbeba390ed.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7edf2555d3a2311d3ef4b29487829640.html">Function NanoS2ID::S2CellId</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7edf2555d3a2311d3ef4b29487829640.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a9830a5e8a6d3f285712d6b2925bf69b0.html">Function NanoS2ID::STtoIJ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a9830a5e8a6d3f285712d6b2925bf69b0.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7b74bef1b35260b27cbdf4d803e64b81.html">Function NanoS2ID::STtoIJ_UINT32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a7b74bef1b35260b27cbdf4d803e64b81.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a23f40cee2712f74db67f94207b880a64.html">Function NanoS2ID::STtoUV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a23f40cee2712f74db67f94207b880a64.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a052bf27cf85a791af27a23190223a9a0.html">Function NanoS2ID::UVtoST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a052bf27cf85a791af27a23190223a9a0.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a5606d506153620296a2c6319646b7506.html">Function NanoS2ID::ValidFaceXYZtoUV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a5606d506153620296a2c6319646b7506.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_NanoS2ID_8hpp_1a1eadda54c4a6ab3fb4b2137bf17a3c85.html">Function NanoS2ID::XYZtoFaceUV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_NanoS2ID_8hpp_1a1eadda54c4a6ab3fb4b2137bf17a3c85.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_Helper_8hpp_1a9d9d7c9e3217a953e08102f17de4a740.html">Template Function operator&lt;&lt;</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_Helper_8hpp_1a9d9d7c9e3217a953e08102f17de4a740.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Helper_8hpp_1a4292cddc26d05e06e6acc12ba7a5f18e.html">Variable FastGA::Helper::EPSILON</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Helper_8hpp_1a4292cddc26d05e06e6acc12ba7a5f18e.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Helper_8hpp_1abcb18c5745a61a878c1c330ce9a8b960.html">Variable FastGA::Helper::HILBERT_MAX_32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Helper_8hpp_1abcb18c5745a61a878c1c330ce9a8b960.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Ico_8hpp_1a6f4ff7a2319959b7602bba664c4942c5.html">Variable FastGA::Ico::EQUILATERAL_TRIANGLE_RATIO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Ico_8hpp_1a6f4ff7a2319959b7602bba664c4942c5.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Ico_8hpp_1af6eb5a10e0335da6c8ad3a80e4c13a94.html">Variable FastGA::Ico::GOLDEN_RATIO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Ico_8hpp_1af6eb5a10e0335da6c8ad3a80e4c13a94.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Ico_8hpp_1a7a7f988d1d83f4e70ef689128741a20d.html">Variable FastGA::Ico::ICOSAHEDRON_SCALING</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Ico_8hpp_1a7a7f988d1d83f4e70ef689128741a20d.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Ico_8hpp_1af54d0caa9e04d6834b97bbd624361fa4.html">Variable FastGA::Ico::ICOSAHEDRON_TRUE_RADIUS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Ico_8hpp_1af54d0caa9e04d6834b97bbd624361fa4.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Ico_8hpp_1a4fee99d845ab27990489a21ead484bde.html">Variable FastGA::Ico::NUMBER_OF_CHARTS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Ico_8hpp_1a4fee99d845ab27990489a21ead484bde.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_Helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html">Variable FastGA::max_limit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_Helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_FastBinarySearch_8hpp_1ac1c1273d7628823a193a74eb68a79dc5.html">Variable FBS::MINUS_ONE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_FastBinarySearch_8hpp_1ac1c1273d7628823a193a74eb68a79dc5.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aa22710b65805c0ed62305f6666dc7e23.html">Variable NanoS2ID::flag</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aa22710b65805c0ed62305f6666dc7e23.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a08bd2e65988978ef0054bf029e145fe6.html">Variable NanoS2ID::kFaceBits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a08bd2e65988978ef0054bf029e145fe6.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1acace23640911326ee7ba792fc4acfd8a.html">Variable NanoS2ID::kIJtoPos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1acace23640911326ee7ba792fc4acfd8a.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7e562d12f3be6666389967fc0ad0dc69.html">Variable NanoS2ID::kInvertMask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7e562d12f3be6666389967fc0ad0dc69.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a00ec6034ba85bdf4258d734e2a26e89b.html">Variable NanoS2ID::kLimitIJ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a00ec6034ba85bdf4258d734e2a26e89b.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aab718e130abfa76e1795cf9a745cd4f8.html">Variable NanoS2ID::kLimitIJ_UINT32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1aab718e130abfa76e1795cf9a745cd4f8.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7829ebcf36eb2136bcddfef4ca8695ef.html">Variable NanoS2ID::kLookupBits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7829ebcf36eb2136bcddfef4ca8695ef.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a2e628d02e85bf585e10a62f939381682.html">Variable NanoS2ID::kMaxCellLevel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a2e628d02e85bf585e10a62f939381682.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a32b9ce422e53ca91c27be24558abce7c.html">Variable NanoS2ID::kMaxLevel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a32b9ce422e53ca91c27be24558abce7c.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1adf4bb58b750e4b6a52506ff1e2167c62.html">Variable NanoS2ID::kMaxSiTi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1adf4bb58b750e4b6a52506ff1e2167c62.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ada55ae903ac5130d15aa9039be0e23e7.html">Variable NanoS2ID::kMaxSize</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ada55ae903ac5130d15aa9039be0e23e7.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ae628ed7c9afb3e7d30c8106606477938.html">Variable NanoS2ID::kNumFaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ae628ed7c9afb3e7d30c8106606477938.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1add5ca68f5164116e3770a9836d61769a.html">Variable NanoS2ID::kPosBits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1add5ca68f5164116e3770a9836d61769a.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a503950197773308b876e4a2269e367d5.html">Variable NanoS2ID::kPosToIJ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a503950197773308b876e4a2269e367d5.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a864dc744f83d722510573491c2b6a4f7.html">Variable NanoS2ID::kPosToOrientation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a864dc744f83d722510573491c2b6a4f7.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a8064352de61eb2591dabe2bccce493d6.html">Variable NanoS2ID::kSwapMask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a8064352de61eb2591dabe2bccce493d6.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a4e525f8ee3f3227ca738b2a6e6f85303.html">Variable NanoS2ID::lookup_ij</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1a4e525f8ee3f3227ca738b2a6e6f85303.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ac8e22f64acaed42be9922fdebbf9675c.html">Variable NanoS2ID::lookup_pos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_NanoS2ID_8hpp_1ac8e22f64acaed42be9922fdebbf9675c.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="defines">
+<h3>Defines<a class="headerlink" href="#defines" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_8hpp_1a525335710b53cb064ca56b936120431e.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_Helper_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_Helper_8hpp_1a525335710b53cb064ca56b936120431e.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastBinarySearch_8hpp_1ada9d7622865275ae4289dff050f1589e.html">Define ALIGN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastBinarySearch_8hpp_1ada9d7622865275ae4289dff050f1589e.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_Helper_8hpp_1aa1121f797750b9f74f56b152d4245ec0.html">Define degreesToRadians</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_Helper_8hpp_1aa1121f797750b9f74f56b152d4245ec0.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a537938f4e4e78e5dc094178a5c679fc9.html">Define FASTGA_EXHAUSTIVE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a537938f4e4e78e5dc094178a5c679fc9.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a298a043757d91c9ccda553c68d16cedb.html">Define FASTGA_KDTREE_EPS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a298a043757d91c9ccda553c68d16cedb.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ab19090cd661f9676afac2e12296c4afc.html">Define FASTGA_LEVEL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ab19090cd661f9676afac2e12296c4afc.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ac888787f8aede6570789b817d9b263fc.html">Define FASTGA_MAX_LEAF_SIZE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ac888787f8aede6570789b817d9b263fc.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ae762b22d19892786aec6deca8a507573.html">Define FASTGA_MAX_PHI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1ae762b22d19892786aec6deca8a507573.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a69f62396bed458a49483bdc07f1edbe4.html">Define FASTGA_TRI_NBRS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastGA_2FastGA_8hpp_1a69f62396bed458a49483bdc07f1edbe4.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a724fb9f82013c782db5c3c12ea36aac8.html">Define FORCEINLINE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a724fb9f82013c782db5c3c12ea36aac8.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_Helper_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html">Define M_PI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_Helper_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a1b173d22e57d9395897acbd8de62d505.html">Define NOINLINE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_FastBinarySearch_8hpp_1a1b173d22e57d9395897acbd8de62d505.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_Helper_8hpp_1aa101e273d8dae96156403a869e2f3b18.html">Define radiansToDegrees</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_Helper_8hpp_1aa101e273d8dae96156403a869e2f3b18.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_NanoS2ID_8hpp_1a743b7a730d4ac0d4339829483fecf991.html">Define S2_LINEAR_PROJECTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_NanoS2ID_8hpp_1a743b7a730d4ac0d4339829483fecf991.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_NanoS2ID_8hpp_1a54ea0bbe5b530b9fdf833b59a6ffa8d1.html">Define S2_PROJECTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_NanoS2ID_8hpp_1a54ea0bbe5b530b9fdf833b59a6ffa8d1.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_NanoS2ID_8hpp_1a77a043d3e4245009008f53babb9e1788.html">Define S2_QUADRATIC_PROJECTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_NanoS2ID_8hpp_1a77a043d3e4245009008f53babb9e1788.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_NanoS2ID_8hpp_1af29530fb057719841b41223c044891e7.html">Define S2_TAN_PROJECTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_NanoS2ID_8hpp_1af29530fb057719841b41223c044891e7.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="typedefs">
+<h3>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html">Typedef FastGA::MatX12I</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html">Typedef FastGA::MatX2d</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html">Typedef FastGA::MatX2I</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html">Typedef FastGA::MatX2i</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html">Typedef FastGA::MatX2ui</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html">Typedef FastGA::MatX3d</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html">Typedef FastGA::MatX3I</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html">Typedef FastGA::MatX4i</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_Helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html">Typedef FastGA::MatX6I</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_Helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a53e59ab0834ea3d5a1c634369a24932e.html">Typedef FastGA::NFA::BUCKET2KD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a53e59ab0834ea3d5a1c634369a24932e.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a15fd83ed131c1b18529673f5c5bcca46.html">Typedef FastGA::NFA::nano_kd_tree_t</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoFlannAdaptors_8hpp_1a15fd83ed131c1b18529673f5c5bcca46.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a76b9c9fbaad5bb0a70514238bb86735b.html">Typedef NanoS2ID::int16</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a76b9c9fbaad5bb0a70514238bb86735b.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a19ba7ef8f7b3c704f0e69baee4a341a9.html">Typedef NanoS2ID::int32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a19ba7ef8f7b3c704f0e69baee4a341a9.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1af430f90027e720788aae5d8b71423120.html">Typedef NanoS2ID::int64</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1af430f90027e720788aae5d8b71423120.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a00000c5f26b82ffe1aa4d18573d9453a.html">Typedef NanoS2ID::int8</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a00000c5f26b82ffe1aa4d18573d9453a.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a7698036ecd793b6504ff3ac1acfc1c34.html">Typedef NanoS2ID::uint16</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a7698036ecd793b6504ff3ac1acfc1c34.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a278e372742aef8762596b22f5bf7aa33.html">Typedef NanoS2ID::uint32</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a278e372742aef8762596b22f5bf7aa33.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1ad18cfeea211e277e34bb1bcca71c8f22.html">Typedef NanoS2ID::uint64</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1ad18cfeea211e277e34bb1bcca71c8f22.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a0c65fb7bf1ee69cf31aca9288d93d648.html">Typedef NanoS2ID::uint8</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a0c65fb7bf1ee69cf31aca9288d93d648.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="namespace_FastGA.html" class="btn btn-neutral float-right" title="Namespace FastGA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../python_api/fastga.refine_icosahedron.html" class="btn btn-neutral float-left" title="fastga.refine_icosahedron" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

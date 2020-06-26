@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File Ico.hpp &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Program Listing for File Ico.hpp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="program-listing-for-file-ico-hpp">
+<span id="program-listing-file-include-fastga-ico-hpp"></span><h1>Program Listing for File Ico.hpp<a class="headerlink" href="#program-listing-for-file-ico-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file_include_FastGA_Ico.hpp.html#file-include-fastga-ico-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include/FastGA/Ico.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;FastGA/Helper.hpp&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">FastGA</span> <span class="p">{</span>
+
+<span class="k">namespace</span> <span class="n">Ico</span> <span class="p">{</span>
+<span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">GOLDEN_RATIO</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">5.0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">EQUILATERAL_TRIANGLE_RATIO</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">ICOSAHEDRON_TRUE_RADIUS</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">GOLDEN_RATIO</span> <span class="o">*</span> <span class="n">GOLDEN_RATIO</span><span class="p">);</span>
+<span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">ICOSAHEDRON_SCALING</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ICOSAHEDRON_TRUE_RADIUS</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">NUMBER_OF_CHARTS</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+
+<span class="kr">inline</span> <span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">IcoMeshFaces</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">20</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">IcoMeshFaces</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">IcoMeshVertices</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">12</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">IcoMeshVertices</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">IcoMeshFaces</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">IcoMesh</span>
+<span class="p">{</span>
+    <span class="n">MatX3d</span> <span class="n">vertices</span><span class="p">;</span>
+    <span class="n">MatX3I</span> <span class="n">triangles</span><span class="p">;</span>
+    <span class="n">MatX3d</span> <span class="n">triangle_normals</span><span class="p">;</span>
+    <span class="n">MatX6I</span> <span class="n">adjacency_matrix</span><span class="p">;</span>
+    <span class="n">IcoMesh</span><span class="p">()</span> <span class="o">:</span> <span class="n">vertices</span><span class="p">(),</span> <span class="n">triangles</span><span class="p">(),</span> <span class="n">triangle_normals</span><span class="p">(),</span> <span class="n">adjacency_matrix</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">};</span>
+
+<span class="c1">// An IcoChart is one of 5 face groups on an icosahedron</span>
+<span class="c1">// This function is used to create a 2D representation of one of these charts</span>
+<span class="kr">inline</span> <span class="k">const</span> <span class="n">IcoMesh</span> <span class="nf">CreateIcoChart</span><span class="p">(</span><span class="kt">bool</span> <span class="n">square</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">IcoMesh</span> <span class="n">mesh</span><span class="p">;</span>
+    <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
+    <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">half_edge</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">square</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 0</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 1</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 2</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 3</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 4</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 5</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>                                        <span class="c1">// 0</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">half_edge</span><span class="p">,</span> <span class="n">EQUILATERAL_TRIANGLE_RATIO</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>      <span class="c1">// 1</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">half_edge</span><span class="p">,</span> <span class="n">EQUILATERAL_TRIANGLE_RATIO</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>       <span class="c1">// 2</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>                                        <span class="c1">// 3</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">half_edge</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">EQUILATERAL_TRIANGLE_RATIO</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span> <span class="c1">// 4</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>                                        <span class="c1">// 5</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Chart</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+
+    <span class="k">return</span> <span class="n">mesh</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="k">const</span> <span class="n">IcoMesh</span>
+<span class="nf">CreateIcosahedron</span><span class="p">(</span><span class="k">const</span> <span class="kt">double</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">ICOSAHEDRON_SCALING</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">p</span> <span class="o">=</span> <span class="n">GOLDEN_RATIO</span><span class="p">;</span>
+    <span class="n">IcoMesh</span> <span class="n">mesh</span><span class="p">;</span>
+    <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
+    <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+
+    <span class="n">FastGA</span><span class="o">::</span><span class="n">Helper</span><span class="o">::</span><span class="n">ScaleArrayInPlace</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+
+    <span class="c1">// Specifically arranged into face groups (aka Charts)</span>
+    <span class="c1">// Each chart start near the top (high z) and goes down</span>
+    <span class="c1">// Chart One</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">});</span>
+    <span class="c1">// Chart Two</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">});</span>
+    <span class="c1">// Chart Three</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">});</span>
+    <span class="c1">// Chart Four</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">});</span>
+    <span class="c1">// Chart Five</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">8</span><span class="p">});</span>
+    <span class="n">triangles</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">});</span>
+
+    <span class="k">return</span> <span class="n">mesh</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">ComputeAdjacencySet</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">adjacency_set</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi1</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi2</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p0</span> <span class="o">=</span> <span class="n">adjacency_set</span><span class="p">[</span><span class="n">pi0</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p1</span> <span class="o">=</span> <span class="n">adjacency_set</span><span class="p">[</span><span class="n">pi1</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p2</span> <span class="o">=</span> <span class="n">adjacency_set</span><span class="p">[</span><span class="n">pi2</span><span class="p">];</span>
+
+        <span class="n">tri_set_p0</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">tri_set_p1</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">tri_set_p2</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">adjacency_set</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">MatX6I</span> <span class="n">ComputeAdjacencyMatrix</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">,</span> <span class="k">const</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">pi_to_triset</span> <span class="o">=</span> <span class="n">ComputeAdjacencySet</span><span class="p">(</span><span class="n">triangles</span><span class="p">);</span>
+    <span class="n">MatX6I</span> <span class="nf">adjacency_matrix</span><span class="p">(</span><span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">});</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">p_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">p_idx</span> <span class="o">&lt;</span> <span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">p_idx</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set</span> <span class="o">=</span> <span class="n">pi_to_triset</span><span class="p">[</span><span class="n">p_idx</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">tri_idx</span> <span class="p">:</span> <span class="n">tri_set</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">p_idx</span><span class="p">][</span><span class="n">counter</span><span class="p">]</span> <span class="o">=</span> <span class="n">tri_idx</span><span class="p">;</span>
+            <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">adjacency_matrix</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">k1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">k2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">dk1</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k1</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">dk2</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k2</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">mapping</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(((</span><span class="n">dk1</span> <span class="o">+</span> <span class="n">dk2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dk1</span> <span class="o">+</span> <span class="n">dk2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">dk2</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">mapping</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">GenerateKeyFromPoint</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">p1_idx</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">p2_idx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">lower_idx</span> <span class="o">=</span> <span class="n">p1_idx</span><span class="p">;</span>
+    <span class="kt">size_t</span> <span class="n">higher_idx</span> <span class="o">=</span> <span class="n">p2_idx</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p1_idx</span> <span class="o">&gt;</span> <span class="n">p2_idx</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">lower_idx</span> <span class="o">=</span> <span class="n">p2_idx</span><span class="p">;</span>
+        <span class="n">higher_idx</span> <span class="o">=</span> <span class="n">p1_idx</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">lower_idx</span><span class="p">,</span> <span class="n">higher_idx</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">ConstructMidPoint</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">p1_idx</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">p2_idx</span><span class="p">,</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">scale</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">p1_idx</span><span class="p">];</span>
+    <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">p2_idx</span><span class="p">];</span>
+    <span class="k">auto</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">FastGA</span><span class="o">::</span><span class="n">Helper</span><span class="o">::</span><span class="n">Mean</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">norm</span> <span class="o">=</span> <span class="n">FastGA</span><span class="o">::</span><span class="n">Helper</span><span class="o">::</span><span class="n">L2Norm</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mean</span><span class="p">);</span>
+        <span class="k">auto</span> <span class="n">scaling</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">norm</span><span class="p">;</span>
+        <span class="n">FastGA</span><span class="o">::</span><span class="n">Helper</span><span class="o">::</span><span class="n">ScaleItemInPlace</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">scaling</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">GetPointIdx</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">p1_idx</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">p2_idx</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;&amp;</span> <span class="n">point_to_idx</span><span class="p">,</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">scale</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">point_key</span> <span class="o">=</span> <span class="n">GenerateKeyFromPoint</span><span class="p">(</span><span class="n">p1_idx</span><span class="p">,</span> <span class="n">p2_idx</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">point_to_idx</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">point_key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">point_to_idx</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">point_to_idx</span><span class="p">[</span><span class="n">point_key</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">point_to_idx</span><span class="p">[</span><span class="n">point_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">auto</span> <span class="n">midpoint_on_sphere</span> <span class="o">=</span> <span class="n">ConstructMidPoint</span><span class="p">(</span><span class="n">p1_idx</span><span class="p">,</span> <span class="n">p2_idx</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+        <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">midpoint_on_sphere</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">point_to_idx</span><span class="p">[</span><span class="n">point_key</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">RefineMesh</span><span class="p">(</span><span class="n">IcoMesh</span><span class="o">&amp;</span> <span class="n">mesh</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">scale</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
+    <span class="k">auto</span><span class="o">&amp;</span> <span class="n">triangles</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">point_to_idx</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">level</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">MatX3I</span> <span class="n">triangles_refined</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">triangle</span> <span class="p">:</span> <span class="n">triangles</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p1_idx</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p2_idx</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p3_idx</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+            <span class="c1">// Create new points (if not existing) and return point index</span>
+            <span class="k">auto</span> <span class="n">p4_idx</span> <span class="o">=</span> <span class="n">GetPointIdx</span><span class="p">(</span><span class="n">p1_idx</span><span class="p">,</span> <span class="n">p2_idx</span><span class="p">,</span> <span class="n">point_to_idx</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+            <span class="k">auto</span> <span class="n">p5_idx</span> <span class="o">=</span> <span class="n">GetPointIdx</span><span class="p">(</span><span class="n">p2_idx</span><span class="p">,</span> <span class="n">p3_idx</span><span class="p">,</span> <span class="n">point_to_idx</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+            <span class="k">auto</span> <span class="n">p6_idx</span> <span class="o">=</span> <span class="n">GetPointIdx</span><span class="p">(</span><span class="n">p3_idx</span><span class="p">,</span> <span class="n">p1_idx</span><span class="p">,</span> <span class="n">point_to_idx</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+
+            <span class="c1">// Create the four new triangles</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">t1</span> <span class="o">=</span> <span class="p">{{</span><span class="n">p3_idx</span><span class="p">,</span> <span class="n">p6_idx</span><span class="p">,</span> <span class="n">p5_idx</span><span class="p">}};</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">t2</span> <span class="o">=</span> <span class="p">{{</span><span class="n">p6_idx</span><span class="p">,</span> <span class="n">p4_idx</span><span class="p">,</span> <span class="n">p5_idx</span><span class="p">}};</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">t3</span> <span class="o">=</span> <span class="p">{{</span><span class="n">p5_idx</span><span class="p">,</span> <span class="n">p4_idx</span><span class="p">,</span> <span class="n">p2_idx</span><span class="p">}};</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">t4</span> <span class="o">=</span> <span class="p">{{</span><span class="n">p6_idx</span><span class="p">,</span> <span class="n">p1_idx</span><span class="p">,</span> <span class="n">p4_idx</span><span class="p">}};</span>
+            <span class="c1">// Append triangles to the new array</span>
+            <span class="n">triangles_refined</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
+            <span class="n">triangles_refined</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
+            <span class="n">triangles_refined</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t3</span><span class="p">);</span>
+            <span class="n">triangles_refined</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t4</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// copy constructor</span>
+        <span class="n">triangles</span> <span class="o">=</span> <span class="n">triangles_refined</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">mesh</span><span class="p">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="n">ComputeAdjacencyMatrix</span><span class="p">(</span><span class="n">triangles</span><span class="p">,</span> <span class="n">vertices</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="k">const</span> <span class="n">IcoMesh</span> <span class="n">RefineIcosahedron</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">mesh</span> <span class="o">=</span> <span class="n">CreateIcosahedron</span><span class="p">();</span>
+    <span class="n">RefineMesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">FastGA</span><span class="o">::</span><span class="n">Helper</span><span class="o">::</span><span class="n">ComputeTriangleNormals</span><span class="p">(</span><span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">,</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangle_normals</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">mesh</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">ExtractHalfEdges</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// auto before = std::chrono::high_resolution_clock::now();</span>
+    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">halfedges</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">);</span>
+    <span class="n">MatX2I</span> <span class="nf">halfedges_pi</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">vertex_indices_to_half_edge_index</span><span class="p">;</span>
+    <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">triangle_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">triangle_index</span> <span class="o">&lt;</span> <span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">triangle_index</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+
+        <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;&amp;</span> <span class="n">triangle</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">triangle_index</span><span class="p">];</span>
+        <span class="kt">size_t</span> <span class="n">num_half_edges</span> <span class="o">=</span> <span class="n">triangle_index</span> <span class="o">*</span> <span class="mi">3</span><span class="p">;</span>
+
+        <span class="kt">size_t</span> <span class="n">he_0_index</span> <span class="o">=</span> <span class="n">num_half_edges</span><span class="p">;</span>
+        <span class="kt">size_t</span> <span class="n">he_1_index</span> <span class="o">=</span> <span class="n">num_half_edges</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">size_t</span> <span class="n">he_2_index</span> <span class="o">=</span> <span class="n">num_half_edges</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="kt">size_t</span> <span class="n">he_0_mapped</span> <span class="o">=</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="kt">size_t</span> <span class="n">he_1_mapped</span> <span class="o">=</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="kt">size_t</span> <span class="n">he_2_mapped</span> <span class="o">=</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&amp;</span> <span class="n">he_0</span> <span class="o">=</span> <span class="n">halfedges_pi</span><span class="p">[</span><span class="n">he_0_index</span><span class="p">];</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&amp;</span> <span class="n">he_1</span> <span class="o">=</span> <span class="n">halfedges_pi</span><span class="p">[</span><span class="n">he_1_index</span><span class="p">];</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&amp;</span> <span class="n">he_2</span> <span class="o">=</span> <span class="n">halfedges_pi</span><span class="p">[</span><span class="n">he_2_index</span><span class="p">];</span>
+
+        <span class="n">he_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">he_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="n">he_1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="n">he_1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">he_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">he_2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+        <span class="n">vertex_indices_to_half_edge_index</span><span class="p">[</span><span class="n">he_0_mapped</span><span class="p">]</span> <span class="o">=</span> <span class="n">he_0_index</span><span class="p">;</span>
+        <span class="n">vertex_indices_to_half_edge_index</span><span class="p">[</span><span class="n">he_1_mapped</span><span class="p">]</span> <span class="o">=</span> <span class="n">he_1_index</span><span class="p">;</span>
+        <span class="n">vertex_indices_to_half_edge_index</span><span class="p">[</span><span class="n">he_2_mapped</span><span class="p">]</span> <span class="o">=</span> <span class="n">he_2_index</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">this_he_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">this_he_index</span> <span class="o">&lt;</span> <span class="n">halfedges</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">this_he_index</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">size_t</span><span class="o">&amp;</span> <span class="n">that_he_index</span> <span class="o">=</span> <span class="n">halfedges</span><span class="p">[</span><span class="n">this_he_index</span><span class="p">];</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&amp;</span> <span class="n">this_he</span> <span class="o">=</span> <span class="n">halfedges_pi</span><span class="p">[</span><span class="n">this_he_index</span><span class="p">];</span>
+        <span class="kt">size_t</span> <span class="n">that_he_mapped</span> <span class="o">=</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">this_he</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">this_he</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">that_he_index</span> <span class="o">==</span> <span class="n">max_limit</span> <span class="o">&amp;&amp;</span>
+            <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">that_he_mapped</span><span class="p">)</span> <span class="o">!=</span>
+                <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="kt">size_t</span> <span class="n">twin_he_index</span> <span class="o">=</span>
+                <span class="n">vertex_indices_to_half_edge_index</span><span class="p">[</span><span class="n">that_he_mapped</span><span class="p">];</span>
+            <span class="n">halfedges</span><span class="p">[</span><span class="n">this_he_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">twin_he_index</span><span class="p">;</span>
+            <span class="n">halfedges</span><span class="p">[</span><span class="n">twin_he_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_he_index</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">halfedges</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">MatX12I</span> <span class="n">ComputeTriangleNeighbors</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">,</span> <span class="k">const</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">triangle_normals</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">max_idx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+    <span class="c1">// Must compute adjacency set again because triangle indices may been sorted by hilbert values</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">pi_to_triset</span> <span class="o">=</span> <span class="n">ComputeAdjacencySet</span><span class="p">(</span><span class="n">triangles</span><span class="p">);</span>
+    <span class="n">MatX12I</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">});</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">max_idx</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="k">auto</span> <span class="n">this_normal</span> <span class="o">=</span> <span class="n">triangle_normals</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">neighbors_set</span><span class="p">;</span>
+
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi1</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">pi2</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p0</span> <span class="o">=</span> <span class="n">pi_to_triset</span><span class="p">[</span><span class="n">pi0</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p1</span> <span class="o">=</span> <span class="n">pi_to_triset</span><span class="p">[</span><span class="n">pi1</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">tri_set_p2</span> <span class="o">=</span> <span class="n">pi_to_triset</span><span class="p">[</span><span class="n">pi2</span><span class="p">];</span>
+
+        <span class="n">neighbors_set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tri_set_p0</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">tri_set_p0</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+        <span class="n">neighbors_set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tri_set_p1</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">tri_set_p1</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+        <span class="n">neighbors_set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tri_set_p2</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">tri_set_p2</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;&gt;</span> <span class="n">neighbor_idx_and_dist</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">transform</span><span class="p">(</span><span class="n">neighbors_set</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">neighbors_set</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">neighbor_idx_and_dist</span><span class="p">),</span>
+                       <span class="p">[</span><span class="o">&amp;</span><span class="n">this_normal</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">triangle_normals</span><span class="p">](</span><span class="k">const</span> <span class="kt">size_t</span><span class="o">&amp;</span> <span class="n">nbr_idx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">nbr_idx</span><span class="p">,</span> <span class="n">Helper</span><span class="o">::</span><span class="n">SquaredDistance</span><span class="p">(</span><span class="n">this_normal</span><span class="p">,</span> <span class="n">triangle_normals</span><span class="p">[</span><span class="n">nbr_idx</span><span class="p">]));</span> <span class="p">});</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">neighbor_idx_and_dist</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">neighbor_idx_and_dist</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+                  <span class="p">[](</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="p">});</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">nbr_list_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nbr_list_idx</span> <span class="o">&lt;</span> <span class="n">neighbor_idx_and_dist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">nbr_list_idx</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nbr_list_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">nbr_idx_dist</span> <span class="o">=</span> <span class="n">neighbor_idx_and_dist</span><span class="p">[</span><span class="n">nbr_list_idx</span><span class="p">];</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">nbr_tri_idx</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nbr_idx_dist</span><span class="p">);</span>
+            <span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">nbr_list_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbr_tri_idx</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">neighbors</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="k">const</span> <span class="n">IcoMesh</span> <span class="n">RefineIcoChart</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">square</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">mesh</span> <span class="o">=</span> <span class="n">CreateIcoChart</span><span class="p">(</span><span class="n">square</span><span class="p">);</span>
+    <span class="n">RefineMesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">mesh</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">MatX2I</span> <span class="n">CreateChartImageIndices</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="n">IcoMesh</span><span class="o">&amp;</span> <span class="n">chart_template</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">scale_to_integer</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span><span class="p">);</span>
+    <span class="k">auto</span><span class="o">&amp;</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">chart_template</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
+    <span class="c1">// Convert doubles to integer</span>
+    <span class="n">MatX2I</span> <span class="n">point_idx_to_image_idx</span><span class="p">;</span>
+    <span class="n">point_idx_to_image_idx</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">transform</span><span class="p">(</span><span class="n">vertices</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vertices</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">point_idx_to_image_idx</span><span class="p">),</span> <span class="p">[</span><span class="n">scale_to_integer</span><span class="p">](</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">u</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">scale_to_integer</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">scale_to_integer</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="p">{{</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">}};</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="n">point_idx_to_image_idx</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">Create_Local_To_Global_Point_Idx_Map</span><span class="p">(</span><span class="n">IcoMesh</span><span class="o">&amp;</span> <span class="n">sphere_mesh</span><span class="p">,</span> <span class="n">IcoMesh</span><span class="o">&amp;</span> <span class="n">chart_template</span><span class="p">,</span> <span class="kt">int</span> <span class="n">chart_idx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">sphere_triangles</span> <span class="o">=</span> <span class="n">sphere_mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span>   <span class="c1">// all triangles on S2</span>
+    <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">chart_triangles</span> <span class="o">=</span> <span class="n">chart_template</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span> <span class="c1">//</span>
+    <span class="k">auto</span> <span class="n">num_chart_triangles</span> <span class="o">=</span> <span class="n">chart_triangles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">num_chart_vertices</span> <span class="o">=</span> <span class="n">chart_template</span><span class="p">.</span><span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">local_to_global_point_idx_map</span><span class="p">(</span><span class="n">num_chart_vertices</span><span class="p">);</span>
+
+    <span class="k">auto</span> <span class="n">chart_tri_start_idx</span> <span class="o">=</span> <span class="n">chart_idx</span> <span class="o">*</span> <span class="n">num_chart_triangles</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_chart_triangles</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">local_tri</span> <span class="o">=</span> <span class="n">chart_triangles</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">global_tri</span> <span class="o">=</span> <span class="n">sphere_triangles</span><span class="p">[</span><span class="n">chart_tri_start_idx</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="n">idx</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">local_to_global_point_idx_map</span><span class="p">[</span><span class="n">local_tri</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="o">=</span> <span class="n">global_tri</span><span class="p">[</span><span class="n">idx</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">local_to_global_point_idx_map</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Image</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">buffer_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">rows_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cols_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">bytes_per_channel_</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">is_float_</span><span class="p">;</span>
+    <span class="c1">// Image() = default;</span>
+    <span class="n">Image</span><span class="p">(</span><span class="kt">int</span> <span class="n">rows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cols</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bytes_per_channel</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">is_float</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span> <span class="o">:</span> <span class="n">buffer_</span><span class="p">(),</span> <span class="n">rows_</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">cols_</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span> <span class="n">bytes_per_channel_</span><span class="p">(</span><span class="n">bytes_per_channel</span><span class="p">),</span> <span class="n">is_float_</span><span class="p">(</span><span class="n">is_float</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">AllocateBuffer</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="n">T</span><span class="o">*</span> <span class="n">PointerAt</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buffer_</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">cols_</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
+    <span class="p">}</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">AllocateBuffer</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">buffer_</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cols_</span> <span class="o">*</span> <span class="n">rows_</span> <span class="o">*</span> <span class="n">bytes_per_channel_</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kr">inline</span> <span class="kt">int</span> <span class="nf">get_chart_width</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="kt">int</span> <span class="n">padding</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">int</span> <span class="nf">get_chart_height</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="kt">int</span> <span class="n">padding</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="kt">int</span><span class="o">*</span> <span class="n">Image</span><span class="o">::</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">);</span>
+<span class="k">template</span> <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">Image</span><span class="o">::</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">);</span>
+
+<span class="k">class</span> <span class="nc">IcoCharts</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">level</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">padding</span><span class="p">;</span> <span class="c1">//</span>
+    <span class="n">Image</span> <span class="n">image</span><span class="p">;</span>
+    <span class="n">Image</span> <span class="n">image_to_vertex_idx</span><span class="p">;</span> <span class="c1">//</span>
+    <span class="n">Image</span> <span class="n">mask</span><span class="p">;</span>
+    <span class="n">IcoMesh</span> <span class="n">sphere_mesh</span><span class="p">;</span>
+
+    <span class="n">IcoCharts</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">level_</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">padding_</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="n">level</span><span class="p">(</span><span class="n">level_</span><span class="p">),</span> <span class="n">padding</span><span class="p">(</span><span class="n">padding_</span><span class="p">),</span> <span class="n">image</span><span class="p">(</span><span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span> <span class="o">*</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">,</span> <span class="n">get_chart_width</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="n">image_to_vertex_idx</span><span class="p">(</span><span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span> <span class="o">*</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">,</span> <span class="n">get_chart_width</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="n">mask</span><span class="p">(</span><span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span> <span class="o">*</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">,</span> <span class="n">get_chart_width</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sphere_mesh</span><span class="p">(),</span> <span class="n">chart_template</span><span class="p">(),</span> <span class="n">point_idx_to_image_idx</span><span class="p">(),</span> <span class="n">local_to_global_point_idx_map</span><span class="p">(</span><span class="n">NUMBER_OF_CHARTS</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">sphere_mesh</span> <span class="o">=</span> <span class="n">RefineIcosahedron</span><span class="p">(</span><span class="n">level</span><span class="p">);</span>
+        <span class="n">chart_template</span> <span class="o">=</span> <span class="n">RefineIcoChart</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+        <span class="n">point_idx_to_image_idx</span> <span class="o">=</span> <span class="n">CreateChartImageIndices</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">chart_template</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">local_to_global_point_idx_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Create_Local_To_Global_Point_Idx_Map</span><span class="p">(</span><span class="n">sphere_mesh</span><span class="p">,</span> <span class="n">chart_template</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">ConstructImageToVertexIdx</span><span class="p">();</span>
+        <span class="n">ConstructImageMask</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">FillImage</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">normalized_vertex_count</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="p">;</span> <span class="o">++</span><span class="n">row</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="p">;</span> <span class="o">++</span><span class="n">col</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">// get vertex index that corresponds to this image position</span>
+                <span class="k">auto</span> <span class="n">ico_vertex_index</span> <span class="o">=</span> <span class="o">*</span><span class="n">image_to_vertex_idx</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">);</span>
+                <span class="c1">// get pointer to our image at this position</span>
+                <span class="k">auto</span> <span class="n">img_pointer</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">);</span>
+                <span class="c1">// set value of the image</span>
+                <span class="o">*</span><span class="n">img_pointer</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">255.0</span> <span class="o">*</span> <span class="n">normalized_vertex_count</span><span class="p">[</span><span class="n">ico_vertex_index</span><span class="p">]);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">IcoMesh</span> <span class="n">chart_template</span><span class="p">;</span>                                         <span class="c1">// Single 2D Chart Template</span>
+    <span class="n">MatX2I</span> <span class="n">point_idx_to_image_idx</span><span class="p">;</span>                                  <span class="c1">// Maps a point index to an image index</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">local_to_global_point_idx_map</span><span class="p">;</span> <span class="c1">// 5 vectors for each chart, maps a charts local point index to the global point index</span>
+    <span class="kt">void</span> <span class="nf">ConstructImageMask</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Start off with every pixel being valid</span>
+        <span class="k">auto</span> <span class="n">chart_height</span> <span class="o">=</span> <span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">fill</span><span class="p">(</span><span class="n">mask</span><span class="p">.</span><span class="n">buffer_</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">mask</span><span class="p">.</span><span class="n">buffer_</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="c1">// Set first column to invalid (ghost column)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">mask</span><span class="p">.</span><span class="n">rows_</span><span class="p">;</span> <span class="o">++</span><span class="n">row</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">img_pointer</span> <span class="o">=</span> <span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row</span><span class="p">);</span>
+            <span class="o">*</span><span class="n">img_pointer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// Iterate through the 5 ghost rows, set all cols of these rows to 0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">chart_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">chart_idx</span> <span class="o">&lt;</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">;</span> <span class="o">++</span><span class="n">chart_idx</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">chart_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">mask</span><span class="p">.</span><span class="n">cols_</span><span class="p">;</span> <span class="o">++</span><span class="n">col</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">img_pointer</span> <span class="o">=</span> <span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">);</span>
+                <span class="o">*</span><span class="n">img_pointer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">ConstructImageToVertexIdx</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">chart_height</span> <span class="o">=</span> <span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">chart_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">chart_idx</span> <span class="o">&lt;</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">;</span> <span class="o">++</span><span class="n">chart_idx</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Our y axis for our image will be growing DOWN. Basically we are inverting the y-axis</span>
+            <span class="kt">int</span> <span class="n">chart_height_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">NUMBER_OF_CHARTS</span> <span class="o">-</span> <span class="n">chart_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span><span class="p">;</span>
+            <span class="c1">// Get the mapping from the local point idx to global point index for this chart</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">local_to_global_point_idx_map_chart</span> <span class="o">=</span> <span class="n">local_to_global_point_idx_map</span><span class="p">[</span><span class="n">chart_idx</span><span class="p">];</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">local_point_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">local_point_idx</span> <span class="o">&lt;</span> <span class="n">point_idx_to_image_idx</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">local_point_idx</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">global_point_idx</span> <span class="o">=</span> <span class="n">local_to_global_point_idx_map_chart</span><span class="p">[</span><span class="n">local_point_idx</span><span class="p">];</span>
+                <span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">img_coords</span> <span class="o">=</span> <span class="n">point_idx_to_image_idx</span><span class="p">[</span><span class="n">local_point_idx</span><span class="p">];</span>
+                <span class="c1">// Once again we need to flip the y-axis</span>
+                <span class="k">const</span> <span class="k">auto</span> <span class="n">img_row</span> <span class="o">=</span> <span class="n">chart_height_offset</span> <span class="o">+</span> <span class="p">(</span><span class="n">chart_height</span> <span class="o">-</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+                <span class="k">const</span> <span class="k">auto</span> <span class="n">img_col</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">auto</span> <span class="n">img_ptr</span> <span class="o">=</span> <span class="n">image_to_vertex_idx</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">img_col</span><span class="p">,</span> <span class="n">img_row</span><span class="p">);</span>
+                <span class="o">*</span><span class="n">img_ptr</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">global_point_idx</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Fill in Ghost Cells (Copy Operations)</span>
+        <span class="n">MatX2i</span> <span class="n">to_flattened_indices</span><span class="p">;</span>
+        <span class="n">MatX2i</span> <span class="n">from_flattened_indices</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">tie</span><span class="p">(</span><span class="n">to_flattened_indices</span><span class="p">,</span> <span class="n">from_flattened_indices</span><span class="p">)</span> <span class="o">=</span> <span class="n">GetGhostCellIndices</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">to_flattened_indices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">to_index</span> <span class="o">=</span> <span class="n">to_flattened_indices</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">from_index</span> <span class="o">=</span> <span class="n">from_flattened_indices</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">auto</span> <span class="n">img_ptr</span> <span class="o">=</span> <span class="n">image_to_vertex_idx</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">to_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">to_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+            <span class="o">*</span><span class="n">img_ptr</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">image_to_vertex_idx</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">from_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">from_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">MatX2i</span><span class="p">,</span> <span class="n">MatX2i</span><span class="o">&gt;</span> <span class="n">GetGhostCellIndices</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">chart_height</span> <span class="o">=</span> <span class="n">get_chart_height</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">padding</span><span class="p">);</span>
+        <span class="k">auto</span> <span class="n">sub_block_width</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span><span class="p">));</span>
+        <span class="k">auto</span> <span class="n">block_width</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+
+        <span class="c1">// Create a range iterator....</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">(</span><span class="n">NUMBER_OF_CHARTS</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">iota</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="mi">0</span><span class="p">);</span>
+
+        <span class="n">MatX2i</span> <span class="n">to_flattened_indices</span><span class="p">;</span>
+        <span class="n">MatX2i</span> <span class="n">from_flattened_indices</span><span class="p">;</span>
+
+        <span class="n">MatX4i</span> <span class="n">to_indices</span><span class="p">;</span>
+        <span class="n">MatX4i</span> <span class="n">from_indices</span><span class="p">;</span>
+        <span class="c1">// The ghost cells here assume 1 padding</span>
+        <span class="c1">// TODO make generic for padding</span>
+        <span class="c1">// Copies for first ghost column</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="n">to_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">from_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sub_block_width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="c1">// Copies for ghost row, left block</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">start_col</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_col</span> <span class="o">=</span> <span class="n">sub_block_width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">to_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">start_col</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_col</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="n">from_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="c1">// Copies for ghost row, right block</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">start_col</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_col</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="n">to_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">start_row</span> <span class="o">=</span> <span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">NUMBER_OF_CHARTS</span><span class="p">)</span> <span class="o">*</span> <span class="n">chart_height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="n">sub_block_width</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">start_col</span> <span class="o">=</span> <span class="n">block_width</span><span class="p">;</span>
+            <span class="k">auto</span> <span class="n">end_col</span> <span class="o">=</span> <span class="n">block_width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">from_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span><span class="p">{</span><span class="n">start_row</span><span class="p">,</span> <span class="n">end_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="n">flatten_indices</span><span class="p">(</span><span class="n">to_indices</span><span class="p">,</span> <span class="n">to_flattened_indices</span><span class="p">);</span>
+        <span class="n">flatten_indices</span><span class="p">(</span><span class="n">from_indices</span><span class="p">,</span> <span class="n">from_flattened_indices</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">to_flattened_indices</span><span class="p">,</span> <span class="n">from_flattened_indices</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">flatten_indices</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&gt;&amp;</span> <span class="n">flattened_indices</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">row_col_idx</span> <span class="p">:</span> <span class="n">indices</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">row</span> <span class="o">=</span> <span class="n">row_col_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">row_col_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="o">++</span><span class="n">row</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">col</span> <span class="o">=</span> <span class="n">row_col_idx</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">row_col_idx</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="o">++</span><span class="n">col</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">flattened_indices</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">{</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">}</span> <span class="c1">// namespace Ico</span>
+<span class="p">}</span> <span class="c1">// namespace FastGA</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

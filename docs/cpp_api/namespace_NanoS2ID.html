@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Namespace NanoS2ID &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Struct Bucket" href="structFastGA_1_1Bucket.html" />
+    <link rel="prev" title="Namespace Hilbert" href="namespace_Hilbert.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cpp_library_root.html">C++ Library API</a> &raquo;</li>
+        
+      <li>Namespace NanoS2ID</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="namespace-nanos2id">
+<span id="id1"></span><h1>Namespace NanoS2ID<a class="headerlink" href="#namespace-nanos2id" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#functions" id="id2">Functions</a></p></li>
+<li><p><a class="reference internal" href="#typedefs" id="id3">Typedefs</a></p></li>
+<li><p><a class="reference internal" href="#variables" id="id4">Variables</a></p></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a6de660492c5eb4cd84f6e4bd21008240.html#exhale-function-nanos2id-8hpp-1a6de660492c5eb4cd84f6e4bd21008240"><span class="std std-ref">Function NanoS2ID::Abs</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1afe26fcc1b5b25bc4f8ec7a5adfa83eb8.html#exhale-function-nanos2id-8hpp-1afe26fcc1b5b25bc4f8ec7a5adfa83eb8"><span class="std std-ref">Function NanoS2ID::FastIntRound</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1adb53fbd9df95ff312b42f99218345305.html#exhale-function-nanos2id-8hpp-1adb53fbd9df95ff312b42f99218345305"><span class="std std-ref">Function NanoS2ID::FromFaceIJ</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a01095136072056878f9d45e589f1897d.html#exhale-function-nanos2id-8hpp-1a01095136072056878f9d45e589f1897d"><span class="std std-ref">Function NanoS2ID::GET_BITS_FUNCTION</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a05118432534fce0fd8b4e7f2da837597.html#exhale-function-nanos2id-8hpp-1a05118432534fce0fd8b4e7f2da837597"><span class="std std-ref">Function NanoS2ID::GetFace</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1ae16c97919923506de413e65c539786b2.html#exhale-function-nanos2id-8hpp-1ae16c97919923506de413e65c539786b2"><span class="std std-ref">Function NanoS2ID::InitLookupCell</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1aa01ef2dd487c9280c532fcdfbdb97fac.html#exhale-function-nanos2id-8hpp-1aa01ef2dd487c9280c532fcdfbdb97fac"><span class="std std-ref">Function NanoS2ID::LargestAbsComponent</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a51230ffe6511b678a743e1c3113a1d00.html#exhale-function-nanos2id-8hpp-1a51230ffe6511b678a743e1c3113a1d00"><span class="std std-ref">Function NanoS2ID::MaybeInit</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1aa66882ff03ef4a6f692511dbeba390ed.html#exhale-function-nanos2id-8hpp-1aa66882ff03ef4a6f692511dbeba390ed"><span class="std std-ref">Template Function NanoS2ID::Round</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a7edf2555d3a2311d3ef4b29487829640.html#exhale-function-nanos2id-8hpp-1a7edf2555d3a2311d3ef4b29487829640"><span class="std std-ref">Function NanoS2ID::S2CellId</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a9830a5e8a6d3f285712d6b2925bf69b0.html#exhale-function-nanos2id-8hpp-1a9830a5e8a6d3f285712d6b2925bf69b0"><span class="std std-ref">Function NanoS2ID::STtoIJ</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a7b74bef1b35260b27cbdf4d803e64b81.html#exhale-function-nanos2id-8hpp-1a7b74bef1b35260b27cbdf4d803e64b81"><span class="std std-ref">Function NanoS2ID::STtoIJ_UINT32</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a23f40cee2712f74db67f94207b880a64.html#exhale-function-nanos2id-8hpp-1a23f40cee2712f74db67f94207b880a64"><span class="std std-ref">Function NanoS2ID::STtoUV</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a052bf27cf85a791af27a23190223a9a0.html#exhale-function-nanos2id-8hpp-1a052bf27cf85a791af27a23190223a9a0"><span class="std std-ref">Function NanoS2ID::UVtoST</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a5606d506153620296a2c6319646b7506.html#exhale-function-nanos2id-8hpp-1a5606d506153620296a2c6319646b7506"><span class="std std-ref">Function NanoS2ID::ValidFaceXYZtoUV</span></a></p></li>
+<li><p><a class="reference internal" href="function_NanoS2ID_8hpp_1a1eadda54c4a6ab3fb4b2137bf17a3c85.html#exhale-function-nanos2id-8hpp-1a1eadda54c4a6ab3fb4b2137bf17a3c85"><span class="std std-ref">Function NanoS2ID::XYZtoFaceUV</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="typedefs">
+<h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a76b9c9fbaad5bb0a70514238bb86735b.html#exhale-typedef-nanos2id-8hpp-1a76b9c9fbaad5bb0a70514238bb86735b"><span class="std std-ref">Typedef NanoS2ID::int16</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a19ba7ef8f7b3c704f0e69baee4a341a9.html#exhale-typedef-nanos2id-8hpp-1a19ba7ef8f7b3c704f0e69baee4a341a9"><span class="std std-ref">Typedef NanoS2ID::int32</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1af430f90027e720788aae5d8b71423120.html#exhale-typedef-nanos2id-8hpp-1af430f90027e720788aae5d8b71423120"><span class="std std-ref">Typedef NanoS2ID::int64</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a00000c5f26b82ffe1aa4d18573d9453a.html#exhale-typedef-nanos2id-8hpp-1a00000c5f26b82ffe1aa4d18573d9453a"><span class="std std-ref">Typedef NanoS2ID::int8</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a7698036ecd793b6504ff3ac1acfc1c34.html#exhale-typedef-nanos2id-8hpp-1a7698036ecd793b6504ff3ac1acfc1c34"><span class="std std-ref">Typedef NanoS2ID::uint16</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a278e372742aef8762596b22f5bf7aa33.html#exhale-typedef-nanos2id-8hpp-1a278e372742aef8762596b22f5bf7aa33"><span class="std std-ref">Typedef NanoS2ID::uint32</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1ad18cfeea211e277e34bb1bcca71c8f22.html#exhale-typedef-nanos2id-8hpp-1ad18cfeea211e277e34bb1bcca71c8f22"><span class="std std-ref">Typedef NanoS2ID::uint64</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_NanoS2ID_8hpp_1a0c65fb7bf1ee69cf31aca9288d93d648.html#exhale-typedef-nanos2id-8hpp-1a0c65fb7bf1ee69cf31aca9288d93d648"><span class="std std-ref">Typedef NanoS2ID::uint8</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1aa22710b65805c0ed62305f6666dc7e23.html#exhale-variable-nanos2id-8hpp-1aa22710b65805c0ed62305f6666dc7e23"><span class="std std-ref">Variable NanoS2ID::flag</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a08bd2e65988978ef0054bf029e145fe6.html#exhale-variable-nanos2id-8hpp-1a08bd2e65988978ef0054bf029e145fe6"><span class="std std-ref">Variable NanoS2ID::kFaceBits</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1acace23640911326ee7ba792fc4acfd8a.html#exhale-variable-nanos2id-8hpp-1acace23640911326ee7ba792fc4acfd8a"><span class="std std-ref">Variable NanoS2ID::kIJtoPos</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7e562d12f3be6666389967fc0ad0dc69.html#exhale-variable-nanos2id-8hpp-1a7e562d12f3be6666389967fc0ad0dc69"><span class="std std-ref">Variable NanoS2ID::kInvertMask</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a00ec6034ba85bdf4258d734e2a26e89b.html#exhale-variable-nanos2id-8hpp-1a00ec6034ba85bdf4258d734e2a26e89b"><span class="std std-ref">Variable NanoS2ID::kLimitIJ</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1aab718e130abfa76e1795cf9a745cd4f8.html#exhale-variable-nanos2id-8hpp-1aab718e130abfa76e1795cf9a745cd4f8"><span class="std std-ref">Variable NanoS2ID::kLimitIJ_UINT32</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a7829ebcf36eb2136bcddfef4ca8695ef.html#exhale-variable-nanos2id-8hpp-1a7829ebcf36eb2136bcddfef4ca8695ef"><span class="std std-ref">Variable NanoS2ID::kLookupBits</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a2e628d02e85bf585e10a62f939381682.html#exhale-variable-nanos2id-8hpp-1a2e628d02e85bf585e10a62f939381682"><span class="std std-ref">Variable NanoS2ID::kMaxCellLevel</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a32b9ce422e53ca91c27be24558abce7c.html#exhale-variable-nanos2id-8hpp-1a32b9ce422e53ca91c27be24558abce7c"><span class="std std-ref">Variable NanoS2ID::kMaxLevel</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1adf4bb58b750e4b6a52506ff1e2167c62.html#exhale-variable-nanos2id-8hpp-1adf4bb58b750e4b6a52506ff1e2167c62"><span class="std std-ref">Variable NanoS2ID::kMaxSiTi</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1ada55ae903ac5130d15aa9039be0e23e7.html#exhale-variable-nanos2id-8hpp-1ada55ae903ac5130d15aa9039be0e23e7"><span class="std std-ref">Variable NanoS2ID::kMaxSize</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1ae628ed7c9afb3e7d30c8106606477938.html#exhale-variable-nanos2id-8hpp-1ae628ed7c9afb3e7d30c8106606477938"><span class="std std-ref">Variable NanoS2ID::kNumFaces</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1add5ca68f5164116e3770a9836d61769a.html#exhale-variable-nanos2id-8hpp-1add5ca68f5164116e3770a9836d61769a"><span class="std std-ref">Variable NanoS2ID::kPosBits</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a503950197773308b876e4a2269e367d5.html#exhale-variable-nanos2id-8hpp-1a503950197773308b876e4a2269e367d5"><span class="std std-ref">Variable NanoS2ID::kPosToIJ</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a864dc744f83d722510573491c2b6a4f7.html#exhale-variable-nanos2id-8hpp-1a864dc744f83d722510573491c2b6a4f7"><span class="std std-ref">Variable NanoS2ID::kPosToOrientation</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a8064352de61eb2591dabe2bccce493d6.html#exhale-variable-nanos2id-8hpp-1a8064352de61eb2591dabe2bccce493d6"><span class="std std-ref">Variable NanoS2ID::kSwapMask</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1a4e525f8ee3f3227ca738b2a6e6f85303.html#exhale-variable-nanos2id-8hpp-1a4e525f8ee3f3227ca738b2a6e6f85303"><span class="std std-ref">Variable NanoS2ID::lookup_ij</span></a></p></li>
+<li><p><a class="reference internal" href="variable_NanoS2ID_8hpp_1ac8e22f64acaed42be9922fdebbf9675c.html#exhale-variable-nanos2id-8hpp-1ac8e22f64acaed42be9922fdebbf9675c"><span class="std std-ref">Variable NanoS2ID::lookup_pos</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="structFastGA_1_1Bucket.html" class="btn btn-neutral float-right" title="Template Struct Bucket" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="namespace_Hilbert.html" class="btn btn-neutral float-left" title="Namespace Hilbert" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

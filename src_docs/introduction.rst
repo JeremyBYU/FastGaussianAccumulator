@@ -1,13 +1,8 @@
 .. _introduction:
 
-About FastGA
+Introducing Polylidar3D
 ############################
 
-FastGA is ...
 
-Core features
-======================
-
-* One
-* Two
+.. mdinclude:: ../README.md
 

@@ -3,21 +3,25 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: _static/FastGA.png
+.. image:: _static/fastga_logo.png
     :alt: FastGA Logo
-    :width: 320px
+    :width: 320
     :align: center
 
 -----------
 
-FastGA: A Great FastGA
+FastGA: A Fast Gaussian Accumulator
 =======================================================
 
 .. only: not latex
 
     Contents:
 
+.. _getting_started_index:
+
 .. toctree::
+    :maxdepth: 1
+    :caption: Getting Started
 
     introduction
     builddocs

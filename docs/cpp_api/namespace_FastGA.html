@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Namespace FastGA &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace FastGA::Helper" href="namespace_FastGA__Helper.html" />
+    <link rel="prev" title="C++ Library API" href="cpp_library_root.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cpp_library_root.html">C++ Library API</a> &raquo;</li>
+        
+      <li>Namespace FastGA</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="namespace-fastga">
+<span id="id1"></span><h1>Namespace FastGA<a class="headerlink" href="#namespace-fastga" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#namespaces" id="id2">Namespaces</a></p></li>
+<li><p><a class="reference internal" href="#classes" id="id3">Classes</a></p></li>
+<li><p><a class="reference internal" href="#functions" id="id4">Functions</a></p></li>
+<li><p><a class="reference internal" href="#typedefs" id="id5">Typedefs</a></p></li>
+<li><p><a class="reference internal" href="#variables" id="id6">Variables</a></p></li>
+</ul>
+</div>
+<div class="section" id="namespaces">
+<h2>Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="namespace_FastGA__Helper.html#namespace-fastga-helper"><span class="std std-ref">Namespace FastGA::Helper</span></a></p></li>
+<li><p><a class="reference internal" href="namespace_FastGA__Ico.html#namespace-fastga-ico"><span class="std std-ref">Namespace FastGA::Ico</span></a></p></li>
+<li><p><a class="reference internal" href="namespace_FastGA__NFA.html#namespace-fastga-nfa"><span class="std std-ref">Namespace FastGA::NFA</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="structFastGA_1_1Bucket.html#exhale-struct-structfastga-1-1bucket"><span class="std std-ref">Template Struct Bucket</span></a></p></li>
+<li><p><a class="reference internal" href="structFastGA_1_1Regression.html#exhale-struct-structfastga-1-1regression"><span class="std std-ref">Struct Regression</span></a></p></li>
+<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulator.html#exhale-class-classfastga-1-1gaussianaccumulator"><span class="std std-ref">Template Class GaussianAccumulator</span></a></p></li>
+<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html#exhale-class-classfastga-1-1gaussianaccumulatorkd"><span class="std std-ref">Class GaussianAccumulatorKD</span></a></p></li>
+<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html#exhale-class-classfastga-1-1gaussianaccumulatoropt"><span class="std std-ref">Class GaussianAccumulatorOpt</span></a></p></li>
+<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html#exhale-class-classfastga-1-1gaussianaccumulators2"><span class="std std-ref">Class GaussianAccumulatorS2</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="function_Helper_8hpp_1a6841f467ea59689e3780055ba04018de.html#exhale-function-helper-8hpp-1a6841f467ea59689e3780055ba04018de"><span class="std std-ref">Function FastGA::GetFastGAVersion</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="typedefs">
+<h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html#exhale-typedef-helper-8hpp-1a70f83d2a229dcc109fafbac9f433cb80"><span class="std std-ref">Typedef FastGA::MatX12I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#exhale-typedef-helper-8hpp-1aeafa3d30c19393224ac3030d91e48c96"><span class="std std-ref">Typedef FastGA::MatX2d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html#exhale-typedef-helper-8hpp-1a2b4dddd06f2a9f1ac35fc631d6abd887"><span class="std std-ref">Typedef FastGA::MatX2I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html#exhale-typedef-helper-8hpp-1aa701fba51d175b697ec81240314ce18a"><span class="std std-ref">Typedef FastGA::MatX2i</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html#exhale-typedef-helper-8hpp-1a6f7b15dad0d64cf90ee621c3ce1cb518"><span class="std std-ref">Typedef FastGA::MatX2ui</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#exhale-typedef-helper-8hpp-1a359186a772aa1fc6bf154e700b09175d"><span class="std std-ref">Typedef FastGA::MatX3d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html#exhale-typedef-helper-8hpp-1a92f4fefe0a430f3c5139ef2c83f5d284"><span class="std std-ref">Typedef FastGA::MatX3I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html#exhale-typedef-helper-8hpp-1ac775e64515f311ae3d2e76460a4ec20e"><span class="std std-ref">Typedef FastGA::MatX4i</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html#exhale-typedef-helper-8hpp-1a942b5f2b4ad155d8762e0701929d0b86"><span class="std std-ref">Typedef FastGA::MatX6I</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="variable_Helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html#exhale-variable-helper-8hpp-1ab27a4297456dcaba28ba8c21f68bc80b"><span class="std std-ref">Variable FastGA::max_limit</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="namespace_FastGA__Helper.html" class="btn btn-neutral float-right" title="Namespace FastGA::Helper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cpp_library_root.html" class="btn btn-neutral float-left" title="C++ Library API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
