@@ -1,6 +1,6 @@
-docs/python_api
-docs/cpp_api
-docs/_out
+src_docs/python_api
+src_docs/cpp_api
+src_docs/_out
 *.tex
 assets/*.json
 

@@ -178,14 +178,14 @@ PYBIND11_MODULE(fastga, m)
         .def_readonly("adjacency_matrix", &FastGA::Ico::IcoMesh::adjacency_matrix);
 
     py::class_<FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorUI32")
-        .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
+        .def(py::init<const int, const double>(), "level"_a = FASTGA_LEVEL, "max_phi"_a = FASTGA_MAX_PHI)
         .def("__repr__",
              [](const FastGA::GaussianAccumulator<uint32_t>& a) {
                  return "<FastGA::GA; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator<uint32_t>::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint32_t>::buckets)
-        .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint32_t>::sort_idx)
+        // .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint32_t>::sort_idx)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint32_t>::mask)
         .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint32_t>::num_buckets)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint32_t>::projected_bbox)
@@ -198,14 +198,14 @@ PYBIND11_MODULE(fastga, m)
         .def("copy_ico_mesh", &FastGA::GaussianAccumulator<uint32_t>::CopyIcoMesh, "reverse_sort"_a = false);
 
     py::class_<FastGA::GaussianAccumulator<uint64_t>>(m, "GaussianAccumulatorUI64")
-        .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
+        .def(py::init<const int, const double>(), "level"_a = FASTGA_LEVEL, "max_phi"_a = FASTGA_MAX_PHI)
         .def("__repr__",
              [](const FastGA::GaussianAccumulator<uint64_t>& a) {
                  return "<FastGA::GA; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              })
         .def_readonly("mesh", &FastGA::GaussianAccumulator<uint64_t>::mesh)
         .def_readonly("buckets", &FastGA::GaussianAccumulator<uint64_t>::buckets)
-        .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint64_t>::sort_idx)
+        // .def_readonly("sort_idx", &FastGA::GaussianAccumulator<uint64_t>::sort_idx)
         .def_readonly("mask", &FastGA::GaussianAccumulator<uint64_t>::mask)
         .def_readonly("num_buckets", &FastGA::GaussianAccumulator<uint64_t>::num_buckets)
         .def_readonly("projected_bbox", &FastGA::GaussianAccumulator<uint64_t>::projected_bbox)
@@ -218,33 +218,33 @@ PYBIND11_MODULE(fastga, m)
         .def("copy_ico_mesh", &FastGA::GaussianAccumulator<uint64_t>::CopyIcoMesh, "reverse_sort"_a = false);
 
     py::class_<FastGA::GaussianAccumulatorKD, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorKD", "A Fast Gaussian Accumulator. Works on Full Sphere using KD Trees")
-        .def(py::init<const int, const double, const size_t>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI, "max_leaf_size"_a = FastGA_MAX_LEAF_SIZE, "Will intergrate the normals into the S2 Historgram")
-        .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a = FastGA_KDTREE_EPS)
+        .def(py::init<const int, const double, const size_t>(), "level"_a = FASTGA_LEVEL, "max_phi"_a = FASTGA_MAX_PHI, "max_leaf_size"_a = FASTGA_MAX_LEAF_SIZE, "Will intergrate the normals into the S2 Historgram")
+        .def("integrate", &FastGA::GaussianAccumulatorKD::Integrate, "normals"_a, "eps"_a = FASTGA_KDTREE_EPS)
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorKD& a) {
                  return "<FastGA::GAKD; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
     py::class_<FastGA::GaussianAccumulatorOpt, FastGA::GaussianAccumulator<uint32_t>>(m, "GaussianAccumulatorOpt", "A Fast Gaussian Accumulator on S2. Only works on top hemisphere.")
-        .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
+        .def(py::init<const int, const double>(), "level"_a = FASTGA_LEVEL, "max_phi"_a = FASTGA_MAX_PHI)
         .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorOpt::bucket_neighbors)
-        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
+        .def("integrate", &FastGA::GaussianAccumulatorOpt::Integrate, "normals"_a, "num_nbr"_a = FASTGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorOpt& a) {
                  return "<FastGA::GAOPT; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
     py::class_<FastGA::GaussianAccumulatorS2, FastGA::GaussianAccumulator<uint64_t>>(m, "GaussianAccumulatorS2", "A Fast Gaussian Accumulator on S2. Works on full sphere.")
-        .def(py::init<const int, const double>(), "level"_a = FastGA_LEVEL, "max_phi"_a = FastGA_MAX_PHI)
+        .def(py::init<const int, const double>(), "level"_a = FASTGA_LEVEL, "max_phi"_a = FASTGA_MAX_PHI)
         .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorS2::bucket_neighbors, "Fast lookup matrix to find neighbors of a bucket")
-        .def("integrate", &FastGA::GaussianAccumulatorS2::Integrate, "normals"_a, "num_nbr"_a = FastGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
+        .def("integrate", &FastGA::GaussianAccumulatorS2::Integrate, "normals"_a, "num_nbr"_a = FASTGA_TRI_NBRS, "Will intergrate the normals into the S2 Historgram")
         .def("__repr__",
              [](const FastGA::GaussianAccumulatorS2& a) {
                  return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
              });
 
     py::class_<FastGA::Ico::IcoCharts>(m, "IcoCharts", "Contains charts of an unwrapped Icosahedron")
-        .def(py::init<const int>(), "level"_a = FastGA_LEVEL)
+        .def(py::init<const int>(), "level"_a = FASTGA_LEVEL)
         // .def_readonly("point_idx_to_image_idx", &FastGA::Ico::IcoChart::point_idx_to_image_idx)
         // .def_readonly("local_to_global_point_idx_map", &FastGA::Ico::IcoChart::local_to_global_point_idx_map)
         .def_readonly("image", &FastGA::Ico::IcoCharts::image, "Returns an unwrapped image of the IcoCharts")

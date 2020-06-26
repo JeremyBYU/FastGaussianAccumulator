@@ -5,7 +5,7 @@
 namespace FastGA {
 
 template <class T>
-GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), sort_idx(), mask(), projected_bbox(), num_buckets(0)
+GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_phi) : mesh(), buckets(), mask(), projected_bbox(), num_buckets(0), sort_idx()
 {
     // Create refined mesh of the icosahedron
     mesh = FastGA::Ico::RefineIcosahedron(level);
@@ -129,12 +129,15 @@ Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(const bool reverse_sort)
 
 GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_phi, const size_t max_leaf_size) : GaussianAccumulator<uint32_t>(level, max_phi), bucket2kd(buckets), index_params(max_leaf_size), kd_tree_ptr()
 {
+    // Note that we will be sorting the buckets by their hilbert curve values
+    // This is **not** necessary for k-d tree search, the order doesn't matter at all when the k-d tree index is built (last line of this function)
+    // However we do this just to keep it consistent with the other classes that. I'm not sure if I rely upon this for visualization code.
+
     // Get projected coordinates of these buckets
     projected_bbox = Helper::InitializeProjection(buckets);
     // Compute Hilbert Values for these buckets
     auto x_range = projected_bbox.max_x - projected_bbox.min_x;
     auto y_range = projected_bbox.max_y - projected_bbox.min_y;
-    // std::cout << x_range << ", " << y_range << ", " << projected_bbox.min_x << std::endl;
     std::array<uint32_t, 2> xy_int;
     for (auto& bucket : buckets)
     {
@@ -148,7 +151,8 @@ GaussianAccumulatorKD::GaussianAccumulatorKD(const int level, const double max_p
     Helper::ApplyPermutationInPlace(buckets, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
-    // Index KD Tree
+
+    // Index k-d tree, this is what actually matters...
     kd_tree_ptr = std::make_unique<NFA::nano_kd_tree_t>(3, bucket2kd, index_params);
     kd_tree_ptr->buildIndex();
 }
@@ -180,7 +184,6 @@ std::vector<size_t> GaussianAccumulatorKD::Integrate(const MatX3d& normals, cons
     return bucket_indexes;
 }
 
-// Optimal Search
 GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max_phi) : GaussianAccumulator<uint32_t>(level, max_phi), bucket_hv(), bucket_neighbors(), regression()
 {
     // Get projected coordinates of these buckets
