@@ -1,7 +1,7 @@
 .. _introduction:
 
-Introducing Polylidar3D
-############################
+Introducing Fast Gaussian Accumulator
+#######################################
 
 
 .. mdinclude:: ../README.md
