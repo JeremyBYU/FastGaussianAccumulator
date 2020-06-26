@@ -1,6 +1,13 @@
-src_docs/python_api
-src_docs/cpp_api
+# Documentation Sphinx
+src_docs/_build
 src_docs/_out
+src_docs/cpp_api
+src_docs/python_api
+docs
+docs/.doctrees
+docs/.buildinfo
+docs/_sources
+docds/objects.inv
 *.tex
 assets/*.json
 

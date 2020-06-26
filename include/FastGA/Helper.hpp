@@ -28,17 +28,17 @@
 #define degreesToRadians(angleDegrees) ((angleDegrees)*M_PI / 180.0)
 #define radiansToDegrees(angleRadians) ((angleRadians)*180.0 / M_PI)
 
-template <typename T>
-std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
-{
-    if (!v.empty())
-    {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
+// template <typename T>
+// std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
+// {
+//     if (!v.empty())
+//     {
+//         out << '[';
+//         std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+//         out << "\b\b]";
+//     }
+//     return out;
+// }
 
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::array<T, 3>& v)
@@ -52,33 +52,35 @@ std::ostream& operator<<(std::ostream& out, const std::array<T, 3>& v)
     return out;
 }
 
-template <typename T>
-std::ostream& operator<<(std::ostream& out, const std::vector<std::array<T, 2>>& v)
-{
-    if (!v.empty())
-    {
-        for(auto &ar: v)
-        {
-            out << ar << ", ";
-        }
-    }
-    out << std::endl;
-    return out;
-}
+// template <typename T>
+// std::ostream& operator<<(std::ostream& out, const std::vector<std::array<T, 2>>& v)
+// {
+//     if (!v.empty())
+//     {
+//         for(auto &ar: v)
+//         {
+//             out << ar << ", ";
+//         }
+//     }
+//     out << std::endl;
+//     return out;
+// }
 
-template <typename T>
-std::ostream& operator<<(std::ostream& out, const std::array<T, 2>& v)
-{
-    if (!v.empty())
-    {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
+// template <typename T>
+// std::ostream& operator<<(std::ostream& out, const std::array<T, 2>& v)
+// {
+//     if (!v.empty())
+//     {
+//         out << '[';
+//         std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+//         out << "\b\b]";
+//     }
+//     return out;
+// }
 
 namespace FastGA {
+
+std::string GetFastGAVersion();
 
 using MatX3d = std::vector<std::array<double, 3>>;
 using MatX3I = std::vector<std::array<size_t, 3>>;
@@ -107,12 +109,23 @@ struct Regression
     }
 };
 constexpr size_t max_limit = std::numeric_limits<size_t>::max();
+
+/**
+ * @brief The bucket class describes a cell on the S2 Histogram.
+ *        It unfortunately has one member that should not really exist (projection).
+ *       
+ * @tparam T 
+ */
 template <class T>
 struct Bucket
 {
+    /** @brief The surface **unit** normal of the triangle cell   */
     std::array<double, 3> normal;
+    /** @brief Count variable for histogram   */
     uint32_t count;
+    /** @brief Space Filling Curve value, may be Int32 or Uint64  */
     T hilbert_value;
+    /** @brief Ignore this  */
     std::array<double, 2> projection;
     // Bucket(const std::array<double, 3> normal_, uint32_t count_, T hilbert_value_, const std::array<double, 2> projection_): normal(normal_), count(count_), hilbert_value(hilbert_value_), projection(projection_) {}
     bool operator<(const Bucket& other) const

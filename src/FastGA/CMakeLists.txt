@@ -1,8 +1,10 @@
+configure_file("GAConfig.hpp.in" "GAConfig.hpp" @ONLY)
+
 # Set the Source, Header Files
 set(FASTGA_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(FASTGA_INCLUDE_DIR "${INCLUDE_DIR}/FastGA")
-set(FASTGA_SOURCE_FILES ${FASTGA_SRC}/FastGA.cpp)
+set(FASTGA_SOURCE_FILES ${FASTGA_SRC}/FastGA.cpp ${FASTGA_SRC}/GAConfig.cpp)
 set(FASTGA_HEADER_FILES ${FASTGA_INCLUDE_DIR}/FastBinarySearch.hpp ${FASTGA_INCLUDE_DIR}/Helper.hpp
 ${FASTGA_INCLUDE_DIR}/FastGA.hpp ${FASTGA_INCLUDE_DIR}/Ico.hpp
 ${FASTGA_INCLUDE_DIR}/NanoFlannAdaptor.hpp)
@@ -11,6 +13,9 @@ ${FASTGA_INCLUDE_DIR}/NanoFlannAdaptor.hpp)
 set(LIB_TYPE STATIC)
 add_library(${PROJECT_NAME} ${LIB_TYPE} ${FASTGA_SOURCE_FILES})
 add_library(FastGA::GA ALIAS ${PROJECT_NAME})
+
+# To include the GAConfig.hpp file
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # Method to hide warnings from nanoflann using SYSTEM
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)

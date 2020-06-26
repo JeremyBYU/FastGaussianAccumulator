@@ -24,11 +24,19 @@ inline constexpr int IcoMeshVertices(int level = 1)
     return IcoMeshVertices(level - 1) + static_cast<int>(1.5 * IcoMeshFaces(level - 1));
 }
 
+/**
+ * @brief This stores the mesh of a refined icosahedron
+ * 
+ */
 struct IcoMesh
 {
+    /** @brief The vetrices in the mesh, NX3 */
     MatX3d vertices;
+    /** @brief The triangles in the mesh, KX3 */
     MatX3I triangles;
+    /** @brief The triangle normals in the mesh, KX3 */
     MatX3d triangle_normals;
+    /** @brief The vertex adjacency matrix, NX6 */
     MatX6I adjacency_matrix;
     IcoMesh() : vertices(), triangles(), triangle_normals(), adjacency_matrix() {}
 };
@@ -408,19 +416,45 @@ inline std::vector<size_t> Create_Local_To_Global_Point_Idx_Map(IcoMesh& sphere_
     return local_to_global_point_idx_map;
 }
 
+/**
+ * An image class. This stores unwrapped values of the icosahedron as a 2D image
+ * 
+ */
 class Image
 {
   public:
+    /** @brief The underlying memory buffer of the data */
     std::vector<uint8_t> buffer_;
+    /** @brief the rows in the image */
     int rows_;
+    /** @brief the columns in the image */
     int cols_;
+    /** @brief the bytes per pixel in a chanel, e.g, Float32 = 4 */
     int bytes_per_channel_;
+    /** @brief Weather the data is a float or an int */
     bool is_float_;
     // Image() = default;
+    /**
+     * @brief Construct a new Image object.
+     * 
+     * @param rows              Rows in image
+     * @param cols              Columns in image    
+     * @param bytes_per_channel Bytes per channel (e.g., Float32 = 4)
+     * @param is_float          Weather the data is a float or an int
+     */
     Image(int rows, int cols, int bytes_per_channel, bool is_float = false) : buffer_(), rows_(rows), cols_(cols), bytes_per_channel_(bytes_per_channel), is_float_(is_float)
     {
         AllocateBuffer();
     }
+
+    /**
+     * @brief Access the data of the image
+     * 
+     * @tparam T                Data type
+     * @param u                 Index of first dimension, row
+     * @param v                 Index of second dimension, column
+     * @return T*               Pointer to data
+     */
     template <typename T>
     T* PointerAt(int u, int v)
     {
@@ -447,15 +481,34 @@ inline int get_chart_height(int level, int padding)
 template int* Image::PointerAt<int>(int u, int v);
 template uint8_t* Image::PointerAt<uint8_t>(int u, int v);
 
+/**
+ * @brief This is basically my implementation of unwrapping an 
+ *        icosahedron as described in:
+ *        Gauge Equivariant Convolutional Networks and the Icosahedral CNNhttps://arxiv.org/abs/1902.04615
+ * 
+ */
 class IcoCharts
 {
   public:
-    int level;                 // refinement level
-    int padding;               // padding around the image, padding = 1 for 3X3 kernel
-    Image image;               // Unwrapped refined icosahedron as an image
-    Image image_to_vertex_idx; // each pixel on the image is directly mapped to a vertex idx on the refined icosahedron
-    Image mask;                // mask of image which indcates which cells are valid, useful to know what pixels are ghost cells
-    IcoMesh sphere_mesh;       // Full Refined Icosahedron Mesh on S2
+    /** @brief The refinement level. Iterations of recursive subdivision. */
+    int level;
+    /** @brief padding around the image, padding = 1 for 3X3 kernel */
+    int padding; //
+    /** @brief Unwrapped refined icosahedron as an image */
+    Image image;
+    /** @brief each pixel on the image is directly mapped to a vertex idx on the refined icosahedron */
+    Image image_to_vertex_idx; // 
+    /** @brief mask of image which indcates which cells are valid, useful to know what pixels are ghost cells */
+    Image mask;    
+    /** @brief Full Refined Icosahedron Mesh on S2 */      
+    IcoMesh sphere_mesh;
+
+    /**
+     * @brief Construct a new Ico Charts object.
+     * 
+     * @param level_         The refinement level. Iterations of recursive subdivision.   
+     * @param padding_       Padding around the image, padding = 1 for 3X3 kernel. Please leave at default level, have not correctly made it general.
+     */
     IcoCharts(const int level_ = 1, const int padding_ = 1) : level(level_), padding(padding_), image(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 1), image_to_vertex_idx(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 4), mask(get_chart_height(level, padding) * NUMBER_OF_CHARTS, get_chart_width(level, padding), 1), sphere_mesh(), chart_template(), point_idx_to_image_idx(), local_to_global_point_idx_map(NUMBER_OF_CHARTS)
     {
         sphere_mesh = RefineIcosahedron(level);
@@ -468,6 +521,12 @@ class IcoCharts
         ConstructImageToVertexIdx();
         ConstructImageMask();
     }
+
+    /**
+     * @brief Will take the normalized counts of vertices of the refined icosahedron at copy them to the unwrapped image.
+     * 
+     * @param normalized_vertex_count       These are the normalized counts of the histogram of the **vertices** of the icosahedron
+     */
     void FillImage(std::vector<double> normalized_vertex_count)
     {
         for (int row = 0; row < image.rows_; ++row)

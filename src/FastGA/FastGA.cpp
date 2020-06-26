@@ -32,14 +32,14 @@ GaussianAccumulator<T>::GaussianAccumulator(const int level, const double max_ph
 }
 
 template <class T>
-MatX3d GaussianAccumulator<T>::GetBucketNormals(const bool reverse_sort)
+MatX3d GaussianAccumulator<T>::GetBucketNormals(const bool mesh_order)
 {
     MatX3d bucket_normals;
     bucket_normals.reserve(buckets.size());
     std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_normals),
                    [](const Bucket<T>& bucket) -> std::array<double, 3> { return bucket.normal; });
 
-    if (!reverse_sort)
+    if (!mesh_order)
         return bucket_normals;
     
     auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
@@ -48,7 +48,7 @@ MatX3d GaussianAccumulator<T>::GetBucketNormals(const bool reverse_sort)
 }
 
 template <class T>
-std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts(const bool reverse_sort)
+std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts(const bool mesh_order)
 {
     std::vector<double> normalized_counts(buckets.size());
     auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const Bucket<T>& lhs, const Bucket<T>& rhs) { return lhs.count < rhs.count; });
@@ -59,7 +59,7 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts(const bool
         normalized_counts[i] = static_cast<double>(buckets[i].count / static_cast<double>(max_count));
     }
 
-    if (!reverse_sort)
+    if (!mesh_order)
         return normalized_counts;
 
     auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
@@ -68,9 +68,9 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCounts(const bool
 }
 
 template <class T>
-std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCountsByVertex(const bool reverse_sort)
+std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCountsByVertex(const bool mesh_order)
 {
-    auto normalized_bucket_counts = GetNormalizedBucketCounts(reverse_sort);
+    auto normalized_bucket_counts = GetNormalizedBucketCounts(mesh_order);
     auto normalized_bucket_counts_by_vertex = Helper::Mean(mesh.adjacency_matrix, normalized_bucket_counts);
     auto max_elem = std::max_element(normalized_bucket_counts_by_vertex.begin(), normalized_bucket_counts_by_vertex.end(), std::less<double>());
     // std::cout << "Max Count: " << max_count << std::endl;
@@ -82,7 +82,7 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCountsByVertex(co
 }
 
 template <class T>
-std::vector<T> GaussianAccumulator<T>::GetBucketIndices()
+std::vector<T> GaussianAccumulator<T>::GetBucketSFCValues()
 {
     std::vector<T> bucket_indices;
     bucket_indices.reserve(buckets.size());
@@ -111,9 +111,9 @@ void GaussianAccumulator<T>::ClearCount()
 }
 
 template <class T>
-Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(const bool reverse_sort)
+Ico::IcoMesh GaussianAccumulator<T>::CopyIcoMesh(const bool mesh_order)
 {
-    if (!reverse_sort)
+    if (!mesh_order)
         return mesh;
     auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
     auto new_triangle_normals = Helper::ApplyPermutation(mesh.triangle_normals, reversed_sort_idx);
@@ -206,7 +206,7 @@ GaussianAccumulatorOpt::GaussianAccumulatorOpt(const int level, const double max
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
 
-    bucket_hv = this->GetBucketIndices();
+    bucket_hv = this->GetBucketSFCValues();
     bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, num_buckets);
 
     std::vector<size_t> seq(bucket_hv.size());
@@ -297,7 +297,7 @@ GaussianAccumulatorS2::GaussianAccumulatorS2(const int level, const double max_p
     Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
     Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
 
-    bucket_hv = this->GetBucketIndices();
+    bucket_hv = this->GetBucketSFCValues();
     bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, num_buckets);
     // Just a sequence of integers
     std::vector<size_t> seq(bucket_hv.size());

@@ -11,9 +11,9 @@ def set_attributes(axes, xlabel='Array Index', ylabel='Unique ID (Hilbert Value)
         ax.legend()
 
 def plot_indices(ga_opt, ga_s2):
-    indices_opt = np.asarray(ga_opt.get_bucket_indices())
+    indices_opt = np.asarray(ga_opt.get_bucket_sfc_values())
     indices_opt = indices_opt - np.min(indices_opt)
-    indices_s2 = np.asarray(ga_s2.get_bucket_indices())
+    indices_s2 = np.asarray(ga_s2.get_bucket_sfc_values())
     indices_s2 = indices_s2 - np.min(indices_s2)
     fig, ax = plt.subplots(2, 2, figsize=(10, 10))
     ax[0,0].plot(indices_opt, '.',markersize=2, label='Azimuth Projection')

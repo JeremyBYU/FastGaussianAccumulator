@@ -21,7 +21,7 @@ def main():
 
     refined_icosahedron_mesh = create_open_3d_mesh(np.asarray(ga_cpp_s2.mesh.triangles), np.asarray(ga_cpp_s2.mesh.vertices))
 
-    indices = np.asarray(ga_cpp_s2.get_bucket_indices())
+    indices = np.asarray(ga_cpp_s2.get_bucket_sfc_values())
     colors = indices / np.iinfo(indices.dtype).max
     colors = cm.viridis(colors)[:, :3]
 

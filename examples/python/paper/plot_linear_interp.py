@@ -34,7 +34,7 @@ def full_extent(ax, pad=0.0):
 def plot_indices(ga_s2):
 
 
-    indices_s2 = np.asarray(ga_s2.get_bucket_indices())
+    indices_s2 = np.asarray(ga_s2.get_bucket_sfc_values())
     indices_s2 = indices_s2 - np.min(indices_s2)
     fig0, ax0 = plt.subplots(1, 1, figsize=(4.5, 4))
     fig1, ax1 = plt.subplots(1, 1, figsize=(4.5, 4))

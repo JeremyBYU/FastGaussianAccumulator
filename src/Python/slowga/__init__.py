@@ -77,7 +77,7 @@ class GaussianAccumulatorKDPy(object):
         self.accumulator_normalized = self.accumulator / np.max(self.accumulator)
         return self.accumulator_normalized
 
-    def get_bucket_indices(self):
+    def get_bucket_sfc_values(self):
         return self.bucket_indices
 
     def get_bucket_projection(self):
