@@ -81,7 +81,7 @@ Then enable the option for CMake. -->
 
 ## Documentation
 
-Please see documentation website for more details.
+Please see [documentation website](https://jeremybyu.github.io/FastGaussianAccumulator/) for more details.
 
 <!-- ## General Notes
 
