@@ -15,7 +15,26 @@ def normalized(a, axis=-1, order=2):
 def find_peaks_from_accumulator(gaussian_normals_sorted, accumulator_normalized_sorted,
                                 find_peaks_kwargs=dict(height=0.05, threshold=None, distance=4,
                                                        width=None, prominence=0.07),
-                                cluster_kwargs=dict(t=0.15, criterion='distance')):
+                                cluster_kwargs=dict(t=0.15, criterion='distance'),
+                                average_filter=dict(min_total_weight=0.2)):
+    """Used 1D peak detection on the Gaussian Accumulator sorted by Space Filling Curve index (hilbert curve or S2ID).
+
+    By nature of this being a 1D signal of a 2D Manifold in 3D, multiple peaks close in 2D space will be detected.
+
+    Group these detected peaks using Agglomerative Hierarchal Clustering (AHC), 
+
+    After things are grouped, take weighted average of the group and filter any that don't meet a criteria.
+
+    Args:
+        gaussian_normals_sorted (np.ndarray): NX3 Array of the unit normals
+        accumulator_normalized_sorted (np.ndarray): NX1 array of the normalized counts for each unit normal
+        find_peaks_kwargs (dict, optional): 1D Signal Detector kwargs, see `scipy.signal.find_peaks`. Defaults to dict(height=0.05, threshold=None, distance=4, width=None, prominence=0.07).
+        cluster_kwargs (dict, optional): AHC cluster kwargs. See `scipy.spatial.fcluster` Defaults to dict(t=0.15, criterion='distance').
+        average_filter (dict, optional): Each group must have this much normalized value at min. Defaults to dict(min_total_weight=0.2).
+
+    Returns:
+        (np.ndarray, np.ndarray, np.ndarray, np.ndarray): integer index of peaks in `gaussian_normals_sorted`, interger groups by AHC, detected peak normals, the weights of the peaks
+    """
     peaks, _ = find_peaks(accumulator_normalized_sorted, **find_peaks_kwargs)
     gaussian_normal_1d_clusters = gaussian_normals_sorted[peaks, :]
     if gaussian_normal_1d_clusters.shape[0] > 1:
@@ -44,6 +63,24 @@ def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
                                                       exclude_border=False, indices=False),
                                cluster_kwargs=dict(t=0.10, criterion='distance'),
                                average_filter=dict(min_total_weight=0.15)):
+    """Detect peaks inside a 2D image from an unwrapped refined icosahedron.
+
+    2D peak detection is carried out using skimage.feature.peak_local_max. Note the image inside ico_charts is already normalized between 0-255 (NOT 0-1), `find_peaks_kwargs`.
+
+    After the peaks are detected we group them using Agglomerative Hierarchal Clustering (AHC), `cluster_kwargs`.
+
+    After things are grouped, take weighted average of the group (using normalized_bucket_counts_by_vertex) and filter any that don't meet a min value, `average_filter`.
+
+    Args:
+        ico_charts (IcoChart): The IcoChart of the unwrapped refined icosahedron (GA)
+        normalized_bucket_counts_by_vertex (np.ndarray): NX1 Array. The normalized histogram count (0-1) of the vertices of the icosahedron (used for to weight groups after AHC)
+        find_peaks_kwargs (dict, optional): Keyword arguments for peak detection. See `skimage.feature.peak_local_max`. Defaults to dict(threshold_abs=25, min_distance=1, exclude_border=False, indices=False).
+        cluster_kwargs (dict, optional): AHC cluster kwargs. See `scipy.spatial.fcluster` Defaults to dict(t=0.10, criterion='distance').
+        average_filter ([type], optional): Each group must have this much normalized value at min. Defaults to dict(min_total_weight=0.15).
+
+    Returns:
+        [np.ndarray, np.ndarray, np.ndarray, np.ndarray]: integer index of peaks in `gaussian_normals_sorted`, interger groups by AHC, **detected peak normals**, the weights of the peaks
+    """
     # Get data from ico chart
     # t0 = time.perf_counter()
     image_to_vertex_idx = np.asarray(ico_charts.image_to_vertex_idx)
@@ -75,6 +112,7 @@ def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
 
 
 def get_point_clusters(points, point_weights, clusters):
+    """Cluster points (R3) together given a cluster grouping"""
     point_clusters = []
     cluster_groups = np.unique(clusters)
     for cluster in cluster_groups:
@@ -83,7 +121,8 @@ def get_point_clusters(points, point_weights, clusters):
     return point_clusters
 
 
-def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_total_weight=0.2)):
+def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_total_weight=0.1)):
+    """Average any clusters together by weights, remove any that don't meet a minimum requirements"""
     cluster_points = get_point_clusters(peaks, peak_weights, clusters)
     clusters_averaged = []
     clusters_total_weight = []

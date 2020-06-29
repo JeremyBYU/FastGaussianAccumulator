@@ -72,5 +72,6 @@
         "geometry": "cpp",
         "csignal": "cpp",
         "*.in": "cpp"
-    }
+    },
+    "restructuredtext.confPath": "${workspaceFolder}/src_docs"
 }

@@ -10,7 +10,7 @@ from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from
 from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, create_open_3d_mesh, assign_vertex_colors, plot_meshes
 
 from examples.python.run_meshes import create_line_set
-from examples.python.line_mesh import LineMesh
+from examples.python.util.line_mesh import LineMesh
 # from src.Pyth import create_open_3d_mesh, assign_vertex_colors, plot_meshes
 
 def main():

@@ -43,6 +43,12 @@ FastGA: A Fast Gaussian Accumulator
     :caption: Python API
 
     python_api/fastga
+    python_api/fastga.peak_and_cluster
+
+..
+    Please put the module and meta data you want here!
+    MAKE_DOCS/python_api/fastga
+    MAKE_DOCS/python_api/fastga.peak_and_cluster   python_only
 
 .. _cpp_api_index:
 
@@ -51,3 +57,5 @@ FastGA: A Fast Gaussian Accumulator
     :caption: C++ API
 
     cpp_api/cpp_library_root
+
+..

@@ -72,11 +72,11 @@ std::vector<double> GaussianAccumulator<T>::GetNormalizedBucketCountsByVertex(co
 {
     auto normalized_bucket_counts = GetNormalizedBucketCounts(mesh_order);
     auto normalized_bucket_counts_by_vertex = Helper::Mean(mesh.adjacency_matrix, normalized_bucket_counts);
-    auto max_elem = std::max_element(normalized_bucket_counts_by_vertex.begin(), normalized_bucket_counts_by_vertex.end(), std::less<double>());
+    double max_elem = *std::max_element(normalized_bucket_counts_by_vertex.begin(), normalized_bucket_counts_by_vertex.end(), std::less<double>());
     // std::cout << "Max Count: " << max_count << std::endl;
     for (size_t i = 0; i < normalized_bucket_counts_by_vertex.size(); i++)
     {
-        normalized_bucket_counts_by_vertex[i] = normalized_bucket_counts_by_vertex[i] / *max_elem;
+        normalized_bucket_counts_by_vertex[i] = normalized_bucket_counts_by_vertex[i] / max_elem;
     }
     return normalized_bucket_counts_by_vertex;
 }

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introducing Polylidar3D &mdash; FastGA 0.1.0 documentation</title>
+  <title>Introducing Fast Gaussian Accumulator &mdash; FastGA 0.1.0 documentation</title>
   
 
   
@@ -93,7 +93,7 @@
             
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introducing Polylidar3D</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introducing Fast Gaussian Accumulator</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fast-gaussian-accumulator">Fast Gaussian Accumulator</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finding-the-cell">Finding the Cell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#peak-detection">Peak Detection</a><ul>
@@ -121,6 +121,7 @@
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python_api/fastga.html">fastga</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
 <p class="caption"><span class="caption-text">C++ API</span></p>
 <ul>
@@ -170,7 +171,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Introducing Polylidar3D</li>
+      <li>Introducing Fast Gaussian Accumulator</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -211,8 +212,8 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="introducing-polylidar3d">
-<span id="introduction"></span><h1>Introducing Polylidar3D<a class="headerlink" href="#introducing-polylidar3d" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introducing-fast-gaussian-accumulator">
+<span id="introduction"></span><h1>Introducing Fast Gaussian Accumulator<a class="headerlink" href="#introducing-fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="fast-gaussian-accumulator">
 <h2>Fast Gaussian Accumulator<a class="headerlink" href="#fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h2>
 <p>A Gaussian Sphere Accumulator refers to the notion of discretizing the <strong>surface</strong> of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of <strong>points</strong> (aka unit normals) into these buckets.
@@ -300,7 +301,7 @@ Then enable the option for CMake. --></div>
 </div>
 <div class="section" id="documentation">
 <h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
-<p>Please see documentation website for more details.</p>
+<p>Please see <a class="reference external" href="https://jeremybyu.github.io/FastGaussianAccumulator/">documentation website</a> for more details.</p>
 <!-- ## General Notes
 
 The main class of interest should be `GaussianAccumulatorS2`

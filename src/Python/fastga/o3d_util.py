@@ -7,6 +7,13 @@ from scipy.spatial.transform import Rotation as R
 
 COLOR_PALETTE = list(map(colors.to_rgb, plt.rcParams['axes.prop_cycle'].by_key()['color']))
 
+
+def create_line_set(normals_sorted):
+    normals_o3d = o3d.utility.Vector3dVector(normals_sorted)
+    line_idx = [[i, i + 1] for i in range(normals_sorted.shape[0] - 1)]
+    line_idx_o3d = o3d.utility.Vector2iVector(line_idx)
+    return o3d.geometry.LineSet(normals_o3d, line_idx_o3d)
+
 def create_open_3d_mesh(triangles, points, triangle_normals=None, color=COLOR_PALETTE[0]):
     """Create an Open3D Mesh given triangles vertices
 
@@ -103,9 +110,9 @@ def translate_meshes(mesh_list, current_translation=0.0, axis=0):
         current_translation += x_extent + 0.5
     return translate_meshes
 
-def plot_meshes(*meshes, shift=True):
+def plot_meshes(*meshes, shift=True, axis_translate=[-2.0, 0, 0]):
     axis = o3d.geometry.TriangleMesh.create_coordinate_frame()
-    axis.translate([-2.0, 0, 0])
+    axis.translate(axis_translate)
     translate_meshes = []
     current_x = 0.0
     if shift:
@@ -222,6 +229,7 @@ def get_arrow(origin=[0,0,0],end=None,vec=None):
     scale = 10; beta = 0; gamma = 0
     T = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
     T[:3,-1] = origin
+    rotation_3x3 = None
     if end is not None:
         vec = np.array(end) - np.array(origin)
     elif vec is not None:
@@ -231,12 +239,17 @@ def get_arrow(origin=[0,0,0],end=None,vec=None):
         mesh = create_arrow(scale)
         axis, angle = align_vector_to_another(b=vec/ scale)
         if axis is None:
-            axis_a = axis
+            if np.dot(np.array([0, 0, 1]), vec/scale) > 0:
+                axis_a = axis
+            else:
+                rotation_3x3 = np.array([[-1, 0 , 0],
+                                        [0, -1, 0],
+                                        [0,0, -1]])
         else:
             axis_a = axis * angle
             rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
     # mesh.transform(T)
-    if axis is not None:
+    if rotation_3x3 is not None:
         mesh = mesh.rotate(rotation_3x3, center=False)
     mesh.translate(origin)
     return(mesh)

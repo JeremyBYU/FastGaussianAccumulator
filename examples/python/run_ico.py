@@ -1,31 +1,21 @@
+""" Example script that visualizes the unwrapping process for peak detection 
+    The steps here are much more verbose and just meant highlight the methods.
+"""
 import time
 import functools
 from pathlib import Path
+
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 import open3d as o3d
+
 from fastga import GaussianAccumulatorS2, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
 from fastga.peak_and_cluster import find_peaks_from_ico_charts
+from fastga.o3d_util import get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes, translate_meshes
 from examples.python.run_meshes import visualize_gaussian_integration
-from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi, get_colors,
-                               create_open_3d_mesh, assign_vertex_colors, plot_meshes, find_peaks_from_accumulator)
-from src.Python.slowga.helper import translate_meshes
 
-from skimage.feature import peak_local_max
-
-THIS_DIR = Path(__file__).parent
-FIXTURES_DIR = THIS_DIR / "../../fixtures/"
-REALSENSE_DIR = (FIXTURES_DIR / "realsense").absolute()
-EXAMPLE_MESH_1 = REALSENSE_DIR / "example_mesh.ply"
-EXAMPLE_MESH_2 = REALSENSE_DIR / "dense_first_floor_map.ply"
-EXAMPLE_MESH_3 = REALSENSE_DIR / "sparse_basement.ply"
-
-ALL_MESHES = [EXAMPLE_MESH_1, EXAMPLE_MESH_2, EXAMPLE_MESH_3]
-ALL_MESHES_ROTATIONS = [None, R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0])),
-                        R.from_rotvec(-np.pi / 2 * np.array([1, 0, 0]))]
-
-
+from examples.python.util.mesh_util import get_mesh_data_iterator
 
 def extract_chart(mesh, chart_idx=0):
     triangles = np.asarray(mesh.triangles)
@@ -50,17 +40,17 @@ def decompose(ico):
 
 
 def analyze_mesh(mesh):
+    """Demonstrates unwrapping and peak detection of a S2 Histogram"""
     LEVEL = 4
     kwargs_base = dict(level=LEVEL, max_phi=180)
     kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
-    query_max_phi = kwargs_base['max_phi'] - 5
 
-
-
+    # Create Gaussian Accumulator
     ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
+    # This function will integrate the normals and return an open3d mesh for visualization.
     colored_icosahedron_s2, _, _ = visualize_gaussian_integration(
-        ga_cpp_s2, mesh, max_phi=query_max_phi, integrate_kwargs=kwargs_opt_integrate)
+        ga_cpp_s2, mesh, max_phi=kwargs_base['max_phi'], integrate_kwargs=kwargs_opt_integrate)
     num_triangles = ga_cpp_s2.num_buckets
 
     # for verification
@@ -69,9 +59,7 @@ def analyze_mesh(mesh):
     colors_s2 = get_colors(range(num_triangles), colormap=plt.cm.tab20)[:, :3]
     colored_ico_s2_organized_mesh = assign_vertex_colors(ico_o3d_s2_om, colors_s2)
 
-    # image = create_chart_image(ga_cpp_s2, ico_s2_organized_mesh, level=LEVEL, chart_idx=0)
-
-    # bucket_normals = np.asarray(ga_cpp_s2.get_bucket_normals(True))
+    # Demonstrate the five charts for visualization
     bucket_counts = np.asarray(ga_cpp_s2.get_normalized_bucket_counts(True))
     bucket_colors = get_colors(bucket_counts)[:, :3]
     charts_triangles = []
@@ -85,16 +73,20 @@ def analyze_mesh(mesh):
             icochart_square_o3d, bucket_colors[chart_start_idx:chart_end_idx, :])
         charts_triangles.append(colored_icochart_square)
 
-
+    # Plot the unwrapped icosahedron
     new_charts = translate_meshes(charts_triangles, current_translation=-4.0, axis=1)
-    all_charts = functools.reduce(lambda a,b : a+b,new_charts)
+    all_charts = functools.reduce(lambda a, b: a + b, new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
 
     ico_chart_ = IcoCharts(LEVEL)
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
 
-    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex))
+    find_peaks_kwargs = dict(threshold_abs=25, min_distance=1,
+                             exclude_border=False, indices=False)
+    average_filter = dict(min_total_weight=0.05)
+    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(
+        normalized_bucket_counts_by_vertex), find_peaks_kwargs=find_peaks_kwargs, average_filter=average_filter)
     print(avg_peaks)
 
     full_image = np.asarray(ico_chart_.image)
@@ -103,11 +95,10 @@ def analyze_mesh(mesh):
     plt.xticks(np.arange(0, full_image.shape[1], step=1))
     plt.yticks(np.arange(0, full_image.shape[0], step=1))
     plt.show()
-    # colored_image = np.ascontiguousarray(plt.cm.viridis(image)[:, :, :3], dtype=np.float32)
-    
 
 
-def main():
+def visualize_unwrapping():
+    """Demonstrate the unwrapping process by color codes sections"""
     LEVEL = 2
     ico = refine_icosahedron(level=0)
     ico_s2 = GaussianAccumulatorS2(level=LEVEL)
@@ -121,28 +112,23 @@ def main():
 
     colors = get_colors(range(triangles_ico.shape[0]), colormap=plt.cm.tab20)[:, :3]
     colors_s2 = get_colors(range(triangles_s2_om.shape[0]), colormap=plt.cm.tab20)[:, :3]
-    # To verify colormapping
-    # colors_s2 = np.vstack((colors_s2[::4,:], colors_s2[::4,:], colors_s2[::4,:], colors_s2[::4,:]))
 
     colored_ico = assign_vertex_colors(ico_o3d, colors)
     colored_ico_s2 = assign_vertex_colors(ico_o3d_s2_om, colors_s2)
     colored_icochart, start_idx, end_idx = extract_chart(colored_ico_s2, chart_idx=0)
     colored_icochart_slanted = assign_vertex_colors(icochart_slanted_o3d, colors_s2[start_idx:end_idx, :])
-    colored_icochart_square = assign_vertex_colors(icochart_square_o3d, colors_s2[start_idx:end_idx, :]) 
-    # colored_icochart_square_2 = assign_vertex_colors(icochart_square_o3d, get_colors(range(int(triangles_s2_om.shape[0] / 5)), colormap=plt.cm.tab20)[:, :3]) 
+    colored_icochart_square = assign_vertex_colors(icochart_square_o3d, colors_s2[start_idx:end_idx, :])
 
     plot_meshes([colored_ico], [colored_ico_s2], colored_icochart, colored_icochart_slanted, colored_icochart_square)
 
-    for i, (mesh_fpath, r) in enumerate(zip(ALL_MESHES, ALL_MESHES_ROTATIONS)):
+
+def main():
+    visualize_unwrapping()
+
+    for i, mesh in enumerate(get_mesh_data_iterator()):
         if i < 0:
             continue
-        fname = mesh_fpath.stem
-        # print(fname)
-        example_mesh = o3d.io.read_triangle_mesh(str(mesh_fpath))
-        if r is not None:
-            example_mesh = example_mesh.rotate(r.as_matrix())
-        example_mesh.compute_triangle_normals()
-        analyze_mesh(example_mesh)
+        analyze_mesh(mesh)
 
 
 if __name__ == "__main__":

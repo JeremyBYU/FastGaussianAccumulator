@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example Mesh &mdash; FastGA 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="C++" href="../C++/index.html" />
+    <link rel="prev" title="Python" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> FastGA
+          
+
+          
+            
+            <img src="../../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../builddocs.html">Building Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Creating-Histogram">Creating Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Peak-Detection">Peak Detection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../C++/index.html">C++</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastga.html">fastga</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cpp_api/cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Python</a> &raquo;</li>
+        
+      <li>Example Mesh</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">os</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../../../&#39;</span><span class="p">)</span>
+<span class="n">SRC_DOCS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;src_docs&#39;</span><span class="p">,</span> <span class="s1">&#39;_static&#39;</span> <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Example-Mesh">
+<h1>Example Mesh<a class="headerlink" href="#Example-Mesh" title="Permalink to this headline">¶</a></h1>
+<p>This is the example mesh that we will be using in our discussion</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">fastga.o3d_util</span> <span class="kn">import</span> <span class="n">plot_meshes</span><span class="p">,</span> <span class="n">assign_vertex_colors</span><span class="p">,</span> <span class="n">create_open_3d_mesh</span><span class="p">,</span> <span class="n">get_colors</span><span class="p">,</span> <span class="n">get_arrow_normals</span>
+<span class="kn">from</span> <span class="nn">examples.python.util.mesh_util</span> <span class="kn">import</span> <span class="n">BASEMENT_CHAIR</span>
+
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">BASEMENT_CHAIR</span><span class="p">))</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">compute_triangle_normals</span><span class="p">()</span>
+<span class="n">plot_meshes</span><span class="p">([</span><span class="n">mesh</span><span class="p">],</span> <span class="n">axis_translate</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.00</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SRC_DOCS</span><span class="si">}</span><span class="s2">/tutorials/example_mesh.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_Python_basicdemo_3_0.png" src="../../_images/tutorial_Python_basicdemo_3_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Creating-Histogram">
+<h1>Creating Histogram<a class="headerlink" href="#Creating-Histogram" title="Permalink to this headline">¶</a></h1>
+<p>This section will teach you first how to create the Gaussian Accumulator and then integrate triangle normals into its spherical histogram.</p>
+<p>We imported the class and then created the accumulator. The <code class="docutils literal notranslate"><span class="pre">level=3</span></code> indicates a third level of refinement of approximating a sphere. The higher the levels the more smooth-like sphere surface we get. I would stick to 3 or 4.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">GaussianAccumulatorS2</span>
+<span class="n">ga_cpp_s2</span> <span class="o">=</span> <span class="n">GaussianAccumulatorS2</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ga_cpp_s2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;FastGA::GAS2; # Triangles: &#39;1280&#39;&gt;
+</pre></div></div>
+</div>
+<p>Next we need to integrate the triangle normals of the mesh into the GA. You generally do NOT need all the triangles, meaning you can randomly down-sample from the mesh. For this example we will just use all of them.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">MatX3d</span>
+
+<span class="n">num_triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangle_normals</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">triangle_normals</span> <span class="o">=</span> <span class="n">MatX3d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangle_normals</span><span class="p">))</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">bucket_indices</span> <span class="o">=</span> <span class="n">ga_cpp_s2</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">triangle_normals</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Integrated </span><span class="si">{</span><span class="n">num_triangles</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> triangle normals into the histogram in </span><span class="si">{</span><span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> milliseconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Integrated 65051 triangle normals into the histogram in 7.63 milliseconds
+</pre></div></div>
+</div>
+<p>If you want to visualize this we have some helper functions here. This is totally optional.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># For visualization</span>
+<span class="n">normalized_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ga_cpp_s2</span><span class="o">.</span><span class="n">get_normalized_bucket_counts</span><span class="p">())</span>
+<span class="n">color_counts</span> <span class="o">=</span> <span class="n">get_colors</span><span class="p">(</span><span class="n">normalized_counts</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">refined_icosahedron_mesh</span> <span class="o">=</span> <span class="n">create_open_3d_mesh</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ga_cpp_s2</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ga_cpp_s2</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">))</span>
+<span class="c1"># Colorize normal buckets</span>
+<span class="n">colored_icosahedron</span> <span class="o">=</span> <span class="n">assign_vertex_colors</span><span class="p">(</span><span class="n">refined_icosahedron_mesh</span><span class="p">,</span> <span class="n">color_counts</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">plot_meshes</span><span class="p">([</span><span class="n">colored_icosahedron</span><span class="p">],</span> <span class="n">axis_translate</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SRC_DOCS</span><span class="si">}</span><span class="s2">/tutorials/example_ga_color.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_Python_basicdemo_11_0.png" src="../../_images/tutorial_Python_basicdemo_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Peak-Detection">
+<h1>Peak Detection<a class="headerlink" href="#Peak-Detection" title="Permalink to this headline">¶</a></h1>
+<p>This section will show you how to perform peak detection on the histogram. The basic idea is to unwrap the refined icosahedron into a 2D image and perform peak detection.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">IcoCharts</span>
+<span class="kn">from</span> <span class="nn">fastga.peak_and_cluster</span> <span class="kn">import</span> <span class="n">find_peaks_from_ico_charts</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">ico_chart</span> <span class="o">=</span> <span class="n">IcoCharts</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># make sure it has the same level</span>
+<span class="n">normalized_bucket_counts_by_vertex</span> <span class="o">=</span> <span class="n">ga_cpp_s2</span><span class="o">.</span><span class="n">get_normalized_bucket_counts_by_vertex</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># must be set to true</span>
+<span class="n">ico_chart</span><span class="o">.</span><span class="n">fill_image</span><span class="p">(</span><span class="n">normalized_bucket_counts_by_vertex</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ico_chart</span><span class="o">.</span><span class="n">image</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x7fa378457ad0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_Python_basicdemo_13_1.png" src="../../_images/tutorial_Python_basicdemo_13_1.png" />
+</div>
+</div>
+<p>Each pixel on the image roughly corresponds to a <em>vertex</em> on the icosahedron. We now perform peak detection. Note that there is some copy padding ghost cells but the function <code class="docutils literal notranslate"><span class="pre">find_peaks_from_ico_charts</span></code> will take care of that. Please see documentation on this function to learn what the parameters do.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># These are your configurable parameters</span>
+<span class="n">find_peaks_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">threshold_abs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># skimage.features.local_max</span>
+<span class="n">cluster_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span> <span class="c1"># scipy.spatial.fcluster</span>
+<span class="n">average_filter</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">min_total_weight</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span> <span class="c1"># noramlized avergate weight of each group must have this min value</span>
+
+<span class="n">peaks</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">avg_peaks</span><span class="p">,</span> <span class="n">avg_weights</span> <span class="o">=</span> <span class="n">find_peaks_from_ico_charts</span><span class="p">(</span><span class="n">ico_chart</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="n">normalized_bucket_counts_by_vertex</span><span class="p">),</span> <span class="n">find_peaks_kwargs</span><span class="p">,</span> <span class="n">cluster_kwargs</span><span class="p">,</span> <span class="n">average_filter</span><span class="p">)</span>
+<span class="n">gaussian_normals_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ico_chart</span><span class="o">.</span><span class="n">sphere_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+<span class="n">arrow_avg_peaks</span> <span class="o">=</span> <span class="n">get_arrow_normals</span><span class="p">(</span><span class="n">avg_peaks</span><span class="p">,</span> <span class="n">avg_weights</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">avg_peaks</span><span class="p">)</span>
+<span class="n">plot_meshes</span><span class="p">([</span><span class="n">colored_icosahedron</span><span class="p">,</span> <span class="o">*</span><span class="n">arrow_avg_peaks</span><span class="p">],</span> <span class="n">axis_translate</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 0.          0.          1.        ]
+ [ 0.90559982 -0.40313874  0.13178818]
+ [-0.96193836  0.27326653  0.        ]
+ [ 0.          0.         -1.        ]
+ [ 0.2664047   0.96386126  0.        ]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SRC_DOCS</span><span class="si">}</span><span class="s2">/tutorials/example_ga_peak.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_Python_basicdemo_16_0.png" src="../../_images/tutorial_Python_basicdemo_16_0.png" />
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../C++/index.html" class="btn btn-neutral float-right" title="C++" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

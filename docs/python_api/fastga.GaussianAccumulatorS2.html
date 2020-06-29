@@ -93,7 +93,7 @@
             
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Polylidar3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorial</span></p>
@@ -106,6 +106,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="fastga.html">fastga</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fastga.BBOX.html">BBOX</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt32.html">BucketUInt32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt64.html">BucketUInt64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorKD.html">GaussianAccumulatorKD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorOpt.html">GaussianAccumulatorOpt</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GaussianAccumulatorS2</a></li>
@@ -119,6 +120,7 @@
 <li class="toctree-l2"><a class="reference internal" href="fastga.MatX2d.html">MatX2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.MatX3I.html">MatX3I</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.MatX3d.html">MatX3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.MatX6I.html">MatX6I</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.VectorDouble.html">VectorDouble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.VectorInt.html">VectorInt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.VectorUInt8.html">VectorUInt8</a></li>
@@ -129,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="fastga.refine_icosahedron.html">refine_icosahedron</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
 <p class="caption"><span class="caption-text">C++ API</span></p>
 <ul>
@@ -226,7 +229,7 @@
 <dl class="class">
 <dt id="fastga.GaussianAccumulatorS2">
 <em class="property">class </em><code class="sig-prename descclassname">fastga.</code><code class="sig-name descname">GaussianAccumulatorS2</code><a class="headerlink" href="#fastga.GaussianAccumulatorS2" title="Permalink to this definition">¶</a></dt>
-<dd><p>This GaussianAccumulator can handle the entire sphere by using a space filling curve designed by Google’s S2 Geometry library. It projects a sphere to the faces of a cube and creates six separate hilbert curves for each face. It then stitches these curves together into one continuous thread. This class does not need S2 Geometry Library. We are using a port callsed s2nano that pulls out the essential SFC routine. It basically works by converting a normal to being integrated into a s2_id (SFC unique integer). It performs a faster interpolated and branchnless binary search to find the closest cell in buckets. It then performs a local neighborhood search centered around the cell which actually looks at the surface normal.</p>
+<dd><p>This GaussianAccumulator can handle the entire sphere by using a space filling curve designed by Google’s S2 Geometry library. It projects a sphere to the faces of a cube and creates six separate hilbert curves for each face. It then stitches these curves together into one continuous thread. This class does not need S2 Geometry Library. We are using a port callsed s2nano that pulls out the essential SFC routine. It basically works by converting a normal to being integrated into a s2_id (SFC unique integer). It performs a faster interpolated and branchless binary search to find the closest cell in buckets. It then performs a local neighborhood search centered around the cell which actually looks at the surface normal.</p>
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorS2.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorS2</em>, <em class="sig-param">level: int = 1</em>, <em class="sig-param">max_phi: float = 180.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastga.GaussianAccumulatorS2.__init__" title="Permalink to this definition">¶</a></dt>

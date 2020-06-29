@@ -70,6 +70,21 @@ PYBIND11_MODULE(fastga, m)
                                    {sizeof(size_t) * cols,                  /* Strides (in bytes) for each index */
                                     sizeof(size_t)});
         });
+
+    py::class_<FastGA::MatX6I>(
+        m, "MatX6I", py::buffer_protocol(),
+        "NX6 Matrix (Uint64) representation of numpy array. Use np.asarray() to get numpy array.")
+        .def_buffer([](FastGA::MatX6I& m) -> py::buffer_info {
+            const size_t cols = 6;
+            return py::buffer_info(m.data(),                                /* Pointer to buffer */
+                                   sizeof(size_t),                          /* Size of one scalar */
+                                   py::format_descriptor<size_t>::format(), /* Python struct-style format descriptor */
+                                   2UL,                                     /* Number of dimensions */
+                                   {m.size(), cols},                        /* Buffer dimensions */
+                                   {sizeof(size_t) * cols,                  /* Strides (in bytes) for each index */
+                                    sizeof(size_t)});
+        });
+        
     py::class_<FastGA::MatX2I>(
         m, "MatX2I", py::buffer_protocol(),
         "NX2 Matrix (Uint64) representation of numpy array. Use np.asarray() to get numpy array.")
@@ -164,6 +179,19 @@ PYBIND11_MODULE(fastga, m)
                       "Space Filling Curve value, may be Int32 or Uint64")
         .def_readonly("count", &FastGA::Bucket<uint32_t>::count, "Count variable for histogram")
         .def("__repr__", [](const FastGA::Bucket<uint32_t>& a) {
+            return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) +
+                    "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) + "'>");
+        });
+
+    py::class_<FastGA::Bucket<uint64_t>>(m, "BucketUInt64",
+                                         "The bucket class describes a cell on the S2 Histogram. It unfortunately has "
+                                         "one member that should not really exist (projection).")
+        .def(py::init<>())
+        .def_readonly("normal", &FastGA::Bucket<uint64_t>::normal, "The surface **unit** normal of the triangle cell")
+        .def_readonly("hilbert_value", &FastGA::Bucket<uint64_t>::hilbert_value,
+                      "Space Filling Curve value, may be Int32 or Uint64")
+        .def_readonly("count", &FastGA::Bucket<uint64_t>::count, "Count variable for histogram")
+        .def("__repr__", [](const FastGA::Bucket<uint64_t>& a) {
             return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) +
                     "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) + "'>");
         });
