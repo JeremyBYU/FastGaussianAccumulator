@@ -1,4 +1,6 @@
 # Fast Gaussian Accumulator
+[![Docs](https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/api-doc.svg)](https://jeremybyu.github.io/FastGaussianAccumulator/)
+[![Cite](https://img.shields.io/badge/cite-%2010.1109--LRA.2020.3002212-red)](https://ieeexplore.ieee.org/document/9117017)
 
 A Gaussian Sphere Accumulator refers to the notion of discretizing the **surface** of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of **points** (aka unit normals) into these buckets.
 The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have the exact same **area** and **shape**. This process is done by *refining* an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.
@@ -97,3 +99,11 @@ I also tried using S2 as a point index (similar to a KDTree) and found it was *s
 1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000` 
 2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof` 
  -->
+
+## Citation
+
+To support our work please cite:
+
+```
+TBA
+```
