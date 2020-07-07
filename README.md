@@ -47,7 +47,7 @@ Installation is entirely through CMake now. You must have CMake 3.14 or higher i
 
 ### Build and Install Python Extension
 
-1. Install [conda](https://conda.io/projects/conda/en/latest/) or create a python virtual envrionment ([Why?](https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c)). I recommend conda for Windows users.
+1. Install [conda](https://conda.io/projects/conda/en/latest/) or create a python virtual environment ([Why?](https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c)). I recommend conda for Windows users.
 2. `cd cmake-build && cmake --build . --target python-package --config Release -j4` 
 3. `cd lib/python_package &&  pip install -e .`
 
