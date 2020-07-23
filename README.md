@@ -1,5 +1,5 @@
 # Fast Gaussian Accumulator
-[![Docs](https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/api-doc.svg)](https://jeremybyu.github.io/FastGaussianAccumulator/)
+[![Docs](https://img.shields.io/badge/API-docs-blue)](https://jeremybyu.github.io/FastGaussianAccumulator/)
 [![Cite](https://img.shields.io/badge/cite-%2010.1109--LRA.2020.3002212-red)](https://ieeexplore.ieee.org/document/9117017)
 
 A Gaussian Sphere Accumulator refers to the notion of discretizing the **surface** of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of **points** (aka unit normals) into these buckets.
