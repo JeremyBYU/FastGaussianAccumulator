@@ -16,7 +16,7 @@ from examples.python.util.mesh_util import ALL_MESHES, ALL_MESHES_ROTATIONS
 
 def main():
     EXAMPLE_INDEX = 1
-    kwargs_base = dict(level=4, max_phi=180)
+    kwargs_base = dict(level=2, max_phi=180)
     kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
     query_max_phi = kwargs_base['max_phi'] - 5
@@ -42,7 +42,7 @@ def main():
 
 
     # Visualize unwrapping
-    ico_chart_ = IcoCharts(4)
+    ico_chart_ = IcoCharts(kwargs_base['level'])
     t2 = time.perf_counter()
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
