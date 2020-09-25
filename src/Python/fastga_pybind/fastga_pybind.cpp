@@ -391,6 +391,75 @@ PYBIND11_MODULE(fastga, m)
     m.def("refine_icochart", &FastGA::Ico::RefineIcoChart, "level"_a = 0, "square"_a = false,
           "Return an refined icochart");
 
+    //////////////////
+    //////////////////
+    // Add new S2 Beta
+
+    py::class_<FastGA::BucketS2>(m, "BucketS2",
+                                        "The bucket class describes a cell on the S2 Histogram. It unfortunately has")
+    .def(py::init<>())
+    .def_readonly("normal", &FastGA::BucketS2::normal, "The surface **unit** normal of the triangle cell")
+    .def_readonly("average_normal", &FastGA::BucketS2::average_normal, "The average surface **unit** normal of the triangle cell after integration")
+    .def_readonly("hilbert_value", &FastGA::BucketS2::hilbert_value,
+                    "Space Filling Curve value, may be Int32 or Uint64")
+    .def_readonly("count", &FastGA::BucketS2::count, "Count variable for histogram")
+    .def("__repr__", [](const FastGA::BucketS2& a) {
+        return ("<Bucket Normal: " + FastGA::Helper::ArrayToString<double, 3>(a.normal) +
+                "; HV: " + std::to_string(a.hilbert_value) + "; CNT: " + std::to_string(a.count) + "'>");
+    });
+
+    py::class_<FastGA::GaussianAccumulatorS2Beta>(
+        m, "GaussianAccumulatorS2Beta",
+        "This GaussianAccumulator can handle the entire sphere by using a space filling curve designed by Google's S2 "
+        "Geometry library. It projects a sphere to the faces of a cube and creates six separate hilbert curves for "
+        "each face. It then stitches these curves together into one continuous thread. This class does not need S2 "
+        "Geometry Library. We are using a port callsed s2nano that pulls out the essential SFC routine. It basically "
+        "works by converting a normal to being integrated into a s2_id (SFC unique integer). It performs a faster "
+        "interpolated and branchless binary search to find the closest cell in buckets. It then performs a local "
+        "neighborhood search centered around the cell which actually looks at the surface normal.")
+        .def(py::init<const int>(), "level"_a = FASTGA_LEVEL)
+        .def_readonly("bucket_neighbors", &FastGA::GaussianAccumulatorS2Beta::bucket_neighbors,
+                      "Fast lookup matrix to find neighbors of a bucket")
+        .def_readonly("mesh", &FastGA::GaussianAccumulatorS2Beta::mesh,
+                      "The underlying sphere-like mesh of the Gaussian Accumulator")
+        .def_readonly("buckets", &FastGA::GaussianAccumulatorS2Beta::buckets,
+                      "The buckets in the histogram, corresponding to cells/triangles on the mesh")
+        .def_readonly("num_buckets", &FastGA::GaussianAccumulatorS2Beta::num_buckets,
+                      "The number of buckets in histogram, size(buckets)")
+        .def("get_bucket_normals", &FastGA::GaussianAccumulatorS2Beta::GetBucketNormals,
+             "Gets the surface normals of the buckets in the histogram."
+             "The order by default is sorted by the space filling curve value attached to each cell.",
+             "mesh_order"_a = false)
+        .def("get_bucket_average_normals", &FastGA::GaussianAccumulatorS2Beta::GetBucketAverageNormals,
+             "Gets the average surface normals of the buckets in the histogram after integration."
+             "The order by default is sorted by the space filling curve value attached to each cell.",
+             "mesh_order"_a = false)
+        .def("get_normalized_bucket_counts", &FastGA::GaussianAccumulatorS2Beta::GetNormalizedBucketCounts,
+             "Get the normalized bucket counts in the histogram."
+             "The order by default is sorted by the space filling curve value attached to each cell.",
+             "mesh_order"_a = false)
+        .def("get_normalized_bucket_counts_by_vertex",
+             &FastGA::GaussianAccumulatorS2Beta::GetNormalizedBucketCountsByVertex,
+             "Average the normalized buckets counts (triangles) into the *vertices* of the mesh."
+             "The order by default is sorted by the space filling curve value attached to each cell.",
+             "mesh_order"_a = false)
+        .def("get_average_normals_by_vertex",
+             &FastGA::GaussianAccumulatorS2Beta::GetAverageNormalsByVertex,
+             "Average the normalized buckets counts (triangles) into the *vertices* of the mesh."
+             "The order by default is sorted by the space filling curve value attached to each cell.",
+             "mesh_order"_a = false)
+        .def("get_bucket_sfc_values", &FastGA::GaussianAccumulatorS2Beta::GetBucketSFCValues,
+             "Get the space filling curve values of each bucket. Will be sorted low to high.")
+        .def("clear_count", &FastGA::GaussianAccumulatorS2Beta::ClearCount,
+             "Clears all the histogram counts for each cell. Useful to call after peak detection to 'reset' the mesh.")
+        .def("copy_ico_mesh", &FastGA::GaussianAccumulatorS2Beta::CopyIcoMesh, "Creates a copy of the ico mesh.",
+             "mesh_order"_a = false)
+        .def("integrate", &FastGA::GaussianAccumulatorS2Beta::Integrate, "normals"_a, "num_nbr"_a = FASTGA_TRI_NBRS,
+             "Will intergrate the normals into the S2 Historgram")
+        .def("__repr__", [](const FastGA::GaussianAccumulatorS2Beta& a) {
+            return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
+        });
+
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else

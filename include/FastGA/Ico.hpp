@@ -154,9 +154,9 @@ inline std::unordered_map<size_t, std::unordered_set<size_t>> ComputeAdjacencySe
 
 inline MatX6I ComputeAdjacencyMatrix(const MatX3I& triangles, const MatX3d& vertices)
 {
-    size_t max_limit = std::numeric_limits<size_t>::max();
+    size_t max_limit_ = std::numeric_limits<size_t>::max();
     std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset = ComputeAdjacencySet(triangles);
-    MatX6I adjacency_matrix(vertices.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
+    MatX6I adjacency_matrix(vertices.size(), {max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_});
 
     for (size_t p_idx = 0; p_idx < vertices.size(); p_idx++)
     {
@@ -269,9 +269,9 @@ inline const IcoMesh RefineIcosahedron(const int level = 1)
 inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
 {
     // auto before = std::chrono::high_resolution_clock::now();
-    size_t max_limit = std::numeric_limits<size_t>::max();
+    size_t max_limit_ = std::numeric_limits<size_t>::max();
 
-    std::vector<size_t> halfedges(triangles.size() * 3, max_limit);
+    std::vector<size_t> halfedges(triangles.size() * 3, max_limit_);
     MatX2I halfedges_pi(triangles.size() * 3);
     std::unordered_map<size_t, size_t> vertex_indices_to_half_edge_index;
     vertex_indices_to_half_edge_index.reserve(triangles.size() * 3);
@@ -310,7 +310,7 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
         size_t& that_he_index = halfedges[this_he_index];
         std::array<size_t, 2>& this_he = halfedges_pi[this_he_index];
         size_t that_he_mapped = CantorMapping(this_he[1], this_he[0]);
-        if (that_he_index == max_limit &&
+        if (that_he_index == max_limit_ &&
             vertex_indices_to_half_edge_index.find(that_he_mapped) !=
                 vertex_indices_to_half_edge_index.end())
         {
@@ -326,10 +326,10 @@ inline std::vector<size_t> ExtractHalfEdges(const MatX3I& triangles)
 
 inline MatX12I ComputeTriangleNeighbors(const MatX3I& triangles, const MatX3d& triangle_normals, const size_t max_idx)
 {
-    size_t max_limit = std::numeric_limits<size_t>::max();
+    size_t max_limit_ = std::numeric_limits<size_t>::max();
     // Must compute adjacency set again because triangle indices may been sorted by hilbert values
     std::unordered_map<size_t, std::unordered_set<size_t>> pi_to_triset = ComputeAdjacencySet(triangles);
-    MatX12I neighbors(triangles.size(), {max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit, max_limit});
+    MatX12I neighbors(triangles.size(), {max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_, max_limit_});
 
     for (size_t i = 0; i < triangles.size(); i++)
     {

@@ -59,6 +59,7 @@ def get_high_intensity_peaks(image, mask, num_peaks=np.inf):
 
 
 def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
+                               vertices=None,
                                find_peaks_kwargs=dict(threshold_abs=25, min_distance=1,
                                                       exclude_border=False, indices=False),
                                cluster_kwargs=dict(t=0.10, criterion='distance'),
@@ -87,7 +88,7 @@ def find_peaks_from_ico_charts(ico_charts, normalized_bucket_counts_by_vertex,
     image = np.asarray(ico_charts.image)
     mask = np.asarray(ico_charts.mask)
     mask = np.ma.make_mask(mask, copy=False)
-    vertices_mesh = np.asarray(ico_charts.sphere_mesh.vertices)
+    vertices_mesh = np.asarray(ico_charts.sphere_mesh.vertices) if vertices is None else np.asarray(vertices)
     # 2D Peak Detection
     peak_mask = peak_local_max(image, **find_peaks_kwargs)
     # Filter out invalid peaks, get associated normals

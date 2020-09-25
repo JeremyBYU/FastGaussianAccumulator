@@ -345,4 +345,246 @@ std::vector<size_t> GaussianAccumulatorS2::Integrate(const MatX3d& normals, cons
 template class FastGA::GaussianAccumulator<uint32_t>;
 template class FastGA::GaussianAccumulator<uint64_t>;
 
+///////////////////////
+///////////////////////
+// Start new S2Beta
+
+GaussianAccumulatorS2Beta::GaussianAccumulatorS2Beta(const int level) : mesh(), buckets(), num_buckets(0),  bucket_hv(), bucket_neighbors(), sort_idx(), regression()
+{
+
+    // Create refined mesh of the icosahedron
+    mesh = FastGA::Ico::RefineIcosahedron(level);
+    // Create the angle buckets which are no greater than phi
+    buckets.reserve(mesh.triangle_normals.size());
+    for (size_t i = 0; i < mesh.triangle_normals.size(); i++)
+    {
+        buckets.push_back({mesh.triangle_normals[i], mesh.triangle_normals[i], 0, 0});
+
+    }
+    num_buckets = buckets.size();
+
+    // assign values
+    for (size_t i = 0; i < buckets.size(); i++)
+    {
+        auto& normal = buckets[i].normal;
+        buckets[i].hilbert_value = NanoS2ID::S2CellId(normal);
+    }
+    // Sort buckets and triangles by their unique index (hilbert curve value)
+    sort_idx = Helper::sort_permutation(buckets, [](BucketS2 const& a, BucketS2 const& b) { return a.hilbert_value < b.hilbert_value; });
+    Helper::ApplyPermutationInPlace(buckets, sort_idx);
+    Helper::ApplyPermutationInPlace(mesh.triangle_normals, sort_idx);
+    Helper::ApplyPermutationInPlace(mesh.triangles, sort_idx);
+
+    bucket_hv = this->GetBucketSFCValues();
+    bucket_neighbors = Ico::ComputeTriangleNeighbors(mesh.triangles, mesh.triangle_normals, num_buckets);
+    // Just a sequence of integers
+    std::vector<size_t> seq(bucket_hv.size());
+    std::for_each(seq.begin(), seq.end(), [i = 0](size_t& x) mutable { x = i++; });
+    Helper::LinearRegression(bucket_hv, seq, regression);
+    // std::cout << "Negative Error:" << regression.neg_error << "; Positive Error: " << regression.pos_error << "; Subtract: " << regression.subtract_index << "; Power of 2: " << regression.power_of_2 <<  std::endl;
+}
+
+
+inline size_t LocalSearchS2(size_t lower_idx, size_t upper_idx, const std::array<double, 3>& normal,
+                          std::vector<BucketS2>& buckets, MatX12I& bucket_neighbors, const int& num_nbr)
+{
+
+    auto lower_dist = Helper::SquaredDistance(normal, buckets[lower_idx].normal);
+    auto upper_dist = Helper::SquaredDistance(normal, buckets[upper_idx].normal);
+    // Best idx chosen
+    auto centered_tri_idx = upper_dist > lower_dist ? lower_idx : upper_idx;
+    auto best_bucket_dist = upper_dist > lower_dist ? lower_dist : upper_dist;
+
+    auto best_bucket_idx = centered_tri_idx;
+    for (int nbr_counter = 0; nbr_counter < num_nbr; nbr_counter++)
+    {
+        auto& bucket_nbr_idx = bucket_neighbors[centered_tri_idx][nbr_counter];
+        if (bucket_nbr_idx == max_limit)
+            break;
+        auto dist = Helper::SquaredDistance(normal, buckets[bucket_nbr_idx].normal);
+        if (dist < best_bucket_dist)
+        {
+            best_bucket_dist = dist;
+            best_bucket_idx = bucket_nbr_idx;
+        }
+    }
+    return best_bucket_idx;
+}
+
+
+void GaussianAccumulatorS2Beta::AverageBucketNormals()
+{
+        // assign values
+    for (size_t i = 0; i < buckets.size(); ++i)
+    {
+        auto& bucket = buckets[i];
+        double scale = 1.0 / (1.0 + static_cast<double>(bucket.count));
+        Helper::ScaleItemInPlace<double>(bucket.average_normal, scale);
+        Helper::normalize3(&bucket.average_normal[0]);
+    }
+}
+
+std::vector<size_t> GaussianAccumulatorS2Beta::Integrate(const MatX3d& normals, const int num_nbr)
+{
+    size_t num_normals = normals.size();
+    std::vector<size_t> bucket_indexes(num_normals);
+    std::vector<uint64_t> hilbert_values(num_normals);
+
+    int size = static_cast<int>(bucket_hv.size());
+    for (size_t i = 0; i < num_normals; i++)
+    {
+        auto& normal = normals[i];
+        hilbert_values[i] = NanoS2ID::S2CellId(normal);
+    }
+
+    auto start_index_int = 0;
+    auto end_index_int = 0;
+    // Integrate the normal into the bucket
+    for (size_t i = 0; i < normals.size(); i++)
+    {
+        auto& normal = normals[i];
+        auto& hv = hilbert_values[i];
+        // Reduce search bounds by linearly interpolating where the bucket should be given a hilbert value
+        CalculateSearchBounds<uint64_t>(hv, start_index_int, end_index_int, size, regression);
+        // this is a faster lower_bound
+        auto upper_idx_int = FBS::binary_search_branchless(&bucket_hv[start_index_int], regression.power_of_2, hv) + start_index_int;
+        auto lower_idx_int = upper_idx_int - 1;
+        lower_idx_int = lower_idx_int < 0 ? 0 : lower_idx_int;
+        upper_idx_int = upper_idx_int > size ? size - 1 : upper_idx_int;
+
+        auto best_bucket_idx = LocalSearchS2(lower_idx_int, upper_idx_int, normal, buckets, bucket_neighbors, num_nbr);
+
+        buckets[best_bucket_idx].count += 1;
+        bucket_indexes[i] = best_bucket_idx;
+        Helper::InPlaceAdd<double, 3>(normal, buckets[best_bucket_idx].average_normal);
+    }
+    AverageBucketNormals();
+    return bucket_indexes;
+}
+
+
+std::vector<uint64_t> GaussianAccumulatorS2Beta::GetBucketSFCValues()
+{
+    std::vector<uint64_t> bucket_indices;
+    bucket_indices.reserve(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_indices),
+                   [](const BucketS2& bucket) -> uint64_t { return bucket.hilbert_value; });
+    return bucket_indices;
+}
+
+
+MatX3d GaussianAccumulatorS2Beta::GetBucketNormals(const bool mesh_order)
+{
+    MatX3d bucket_normals;
+    bucket_normals.reserve(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_normals),
+                   [](const BucketS2& bucket) -> std::array<double, 3> { return bucket.normal; });
+
+    if (!mesh_order)
+        return bucket_normals;
+    
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_bucket_normals = Helper::ApplyPermutation(bucket_normals, reversed_sort_idx);
+    return new_bucket_normals;
+}
+
+MatX3d GaussianAccumulatorS2Beta::GetBucketAverageNormals(const bool mesh_order)
+{
+    MatX3d bucket_normals;
+    bucket_normals.reserve(buckets.size());
+    std::transform(buckets.begin(), buckets.end(), std::back_inserter(bucket_normals),
+                   [](const BucketS2& bucket) -> std::array<double, 3> { return bucket.average_normal; });
+
+    if (!mesh_order)
+        return bucket_normals;
+    
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_bucket_normals = Helper::ApplyPermutation(bucket_normals, reversed_sort_idx);
+    return new_bucket_normals;
+}
+
+std::vector<int> GaussianAccumulatorS2Beta::GetBucketCounts(const bool mesh_order)
+{
+    std::vector<int> bucket_counts(buckets.size());
+    // std::cout << "Max Count: " << max_count << std::endl;
+    for (size_t i = 0; i < buckets.size(); i++)
+    {
+        bucket_counts[i] = buckets[i].count;
+    }
+
+    if (!mesh_order)
+        return bucket_counts;
+
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_normalized_counts = Helper::ApplyPermutation(bucket_counts, reversed_sort_idx);
+    return new_normalized_counts;
+}
+
+std::vector<double> GaussianAccumulatorS2Beta::GetNormalizedBucketCounts(const bool mesh_order)
+{
+    std::vector<double> normalized_counts(buckets.size());
+    auto max_elem = std::max_element(buckets.begin(), buckets.end(), [](const BucketS2& lhs, const BucketS2& rhs) { return lhs.count < rhs.count; });
+    auto max_count = max_elem->count;
+    // std::cout << "Max Count: " << max_count << std::endl;
+    for (size_t i = 0; i < buckets.size(); i++)
+    {
+        normalized_counts[i] = static_cast<double>(buckets[i].count / static_cast<double>(max_count));
+    }
+
+    if (!mesh_order)
+        return normalized_counts;
+
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_normalized_counts = Helper::ApplyPermutation(normalized_counts, reversed_sort_idx);
+    return new_normalized_counts;
+}
+
+std::vector<double> GaussianAccumulatorS2Beta::GetNormalizedBucketCountsByVertex(const bool mesh_order)
+{
+    auto normalized_bucket_counts = GetNormalizedBucketCounts(mesh_order);
+    auto normalized_bucket_counts_by_vertex = Helper::Mean(mesh.adjacency_matrix, normalized_bucket_counts);
+    double max_elem = *std::max_element(normalized_bucket_counts_by_vertex.begin(), normalized_bucket_counts_by_vertex.end(), std::less<double>());
+    // std::cout << "Max Count: " << max_count << std::endl;
+    for (size_t i = 0; i < normalized_bucket_counts_by_vertex.size(); i++)
+    {
+        normalized_bucket_counts_by_vertex[i] = normalized_bucket_counts_by_vertex[i] / max_elem;
+    }
+    return normalized_bucket_counts_by_vertex;
+}
+
+MatX3d GaussianAccumulatorS2Beta::GetAverageNormalsByVertex(const bool mesh_order)
+{
+    // bucket == triangle
+    // auto normalized_bucket_counts = GetBucketCounts(mesh_order); // 0-1 in normalized value for this bucket
+    auto normalized_bucket_counts = GetNormalizedBucketCounts(mesh_order); // 0-1 in normalized value for this bucket
+    auto bucket_average_normals = GetBucketAverageNormals(mesh_order);  // the average normal in this bucket
+    auto vertex_average_normals = Helper::MeanAverageNormals(mesh.adjacency_matrix, bucket_average_normals, normalized_bucket_counts);
+    return vertex_average_normals;
+}
+
+void GaussianAccumulatorS2Beta::ClearCount()
+{
+    for (BucketS2& bucket : buckets)
+    {
+        bucket.count = 0;
+        bucket.average_normal = bucket.normal;
+    }
+}
+
+Ico::IcoMesh GaussianAccumulatorS2Beta::CopyIcoMesh(const bool mesh_order)
+{
+    if (!mesh_order)
+        return mesh;
+    auto reversed_sort_idx  = Helper::sort_permutation(sort_idx, std::less<size_t>());
+    auto new_triangle_normals = Helper::ApplyPermutation(mesh.triangle_normals, reversed_sort_idx);
+    auto new_triangles = Helper::ApplyPermutation(mesh.triangles, reversed_sort_idx);
+    Ico::IcoMesh new_mesh;
+    new_mesh.triangle_normals = new_triangle_normals;
+    new_mesh.triangles = new_triangles;
+    new_mesh.vertices = mesh.vertices;
+
+    return new_mesh;
+}
+
+
 } // namespace FastGA

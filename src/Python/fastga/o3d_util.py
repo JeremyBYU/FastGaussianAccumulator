@@ -250,7 +250,7 @@ def get_arrow(origin=[0,0,0],end=None,vec=None):
             rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
     # mesh.transform(T)
     if rotation_3x3 is not None:
-        mesh = mesh.rotate(rotation_3x3, center=False)
+        mesh = mesh.rotate(rotation_3x3, center=[0,0,0])
     mesh.translate(origin)
     return(mesh)
 

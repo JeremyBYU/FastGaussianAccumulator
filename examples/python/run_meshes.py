@@ -123,7 +123,7 @@ def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geomet
 
     class_name_str = type(ga).__name__
     # integrate normals
-    if class_name_str in ['GaussianAccumulatorKD', 'GaussianAccumulatorOpt', 'GaussianAccumulatorS2']:
+    if class_name_str in ['GaussianAccumulatorKD', 'GaussianAccumulatorOpt', 'GaussianAccumulatorS2', 'GaussianAccumulatorS2Beta']:
         to_integrate_normals = MatX3d(to_integrate_normals)
 
     t0 = time.perf_counter()

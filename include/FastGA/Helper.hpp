@@ -134,6 +134,23 @@ struct Bucket
     }
 };
 
+struct BucketS2
+{
+    /** @brief The surface **unit** normal of the triangle cell   */
+    std::array<double, 3> normal;
+    /** @brief The average **unit** normal after integration   */
+    std::array<double, 3> average_normal;
+    /** @brief Count variable for histogram   */
+    uint32_t count;
+    /** @brief Space Filling Curve value, may be Int32 or Uint64  */
+    uint64_t hilbert_value;
+    // Bucket(const std::array<double, 3> normal_, uint32_t count_, T hilbert_value_, const std::array<double, 2> projection_): normal(normal_), count(count_), hilbert_value(hilbert_value_), projection(projection_) {}
+    bool operator<(const BucketS2& other) const
+    {
+        return hilbert_value < other.hilbert_value;
+    }
+};
+
 namespace Helper {
 
 const static uint32_t HILBERT_MAX_32 = std::numeric_limits<uint16_t>::max();
@@ -361,6 +378,15 @@ void InPlaceAdd(const std::array<T, dim>& a, std::array<T, dim>& b)
 }
 
 template <class T, int dim>
+void InPlaceAddScale(const std::array<T, dim>& a, std::array<T, dim>& b, T scale)
+{
+    for (size_t i = 0; i < dim; i++)
+    {
+        b[i] = (a[i] * scale + b[i]);
+    }
+}
+
+template <class T, int dim>
 void InPlaceDivide(const std::array<T, dim>& a, double value)
 {
     for (size_t i = 0; i < dim; i++)
@@ -391,6 +417,37 @@ std::vector<double> Mean(std::vector<std::array<size_t, dim_indexes>>& indexes, 
     }
     
     return mean_values;
+}
+
+template <size_t dim_indexes>
+FastGA::MatX3d MeanAverageNormals(std::vector<std::array<size_t, dim_indexes>>& indexes, FastGA::MatX3d normals, std::vector<double> &scales)
+{
+    size_t num_values = indexes.size();
+    FastGA::MatX3d mean_vertices(num_values);
+    for (size_t i = 0; i < indexes.size(); i++)
+    {
+        std::array<double, 3> total_mean{{0.0,0.0,0.0}};
+        double total_scale = 0.0;
+        size_t idx_i = 0;
+        for (idx_i = 0; idx_i < dim_indexes; ++idx_i)
+        {
+            auto &value_idx = indexes[i][idx_i]; 
+            if (value_idx == max_limit)
+                break;
+            auto &triangle_normal = normals[value_idx];
+            auto scale = scales[value_idx];
+
+            InPlaceAddScale(triangle_normal, total_mean, scale);
+            total_scale += scale;
+        }
+        double invert_total_scale = 1.0 / total_scale;
+        ScaleItemInPlace(total_mean, invert_total_scale);
+        normalize3(&total_mean[0]);
+        mean_vertices[i] = total_mean;
+        
+    }
+    
+    return mean_vertices;
 }
 
 template <class T, size_t dim_indexes, size_t dim_values>
