@@ -135,6 +135,26 @@ BENCHMARK_DEFINE_F(Mesh, BM_FastGAS2)
     }
 }
 
+BENCHMARK_DEFINE_F(RandomSample, BM_FastGAS2Beta)
+(benchmark::State& st)
+{
+    auto GA = FastGA::GaussianAccumulatorS2Beta(4);
+    for (auto _ : st)
+    {
+        auto test = GA.Integrate(normals, st.range(0));
+    }
+}
+
+BENCHMARK_DEFINE_F(Mesh, BM_FastGAS2Beta)
+(benchmark::State& st)
+{
+    auto GA = FastGA::GaussianAccumulatorS2(4);
+    for (auto _ : st)
+    {
+        auto test = GA.Integrate(normals, st.range(0));
+    }
+}
+
 // BENCHMARK_DEFINE_F(Normals, BM_FastGAS2_Unrolled)
 // (benchmark::State& st)
 // {
@@ -148,10 +168,12 @@ BENCHMARK_DEFINE_F(Mesh, BM_FastGAS2)
 BENCHMARK_REGISTER_F(RandomSample, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(RandomSample, BM_FastGAOpt)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(RandomSample, BM_FastGAS2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK_REGISTER_F(RandomSample, BM_FastGAS2Beta)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 
 BENCHMARK_REGISTER_F(Mesh, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{1, 32}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Mesh, BM_FastGAOpt)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK_REGISTER_F(Mesh, BM_FastGAS2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK_REGISTER_F(Mesh, BM_FastGAS2Beta)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAKD)->RangeMultiplier(2)->Ranges({{8, 8}, {2, 20}})->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAS2_Unrolled)->UseRealTime()->Unit(benchmark::kMillisecond);
 // BENCHMARK_REGISTER_F(Normals, BM_FastGAOpt2)->RangeMultiplier(2)->Ranges({{1, 12}})->UseRealTime()->Unit(benchmark::kMillisecond);

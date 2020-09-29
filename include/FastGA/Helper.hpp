@@ -437,7 +437,7 @@ FastGA::MatX3d MeanAverageNormals(std::vector<std::array<size_t, dim_indexes>>& 
             auto &triangle_normal = normals[value_idx];
             auto scale = scales[value_idx];
 
-            InPlaceAddScale(triangle_normal, total_mean, scale);
+            InPlaceAddScale<double, 3>(triangle_normal, total_mean, scale);
             total_scale += scale;
         }
         double invert_total_scale = 1.0 / total_scale;
