@@ -16,7 +16,7 @@ from examples.python.util.mesh_util import ALL_MESHES, ALL_MESHES_ROTATIONS
 
 def main():
     EXAMPLE_INDEX = 1
-    kwargs_base = dict(level=2)
+    kwargs_base = dict(level=4)
     kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
     query_max_phi = 175
@@ -65,7 +65,9 @@ def main():
 
 
     arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
-    o3d.visualization.draw_geometries([colored_icosahedron_s2, *arrow_avg_peaks, pcd])
+    wireframe = o3d.geometry.LineSet.create_from_triangle_mesh(colored_icosahedron_s2)
+    o3d.visualization.draw_geometries([colored_icosahedron_s2, *arrow_avg_peaks, wireframe])
+    # o3d.visualization.draw_geometries([colored_icosahedron_s2, *arrow_avg_peaks, pcd])
 
     full_image = np.asarray(ico_chart_.image)
 
@@ -79,3 +81,54 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+"""Mesh
+{
+	"class_name" : "ViewTrajectory",
+	"interval" : 29,
+	"is_loop" : false,
+	"trajectory" : 
+	[
+		{
+			"boundingbox_max" : [ 1.8764505760969685, 3.0280973667097442, 3.045776668203259 ],
+			"boundingbox_min" : [ -2.2365574934452548, -3.6804227036671078, 0.51828136237409295 ],
+			"field_of_view" : 60.0,
+			"front" : [ -0.43966986583569911, 0.57136927624194478, 0.69298453030552898 ],
+			"lookat" : [ 0.30001921841467899, -0.99779994278506134, 1.5071575255263165 ],
+			"up" : [ 0.44135525764305411, -0.53453483690843095, 0.72074825333268089 ],
+			"zoom" : 0.31999999999999978
+		}
+	],
+	"version_major" : 1,
+	"version_minor" : 0
+}
+"""
+
+
+"""
+{
+	"class_name" : "ViewTrajectory",
+	"interval" : 29,
+	"is_loop" : false,
+	"trajectory" : 
+	[
+		{
+			"boundingbox_max" : [ 1.1339119391275889, 1.1343327326857235, 1.1998729449684717 ],
+			"boundingbox_min" : [ -1.1353148374296551, -1.0, -1.1999606130137823 ],
+			"field_of_view" : 60.0,
+			"front" : [ -0.59564118276660283, 0.48513744010499366, 0.6401978175538996 ],
+			"lookat" : 
+			[
+				-0.00070144915103309557,
+				0.067166366342861772,
+				-4.3834022655286908e-05
+			],
+			"up" : [ 0.47207151576167344, -0.43341779039025202, 0.76765715197587236 ],
+			"zoom" : 0.69999999999999996
+		}
+	],
+	"version_major" : 1,
+	"version_minor" : 0
+}
+"""

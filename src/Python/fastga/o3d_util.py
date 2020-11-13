@@ -4,6 +4,9 @@ import open3d as o3d
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from scipy.spatial.transform import Rotation as R
+from open3d import __version__ as o3d_version
+
+o3d_major_version = int(o3d_version.split('.')[1])
 
 COLOR_PALETTE = list(map(colors.to_rgb, plt.rcParams['axes.prop_cycle'].by_key()['color']))
 
@@ -250,7 +253,8 @@ def get_arrow(origin=[0,0,0],end=None,vec=None):
             rotation_3x3 = mesh.get_rotation_matrix_from_axis_angle(axis_a)
     # mesh.transform(T)
     if rotation_3x3 is not None:
-        mesh = mesh.rotate(rotation_3x3, center=[0,0,0])
+        center = [0,0,0] if o3d_major_version > 9 else False
+        mesh = mesh.rotate(rotation_3x3, center=center)
     mesh.translate(origin)
     return(mesh)
 
