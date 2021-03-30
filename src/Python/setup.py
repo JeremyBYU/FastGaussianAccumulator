@@ -42,7 +42,7 @@ setup(
     # Name of the package on PyPI
     name="@PYPI_PACKAGE_NAME@",
     packages=[
-        'fastga',
+        'fastga', 'fastga.scikit_image'
     ],
     project_urls={
         'Documentation': '@PROJECT_DOCS@',
