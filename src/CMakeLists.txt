@@ -9,6 +9,12 @@ else()
     message("-- Configuring release build")
 endif()
 
+message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+if(CMAKE_CXX_FLAGS)
+    set(OPTIMIZATION_FLAGS "")
+    message(STATUS "-- Overwriting CXX Flags because passed by user!")
+endif()
+
 # Enable warnings, will set to compile with src/CMakeLists.txt
 set(DESIRED_WARNINGS "-Wall -Wextra -Wconversion -Wunreachable-code -Wuninitialized -pedantic-errors -Wold-style-cast -Wno-error=unused-variable -Wshadow -Wfloat-equal -Weffc++")
 set(MINIMAL_DESIRED_WARNINGS "-Wall -Wextra -pedantic-errors")
