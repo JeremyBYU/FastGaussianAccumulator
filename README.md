@@ -43,7 +43,7 @@ Installation is entirely through CMake now. You must have CMake 3.14 or higher i
 
 1. `mkdir cmake-build && cd cmake-build`. - create build folder directory 
 2. `cmake ../ -DCMAKE_BUILD_TYPE=Release` . For windows also add `-DCMAKE_GENERATOR_PLATFORM=x64` 
-3. `cmake --build . -j$(nproc)`  - Build FastGA
+3. `cmake --build . -j$(nproc) --config Release`  - Build FastGA
 
 ### Build and Install Python Extension
 
@@ -53,7 +53,7 @@ Installation is entirely through CMake now. You must have CMake 3.14 or higher i
 
 If you want to run the examples then you need to install the following (from main directory):
 
-1. `pip install -r requirements-dev.txt` 
+1. `pip install -r dev-requirements.txt` 
 
 <!-- ###  Build with S2Geometry
 

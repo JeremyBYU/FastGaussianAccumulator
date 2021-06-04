@@ -28,7 +28,7 @@ def get_image_peaks(ga_cpp_s2, level=2, **kwargs):
     average_filter = dict(min_total_weight=0.05)
 
     peaks, clusters, avg_peaks, avg_weights = find_peaks_from_ico_charts(ico_chart, np.asarray(
-        normalized_bucket_counts_by_vertex), find_peaks_kwargs, cluster_kwargs, average_filter)
+        normalized_bucket_counts_by_vertex), find_peaks_kwargs=find_peaks_kwargs, cluster_kwargs=cluster_kwargs, average_filter=average_filter)
     gaussian_normals_sorted = np.asarray(ico_chart.sphere_mesh.vertices)
     pcd_all_peaks = get_pc_all_peaks(peaks, clusters, gaussian_normals_sorted)
     arrow_avg_peaks = get_arrow_normals(avg_peaks, avg_weights)
