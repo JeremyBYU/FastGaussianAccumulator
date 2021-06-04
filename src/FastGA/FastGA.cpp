@@ -2,6 +2,8 @@
 // #include "FastGAS.hpp"
 #include <algorithm>
 
+#include "fastcluster.h"
+
 namespace FastGA {
 
 template <class T>
@@ -585,6 +587,58 @@ Ico::IcoMesh GaussianAccumulatorS2Beta::CopyIcoMesh(const bool mesh_order)
 
     return new_mesh;
 }
+
+std::vector<int> ClusterData(MatX3d &peaks, double t)
+{
+    auto npoints = peaks.size();
+    // computation of condensed distance matrix
+    std::vector<double> distmat;
+    // intermediate values
+    std::vector<int> merge(2 * (npoints -1));
+    std::vector<double> height(npoints-1);
+    // final clusters (output)
+    std::vector<int> labels(npoints);
+    // calculate distance matrix
+    for (int i=0; i<npoints; ++i) {
+        for (int j=i+1; j< npoints; j++) {
+            auto dist = std::sqrt(Helper::SquaredDistance(peaks[i], peaks[j]));
+            std::cout << "dist: " << dist << std::endl;
+            distmat.push_back(dist);
+        }
+    }
+    // clustering call
+    HClust::hclust_fast(npoints, distmat.data(), HClust::hclust_fast_methods::HCLUST_METHOD_SINGLE, merge.data(), height.data());
+    HClust::cutree_cdist(npoints, merge.data(), height.data(), t, labels.data());
+
+    return labels;
+}
+
+
+MatX3d GaussianAccumulatorS2Beta::FindPeaksFromIcoCharts(Ico::IcoCharts &ico, int threshold_abs, bool exclude_border)
+{
+    std::unordered_set<int> hash;
+    auto img_idx_peaks = ico.FindPeaks(threshold_abs, exclude_border);
+    auto average_vertex_normals = GetAverageNormalsByVertex(true);
+    MatX3d normal_peaks;
+    for (auto &idx_peak: img_idx_peaks)
+    {
+        auto vertex_idx = *ico.image_to_vertex_idx.PointerAt<int>(idx_peak[0], idx_peak[1]);
+        // std::cout<< vertex_idx << std::endl;
+        if (hash.find(vertex_idx) == hash.end()) {
+            hash.insert(vertex_idx);
+            auto val = average_vertex_normals[vertex_idx];
+            normal_peaks.push_back(val);
+        }
+    }
+
+    auto clusters = ClusterData(normal_peaks, 0.5);
+
+    return normal_peaks;
+
+}
+
+
+
 
 
 } // namespace FastGA

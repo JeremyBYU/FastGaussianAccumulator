@@ -6,7 +6,7 @@ import time
 import numpy as np
 import open3d as o3d
 
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
 from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
 from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, plot_meshes, get_colors, create_open_3d_mesh
 import matplotlib.pyplot as plt
@@ -27,12 +27,12 @@ def integrate_normals_and_visualize(to_integrate_normals, ga):
 
     
 def example_normals(normals:np.ndarray):
-    LEVEL = 2
-    kwargs_base = dict(level=LEVEL, max_phi=180)
+    LEVEL = 3
+    kwargs_base = dict(level=LEVEL)
     kwargs_s2 = dict(**kwargs_base)
 
     # Create Gaussian Accumulator
-    ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
+    ga_cpp_s2 = GaussianAccumulatorS2Beta(**kwargs_s2)
     # Integrate the normals and get open3d visualization
     colored_icosahedron  = integrate_normals_and_visualize(normals, ga_cpp_s2)
     o3d.visualization.draw_geometries([colored_icosahedron])
@@ -40,6 +40,10 @@ def example_normals(normals:np.ndarray):
     ico_chart_ = IcoCharts(LEVEL)
     normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
+    average_vertex_normals = np.asarray(ga_cpp_s2.get_average_normals_by_vertex(True))
+
+    res = np.array(ga_cpp_s2.find_peaks_from_ico_charts(ico_chart_))
+    print(res)
 
     triangles_vertex_14 = [2, 15, 7, 260, 267, 256]
 
@@ -47,7 +51,7 @@ def example_normals(normals:np.ndarray):
     find_peaks_kwargs = dict(threshold_abs=20, min_distance=1, exclude_border=False, indices=False)
     cluster_kwargs = dict(t=0.2, criterion='distance')
     average_filter = dict(min_total_weight=0.05)
-    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex), find_peaks_kwargs=find_peaks_kwargs, cluster_kwargs=cluster_kwargs)
+    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(normalized_bucket_counts_by_vertex), vertices=average_vertex_normals, find_peaks_kwargs=find_peaks_kwargs, cluster_kwargs=cluster_kwargs)
     print("Detected Peaks: {}".format(avg_peaks))
 
     full_image = np.asarray(ico_chart_.image)

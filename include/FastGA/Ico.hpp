@@ -452,8 +452,8 @@ class Image
      * @brief Access the data of the image
      * 
      * @tparam T                Data type
-     * @param u                 Index of first dimension, row
-     * @param v                 Index of second dimension, column
+     * @param u                 Index of first dimension, column
+     * @param v                 Index of second dimension, row
      * @return T*               Pointer to data
      */
     template <typename T>
@@ -499,7 +499,7 @@ class IcoCharts
     Image image;
     /** @brief each pixel on the image is directly mapped to a vertex idx on the refined icosahedron */
     Image image_to_vertex_idx; // 
-    /** @brief mask of image which indcates which cells are valid, useful to know what pixels are ghost cells */
+    /** @brief mask of image which indcates which cells are valid (255), useful to know what pixels are ghost cells */
     Image mask;    
     /** @brief Full Refined Icosahedron Mesh on S2 */      
     IcoMesh sphere_mesh;
@@ -542,6 +542,211 @@ class IcoCharts
                 *img_pointer = static_cast<uint8_t>(255.0 * normalized_vertex_count[ico_vertex_index]);
             }
         }
+    }
+
+    template<int STENCIL = 0>
+    inline bool IsLocalMax(int row, int col, uint8_t threshold_abs, Image &image, Image &mask)
+    {
+        auto val = *image.PointerAt<uint8_t>(col, row);
+        // Inside
+        if (STENCIL == 0) 
+        {
+            return  (val >= threshold_abs &&
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row-1)&&
+                    val >= *image.PointerAt<uint8_t>(col+1, row+1)&&
+                    val >= *image.PointerAt<uint8_t>(col+1, row-1)&&
+                    val > *image.PointerAt<uint8_t>(col-1, row+1) &&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+        // Top Left
+        if (STENCIL == 1) 
+        {
+            return  (val >= threshold_abs && 
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row+1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+        // Bottom Left
+        if (STENCIL == 2) 
+        {
+            return  (val >= threshold_abs && 
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row-1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+        // Top Right
+        if (STENCIL == 3) 
+        {
+            return  (val >= threshold_abs && 
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row+1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+
+        // Bottom Right
+        if (STENCIL == 4) 
+        {
+            return  (val >= threshold_abs && 
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row-1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+
+        // Inside Top
+        if (STENCIL == 5) 
+        {
+            return  (val >= threshold_abs &&
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row+1)&&
+                    val >= *image.PointerAt<uint8_t>(col-1, row+1) &&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+        // Inside Bottom
+        if (STENCIL == 6) 
+        {
+            return  (val >= threshold_abs &&
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row-1)&&
+                    val >= *image.PointerAt<uint8_t>(col+1, row-1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+
+        // Inside Right
+        if (STENCIL == 7) 
+        {
+            return  (val >= threshold_abs &&
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col-1, row-1)&&
+                    val >= *image.PointerAt<uint8_t>(col-1, row+1) &&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+
+        // Inside Left
+        if (STENCIL == 8) 
+        {
+            return  (val >= threshold_abs &&
+                    val >= *image.PointerAt<uint8_t>(col, row-1)  &&
+                    val >= *image.PointerAt<uint8_t>(col, row+1)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row)  &&
+                    val >= *image.PointerAt<uint8_t>(col+1, row+1)&&
+                    val >= *image.PointerAt<uint8_t>(col+1, row-1)&&
+                    *mask.PointerAt<uint8_t>(col, row) == 255);
+        }
+        
+    }
+
+    /**
+     * @brief Will find all peaks within the gaussian accumulator 
+     * 
+     * @param threshold_abs  The aboslute threshold for detecting peaks in the image
+     */
+    MatX2i FindPeaks(int threshold_abs=25, bool exclude_border=false)
+    {
+        //TODO change to uint8_t for threshold_abs
+        MatX2i peaks;
+
+        for (int r = 1; r+1 < image.rows_; ++r)
+        {
+            for (int c = 1; c+1 < image.cols_; ++c)
+            {
+                if(IsLocalMax<0>(r, c, threshold_abs, image, mask))
+                {
+                    peaks.push_back({c ,r});
+                }
+            }
+        }
+
+        if (!exclude_border)
+        {
+            int r = 0;
+            int c = 0;
+            if(IsLocalMax<1>(r, c, threshold_abs, image, mask))
+            {
+                peaks.push_back({c ,r});
+            }
+            r = image.rows_-1;
+            c = 0;
+            if(IsLocalMax<2>(r, c, threshold_abs, image, mask))
+            {
+                peaks.push_back({c ,r});
+            }
+
+            r = 0;
+            c = image.cols_-1;
+            if(IsLocalMax<3>(r, c, threshold_abs, image, mask))
+            {
+                peaks.push_back({c ,r});
+            }
+
+            r = image.rows_-1;
+            c = image.cols_-1;
+            if(IsLocalMax<4>(r, c, threshold_abs, image, mask))
+            {
+                peaks.push_back({c ,r});
+            }
+            // Inside Top
+            r = 0;
+            for (c = 1; c+1 < image.cols_; ++c)
+            {
+                if(IsLocalMax<5>(r, c, threshold_abs, image, mask))
+                {
+                    peaks.push_back({c ,r});
+                }
+            }
+
+            // Inside Botom
+            r = image.rows_ -1;
+            for (c = 1; c+1 < image.cols_; ++c)
+            {
+                if(IsLocalMax<6>(r, c, threshold_abs, image, mask))
+                {
+                    peaks.push_back({c ,r});
+                }
+            }
+
+            // Inside Right
+            c = image.cols_ -1;
+            for (r = 1; r+1 < image.rows_; ++r)
+            {
+                if(IsLocalMax<7>(r, c, threshold_abs, image, mask))
+                {
+                    peaks.push_back({c ,r});
+                }
+            }
+
+            // Inside Left
+            c = 0;
+            for (r = 1; r+1 < image.rows_; ++r)
+            {
+                // std::cout << "(" << c << ", " << r << ");";
+                if(IsLocalMax<8>(r, c, threshold_abs, image, mask))
+                {
+                    // std::cout << "passed; mask =" << *mask.PointerAt<uint8_t>(c, r);
+                    peaks.push_back({c ,r});
+                }
+                // std::cout << std::endl;
+            }
+
+
+            
+        }
+
+        return peaks;
+
     }
 
   private:
@@ -686,6 +891,58 @@ class IcoCharts
         }
     }
 };
+
+
+// namespace PeakDetector
+// {
+
+//     MatX2i find_peaks (
+//         Image &img,
+//         Image &mask,
+//         const int thresh
+//     )
+//     {
+
+
+//         MatX2i peaks;
+
+//         for (int r = 1; r+1 < img.rows_; ++r)
+//         {
+//             for (int c = 1; c+1 < img.cols_; ++c)
+//             {
+//                 auto img_pointer = img.PointerAt<uint8_t>(c, r);
+//                 auto val = *img.PointerAt<uint8_t>(c, r);
+//                 // Must pass threshold
+//                 if (val < thresh)
+//                     continue;
+
+//                 // Must be a local max
+//                 if (
+//                     val <= *img.PointerAt<uint8_t>(c, r-1) ||
+//                     val <= *img.PointerAt<uint8_t>(c, r+1) ||
+//                     val <= *img.PointerAt<uint8_t>(c+1, r) ||
+//                     val <= *img.PointerAt<uint8_t>(c-1, r) ||
+//                     val <= *img.PointerAt<uint8_t>(c-1, r-1)||
+//                     val <= *img.PointerAt<uint8_t>(c+1, r+1)||
+//                     val <= *img.PointerAt<uint8_t>(c+1, r-1)||
+//                     val <= *img.PointerAt<uint8_t>(c-1, r+1)
+//                 )
+//                 {
+//                     continue;
+//                 }
+//                 // Must be in the valid mask
+//                 if (*mask.PointerAt<uint8_t>(c, r) == 255)
+//                 {
+//                     peaks.push_back({c ,r});
+//                 }
+//             }
+//         }
+//         return peaks;
+//     }
+
+
+
+// }
 
 } // namespace Ico
 } // namespace FastGA

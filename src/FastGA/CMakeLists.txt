@@ -21,6 +21,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
 
+target_link_libraries(${PROJECT_NAME} PRIVATE hclust-cpp)
+
 # Set Compile Options for ONLY this target.
 target_compile_options(${PROJECT_NAME}  PRIVATE
     $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:

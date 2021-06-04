@@ -368,6 +368,8 @@ PYBIND11_MODULE(fastga, m)
                       "The full icosahedron the IcoChart is unwrapping")
         .def("fill_image", &FastGA::Ico::IcoCharts::FillImage, "normalized_vertex_count"_a,
              "Fills the the image using the normalized vertex counts")
+        .def("find_peaks", &FastGA::Ico::IcoCharts::FindPeaks, "threshold_abs"_a = 25, "exclude_border"_a = false,
+             "Finds all peaks inside the image")
         .def("__repr__",
              [](const FastGA::Ico::IcoCharts& a) { return "<IcoChart; Level: '" + std::to_string(a.level) + "'>"; });
 
@@ -456,6 +458,8 @@ PYBIND11_MODULE(fastga, m)
              "mesh_order"_a = false)
         .def("integrate", &FastGA::GaussianAccumulatorS2Beta::Integrate, "normals"_a, "num_nbr"_a = FASTGA_TRI_NBRS,
              "Will intergrate the normals into the S2 Historgram")
+        .def("find_peaks_from_ico_charts", &FastGA::GaussianAccumulatorS2Beta::FindPeaksFromIcoCharts, "ico"_a, "threshold_abs"_a = 25, "exclude_border"_a=false,
+             "Find the peaks on the Gaussian Accumulator")
         .def("__repr__", [](const FastGA::GaussianAccumulatorS2Beta& a) {
             return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";
         });

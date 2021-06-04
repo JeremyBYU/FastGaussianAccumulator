@@ -345,6 +345,7 @@ class GaussianAccumulatorS2Beta
      */
     void AverageBucketNormals();
 
+    MatX3d FindPeaksFromIcoCharts(Ico::IcoCharts &ico, int threshold_abs=25, bool exclude_border=false);
   protected:
     /**
      * @brief This member variable keeps track of any sorting that occurred on the mesh and buckets.
@@ -356,6 +357,7 @@ class GaussianAccumulatorS2Beta
     Regression regression;
 
     void SortBucketsByIndices();
+
 
 };
 

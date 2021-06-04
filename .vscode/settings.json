@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/jeremy/miniconda3/envs/ppb/bin/python",
+    "python.pythonPath": "C:\\Users\\Jerem\\miniconda3\\envs\\fastga\\python.exe",
     "files.associations": {
         "iterator": "cpp",
         "random": "cpp",
@@ -71,7 +71,8 @@
         "core": "cpp",
         "geometry": "cpp",
         "csignal": "cpp",
-        "*.in": "cpp"
+        "*.in": "cpp",
+        "cfenv": "cpp"
     },
     "restructuredtext.confPath": "${workspaceFolder}/src_docs"
 }

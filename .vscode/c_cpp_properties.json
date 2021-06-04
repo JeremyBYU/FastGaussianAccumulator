@@ -11,6 +11,7 @@
                 "${workspaceFolder}/thirdparty/Catch2/single_include/",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/thirdparty",
+                "${workspaceFolder}/thirdparty/hclust-cpp/**",
                 "${workspaceFolder}/thirdparty/pybind11/include/**",
                 "/home/jeremy/miniconda3/envs/polylidar/include/python3.6m/**"
             ],

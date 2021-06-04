@@ -1,3 +1,5 @@
+add_subdirectory(hclust-cpp)
+
 include(FetchContent)
 # Put any LIBRARY dependencies in here
 FetchContent_Declare(
