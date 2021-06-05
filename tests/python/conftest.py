@@ -16,6 +16,11 @@ def small_normals():
     return normals
 
 @pytest.fixture
+def ico_kwargs():
+    ico_kwargs = dict(level=4)
+    return ico_kwargs
+
+@pytest.fixture
 def find_peaks_kwargs():
     find_peaks_kwargs = dict(threshold_abs=20, min_distance=1, exclude_border=False, indices=False)
     return find_peaks_kwargs

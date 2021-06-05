@@ -123,7 +123,7 @@ def get_point_clusters(points, point_weights, clusters):
     return point_clusters
 
 
-def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_total_weight=0.1)):
+def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_total_weight=0.15)):
     """Average any clusters together by weights, remove any that don't meet a minimum requirements"""
     cluster_points = get_point_clusters(peaks, peak_weights, clusters)
     clusters_averaged = []

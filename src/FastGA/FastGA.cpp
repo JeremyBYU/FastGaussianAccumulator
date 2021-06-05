@@ -351,7 +351,7 @@ template class FastGA::GaussianAccumulator<uint64_t>;
 ///////////////////////
 // Start new S2Beta
 
-GaussianAccumulatorS2Beta::GaussianAccumulatorS2Beta(const int level) : mesh(), buckets(), num_buckets(0),  bucket_hv(), bucket_neighbors(), sort_idx(), regression()
+GaussianAccumulatorS2Beta::GaussianAccumulatorS2Beta(const int level) : mesh(), buckets(), num_buckets(0),  bucket_hv(), bucket_neighbors(), ico_chart(level), sort_idx(), regression()
 {
 
     // Create refined mesh of the icosahedron
@@ -602,7 +602,6 @@ std::vector<int> ClusterData(MatX3d &peaks, double t)
     for (int i=0; i<npoints; ++i) {
         for (int j=i+1; j< npoints; j++) {
             auto dist = std::sqrt(Helper::SquaredDistance(peaks[i], peaks[j]));
-            std::cout << "dist: " << dist << std::endl;
             distmat.push_back(dist);
         }
     }
@@ -614,26 +613,88 @@ std::vector<int> ClusterData(MatX3d &peaks, double t)
 }
 
 
-MatX3d GaussianAccumulatorS2Beta::FindPeaksFromIcoCharts(Ico::IcoCharts &ico, int threshold_abs, bool exclude_border)
+// def average_clusters(peaks, peak_weights, clusters, average_filter=dict(min_total_weight=0.1)):
+//     """Average any clusters together by weights, remove any that don't meet a minimum requirements"""
+//     cluster_points = get_point_clusters(peaks, peak_weights, clusters)
+//     clusters_averaged = []
+//     clusters_total_weight = []
+//     for points, point_weights in cluster_points:
+//         total_weight = np.sum(point_weights)
+//         avg_point = np.average(points, axis=0, weights=point_weights)
+//         if total_weight < average_filter['min_total_weight']:
+//             continue
+//         clusters_averaged.append(avg_point)
+//         clusters_total_weight.append(total_weight)
+//     normals = np.array(clusters_averaged)
+//     weights = np.array(clusters_total_weight)
+//     normals, _ = normalized(normals)
+//     idx = np.argsort(weights)[::-1]
+//     normals = normals[idx]
+//     weights = weights[idx]
+
+//     return normals, weights
+
+MatX3d AverageClusters(MatX3d &peaks, std::vector<double> &peak_weights, std::vector<int> &clusters, double min_total_weight)
+{
+    auto total_peaks = *std::max_element(clusters.begin(),clusters.end()) + 1;
+    MatX3d average_peaks(total_peaks, {0.0, 0.0, 0.0});
+    std::vector<double> peak_total_weight(total_peaks, 0.0);
+
+    for (size_t i=0; i < peaks.size(); ++i)
+    {
+        auto &peak = peaks[i];
+        auto &weight = peak_weights[i];
+        auto &cluster = clusters[i];
+        auto &average_peak_cluster = average_peaks[cluster];
+        Helper::InPlaceAddScale<double, 3>(peak, average_peak_cluster, weight);
+        peak_total_weight[cluster] += weight;
+    }
+    for (size_t i =0; i < average_peaks.size(); ++i)
+    {
+        auto &average_peak_cluster = average_peaks[i];
+        auto &total_weight = peak_total_weight[i];
+        Helper::InPlaceDivide<double, 3>(average_peak_cluster,total_weight );
+        Helper::normalize3(average_peak_cluster.data());
+    }
+
+    // std::cout << "Average Peaks: " << average_peaks << std::endl;
+    // std::cout << "Total Weight: " << peak_total_weight << std::endl;
+    auto sort_idx  = Helper::sort_permutation(peak_total_weight, std::greater<double>());
+    auto sorted_average_peaks = Helper::ApplyPermutation(average_peaks, sort_idx);
+    // std::cout << "Average Peaks (Sorted): " << sorted_average_peaks << std::endl;
+
+    return sorted_average_peaks;
+}
+
+
+MatX3d GaussianAccumulatorS2Beta::FindPeaks(uint8_t threshold_abs, bool exclude_border, double cluster_distance, double min_cluster_weight)
 {
     std::unordered_set<int> hash;
-    auto img_idx_peaks = ico.FindPeaks(threshold_abs, exclude_border);
     auto average_vertex_normals = GetAverageNormalsByVertex(true);
+    auto normalized_bucket_counts_per_vertex = GetNormalizedBucketCountsByVertex(true);
+
+    ico_chart.FillImage(normalized_bucket_counts_per_vertex);
+    auto img_idx_peaks = ico_chart.FindPeaks(threshold_abs, exclude_border);
+
     MatX3d normal_peaks;
+    std::vector<double> peak_values;
     for (auto &idx_peak: img_idx_peaks)
     {
-        auto vertex_idx = *ico.image_to_vertex_idx.PointerAt<int>(idx_peak[0], idx_peak[1]);
+        auto vertex_idx = *ico_chart.image_to_vertex_idx.PointerAt<int>(idx_peak[0], idx_peak[1]);
         // std::cout<< vertex_idx << std::endl;
         if (hash.find(vertex_idx) == hash.end()) {
             hash.insert(vertex_idx);
-            auto val = average_vertex_normals[vertex_idx];
-            normal_peaks.push_back(val);
+            auto normal = average_vertex_normals[vertex_idx];
+            auto value = normalized_bucket_counts_per_vertex[vertex_idx];
+            normal_peaks.push_back(normal);
+            peak_values.push_back(value);
         }
     }
 
-    auto clusters = ClusterData(normal_peaks, 0.5);
+    auto clusters = ClusterData(normal_peaks, cluster_distance);
+    auto sorted_averaged_peaks = AverageClusters(normal_peaks, peak_values, clusters, min_cluster_weight);
 
-    return normal_peaks;
+    return sorted_averaged_peaks;
 
 }
 

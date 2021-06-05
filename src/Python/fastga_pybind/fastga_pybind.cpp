@@ -458,7 +458,7 @@ PYBIND11_MODULE(fastga, m)
              "mesh_order"_a = false)
         .def("integrate", &FastGA::GaussianAccumulatorS2Beta::Integrate, "normals"_a, "num_nbr"_a = FASTGA_TRI_NBRS,
              "Will intergrate the normals into the S2 Historgram")
-        .def("find_peaks_from_ico_charts", &FastGA::GaussianAccumulatorS2Beta::FindPeaksFromIcoCharts, "ico"_a, "threshold_abs"_a = 25, "exclude_border"_a=false,
+        .def("find_peaks", &FastGA::GaussianAccumulatorS2Beta::FindPeaks, "threshold_abs"_a = 25, "exclude_border"_a=false, "cluster_distance"_a=0.1, "min_cluster_weight"_a=0.15,
              "Find the peaks on the Gaussian Accumulator")
         .def("__repr__", [](const FastGA::GaussianAccumulatorS2Beta& a) {
             return "<FastGA::GAS2; # Triangles: '" + std::to_string(a.mesh.triangles.size()) + "'>";

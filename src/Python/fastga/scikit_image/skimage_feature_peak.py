@@ -144,7 +144,7 @@ def peak_local_max(image, min_distance=1, threshold_abs=None,
     >>> peak_local_max(img2, exclude_border=0)
     array([[10, 10, 10]])
     """
-    out = np.zeros_like(image, dtype=np.bool)
+    out = np.zeros_like(image, dtype=bool)
 
     threshold_abs = threshold_abs if threshold_abs is not None else image.min()
 

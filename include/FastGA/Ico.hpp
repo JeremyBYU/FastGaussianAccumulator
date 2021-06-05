@@ -654,7 +654,7 @@ class IcoCharts
      * 
      * @param threshold_abs  The aboslute threshold for detecting peaks in the image
      */
-    MatX2i FindPeaks(int threshold_abs=25, bool exclude_border=false)
+    MatX2i FindPeaks(uint8_t threshold_abs=25, bool exclude_border=false)
     {
         //TODO change to uint8_t for threshold_abs
         MatX2i peaks;

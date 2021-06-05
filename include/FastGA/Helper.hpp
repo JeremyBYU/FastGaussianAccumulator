@@ -62,19 +62,19 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
   return out;
 }
 
-// template <typename T>
-// std::ostream& operator<<(std::ostream& out, const std::vector<std::array<T, 2>>& v)
-// {
-//     if (!v.empty())
-//     {
-//         for(auto &ar: v)
-//         {
-//             out << ar << ", ";
-//         }
-//     }
-//     out << std::endl;
-//     return out;
-// }
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const std::vector<std::array<T, 3>>& v)
+{
+    if (!v.empty())
+    {
+        for(auto &ar: v)
+        {
+            out << ar << ", ";
+        }
+    }
+    out << std::endl;
+    return out;
+}
 
 // template <typename T>
 // std::ostream& operator<<(std::ostream& out, const std::array<T, 2>& v)
@@ -397,7 +397,7 @@ void InPlaceAddScale(const std::array<T, dim>& a, std::array<T, dim>& b, T scale
 }
 
 template <class T, int dim>
-void InPlaceDivide(const std::array<T, dim>& a, double value)
+void InPlaceDivide(std::array<T, dim>& a, double value)
 {
     for (size_t i = 0; i < dim; i++)
     {

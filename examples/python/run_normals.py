@@ -42,7 +42,7 @@ def example_normals(normals:np.ndarray):
     ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
     average_vertex_normals = np.asarray(ga_cpp_s2.get_average_normals_by_vertex(True))
 
-    res = np.array(ga_cpp_s2.find_peaks_from_ico_charts(ico_chart_))
+    res = np.array(ga_cpp_s2.find_peaks())
     print(res)
 
     triangles_vertex_14 = [2, 15, 7, 260, 267, 256]

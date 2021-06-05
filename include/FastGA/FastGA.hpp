@@ -231,6 +231,8 @@ class GaussianAccumulatorS2Beta
     std::vector<uint64_t> bucket_hv;
     /** @brief A NX12 matrix that contains the indices for each triangle neighbor */
     MatX12I bucket_neighbors;
+    /** @brief The unwrapped icosphere as a 2D image */
+    Ico::IcoCharts ico_chart;
 
     /**
      * @brief Construct a new Gaussian Accumulator S2 object
@@ -345,7 +347,7 @@ class GaussianAccumulatorS2Beta
      */
     void AverageBucketNormals();
 
-    MatX3d FindPeaksFromIcoCharts(Ico::IcoCharts &ico, int threshold_abs=25, bool exclude_border=false);
+    MatX3d FindPeaks(uint8_t threshold_abs=25, bool exclude_border=false, double cluster_distance=0.10, double min_cluster_weight=0.15);
   protected:
     /**
      * @brief This member variable keeps track of any sorting that occurred on the mesh and buckets.
