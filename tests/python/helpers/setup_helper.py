@@ -17,6 +17,10 @@ def setup_fastga(normals:np.ndarray, level=4):
 
     return dict(ga=ga_cpp_s2, ico=ico_chart_, normals=normals)
 
+def setup_fastga_simple(level=4):
+    ga_cpp_s2 = GaussianAccumulatorS2Beta(level=level)  
+    ico_chart = IcoCharts(level)
+    return dict(ga=ga_cpp_s2, ico=ico_chart)
 
 def polar_to_catersian(theta, phi):
     x = np.sin(phi) * np.cos(theta)
