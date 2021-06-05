@@ -545,7 +545,7 @@ class IcoCharts
     }
 
     template<int STENCIL = 0>
-    inline bool IsLocalMax(int row, int col, uint8_t threshold_abs, Image &image, Image &mask)
+    inline bool IsLocalMax(int row, int col, uint8_t threshold_abs)
     {
         auto val = *image.PointerAt<uint8_t>(col, row);
         // Inside
@@ -663,7 +663,7 @@ class IcoCharts
         {
             for (int c = 1; c+1 < image.cols_; ++c)
             {
-                if(IsLocalMax<0>(r, c, threshold_abs, image, mask))
+                if(IsLocalMax<0>(r, c, threshold_abs))
                 {
                     peaks.push_back({c ,r});
                 }
@@ -674,27 +674,27 @@ class IcoCharts
         {
             int r = 0;
             int c = 0;
-            if(IsLocalMax<1>(r, c, threshold_abs, image, mask))
+            if(IsLocalMax<1>(r, c, threshold_abs))
             {
                 peaks.push_back({c ,r});
             }
             r = image.rows_-1;
             c = 0;
-            if(IsLocalMax<2>(r, c, threshold_abs, image, mask))
+            if(IsLocalMax<2>(r, c, threshold_abs))
             {
                 peaks.push_back({c ,r});
             }
 
             r = 0;
             c = image.cols_-1;
-            if(IsLocalMax<3>(r, c, threshold_abs, image, mask))
+            if(IsLocalMax<3>(r, c, threshold_abs))
             {
                 peaks.push_back({c ,r});
             }
 
             r = image.rows_-1;
             c = image.cols_-1;
-            if(IsLocalMax<4>(r, c, threshold_abs, image, mask))
+            if(IsLocalMax<4>(r, c, threshold_abs))
             {
                 peaks.push_back({c ,r});
             }
@@ -702,7 +702,7 @@ class IcoCharts
             r = 0;
             for (c = 1; c+1 < image.cols_; ++c)
             {
-                if(IsLocalMax<5>(r, c, threshold_abs, image, mask))
+                if(IsLocalMax<5>(r, c, threshold_abs))
                 {
                     peaks.push_back({c ,r});
                 }
@@ -712,7 +712,7 @@ class IcoCharts
             r = image.rows_ -1;
             for (c = 1; c+1 < image.cols_; ++c)
             {
-                if(IsLocalMax<6>(r, c, threshold_abs, image, mask))
+                if(IsLocalMax<6>(r, c, threshold_abs))
                 {
                     peaks.push_back({c ,r});
                 }
@@ -722,7 +722,7 @@ class IcoCharts
             c = image.cols_ -1;
             for (r = 1; r+1 < image.rows_; ++r)
             {
-                if(IsLocalMax<7>(r, c, threshold_abs, image, mask))
+                if(IsLocalMax<7>(r, c, threshold_abs))
                 {
                     peaks.push_back({c ,r});
                 }
@@ -733,7 +733,7 @@ class IcoCharts
             for (r = 1; r+1 < image.rows_; ++r)
             {
                 // std::cout << "(" << c << ", " << r << ");";
-                if(IsLocalMax<8>(r, c, threshold_abs, image, mask))
+                if(IsLocalMax<8>(r, c, threshold_abs))
                 {
                     // std::cout << "passed; mask =" << *mask.PointerAt<uint8_t>(c, r);
                     peaks.push_back({c ,r});
@@ -891,58 +891,6 @@ class IcoCharts
         }
     }
 };
-
-
-// namespace PeakDetector
-// {
-
-//     MatX2i find_peaks (
-//         Image &img,
-//         Image &mask,
-//         const int thresh
-//     )
-//     {
-
-
-//         MatX2i peaks;
-
-//         for (int r = 1; r+1 < img.rows_; ++r)
-//         {
-//             for (int c = 1; c+1 < img.cols_; ++c)
-//             {
-//                 auto img_pointer = img.PointerAt<uint8_t>(c, r);
-//                 auto val = *img.PointerAt<uint8_t>(c, r);
-//                 // Must pass threshold
-//                 if (val < thresh)
-//                     continue;
-
-//                 // Must be a local max
-//                 if (
-//                     val <= *img.PointerAt<uint8_t>(c, r-1) ||
-//                     val <= *img.PointerAt<uint8_t>(c, r+1) ||
-//                     val <= *img.PointerAt<uint8_t>(c+1, r) ||
-//                     val <= *img.PointerAt<uint8_t>(c-1, r) ||
-//                     val <= *img.PointerAt<uint8_t>(c-1, r-1)||
-//                     val <= *img.PointerAt<uint8_t>(c+1, r+1)||
-//                     val <= *img.PointerAt<uint8_t>(c+1, r-1)||
-//                     val <= *img.PointerAt<uint8_t>(c-1, r+1)
-//                 )
-//                 {
-//                     continue;
-//                 }
-//                 // Must be in the valid mask
-//                 if (*mask.PointerAt<uint8_t>(c, r) == 255)
-//                 {
-//                     peaks.push_back({c ,r});
-//                 }
-//             }
-//         }
-//         return peaks;
-//     }
-
-
-
-// }
 
 } // namespace Ico
 } // namespace FastGA

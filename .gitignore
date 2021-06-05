@@ -15,6 +15,7 @@ fixtures
 .DS_Store
 mason_packages
 cmake-build
+cmake-build-linux
 *.profdata
 *.profraw
 .toolchain

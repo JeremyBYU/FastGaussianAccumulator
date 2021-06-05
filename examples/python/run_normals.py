@@ -76,7 +76,7 @@ def example_normals(normals:np.ndarray):
 
 def main():
     # normals = cluster_normals(2, 1000, patch_deg=10, normals=np.array([[0.0, 0.0, -1.0], [0.0, 0.0, 1.0]]))
-    clusters, normals = cluster_normals(20, 1000, patch_deg=5)
+    clusters, normals = cluster_normals(10, 1000, patch_deg=5)
     combined =np.concatenate(clusters)
     print(normals)
     # sys.exit()

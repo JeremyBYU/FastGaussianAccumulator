@@ -631,16 +631,24 @@ MatX3d AverageClusters(MatX3d &peaks, std::vector<double> &peak_weights, std::ve
         Helper::InPlaceAddScale<double, 3>(peak, average_peak_cluster, weight);
         peak_total_weight[cluster] += weight;
     }
+
+    MatX3d average_peaks_filt;
+    std::vector<double> peak_total_weight_filt;
     for (size_t i =0; i < average_peaks.size(); ++i)
     {
         auto &average_peak_cluster = average_peaks[i];
         auto &total_weight = peak_total_weight[i];
         Helper::InPlaceDivide<double, 3>(average_peak_cluster,total_weight );
         Helper::normalize3(average_peak_cluster.data());
+        if (total_weight >= min_total_weight)
+        {
+            average_peaks_filt.push_back(average_peak_cluster);
+            peak_total_weight_filt.push_back(total_weight);
+        }
     }
 
-    auto sort_idx  = Helper::sort_permutation(peak_total_weight, std::greater<double>());
-    auto sorted_average_peaks = Helper::ApplyPermutation(average_peaks, sort_idx);
+    auto sort_idx  = Helper::sort_permutation(peak_total_weight_filt, std::greater<double>());
+    auto sorted_average_peaks = Helper::ApplyPermutation(average_peaks_filt, sort_idx);
 
     return sorted_average_peaks;
 }
