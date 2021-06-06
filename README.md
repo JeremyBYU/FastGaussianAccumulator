@@ -20,8 +20,9 @@ To do this one must **find** the cell that corresponds to the point. This is a s
     - `GaussianAccumulatorKD` One implementation uses C++ nanoflann.
 * Global Index and Local Search - A 3D point is transformed to a unique integer id. The unique ids have the property that ids close to each other will be close to each other in 3D space. The closest id is found corresponding to a triangle cell. A local search of triangle neighbors is performed to find closest triangle cell to the point.
     - `GaussianAccumulatorOpt` - Works good on **only** on the top hemisphere. Projects 3D point to plane using Azimuth Equal Area projection. Convert 2D point to int32 index using Hilbert Curve. This implementation is severely limited and is not recommended.
-    - `GaussianAccumulatorS2` - Works on full sphere! Uses Googles S2 space filling curve (uint64). 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face. This is recommended, and what I use.
+    - `GaussianAccumulatorS2Beta` - Works on full sphere! Uses Googles S2 space filling curve (uint64). 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face. This is recommended, and what I use.
 
+Use GaussianAccumulatorS2Beta! Look at `python -m examples.python.run_normals`
 ## Peak Detection
 
 There are two (2) peak detection methods of used within this repository. The user can choose which one best suite there needs.
@@ -105,7 +106,17 @@ I also tried using S2 as a point index (similar to a KDTree) and found it was *s
 To support our work please cite:
 
 ```
-TBA
+@Article{s20174819,
+AUTHOR = {Castagno, Jeremy and Atkins, Ella},
+TITLE = {Polylidar3D-Fast Polygon Extraction from 3D Data},
+JOURNAL = {Sensors},
+VOLUME = {20},
+YEAR = {2020},
+NUMBER = {17},
+ARTICLE-NUMBER = {4819},
+URL = {https://www.mdpi.com/1424-8220/20/17/4819},
+ISSN = {1424-8220}
+}
 ```
 
 <!-- 

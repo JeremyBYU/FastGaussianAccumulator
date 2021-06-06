@@ -424,6 +424,8 @@ PYBIND11_MODULE(fastga, m)
                       "Fast lookup matrix to find neighbors of a bucket")
         .def_readonly("mesh", &FastGA::GaussianAccumulatorS2Beta::mesh,
                       "The underlying sphere-like mesh of the Gaussian Accumulator")
+        .def_readonly("ico_chart", &FastGA::GaussianAccumulatorS2Beta::ico_chart,
+                      "The underlying unwrapped icosphere")
         .def_readonly("buckets", &FastGA::GaussianAccumulatorS2Beta::buckets,
                       "The buckets in the histogram, corresponding to cells/triangles on the mesh")
         .def_readonly("num_buckets", &FastGA::GaussianAccumulatorS2Beta::num_buckets,

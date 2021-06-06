@@ -57,7 +57,7 @@ def test_peak_all_cpp(benchmark, small_normals, level, find_peaks_kwargs, cluste
 @pytest.mark.parametrize("num_clusters", range(1, 10))
 @pytest.mark.parametrize("normals_per_cluster", [100, 1000, 10000])
 def test_same_output(num_clusters, normals_per_cluster):
-    fixture = setup_fastga_simple(level=3)
+    fixture = setup_fastga_simple(level=4)
     clusters, normals = cluster_normals(num_clusters=num_clusters, normals_per_cluster=normals_per_cluster, patch_deg=5)
     clusters =np.concatenate(clusters)
     ga = fixture['ga']

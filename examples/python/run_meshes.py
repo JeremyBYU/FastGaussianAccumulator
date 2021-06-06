@@ -9,7 +9,7 @@ import open3d as o3d
 from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
 from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
 from fastga.helper import down_sample_normals
 from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, create_open_3d_mesh, get_colors, create_line_set
@@ -116,7 +116,7 @@ def plot_hilbert_curve(ga: GaussianAccumulatorKDPy, plot=False):
     return [pcd_all_peaks, *arrow_avg_peaks]
 
 
-def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, ds=50, min_samples=10000, max_phi=100, integrate_kwargs=dict()):
+def visualize_gaussian_integration(ga: GaussianAccumulatorKDPy, mesh: o3d.geometry.TriangleMesh, integrate_kwargs=dict(), **kwargs):
     num_buckets = ga.num_buckets
     to_integrate_normals = down_sample_normals(np.asarray(mesh.triangle_normals))
     num_normals = to_integrate_normals.shape[0]
@@ -160,7 +160,7 @@ def main():
     ga_py_kdd = GaussianAccumulatorKDPy(**kwargs_kdd)
     ga_cpp_kdd = GaussianAccumulatorKD(**kwargs_kdd)
     ga_cpp_opt = GaussianAccumulatorOpt(**kwargs_opt)
-    ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
+    ga_cpp_s2 = GaussianAccumulatorS2Beta(level=4)
 
     query_max_phi = kwargs_base['max_phi']
 

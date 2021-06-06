@@ -10,7 +10,7 @@ from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 import open3d as o3d
 
-from fastga import GaussianAccumulatorS2, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
+from fastga import GaussianAccumulatorS2Beta, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
 from fastga.peak_and_cluster import find_peaks_from_ico_charts
 from fastga.o3d_util import get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes, translate_meshes
 from examples.python.run_meshes import visualize_gaussian_integration
@@ -42,15 +42,13 @@ def decompose(ico):
 def analyze_mesh(mesh):
     """Demonstrates unwrapping and peak detection of a S2 Histogram"""
     LEVEL = 4
-    kwargs_base = dict(level=LEVEL, max_phi=180)
-    kwargs_s2 = dict(**kwargs_base)
     kwargs_opt_integrate = dict(num_nbr=12)
 
     # Create Gaussian Accumulator
-    ga_cpp_s2 = GaussianAccumulatorS2(**kwargs_s2)
+    ga_cpp_s2 = GaussianAccumulatorS2Beta(level=LEVEL)
     # This function will integrate the normals and return an open3d mesh for visualization.
     colored_icosahedron_s2, _, _ = visualize_gaussian_integration(
-        ga_cpp_s2, mesh, max_phi=kwargs_base['max_phi'], integrate_kwargs=kwargs_opt_integrate)
+        ga_cpp_s2, mesh, integrate_kwargs=kwargs_opt_integrate)
     num_triangles = ga_cpp_s2.num_buckets
 
     # for verification
@@ -77,19 +75,9 @@ def analyze_mesh(mesh):
     new_charts = translate_meshes(charts_triangles, current_translation=-4.0, axis=1)
     all_charts = functools.reduce(lambda a, b: a + b, new_charts)
     plot_meshes(colored_ico_s2_organized_mesh, colored_icosahedron_s2, all_charts, mesh)
-
-    ico_chart_ = IcoCharts(LEVEL)
-    normalized_bucket_counts_by_vertex = ga_cpp_s2.get_normalized_bucket_counts_by_vertex(True)
-    ico_chart_.fill_image(normalized_bucket_counts_by_vertex)
-
-    find_peaks_kwargs = dict(threshold_abs=25, min_distance=1,
-                             exclude_border=False, indices=False)
-    average_filter = dict(min_total_weight=0.05)
-    _, _, avg_peaks, _ = find_peaks_from_ico_charts(ico_chart_, np.asarray(
-        normalized_bucket_counts_by_vertex), find_peaks_kwargs=find_peaks_kwargs, average_filter=average_filter)
+    avg_peaks = np.array(ga_cpp_s2.find_peaks(threshold_abs=25, cluster_distance=0.1, min_cluster_weight=0.15))
     print(avg_peaks)
-
-    full_image = np.asarray(ico_chart_.image)
+    full_image = np.asarray(ga_cpp_s2.ico_chart.image)
 
     plt.imshow(full_image)
     plt.xticks(np.arange(0, full_image.shape[1], step=1))
@@ -101,7 +89,7 @@ def visualize_unwrapping():
     """Demonstrate the unwrapping process by color codes sections"""
     LEVEL = 2
     ico = refine_icosahedron(level=0)
-    ico_s2 = GaussianAccumulatorS2(level=LEVEL)
+    ico_s2 = GaussianAccumulatorS2Beta(level=LEVEL)
     ico_s2_organized_mesh = ico_s2.copy_ico_mesh(True)
     triangles_ico, vertices, ico_o3d = decompose(ico)
     triangles_s2_om, _, ico_o3d_s2_om = decompose(ico_s2_organized_mesh)
