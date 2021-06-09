@@ -38,7 +38,9 @@ This performs peak detection on the 1D thread following the hilbert curve. This 
 
 ## Installation
 
-Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher. No built binaries are included currently.
+For python there are pre-built binary wheel on PyPI for Windows and Linux. You can install with `pip install fastgac`.
+
+Below are instruction to build the C++ Package (and python package) manaully with CMake. Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher.
 
 ### Build Project Library
 
@@ -58,10 +60,14 @@ If you want to run the examples then you need to install the following (from mai
 
 1. `pip install -r dev-requirements.txt` 
 
-#### For Users (Requires CMake)
+#### For Python Users (Requires CMake)
 
 1. Install [conda](https://conda.io/projects/conda/en/latest/) or create a python virtual environment ([Why?](https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c)). I recommend conda for Windows users.
 2. `pip install .`
+
+If you want to run the examples then you need to install the following (from main directory):
+
+1. `pip install -r dev-requirements.txt` 
 
 <!-- ###  Build with S2Geometry
 
