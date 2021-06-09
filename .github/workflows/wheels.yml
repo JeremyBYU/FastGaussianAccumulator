@@ -23,9 +23,9 @@ jobs:
           python-version: '3.6'
 
       - name: Setup CMake
-        uses: jwlawson/actions-setup-cmake@v1.5
+        uses: jwlawson/actions-setup-cmake@v1.9
         with:
-          cmake-version: '3.16.x'
+          cmake-version: '3.19.x'
 
       - name: Install requirements
         run: pip install --user twine
@@ -60,8 +60,12 @@ jobs:
             cibw-arch: manylinux_x86_64
           - os: windows-latest
             cibw-arch: win_amd64
-          # - os: macos-latest
-          #   cibw-arch: macosx_x86_64
+          - runs-on: macos-latest
+            cibw-arch: macosx_x86_64
+          - runs-on: macos-latest
+            cibw-arch: macosx_arm64
+          - runs-on: macos-latest
+            cibw-arch: macosx_universal2
           # - os: ubuntu-latest
           #   cibw-arch: manylinux_i686
           # - os: windows-latest
@@ -80,9 +84,9 @@ jobs:
           python-version: 3.6
 
       - name: Setup CMake
-        uses: jwlawson/actions-setup-cmake@v1.5
+        uses: jwlawson/actions-setup-cmake@v1.9
         with:
-          cmake-version: '3.16.x'
+          cmake-version: '3.19.x'
 
       - name: Install requirements
         run: |
@@ -91,6 +95,8 @@ jobs:
       - name: Configure cibuildwheel
         shell: bash
         run: |
+          CMAKE_OSX_ARCHITECTURES=${{ matrix.cibw-arch == 'macosx_x86_64' && 'x86_64' || matrix.cibw-arch == 'macosx_arm64' && 'arm64' || matrix.cibw-arch == 'macosx_universal2' && '"arm64;x86_64"' || '' }}
+          echo "CIBW_ARCHS_MACOS=x86_64 arm64 universal2" >> $GITHUB_ENV
           echo "CIBW_BUILD=*-${{ matrix.cibw-arch }}" >> $GITHUB_ENV
           echo "CIBW_BEFORE_ALL_LINUX=pip install cmake && ln -s \$(which cmake) /usr/local/bin/cmake" >> $GITHUB_ENV
 
