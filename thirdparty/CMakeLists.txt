@@ -11,7 +11,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   extern_nanoflann
   GIT_REPOSITORY https://github.com/jlblancoc/nanoflann.git
-  GIT_TAG        v1.3.2
+  GIT_TAG        2ddd9afa0de0c6a25c966ade473ed5715a331f74
 )
 
 # Add nanoflann, but dont build examples and unit tests
