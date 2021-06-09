@@ -18,8 +18,8 @@ FetchContent_Declare(
 FetchContent_GetProperties(extern_nanoflann)
 if(NOT extern_nanoflann_POPULATED)
   FetchContent_Populate(extern_nanoflann)
-  set(BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
-  set(BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
+  set(NANOFLANN_BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
+  set(NANOFLANN_BUILD_TESTS OFF CACHE BOOL "Build unit tests" FORCE)
   add_subdirectory(${extern_nanoflann_SOURCE_DIR} ${extern_nanoflann_BINARY_DIR})
 endif()
 
