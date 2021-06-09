@@ -7,9 +7,9 @@ import argparse
 import numpy as np
 import open3d as o3d
 
-from fastga import GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
-from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
-from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, plot_meshes, get_colors, create_open_3d_mesh
+from fastgac import GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastgac.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
+from fastgac.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, plot_meshes, get_colors, create_open_3d_mesh
 import matplotlib.pyplot as plt
 
 from tests.python.helpers.setup_helper import cluster_normals, sort_by_distance_from_point

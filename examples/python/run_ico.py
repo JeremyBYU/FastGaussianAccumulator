@@ -10,9 +10,9 @@ from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 import open3d as o3d
 
-from fastga import GaussianAccumulatorS2Beta, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
-from fastga.peak_and_cluster import find_peaks_from_ico_charts
-from fastga.o3d_util import get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes, translate_meshes
+from fastgac import GaussianAccumulatorS2Beta, MatX3d, refine_icosahedron, refine_icochart, IcoCharts
+from fastgac.peak_and_cluster import find_peaks_from_ico_charts
+from fastgac.o3d_util import get_colors, create_open_3d_mesh, assign_vertex_colors, plot_meshes, translate_meshes
 from examples.python.run_meshes import visualize_gaussian_integration
 
 from examples.python.util.mesh_util import get_mesh_data_iterator

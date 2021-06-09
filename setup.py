@@ -129,7 +129,7 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name="fastga",
+    name="fastgac",
     version=version,
     author="Jeremy Castagno",
     author_email="jeremybyu@gmail.com",
@@ -139,9 +139,9 @@ setup(
     long_description_content_type='text/markdown',
     license="MIT",
     include_package_data=True,
-    packages=['fastga', 'fastga.scikit_image'],
+    packages=['fastgac', 'fastgac.scikit_image'],
     package_dir={'':'src/Python'},
-    ext_modules=[CMakeExtension("fastga_pybind")],
+    ext_modules=[CMakeExtension("fastgac_pybind")],
     install_requires=install_requires,
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,

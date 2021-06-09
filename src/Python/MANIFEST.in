@@ -4,9 +4,9 @@ include LICENSE
 include requirements.txt
 
 # Compiled module
-include fastga/fastga*.pyd
-include fastga/fastga*.so
-include fastga_pybind*.so
+include fastgac/fastgac*.pyd
+include fastgac/fastgac*.so
+include fastgac_pybind*.so
 
 # Exclude
 global-exclude *.py[co]

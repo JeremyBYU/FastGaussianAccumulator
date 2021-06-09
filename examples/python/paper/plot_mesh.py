@@ -7,9 +7,9 @@ import open3d as o3d
 from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
-from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
-from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals
+from fastgac import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastgac.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
+from fastgac.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals
 
 from examples.python.run_meshes import visualize_gaussian_integration, plot_meshes
 from examples.python.util.mesh_util import ALL_MESHES, ALL_MESHES_ROTATIONS

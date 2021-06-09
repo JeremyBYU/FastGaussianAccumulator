@@ -1,11 +1,11 @@
 import numpy as np
 
-from fastga import GaussianAccumulatorS2Beta, IcoCharts, MatX3d
+from fastgac import GaussianAccumulatorS2Beta, IcoCharts, MatX3d
 
 from scipy.spatial.transform import Rotation as R
 
     
-def setup_fastga(normals:np.ndarray, level=4):
+def setup_fastgac(normals:np.ndarray, level=4):
     kwargs_s2 = dict(level=level)
     # Create Gaussian Accumulator
     ga_cpp_s2 = GaussianAccumulatorS2Beta(**kwargs_s2)
@@ -17,7 +17,7 @@ def setup_fastga(normals:np.ndarray, level=4):
 
     return dict(ga=ga_cpp_s2, ico=ico_chart_, normals=normals)
 
-def setup_fastga_simple(level=4):
+def setup_fastgac_simple(level=4):
     ga_cpp_s2 = GaussianAccumulatorS2Beta(level=level)  
     ico_chart = IcoCharts(level)
     return dict(ga=ga_cpp_s2, ico=ico_chart)

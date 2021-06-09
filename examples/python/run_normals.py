@@ -7,8 +7,8 @@ import argparse
 import numpy as np
 import open3d as o3d
 
-from fastga import GaussianAccumulatorS2Beta, MatX3d
-from fastga.o3d_util import assign_vertex_colors, plot_meshes, get_colors, create_open_3d_mesh
+from fastgac import GaussianAccumulatorS2Beta, MatX3d
+from fastgac.o3d_util import assign_vertex_colors, plot_meshes, get_colors, create_open_3d_mesh
 import matplotlib.pyplot as plt
 
 from tests.python.helpers.setup_helper import cluster_normals, sort_by_distance_from_point

@@ -30,7 +30,7 @@ execute_process(
 )
 message(STATUS "Using Python version major: ${PYTHON_VERSION_MAJOR}")
 
-set(PACKAGE_NAME fastga_pybind)
+set(PACKAGE_NAME fastgac_pybind)
 
 file(GLOB_RECURSE PY_ALL_SOURCE_FILES "${PYBIND_PACKAGE_FOLDER}/*.cpp")
 

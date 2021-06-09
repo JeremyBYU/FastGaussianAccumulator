@@ -44,7 +44,7 @@ setup(
     # Name of the package on PyPI
     name="@PYPI_PACKAGE_NAME@",
     packages=[
-        'fastga',
+        'fastgac',
     ],
     url="@PROJECT_HOME@",
     project_urls={

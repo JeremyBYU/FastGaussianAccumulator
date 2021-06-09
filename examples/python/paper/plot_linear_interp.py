@@ -1,7 +1,7 @@
 import numpy as np
 import math
 from scipy import stats
-from fastga import GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d
+from fastgac import GaussianAccumulatorOpt, GaussianAccumulatorS2, MatX3d
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Bbox
 import seaborn as sns

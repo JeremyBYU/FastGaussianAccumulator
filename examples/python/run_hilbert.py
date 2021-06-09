@@ -2,7 +2,7 @@
 """
 import numpy as np
 
-from fastga import convert_normals_to_s2id, convert_normals_to_hilbert ,GaussianAccumulatorOpt, MatX3d
+from fastgac import convert_normals_to_s2id, convert_normals_to_hilbert ,GaussianAccumulatorOpt, MatX3d
 
 def main():
     normals = np.array([

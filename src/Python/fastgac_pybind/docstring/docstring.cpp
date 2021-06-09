@@ -31,8 +31,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "fastga_pybind/fastga_pybind.hpp"
-#include "fastga_pybind/docstring/docstring.hpp"
+#include "fastgac_pybind/fastgac_pybind.hpp"
+#include "fastgac_pybind/docstring/docstring.hpp"
 
 namespace FastGA {
 namespace docstring {

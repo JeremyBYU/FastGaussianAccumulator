@@ -7,7 +7,7 @@ set(PROJECT_HOME    "")
 set(PROJECT_DOCS    "")
 set(PROJECT_CODE    "")
 set(PROJECT_ISSUES  "")
-set(PYPI_PACKAGE_NAME "fastga")
+set(PYPI_PACKAGE_NAME "fastgac")
 # Set Project Properties
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION}
 DESCRIPTION "Fast Guassian Accumulator Library"

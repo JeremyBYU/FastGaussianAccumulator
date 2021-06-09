@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
-from tests.python.helpers.setup_helper import setup_fastga, setup_fastga_simple, cluster_normals, sort_by_distance_from_point
-from fastga.scikit_image.skimage_feature_peak import peak_local_max
-from fastga.peak_and_cluster import find_peaks_from_ico_charts
-from fastga import MatX3d
+from tests.python.helpers.setup_helper import setup_fastgac, setup_fastgac_simple, cluster_normals, sort_by_distance_from_point
+from fastgac.scikit_image.skimage_feature_peak import peak_local_max
+from fastgac.peak_and_cluster import find_peaks_from_ico_charts
+from fastgac import MatX3d
 
 np.random.seed(1)
 

@@ -9,10 +9,10 @@ import open3d as o3d
 from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 
-from fastga import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
-from fastga.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
-from fastga.helper import down_sample_normals
-from fastga.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, create_open_3d_mesh, get_colors, create_line_set
+from fastgac import GaussianAccumulatorKD, GaussianAccumulatorOpt, GaussianAccumulatorS2Beta, MatX3d, convert_normals_to_hilbert, IcoCharts
+from fastgac.peak_and_cluster import find_peaks_from_accumulator, find_peaks_from_ico_charts
+from fastgac.helper import down_sample_normals
+from fastgac.o3d_util import get_arrow, get_pc_all_peaks, get_arrow_normals, plot_meshes, assign_vertex_colors, create_open_3d_mesh, get_colors, create_line_set
 from examples.python.util.mesh_util import get_mesh_data_iterator
 
 from src.Python.slowga import (GaussianAccumulatorKDPy, filter_normals_by_phi)

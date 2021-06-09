@@ -69,8 +69,8 @@ class PyAPIDocsBuilder:
     The file name is the full module name.
 
     E.g. If output_dir == "python_api", the following files are generated:
-    python_api/fastga.camera.rst
-    python_api/fastga.camera.PinholeCameraIntrinsic.rst
+    python_api/fastgac.camera.rst
+    python_api/fastgac.camera.PinholeCameraIntrinsic.rst
     ...
     """
 
@@ -83,14 +83,14 @@ class PyAPIDocsBuilder:
     def generate_rst(self):
         _create_or_clear_dir(self.output_dir)
         for module_name, module_type in self.module_names:
-            module = self._get_fastga_module(module_name)
+            module = self._get_fastgac_module(module_name)
             PyAPIDocsBuilder._generate_sub_module_class_function_docs(
                 module_name, module, module_type, self.output_dir)
 
     @staticmethod
-    def _get_fastga_module(full_module_name):
+    def _get_fastgac_module(full_module_name):
         """Returns the module object for the given module path"""
-        import fastga  # make sure the root module is loaded
+        import fastgac  # make sure the root module is loaded
         try:
             # try to import directly. This will work for pure python submodules
             module = importlib.import_module(full_module_name)
@@ -100,7 +100,7 @@ class PyAPIDocsBuilder:
             # This code path is necessary for modules for which we manually
             # define a specific module path (e.g. the modules defined with
             # pybind).
-            current_module = fastga
+            current_module = fastgac
             for sub_module_name in full_module_name.split('.')[1:]:
                 current_module = getattr(current_module, sub_module_name)
             return current_module
@@ -236,8 +236,8 @@ class SphinxDocsBuilder:
         # We use the modules listed in the index.rst file here.
         self.documented_modules = self._get_module_names_from_index_rst()
 
-        # self.documented_modules = "fastga.fastga_pybind"  # Points to the fastga.so
-        # self.c_module_relative = "fastga"  # The relative module reference to fastga.so
+        # self.documented_modules = "fastgac.fastgac_pybind"  # Points to the fastgac.so
+        # self.c_module_relative = "fastgac"  # The relative module reference to fastgac.so
         self.python_api_output_dir = "python_api"
         self.html_output_dir = html_output_dir
         self.is_release = is_release

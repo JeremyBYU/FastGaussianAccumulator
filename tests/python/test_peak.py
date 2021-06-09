@@ -3,10 +3,10 @@ import numpy as np
 from pathlib import Path
 from datetime import date
 import pytest
-from tests.python.helpers.setup_helper import setup_fastga, setup_fastga_simple, cluster_normals, sort_by_distance_from_point
-from fastga.scikit_image.skimage_feature_peak import peak_local_max
-from fastga.peak_and_cluster import find_peaks_from_ico_charts
-from fastga import MatX3d
+from tests.python.helpers.setup_helper import setup_fastgac, setup_fastgac_simple, cluster_normals, sort_by_distance_from_point
+from fastgac.scikit_image.skimage_feature_peak import peak_local_max
+from fastgac.peak_and_cluster import find_peaks_from_ico_charts
+from fastgac import MatX3d
 from scipy.spatial.distance import cdist
 
 np.random.seed(1)
@@ -22,7 +22,7 @@ SAVE_FOLDER.mkdir(parents=True, exist_ok=True)
 @pytest.mark.parametrize("num_clusters", range(1, 10))
 @pytest.mark.parametrize("normals_per_cluster", [100, 1000, 10000])
 def test_peaks(num_clusters, normals_per_cluster):
-    fixture = setup_fastga_simple(level=4)
+    fixture = setup_fastgac_simple(level=4)
     clusters, normals = cluster_normals(num_clusters=num_clusters, normals_per_cluster=normals_per_cluster, patch_deg=5)
     clusters =np.concatenate(clusters)
     ga = fixture['ga']

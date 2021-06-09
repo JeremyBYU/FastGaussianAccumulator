@@ -123,15 +123,15 @@ jobs:
           name: wheels
           path: wheelhouse     
     
-      # Upload to Testing PyPI
-      - name: Publish package to TestPyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.test_pypi_password }}
-          packages_dir: wheelhouse/
-          repository_url: https://test.pypi.org/legacy/
-          skip_existing: true
+      # # Upload to Testing PyPI
+      # - name: Publish package to TestPyPI
+      #   uses: pypa/gh-action-pypi-publish@master
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.test_pypi_password }}
+      #     packages_dir: wheelhouse/
+      #     repository_url: https://test.pypi.org/legacy/
+      #     skip_existing: true
 
       # Publish to official PyPI channel
       - name: Publish package to PyPI

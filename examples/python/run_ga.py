@@ -3,7 +3,7 @@
 import numpy as np
 import time 
 
-from fastga import GaussianAccumulatorKD, MatX3d
+from fastgac import GaussianAccumulatorKD, MatX3d
 
 np.set_printoptions(suppress=True, precision=2)
 

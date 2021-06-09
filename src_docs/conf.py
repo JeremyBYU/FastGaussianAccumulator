@@ -32,14 +32,14 @@ def get_git_short_hash():
     return rc
 
 
-# Import fastga raw python package with the highest priority
-# This is a trick to show fastga.fastga as fastga in the docs
+# Import fastgac raw python package with the highest priority
+# This is a trick to show fastgac.fastgac as fastgac in the docs
 # Only tested to work on Unix
 current_file_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(
     0,
     os.path.join(current_file_dir, "..", "build", "lib", "python_package",
-                 "fastga"))
+                 "fastgac"))
 
 # -- General configuration ------------------------------------------------
 
@@ -199,7 +199,7 @@ latex_elements = {
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'fastga', u'FastGA Documentation', [author], 1)]
+man_pages = [(master_doc, 'fastgac', u'FastGA Documentation', [author], 1)]
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -207,7 +207,7 @@ man_pages = [(master_doc, 'fastga', u'FastGA Documentation', [author], 1)]
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'fastga', u'FastGA Documentation', author, 'FastGA',
+    (master_doc, 'fastgac', u'FastGA Documentation', author, 'FastGA',
      'Fast Gaussian Accumulator', 'Miscellaneous'),
 ]
 

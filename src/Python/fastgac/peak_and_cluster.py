@@ -3,7 +3,7 @@ import numpy as np
 from scipy.signal import find_peaks
 from scipy.cluster.hierarchy import linkage, fcluster
 # from skimage.feature import peak_local_max
-from fastga.scikit_image.skimage_feature_peak import peak_local_max
+from fastgac.scikit_image.skimage_feature_peak import peak_local_max
 
 
 def normalized(a, axis=-1, order=2):

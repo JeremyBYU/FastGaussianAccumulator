@@ -1,6 +1,6 @@
 
-#include "fastga_pybind/fastga_pybind.hpp"
-#include "fastga_pybind/docstring/docstring.hpp"
+#include "fastgac_pybind/fastgac_pybind.hpp"
+#include "fastgac_pybind/docstring/docstring.hpp"
 
 using namespace FastGA;
 // Makes a copy
@@ -25,7 +25,7 @@ py_array_to_vectors(py::array_t<double, py::array::c_style | py::array::forcecas
     return vectors_T;
 }
 
-PYBIND11_MODULE(fastga_pybind, m)
+PYBIND11_MODULE(fastgac_pybind, m)
 {
     m.doc() = "Python binding of FastGA";
 
