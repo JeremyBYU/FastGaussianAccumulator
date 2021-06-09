@@ -25,7 +25,7 @@ py_array_to_vectors(py::array_t<double, py::array::c_style | py::array::forcecas
     return vectors_T;
 }
 
-PYBIND11_MODULE(fastga, m)
+PYBIND11_MODULE(fastga_pybind, m)
 {
     m.doc() = "Python binding of FastGA";
 

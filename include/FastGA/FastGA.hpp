@@ -347,6 +347,18 @@ class GaussianAccumulatorS2Beta
      */
     void AverageBucketNormals();
 
+    /**
+     * @brief Finds all peaks on the icosphere AFTER normals have been integrated.
+     *        The icosphere is unwrapped into a 2D image with values normalized between 0-255.
+     *        A peak is detected if it is a local max with a value greater than threshold_abs.
+     *        Peaks closer than cluster_distance are merged.
+     *        A merged peak must have a greater value than min_cluster_weight.
+     * @param threshold_abs         The threshold for a peak on histogram (0-255).
+     * @param exclude_border        Always leave at false.
+     * @param cluster_distance      Peaks must have less 3D distance than cluster_dist in order to be clustered together  
+     * @param min_cluster_weight    Any peak (even grouped peaks) must have a greater normalized value greater than min_cluster_weight (0.0-1.0)
+     * @return MatX3d
+     */
     MatX3d FindPeaks(uint8_t threshold_abs=25, bool exclude_border=false, double cluster_distance=0.10, double min_cluster_weight=0.15);
   protected:
     /**

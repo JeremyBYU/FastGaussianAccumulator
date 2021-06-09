@@ -132,7 +132,6 @@ todo_include_todos = False
 # theme_path = os.path.join(current_file_dir, "..", "3rdparty",
 #                           "open3d_sphinx_theme")
 html_theme = "sphinx_rtd_theme"
-html_logo = '_static/fastga_logo_small.png'
 # html_theme_path = [theme_path]
 html_favicon = ""
 
@@ -208,8 +207,8 @@ man_pages = [(master_doc, 'fastga', u'FastGA Documentation', [author], 1)]
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'FastGA', u'FastGA Documentation', author, 'FastGA',
-     'One line description of project.', 'Miscellaneous'),
+    (master_doc, 'fastga', u'FastGA Documentation', author, 'FastGA',
+     'Fast Gaussian Accumulator', 'Miscellaneous'),
 ]
 
 # Version 0: Added by Jaesik to list Python members using the source order

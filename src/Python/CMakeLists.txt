@@ -1,3 +1,4 @@
+# License - MIT - Open3D
 # Option 1: Do not define "PYTHON_EXECUTABLE", but run `cmake ..` within your
 #           virtual environment. CMake will pick up the python executable in the
 #           virtual environment.
@@ -29,7 +30,7 @@ execute_process(
 )
 message(STATUS "Using Python version major: ${PYTHON_VERSION_MAJOR}")
 
-set(PACKAGE_NAME fastga)
+set(PACKAGE_NAME fastga_pybind)
 
 file(GLOB_RECURSE PY_ALL_SOURCE_FILES "${PYBIND_PACKAGE_FOLDER}/*.cpp")
 
@@ -87,7 +88,7 @@ add_custom_target(python-package
             -DPYTHON_PACKAGE_DST_DIR=${PYTHON_PACKAGE_DST_DIR}
             -DPYTHON_VERSION=${PYTHON_VERSION}
             -DPYTHON_COMPILED_MODULE_PATH=$<TARGET_FILE:${PACKAGE_NAME}>
-            # -DENABLE_JUPYTER=${ENABLE_JUPYTER}
+            -DORIG_CMAKE_LIBRARY_OUTPUT_DIRECTORY=${ORIG_CMAKE_LIBRARY_OUTPUT_DIRECTORY}
             -DPROJECT_EMAIL=${PROJECT_EMAIL}
             -DPROJECT_HOME=${PROJECT_HOME}
             -DPROJECT_DOCS=${PROJECT_DOCS}

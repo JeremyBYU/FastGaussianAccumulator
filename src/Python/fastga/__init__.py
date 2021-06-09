@@ -1,5 +1,11 @@
-from .fastga import * # py2 py3 compatible
-from .peak_and_cluster import find_peaks_from_accumulator 
+try:
+    from .fastga_pybind import * # py2 py3 compatible
+except Exception:
+    # this was installed with as a python wheel
+    from fastga_pybind import *
 
-
-__version__ = '@PROJECT_VERSION@'
+try:
+    import pkg_resources  # part of setuptools
+    __version__ = pkg_resources.require("fastga")[0].version
+except Exception:
+    __version__ = '@PROJECT_VERSION@'
