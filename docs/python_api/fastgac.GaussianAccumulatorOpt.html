@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fastgac.GaussianAccumulatorOpt &mdash; FastGA 1.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fastgac.GaussianAccumulatorS2" href="fastgac.GaussianAccumulatorS2.html" />
+    <link rel="prev" title="fastgac.GaussianAccumulatorKD" href="fastgac.GaussianAccumulatorKD.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p><span class="caption-text">Python API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="fastgac.html">fastgac</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fastgac.BBOX.html">BBOX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.BucketS2.html">BucketS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.BucketUInt32.html">BucketUInt32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.BucketUInt64.html">BucketUInt64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.GaussianAccumulatorKD.html">GaussianAccumulatorKD</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GaussianAccumulatorOpt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.GaussianAccumulatorS2.html">GaussianAccumulatorS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.GaussianAccumulatorS2Beta.html">GaussianAccumulatorS2Beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.GaussianAccumulatorUI32.html">GaussianAccumulatorUI32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.GaussianAccumulatorUI64.html">GaussianAccumulatorUI64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.IcoCharts.html">IcoCharts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.IcoMesh.html">IcoMesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.Image.html">Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX12I.html">MatX12I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX2I.html">MatX2I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX2d.html">MatX2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX3I.html">MatX3I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX3d.html">MatX3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.MatX6I.html">MatX6I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.VectorDouble.html">VectorDouble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.VectorInt.html">VectorInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.VectorUInt8.html">VectorUInt8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.VectorULongInt.html">VectorULongInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.convert_normals_to_hilbert.html">convert_normals_to_hilbert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.convert_normals_to_s2id.html">convert_normals_to_s2id</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.refine_icochart.html">refine_icochart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastgac.refine_icosahedron.html">refine_icosahedron</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastgac.peak_and_cluster.html">fastgac.peak_and_cluster</a></li>
+</ul>
+<p><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_api/cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="fastgac.html">fastgac</a> &raquo;</li>
+        
+      <li>fastgac.GaussianAccumulatorOpt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="fastgac-gaussianaccumulatoropt">
+<h1>fastgac.GaussianAccumulatorOpt<a class="headerlink" href="#fastgac-gaussianaccumulatoropt" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="fastgac.GaussianAccumulatorOpt">
+<em class="property">class </em><code class="sig-prename descclassname">fastgac.</code><code class="sig-name descname">GaussianAccumulatorOpt</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a new GaussianAccumulatorOpt object. Do <strong>not</strong> use this class. It was my first design and only works well on the top hemisphere of a sphere. It uses a single projection (Azimuth Equal Area Projection) to project to a 2D plane. A hilbert curve is performed on the plane to greate the SFC on the sphere. This class is the reason that the <cite>GaussianAccumulator</cite> base class is such a mess because it began with the assumptions built into this class. Eventually this will be deprecated.</p>
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorOpt</em>, <em class="sig-param">level: int = 1</em>, <em class="sig-param">max_phi: float = 180.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.clear_count">
+<code class="sig-name descname">clear_count</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.clear_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears all the histogram counts for each cell. Useful to call after peak detection to ‘reset’ the mesh.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.copy_ico_mesh">
+<code class="sig-name descname">copy_ico_mesh</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.IcoMesh<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.copy_ico_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of the ico mesh.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.get_bucket_normals">
+<code class="sig-name descname">get_bucket_normals</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.MatX3d<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.get_bucket_normals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the surface normals of the buckets in the histogram.The order by default is sorted by the space filling curve value attached to each cell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.get_bucket_projection">
+<code class="sig-name descname">get_bucket_projection</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.MatX2d<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.get_bucket_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only useful for GaussianAccumulatorOpt. Return the XY projection of each bucket.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.get_bucket_sfc_values">
+<code class="sig-name descname">get_bucket_sfc_values</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; List[int]<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.get_bucket_sfc_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the space filling curve values of each bucket. Will be sorted low to high.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.get_normalized_bucket_counts">
+<code class="sig-name descname">get_normalized_bucket_counts</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.VectorDouble<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.get_normalized_bucket_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the normalized bucket counts in the histogram.The order by default is sorted by the space filling curve value attached to each cell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.get_normalized_bucket_counts_by_vertex">
+<code class="sig-name descname">get_normalized_bucket_counts_by_vertex</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.VectorDouble<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.get_normalized_bucket_counts_by_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Average the normalized buckets counts (triangles) into the <em>vertices</em> of the mesh.The order by default is sorted by the space filling curve value attached to each cell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.integrate">
+<code class="sig-name descname">integrate</code><span class="sig-paren">(</span><em class="sig-param">self: fastgac_pybind.GaussianAccumulatorOpt</em>, <em class="sig-param">normals: fastgac_pybind.MatX3d</em>, <em class="sig-param">num_nbr: int = 12</em><span class="sig-paren">)</span> &#x2192; fastgac_pybind.VectorULongInt<a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will intergrate the normals into the S2 Historgram</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.bucket_neighbors">
+<em class="property">property </em><code class="sig-name descname">bucket_neighbors</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.bucket_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.buckets">
+<em class="property">property </em><code class="sig-name descname">buckets</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.buckets" title="Permalink to this definition">¶</a></dt>
+<dd><p>The buckets in the histogram, corresponding to cells/triangles on the mesh</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.mask">
+<em class="property">property </em><code class="sig-name descname">mask</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mask which indicates which triangles in the mesh are included in the buckets. By default its every one (mask = ones). This was added because I thought a user might want to limit the histogram to only include triangles a max_phi from the north pole.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.mesh">
+<em class="property">property </em><code class="sig-name descname">mesh</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>The underlying sphere-like mesh of the Gaussian Accumulator</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.num_buckets">
+<em class="property">property </em><code class="sig-name descname">num_buckets</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.num_buckets" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of buckets in histogram, size(buckets)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fastgac.GaussianAccumulatorOpt.projected_bbox">
+<em class="property">property </em><code class="sig-name descname">projected_bbox</code><a class="headerlink" href="#fastgac.GaussianAccumulatorOpt.projected_bbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only a valid member for GaussianAccumulatorOpt, ignore for everthing else</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="fastgac.GaussianAccumulatorS2.html" class="btn btn-neutral float-right" title="fastgac.GaussianAccumulatorS2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fastgac.GaussianAccumulatorKD.html" class="btn btn-neutral float-left" title="fastgac.GaussianAccumulatorKD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

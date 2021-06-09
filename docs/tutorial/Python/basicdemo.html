@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example Mesh &mdash; FastGA 1.0.1 documentation</title>
+  <title>Example Mesh &mdash; FastGA 1.0.2 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.2
               </div>
             
           
@@ -106,8 +106,8 @@
 </ul>
 <p><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastga.html">fastga</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastgac.html">fastgac</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api/fastgac.peak_and_cluster.html">fastgac.peak_and_cluster</a></li>
 </ul>
 <p><span class="caption-text">C++ API</span></p>
 <ul>
@@ -454,7 +454,7 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">fastga.o3d_util</span> <span class="kn">import</span> <span class="n">plot_meshes</span><span class="p">,</span> <span class="n">assign_vertex_colors</span><span class="p">,</span> <span class="n">create_open_3d_mesh</span><span class="p">,</span> <span class="n">get_colors</span><span class="p">,</span> <span class="n">get_arrow_normals</span>
+<span class="kn">from</span> <span class="nn">fastgac.o3d_util</span> <span class="kn">import</span> <span class="n">plot_meshes</span><span class="p">,</span> <span class="n">assign_vertex_colors</span><span class="p">,</span> <span class="n">create_open_3d_mesh</span><span class="p">,</span> <span class="n">get_colors</span><span class="p">,</span> <span class="n">get_arrow_normals</span>
 <span class="kn">from</span> <span class="nn">examples.python.util.mesh_util</span> <span class="kn">import</span> <span class="n">BASEMENT_CHAIR</span>
 
 
@@ -491,7 +491,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">GaussianAccumulatorS2</span>
+<span></span><span class="kn">from</span> <span class="nn">fastgac</span> <span class="kn">import</span> <span class="n">GaussianAccumulatorS2</span>
 <span class="n">ga_cpp_s2</span> <span class="o">=</span> <span class="n">GaussianAccumulatorS2</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">ga_cpp_s2</span>
 </pre></div>
@@ -512,7 +512,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">MatX3d</span>
+<span></span><span class="kn">from</span> <span class="nn">fastgac</span> <span class="kn">import</span> <span class="n">MatX3d</span>
 
 <span class="n">num_triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangle_normals</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">triangle_normals</span> <span class="o">=</span> <span class="n">MatX3d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangle_normals</span><span class="p">))</span>
@@ -574,8 +574,8 @@ Integrated 65051 triangle normals into the histogram in 7.63 milliseconds
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastga</span> <span class="kn">import</span> <span class="n">IcoCharts</span>
-<span class="kn">from</span> <span class="nn">fastga.peak_and_cluster</span> <span class="kn">import</span> <span class="n">find_peaks_from_ico_charts</span>
+<span></span><span class="kn">from</span> <span class="nn">fastgac</span> <span class="kn">import</span> <span class="n">IcoCharts</span>
+<span class="kn">from</span> <span class="nn">fastgac.peak_and_cluster</span> <span class="kn">import</span> <span class="n">find_peaks_from_ico_charts</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">ico_chart</span> <span class="o">=</span> <span class="n">IcoCharts</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># make sure it has the same level</span>
