@@ -16,6 +16,10 @@ recursive-include src *.in
 recursive-include src *.md
 recursive-include src *.py
 recursive-include src *.txt
+recursive-include thirdparty/hclust-cpp *.cpp
+recursive-include thirdparty/hclust-cpp *.hpp
+recursive-include thirdparty/hclust-cpp *.h
+recursive-include thirdparty/hclust-cpp *.txt
 recursive-include tests *.cpp
 recursive-include tests *.txt
 recursive-include thirdparty *.txt
