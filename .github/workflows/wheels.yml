@@ -22,10 +22,6 @@ jobs:
         with:
           python-version: '3.6'
 
-      - name: Install OpenMP for MacOS
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: brew install libomp
-
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v1.9
         with:
@@ -64,11 +60,11 @@ jobs:
             cibw-arch: manylinux_x86_64
           - os: windows-latest
             cibw-arch: win_amd64
-          - runs-on: macos-latest
+          - os: macos-latest
             cibw-arch: macosx_x86_64
-          - runs-on: macos-latest
+          - os: macos-latest
             cibw-arch: macosx_arm64
-          - runs-on: macos-latest
+          - os: macos-latest
             cibw-arch: macosx_universal2
           # - os: ubuntu-latest
           #   cibw-arch: manylinux_i686
@@ -86,6 +82,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.6
+
+      - name: Install OpenMP for MacOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: brew install libomp
 
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v1.9
