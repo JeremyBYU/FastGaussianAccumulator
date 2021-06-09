@@ -22,6 +22,10 @@ jobs:
         with:
           python-version: '3.6'
 
+      - name: Install OpenMP for MacOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: brew install libomp
+
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v1.9
         with:

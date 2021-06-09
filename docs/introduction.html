@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introducing Fast Gaussian Accumulator &mdash; FastGA 1.0.3 documentation</title>
+  <title>Introducing Fast Gaussian Accumulator &mdash; FastGA 1.0.4 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.0.4
               </div>
             
           
@@ -215,8 +215,10 @@
 <span id="introduction"></span><h1>Introducing Fast Gaussian Accumulator<a class="headerlink" href="#introducing-fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h1>
 <section id="fast-gaussian-accumulator">
 <h2>Fast Gaussian Accumulator<a class="headerlink" href="#fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h2>
+<a class="reference external image-reference" href="https://pypi.org/project/fastgac/"><img alt="PyPI" src="https://img.shields.io/pypi/v/fastgac.svg" /></a>
 <a class="reference external image-reference" href="https://jeremybyu.github.io/FastGaussianAccumulator/"><img alt="Docs" src="https://img.shields.io/badge/API-docs-blue" /></a>
-<p><span class="raw-html-m2r"><!-- [![Cite](https://img.shields.io/badge/cite-%2010.1109--LRA.2020.3002212-red)](https://ieeexplore.ieee.org/document/9117017) --></span></p>
+<a class="reference external image-reference" href="https://github.com/JeremyBYU/FastGaussianAccumulator/actions/workflows/tests.yml"><img alt="Run Tests" src="https://github.com/JeremyBYU/FastGaussianAccumulator/actions/workflows/tests.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/JeremyBYU/FastGaussianAccumulator/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/pypi/l/fastgac.svg" /></a>
 <p>A Gaussian Sphere Accumulator refers to the notion of discretizing the <strong>surface</strong> of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of <strong>points</strong> (aka unit normals) into these buckets.
 The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have nearly the same <strong>area</strong> and <strong>shape</strong>. This process is done by <em>refining</em> an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.</p>
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png"><img alt="Icosahedron" src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png" /></a>
@@ -255,7 +257,8 @@ The end result is then a histogram of the sphere. There are many choices for the
 </section>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
-<p>Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher. No built binaries are included currently.</p>
+<p>For python there are pre-built binary wheel on PyPI for Windows and Linux. You can install with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">fastgac</span></code>.</p>
+<p>Below are instruction to build the C++ Package (and python package) manaully with CMake. Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher.</p>
 <section id="build-project-library">
 <h4>Build Project Library<a class="headerlink" href="#build-project-library" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
@@ -278,11 +281,15 @@ The end result is then a histogram of the sphere. There are many choices for the
 <li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">dev-requirements.txt</span></code></p></li>
 </ol>
 </section>
-<section id="for-users-requires-cmake">
-<h5>For Users (Requires CMake)<a class="headerlink" href="#for-users-requires-cmake" title="Permalink to this headline">¶</a></h5>
+<section id="for-python-users-requires-cmake">
+<h5>For Python Users (Requires CMake)<a class="headerlink" href="#for-python-users-requires-cmake" title="Permalink to this headline">¶</a></h5>
 <ol class="arabic simple">
 <li><p>Install <a class="reference external" href="https://conda.io/projects/conda/en/latest/">conda</a> or create a python virtual environment (<a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Why?</a>). I recommend conda for Windows users.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code></p></li>
+</ol>
+<p>If you want to run the examples then you need to install the following (from main directory):</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">dev-requirements.txt</span></code></p></li>
 </ol>
 <!-- ###  Build with S2Geometry
 
