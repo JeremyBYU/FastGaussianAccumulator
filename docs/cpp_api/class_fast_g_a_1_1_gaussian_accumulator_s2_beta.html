@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Class GaussianAccumulatorS2Beta &mdash; FastGA 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class IcoCharts" href="class_fast_g_a_1_1_ico_1_1_ico_charts.html" />
+    <link rel="prev" title="Class GaussianAccumulatorS2" href="class_fast_g_a_1_1_gaussian_accumulator_s2.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
+</ul>
+<p><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cpp_library_root.html">C++ Library API</a> &raquo;</li>
+        
+      <li>Class GaussianAccumulatorS2Beta</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="class-gaussianaccumulators2beta">
+<span id="exhale-class-class-fast-g-a-1-1-gaussian-accumulator-s2-beta"></span><h1>Class GaussianAccumulatorS2Beta<a class="headerlink" href="#class-gaussianaccumulators2beta" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_include_FastGA_FastGA.hpp.html#file-include-fastga-fastga-hpp"><span class="std std-ref">File FastGA.hpp</span></a></p></li>
+</ul>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2BetaE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta"></span><em class="property">class </em><code class="sig-name descname">GaussianAccumulatorS2Beta</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2BetaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GaussianAccumulatorS2BetaEKi">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a55937ae5939aa66dd914f5b3275af880"></span><code class="sig-name descname">GaussianAccumulatorS2Beta</code><span class="sig-paren">(</span><em class="property">const</em> int <em>level</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GaussianAccumulatorS2BetaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new Gaussian Accumulator S2 object. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">level</span></code>: The refinement level. Iterations of recursive subdivision. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_phi</span></code>: Latitude degrees from north pole to south pole to include cells in the mesh. Leave at default which includes all of the mesh. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta9IntegrateERK6MatX3dKi">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a48665be81eb03180e54b9df0c0b12656"></span>std::vector&lt;size_t&gt; <code class="sig-name descname">Integrate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> &amp;<em>normals</em>, <em class="property">const</em> int <em>num_nbr</em> = 12<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta9IntegrateERK6MatX3dKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Integrates a list of normals into the histogram. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;size_t&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">normals</span></code>: The unit normals to integrate </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_nbr</span></code>: The number of neighbors to search during local neighborhood search. Leave at default. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta16GetBucketNormalsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a831d8785633ef51fd92fea6c65e99bf3"></span><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> <code class="sig-name descname">GetBucketNormals</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta16GetBucketNormalsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the surface normals of the buckets in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX3d </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta23GetBucketAverageNormalsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a62c5689677e66f4f5904ed043e164e76"></span><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> <code class="sig-name descname">GetBucketAverageNormals</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta23GetBucketAverageNormalsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the average surface normals of the buckets in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX3d </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta15GetBucketCountsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a311f4d3eaeeb2469907c4ee147e0ab56"></span>std::vector&lt;int&gt; <code class="sig-name descname">GetBucketCounts</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta15GetBucketCountsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the bucket counts in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GetNormalizedBucketCountsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a4b7553d45394bad611e9861ccd2c3e9b"></span>std::vector&lt;double&gt; <code class="sig-name descname">GetNormalizedBucketCounts</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GetNormalizedBucketCountsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the normalized bucket counts in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta33GetNormalizedBucketCountsByVertexEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a9bf09eed97fb194ee17f023882bd2d53"></span>std::vector&lt;double&gt; <code class="sig-name descname">GetNormalizedBucketCountsByVertex</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta33GetNormalizedBucketCountsByVertexEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Average the normalized buckets counts (triangles) into the <em>vertices</em> of the mesh. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of vertices of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GetAverageNormalsByVertexEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1ae3e68aae24a85d5ecb468bf72280a393"></span><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> <code class="sig-name descname">GetAverageNormalsByVertex</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta25GetAverageNormalsByVertexEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Average the normalized buckets counts (triangles) into the <em>vertices</em> of the mesh. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of vertices of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta18GetBucketSFCValuesEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a2e327ccb995b9001da8415da789e0a00"></span>std::vector&lt;uint64_t&gt; <code class="sig-name descname">GetBucketSFCValues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta18GetBucketSFCValuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the average normals by vertex. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;T&gt; </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta19GetBucketProjectionEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a7b3d1fd397b1d6f86c823a83a3bc48d5"></span><a class="reference internal" href="typedef__helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#_CPPv4N6FastGA6MatX2dE" title="FastGA::MatX2d">MatX2d</a> <code class="sig-name descname">GetBucketProjection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta19GetBucketProjectionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Only useful for <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_opt.html#class_fast_g_a_1_1_gaussian_accumulator_opt"><span class="std std-ref">GaussianAccumulatorOpt</span></a>. Return the XY projection of each bucket. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX2d </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta11CopyIcoMeshEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a8afe24a36bccb90426cb6e4e939ddd7c"></span>Ico::<a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#_CPPv4N6FastGA3Ico7IcoMeshE" title="FastGA::Ico::IcoMesh">IcoMesh</a> <code class="sig-name descname">CopyIcoMesh</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta11CopyIcoMeshEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates a copy of the ico mesh. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p><a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#struct_fast_g_a_1_1_ico_1_1_ico_mesh"><span class="std std-ref">Ico::IcoMesh</span></a> </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the original ico mesh before any sortign occurred. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta10ClearCountEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a11f9ba7112aea6b639ce11b35b479647"></span>void <code class="sig-name descname">ClearCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta10ClearCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clears all the histogram counts for each cell. Useful to call after peak detection to “reset” the mesh. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta20AverageBucketNormalsEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1aab737081379edf7245e39324b989a78e"></span>void <code class="sig-name descname">AverageBucketNormals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta20AverageBucketNormalsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Average all bucket normals;. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta9FindPeaksE7uint8_tbdd">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a660552e8b9b629dd357404273e1e5a5e"></span><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> <code class="sig-name descname">FindPeaks</code><span class="sig-paren">(</span>uint8_t <em>threshold_abs</em> = 25, bool <em>exclude_border</em> = false, double <em>cluster_distance</em> = 0.10, double <em>min_cluster_weight</em> = 0.15<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta9FindPeaksE7uint8_tbdd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Finds all peaks on the icosphere AFTER normals have been integrated. The icosphere is unwrapped into a 2D image with values normalized between 0-255. A peak is detected if it is a local max with a value greater than threshold_abs. Peaks closer than cluster_distance are merged. A merged peak must have a greater value than min_cluster_weight. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX3d </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">threshold_abs</span></code>: The threshold for a peak on histogram (0-255). </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exclude_border</span></code>: Always leave at false. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster_distance</span></code>: Peaks must have less 3D distance than cluster_dist in order to be clustered together </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_cluster_weight</span></code>: Any peak (even grouped peaks) must have a greater normalized value greater than min_cluster_weight (0.0-1.0) </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta4meshE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a5484fd99e5d7e008151b92ff718d7d12"></span>Ico::<a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#_CPPv4N6FastGA3Ico7IcoMeshE" title="FastGA::Ico::IcoMesh">IcoMesh</a> <code class="sig-name descname">mesh</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta4meshE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The underlying sphere-like mesh of the Gaussian Accumulator. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta7bucketsE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1ae68fa01f3a7eb5473f2c0ac30eea4f0c"></span>std::vector&lt;<a class="reference internal" href="struct_fast_g_a_1_1_bucket_s2.html#_CPPv4N6FastGA8BucketS2E" title="FastGA::BucketS2">BucketS2</a>&gt; <code class="sig-name descname">buckets</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta7bucketsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The buckets in the histogram, corresponding to cells/triangles on the mesh. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta11num_bucketsE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1ac81c57bdf7292fb5a48215b57101a60a"></span>size_t <code class="sig-name descname">num_buckets</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta11num_bucketsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The number of buckets in histogram, size(buckets) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta9bucket_hvE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1af256049d8fb956c6aa6540c6d8b2ccb0"></span>std::vector&lt;uint64_t&gt; <code class="sig-name descname">bucket_hv</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta9bucket_hvE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sorted list of space filling curves values for each bucket. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta16bucket_neighborsE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a54775281b5d267eef0f869e255559229"></span><a class="reference internal" href="typedef__helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html#_CPPv4N6FastGA7MatX12IE" title="FastGA::MatX12I">MatX12I</a> <code class="sig-name descname">bucket_neighbors</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta16bucket_neighborsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A NX12 matrix that contains the indices for each triangle neighbor. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta9ico_chartE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a7241f1f4d21b060c942febdffbfd479a"></span>Ico::<a class="reference internal" href="class_fast_g_a_1_1_ico_1_1_ico_charts.html#_CPPv4N6FastGA3Ico9IcoChartsE" title="FastGA::Ico::IcoCharts">IcoCharts</a> <code class="sig-name descname">ico_chart</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta9ico_chartE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The unwrapped icosphere as a 2D image. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta20SortBucketsByIndicesEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a1d0776bfe71e1bb746765b75606dffec"></span>void <code class="sig-name descname">SortBucketsByIndices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta20SortBucketsByIndicesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta8sort_idxE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a694efee9d6885e16a4b3863cc629e92d"></span>std::vector&lt;size_t&gt; <code class="sig-name descname">sort_idx</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta8sort_idxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This member variable keeps track of any sorting that occurred on the mesh and buckets. It basically allows us to reverse any sorting performed. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA25GaussianAccumulatorS2Beta10regressionE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_s2_beta_1a0d05c0635393c177abe1f9b13fe50f7f"></span><a class="reference internal" href="struct_fast_g_a_1_1_regression.html#_CPPv4N6FastGA10RegressionE" title="FastGA::Regression">Regression</a> <code class="sig-name descname">regression</code><a class="headerlink" href="#_CPPv4N6FastGA25GaussianAccumulatorS2Beta10regressionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A regressed line that aids to speed up sorted integer search inside bucket_hv. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="class_fast_g_a_1_1_ico_1_1_ico_charts.html" class="btn btn-neutral float-right" title="Class IcoCharts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="class_fast_g_a_1_1_gaussian_accumulator_s2.html" class="btn btn-neutral float-left" title="Class GaussianAccumulatorS2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

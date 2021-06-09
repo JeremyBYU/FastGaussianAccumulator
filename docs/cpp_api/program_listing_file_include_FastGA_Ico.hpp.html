@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Program Listing for File Ico.hpp &mdash; FastGA 0.1.0 documentation</title>
+  <title>Program Listing for File Ico.hpp &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -56,16 +57,13 @@
           
 
           
-            
-            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -89,22 +87,22 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -193,14 +191,14 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="program-listing-for-file-ico-hpp">
+<section id="program-listing-for-file-ico-hpp">
 <span id="program-listing-file-include-fastga-ico-hpp"></span><h1>Program Listing for File Ico.hpp<a class="headerlink" href="#program-listing-for-file-ico-hpp" title="Permalink to this headline">¶</a></h1>
-<p>↰ <a class="reference internal" href="file_include_FastGA_Ico.hpp.html#file-include-fastga-ico-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include/FastGA/Ico.hpp</span></code>)</p>
+<p>↰ <a class="reference internal" href="file_include_FastGA_Ico.hpp.html#file-include-fastga-ico-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include\FastGA\Ico.hpp</span></code>)</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;FastGA/Helper.hpp&quot;</span><span class="cp"></span>
 
-<span class="k">namespace</span> <span class="n">FastGA</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="nn">FastGA</span> <span class="p">{</span>
 
-<span class="k">namespace</span> <span class="n">Ico</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="nn">Ico</span> <span class="p">{</span>
 <span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">GOLDEN_RATIO</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">5.0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
 <span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">EQUILATERAL_TRIANGLE_RATIO</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
 <span class="k">const</span> <span class="k">static</span> <span class="kt">double</span> <span class="n">ICOSAHEDRON_TRUE_RADIUS</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">GOLDEN_RATIO</span> <span class="o">*</span> <span class="n">GOLDEN_RATIO</span><span class="p">);</span>
@@ -222,7 +220,7 @@
     <span class="k">return</span> <span class="n">IcoMeshVertices</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">IcoMeshFaces</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="k">struct</span> <span class="n">IcoMesh</span>
+<span class="k">struct</span> <span class="nc">IcoMesh</span>
 <span class="p">{</span>
     <span class="n">MatX3d</span> <span class="n">vertices</span><span class="p">;</span>
     <span class="n">MatX3I</span> <span class="n">triangles</span><span class="p">;</span>
@@ -275,16 +273,16 @@
     <span class="n">IcoMesh</span> <span class="n">mesh</span><span class="p">;</span>
     <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
     <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">.</span><span class="n">triangles</span><span class="p">;</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">});</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">});</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
-    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="mi">-1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">-1</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
+    <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
     <span class="n">vertices</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">});</span>
 
@@ -343,9 +341,9 @@
 
 <span class="kr">inline</span> <span class="n">MatX6I</span> <span class="n">ComputeAdjacencyMatrix</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">,</span> <span class="k">const</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">vertices</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+    <span class="kt">size_t</span> <span class="n">max_limit_</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
     <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">pi_to_triset</span> <span class="o">=</span> <span class="n">ComputeAdjacencySet</span><span class="p">(</span><span class="n">triangles</span><span class="p">);</span>
-    <span class="n">MatX6I</span> <span class="nf">adjacency_matrix</span><span class="p">(</span><span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">});</span>
+    <span class="n">MatX6I</span> <span class="nf">adjacency_matrix</span><span class="p">(</span><span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">});</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">p_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">p_idx</span> <span class="o">&lt;</span> <span class="n">vertices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">p_idx</span><span class="o">++</span><span class="p">)</span>
     <span class="p">{</span>
@@ -458,9 +456,9 @@
 <span class="kr">inline</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">ExtractHalfEdges</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="c1">// auto before = std::chrono::high_resolution_clock::now();</span>
-    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+    <span class="kt">size_t</span> <span class="n">max_limit_</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
 
-    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">halfedges</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">halfedges</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">);</span>
     <span class="n">MatX2I</span> <span class="nf">halfedges_pi</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">);</span>
     <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">vertex_indices_to_half_edge_index</span><span class="p">;</span>
     <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">);</span>
@@ -499,7 +497,7 @@
         <span class="kt">size_t</span><span class="o">&amp;</span> <span class="n">that_he_index</span> <span class="o">=</span> <span class="n">halfedges</span><span class="p">[</span><span class="n">this_he_index</span><span class="p">];</span>
         <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;&amp;</span> <span class="n">this_he</span> <span class="o">=</span> <span class="n">halfedges_pi</span><span class="p">[</span><span class="n">this_he_index</span><span class="p">];</span>
         <span class="kt">size_t</span> <span class="n">that_he_mapped</span> <span class="o">=</span> <span class="n">CantorMapping</span><span class="p">(</span><span class="n">this_he</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">this_he</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">that_he_index</span> <span class="o">==</span> <span class="n">max_limit</span> <span class="o">&amp;&amp;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">that_he_index</span> <span class="o">==</span> <span class="n">max_limit_</span> <span class="o">&amp;&amp;</span>
             <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">that_he_mapped</span><span class="p">)</span> <span class="o">!=</span>
                 <span class="n">vertex_indices_to_half_edge_index</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
         <span class="p">{</span>
@@ -515,10 +513,10 @@
 
 <span class="kr">inline</span> <span class="n">MatX12I</span> <span class="n">ComputeTriangleNeighbors</span><span class="p">(</span><span class="k">const</span> <span class="n">MatX3I</span><span class="o">&amp;</span> <span class="n">triangles</span><span class="p">,</span> <span class="k">const</span> <span class="n">MatX3d</span><span class="o">&amp;</span> <span class="n">triangle_normals</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">max_idx</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">size_t</span> <span class="n">max_limit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+    <span class="kt">size_t</span> <span class="n">max_limit_</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
     <span class="c1">// Must compute adjacency set again because triangle indices may been sorted by hilbert values</span>
     <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">pi_to_triset</span> <span class="o">=</span> <span class="n">ComputeAdjacencySet</span><span class="p">(</span><span class="n">triangles</span><span class="p">);</span>
-    <span class="n">MatX12I</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">,</span> <span class="n">max_limit</span><span class="p">});</span>
+    <span class="n">MatX12I</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="p">{</span><span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">,</span> <span class="n">max_limit_</span><span class="p">});</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">triangles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
     <span class="p">{</span>
@@ -620,7 +618,7 @@
         <span class="n">AllocateBuffer</span><span class="p">();</span>
     <span class="p">}</span>
 
-    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
     <span class="n">T</span><span class="o">*</span> <span class="n">PointerAt</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buffer_</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">cols_</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
@@ -683,6 +681,206 @@
                 <span class="o">*</span><span class="n">img_pointer</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">255.0</span> <span class="o">*</span> <span class="n">normalized_vertex_count</span><span class="p">[</span><span class="n">ico_vertex_index</span><span class="p">]);</span>
             <span class="p">}</span>
         <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">STENCIL</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&gt;</span>
+    <span class="kr">inline</span> <span class="kt">bool</span> <span class="n">IsLocalMax</span><span class="p">(</span><span class="kt">int</span> <span class="n">row</span><span class="p">,</span> <span class="kt">int</span> <span class="n">col</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">threshold_abs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">);</span>
+        <span class="c1">// Inside</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// Top Left</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// Bottom Left</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// Top Right</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Bottom Right</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Inside Top</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// Inside Bottom</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Inside Right</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="mi">-1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Inside Left</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">STENCIL</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span>  <span class="p">(</span><span class="n">val</span> <span class="o">&gt;=</span> <span class="n">threshold_abs</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>  <span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="n">val</span> <span class="o">&gt;=</span> <span class="o">*</span><span class="n">image</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;&amp;</span>
+                    <span class="o">*</span><span class="n">mask</span><span class="p">.</span><span class="n">PointerAt</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">);</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+
+    <span class="n">MatX2i</span> <span class="n">FindPeaks</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">threshold_abs</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">exclude_border</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//TODO change to uint8_t for threshold_abs</span>
+        <span class="n">MatX2i</span> <span class="n">peaks</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="p">;</span> <span class="o">++</span><span class="n">c</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">exclude_border</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+            <span class="p">}</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="mi">-1</span><span class="p">;</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+            <span class="p">}</span>
+
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="mi">-1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+            <span class="p">}</span>
+
+            <span class="n">r</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="mi">-1</span><span class="p">;</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="mi">-1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+            <span class="p">}</span>
+            <span class="c1">// Inside Top</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="p">;</span> <span class="o">++</span><span class="n">c</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// Inside Botom</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span> <span class="mi">-1</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span><span class="p">;</span> <span class="o">++</span><span class="n">c</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">6</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// Inside Right</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">cols_</span> <span class="mi">-1</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">7</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// Inside Left</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">rows_</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">// std::cout &lt;&lt; &quot;(&quot; &lt;&lt; c &lt;&lt; &quot;, &quot; &lt;&lt; r &lt;&lt; &quot;);&quot;;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">IsLocalMax</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">threshold_abs</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="c1">// std::cout &lt;&lt; &quot;passed; mask =&quot; &lt;&lt; *mask.PointerAt&lt;uint8_t&gt;(c, r);</span>
+                    <span class="n">peaks</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">c</span> <span class="p">,</span><span class="n">r</span><span class="p">});</span>
+                <span class="p">}</span>
+                <span class="c1">// std::cout &lt;&lt; std::endl;</span>
+            <span class="p">}</span>
+
+
+
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">peaks</span><span class="p">;</span>
+
     <span class="p">}</span>
 
   <span class="k">private</span><span class="o">:</span>
@@ -832,7 +1030,7 @@
 <span class="p">}</span> <span class="c1">// namespace FastGA</span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
            </div>

@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>fastga &mdash; FastGA 0.1.0 documentation</title>
+  <title>fastga &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -58,16 +59,13 @@
           
 
           
-            
-            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -91,25 +89,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">fastga</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BBOX.html">BBOX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.BucketS2.html">BucketS2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt32.html">BucketUInt32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt64.html">BucketUInt64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorKD.html">GaussianAccumulatorKD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorOpt.html">GaussianAccumulatorOpt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorS2.html">GaussianAccumulatorS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorS2Beta.html">GaussianAccumulatorS2Beta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorUI32.html">GaussianAccumulatorUI32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorUI64.html">GaussianAccumulatorUI64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.IcoCharts.html">IcoCharts</a></li>
@@ -133,7 +133,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../cpp_api/cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -222,7 +222,7 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="fastga">
+<section id="fastga">
 <h1>fastga<a class="headerlink" href="#fastga" title="Permalink to this headline">¶</a></h1>
 <p><strong>Classes</strong></p>
 <table class="longtable docutils align-default">
@@ -234,19 +234,25 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="fastga.BBOX.html#fastga.BBOX" title="fastga.BBOX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BBOX</span></code></a></p></td>
 <td><p>Contains extents for a projection</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="fastga.BucketUInt32.html#fastga.BucketUInt32" title="fastga.BucketUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BucketUInt32</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="fastga.BucketS2.html#fastga.BucketS2" title="fastga.BucketS2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BucketS2</span></code></a></p></td>
 <td><p>The bucket class describes a cell on the S2 Histogram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="fastga.BucketUInt64.html#fastga.BucketUInt64" title="fastga.BucketUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BucketUInt64</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="fastga.BucketUInt32.html#fastga.BucketUInt32" title="fastga.BucketUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BucketUInt32</span></code></a></p></td>
 <td><p>The bucket class describes a cell on the S2 Histogram.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorKD.html#fastga.GaussianAccumulatorKD" title="fastga.GaussianAccumulatorKD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorKD</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="fastga.BucketUInt64.html#fastga.BucketUInt64" title="fastga.BucketUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BucketUInt64</span></code></a></p></td>
+<td><p>The bucket class describes a cell on the S2 Histogram.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorKD.html#fastga.GaussianAccumulatorKD" title="fastga.GaussianAccumulatorKD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorKD</span></code></a></p></td>
 <td><p>A Fast Gaussian Accumulator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorOpt.html#fastga.GaussianAccumulatorOpt" title="fastga.GaussianAccumulatorOpt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorOpt</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorOpt.html#fastga.GaussianAccumulatorOpt" title="fastga.GaussianAccumulatorOpt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorOpt</span></code></a></p></td>
 <td><p>Construct a new GaussianAccumulatorOpt object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorS2.html#fastga.GaussianAccumulatorS2" title="fastga.GaussianAccumulatorS2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorS2</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorS2.html#fastga.GaussianAccumulatorS2" title="fastga.GaussianAccumulatorS2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorS2</span></code></a></p></td>
+<td><p>This GaussianAccumulator can handle the entire sphere by using a space filling curve designed by Google’s S2 Geometry library.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorS2Beta.html#fastga.GaussianAccumulatorS2Beta" title="fastga.GaussianAccumulatorS2Beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorS2Beta</span></code></a></p></td>
 <td><p>This GaussianAccumulator can handle the entire sphere by using a space filling curve designed by Google’s S2 Geometry library.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="fastga.GaussianAccumulatorUI32.html#fastga.GaussianAccumulatorUI32" title="fastga.GaussianAccumulatorUI32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianAccumulatorUI32</span></code></a></p></td>
@@ -319,7 +325,7 @@
 </table>
 <div class="toctree-wrapper compound">
 </div>
-</div>
+</section>
 
 
            </div>

@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Template Class GaussianAccumulator &mdash; FastGA 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class GaussianAccumulatorKD" href="class_fast_g_a_1_1_gaussian_accumulator_k_d.html" />
+    <link rel="prev" title="Struct Regression" href="struct_fast_g_a_1_1_regression.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> FastGA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
+</ul>
+<p><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
+</ul>
+<p><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
+</ul>
+<p><span class="caption-text">C++ API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FastGA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cpp_library_root.html">C++ Library API</a> &raquo;</li>
+        
+      <li>Template Class GaussianAccumulator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="template-class-gaussianaccumulator">
+<span id="exhale-class-class-fast-g-a-1-1-gaussian-accumulator"></span><h1>Template Class GaussianAccumulator<a class="headerlink" href="#template-class-gaussianaccumulator" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_include_FastGA_FastGA.hpp.html#file-include-fastga-fastga-hpp"><span class="std std-ref">File FastGA.hpp</span></a></p></li>
+</ul>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv4I0EN6FastGA19GaussianAccumulatorE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><em class="property">class </em><code class="sig-name descname">GaussianAccumulator</code><a class="headerlink" href="#_CPPv4I0EN6FastGA19GaussianAccumulatorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is the base class of the Gaussian Accumulator. <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_k_d.html#class_fast_g_a_1_1_gaussian_accumulator_k_d"><span class="std std-ref">GaussianAccumulatorKD</span></a>, <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_opt.html#class_fast_g_a_1_1_gaussian_accumulator_opt"><span class="std std-ref">GaussianAccumulatorOpt</span></a>, and <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_s2.html#class_fast_g_a_1_1_gaussian_accumulator_s2"><span class="std std-ref">GaussianAccumulatorS2</span></a> will derive from this class. Unfortunately those classes have small differences causing some unnecessary members in here that basically occurred as these classes were created and changed over time. Eventually I will rewrite this whole thing such that only the bare essentials are in this class. <dl class="simple">
+<dt><strong>Template Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code>: </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator19GaussianAccumulatorEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1aac66b5e69768cbbaa5e0b79061c1f550"></span><code class="sig-name descname">GaussianAccumulator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator19GaussianAccumulatorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator19GaussianAccumulatorEKiKd">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a9515dbd1891e0e917d7d94f947ba664a"></span><code class="sig-name descname">GaussianAccumulator</code><span class="sig-paren">(</span><em class="property">const</em> int <em>level</em> = 1, <em class="property">const</em> double <em>max_phi</em> = 180.0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator19GaussianAccumulatorEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new Gaussian Accumulator Object. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">level</span></code>: The refinement level. Iterations of recursive subdivision. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_phi</span></code>: Latitude degrees from north pole to south pole to include cells in the mesh. Leave at default which includes all of the mesh. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator16GetBucketNormalsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a622e2024246d1f41cdf6d83488754c2f"></span><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#_CPPv4N6FastGA6MatX3dE" title="FastGA::MatX3d">MatX3d</a> <code class="sig-name descname">GetBucketNormals</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator16GetBucketNormalsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the surface normals of the buckets in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX3d </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator25GetNormalizedBucketCountsEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a59a5d432557ed255afadf6ef84d0b5ae"></span>std::vector&lt;double&gt; <code class="sig-name descname">GetNormalizedBucketCounts</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator25GetNormalizedBucketCountsEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the normalized bucket counts in the histogram. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of triangles of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator33GetNormalizedBucketCountsByVertexEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a543eae3cc7e151aac893225aecaa1d79"></span>std::vector&lt;double&gt; <code class="sig-name descname">GetNormalizedBucketCountsByVertex</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator33GetNormalizedBucketCountsByVertexEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Average the normalized buckets counts (triangles) into the <em>vertices</em> of the mesh. The order by default is sorted by the space filling curve value attached to each cell. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;double&gt; </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the <em>actual</em> order of vertices of the underlying original mesh object. Useful for visualization. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator18GetBucketSFCValuesEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1aa7bc2673cefa0c9cdd0f72d669136076"></span>std::vector&lt;T&gt; <code class="sig-name descname">GetBucketSFCValues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator18GetBucketSFCValuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the space filling curve values of each bucket. Will be sorted low to high. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>std::vector&lt;T&gt; </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator19GetBucketProjectionEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a78d56b5f9074d986f0bbccc1de301b99"></span><a class="reference internal" href="typedef__helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#_CPPv4N6FastGA6MatX2dE" title="FastGA::MatX2d">MatX2d</a> <code class="sig-name descname">GetBucketProjection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator19GetBucketProjectionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Only useful for <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_opt.html#class_fast_g_a_1_1_gaussian_accumulator_opt"><span class="std std-ref">GaussianAccumulatorOpt</span></a>. Return the XY projection of each bucket. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>MatX2d </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator11CopyIcoMeshEKb">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1af35004ba6454410bfd5c5756c36939a9"></span>Ico::<a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#_CPPv4N6FastGA3Ico7IcoMeshE" title="FastGA::Ico::IcoMesh">IcoMesh</a> <code class="sig-name descname">CopyIcoMesh</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>mesh_order</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator11CopyIcoMeshEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates a copy of the ico mesh. </p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p><a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#struct_fast_g_a_1_1_ico_1_1_ico_mesh"><span class="std std-ref">Ico::IcoMesh</span></a> </p>
+</dd>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_order</span></code>: If true will return in the original ico mesh before any sortign occurred. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator10ClearCountEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a2cba3142d3a0f8c7a03020acad6334e7"></span>void <code class="sig-name descname">ClearCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator10ClearCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clears all the histogram counts for each cell. Useful to call after peak detection to “reset” the mesh. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator4meshE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a9a57f1d0f187a83199d9e9a5d9b54344"></span>Ico::<a class="reference internal" href="struct_fast_g_a_1_1_ico_1_1_ico_mesh.html#_CPPv4N6FastGA3Ico7IcoMeshE" title="FastGA::Ico::IcoMesh">IcoMesh</a> <code class="sig-name descname">mesh</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator4meshE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The underlying sphere-like mesh of the Gaussian Accumulator. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator7bucketsE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a837bb16f78b54cccecc35b0c20161c6b"></span>std::vector&lt;Bucket&lt;T&gt;&gt; <code class="sig-name descname">buckets</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator7bucketsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The buckets in the histogram, corresponding to cells/triangles on the mesh. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator4maskE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1af5752092a84f8e2fc0db4ea3b57a79e0"></span>std::vector&lt;uint8_t&gt; <code class="sig-name descname">mask</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator4maskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A mask which indicates which triangles in the mesh are included in the buckets By default its every one (mask = ones). This was added because I thought a user might want to limit the histogram to only include triangles a max_phi from the north pole. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator14projected_bboxE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a8d30f6d3a1d80d9cf9f7b45081279f42"></span>Helper::<a class="reference internal" href="struct_fast_g_a_1_1_helper_1_1_b_b_o_x.html#_CPPv4N6FastGA6Helper4BBOXE" title="FastGA::Helper::BBOX">BBOX</a> <code class="sig-name descname">projected_bbox</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator14projected_bboxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Only a valid member for <a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_opt.html#class_fast_g_a_1_1_gaussian_accumulator_opt"><span class="std std-ref">GaussianAccumulatorOpt</span></a>, ignore for everthing else. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator11num_bucketsE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1ad86b61d3c83a1ebad97da955ed00061f"></span>size_t <code class="sig-name descname">num_buckets</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator11num_bucketsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The number of buckets in histogram, size(buckets) </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator20SortBucketsByIndicesEv">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a6529fa787c1f35b0154e1245e7153353"></span>void <code class="sig-name descname">SortBucketsByIndices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator20SortBucketsByIndicesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv4N6FastGA19GaussianAccumulator8sort_idxE">
+<span class="target" id="class_fast_g_a_1_1_gaussian_accumulator_1a1781109359c9e04b880bd758db3f06f0"></span>std::vector&lt;size_t&gt; <code class="sig-name descname">sort_idx</code><a class="headerlink" href="#_CPPv4N6FastGA19GaussianAccumulator8sort_idxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This member variable keeps track of any sorting that occurred on the mesh and buckets. It basically allows us to reverse any sorting performed. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="class_fast_g_a_1_1_gaussian_accumulator_k_d.html" class="btn btn-neutral float-right" title="Class GaussianAccumulatorKD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="struct_fast_g_a_1_1_regression.html" class="btn btn-neutral float-left" title="Struct Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jeremy Castagno
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

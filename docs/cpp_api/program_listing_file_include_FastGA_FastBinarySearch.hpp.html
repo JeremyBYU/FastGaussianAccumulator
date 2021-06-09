@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Program Listing for File FastBinarySearch.hpp &mdash; FastGA 0.1.0 documentation</title>
+  <title>Program Listing for File FastBinarySearch.hpp &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -56,16 +57,13 @@
           
 
           
-            
-            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -89,22 +87,22 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -193,9 +191,9 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="program-listing-for-file-fastbinarysearch-hpp">
+<section id="program-listing-for-file-fastbinarysearch-hpp">
 <span id="program-listing-file-include-fastga-fastbinarysearch-hpp"></span><h1>Program Listing for File FastBinarySearch.hpp<a class="headerlink" href="#program-listing-for-file-fastbinarysearch-hpp" title="Permalink to this headline">¶</a></h1>
-<p>↰ <a class="reference internal" href="file_include_FastGA_FastBinarySearch.hpp.html#file-include-fastga-fastbinarysearch-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include/FastGA/FastBinarySearch.hpp</span></code>)</p>
+<p>↰ <a class="reference internal" href="file_include_FastGA_FastBinarySearch.hpp.html#file-include-fastga-fastbinarysearch-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include\FastGA\FastBinarySearch.hpp</span></code>)</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// MIT License</span>
 
 <span class="c1">// Copyright (c) 2017 stgatilov, 2019 Jeremy Castagno</span>
@@ -208,7 +206,7 @@
 <span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp"></span>
 
-<span class="k">namespace</span> <span class="n">FBS</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="nn">FBS</span> <span class="p">{</span>
 
 <span class="cp">#ifdef _MSC_VER</span>
 <span class="cp">#define FORCEINLINE __forceinline</span>
@@ -240,7 +238,7 @@
 <span class="p">}</span>
 <span class="cp">#endif</span>
 
-<span class="k">constexpr</span> <span class="k">static</span> <span class="kt">intptr_t</span> <span class="n">MINUS_ONE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="k">static</span> <span class="kt">intptr_t</span> <span class="n">MINUS_ONE</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
 <span class="kr">inline</span> <span class="kt">int</span> <span class="n">binary_search_branchless</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">*</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">T</span> <span class="n">key</span><span class="p">)</span>
@@ -262,7 +260,7 @@
 <span class="cp">#endif</span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
            </div>

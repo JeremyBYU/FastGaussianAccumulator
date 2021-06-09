@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introducing Fast Gaussian Accumulator &mdash; FastGA 0.1.0 documentation</title>
+  <title>Introducing Fast Gaussian Accumulator &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -58,16 +59,13 @@
           
 
           
-            
-            <img src="_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -91,7 +89,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introducing Fast Gaussian Accumulator</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fast-gaussian-accumulator">Fast Gaussian Accumulator</a><ul>
@@ -107,23 +105,24 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#citation">Citation</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python_api/fastga.html">fastga</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cpp_api/cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -212,16 +211,18 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="introducing-fast-gaussian-accumulator">
+<section id="introducing-fast-gaussian-accumulator">
 <span id="introduction"></span><h1>Introducing Fast Gaussian Accumulator<a class="headerlink" href="#introducing-fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="fast-gaussian-accumulator">
+<section id="fast-gaussian-accumulator">
 <h2>Fast Gaussian Accumulator<a class="headerlink" href="#fast-gaussian-accumulator" title="Permalink to this headline">¶</a></h2>
+<a class="reference external image-reference" href="https://jeremybyu.github.io/FastGaussianAccumulator/"><img alt="Docs" src="https://img.shields.io/badge/API-docs-blue" /></a>
+<p><span class="raw-html-m2r"><!-- [![Cite](https://img.shields.io/badge/cite-%2010.1109--LRA.2020.3002212-red)](https://ieeexplore.ieee.org/document/9117017) --></span></p>
 <p>A Gaussian Sphere Accumulator refers to the notion of discretizing the <strong>surface</strong> of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of <strong>points</strong> (aka unit normals) into these buckets.
-The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have the exact same <strong>area</strong> and <strong>shape</strong>. This process is done by <em>refining</em> an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.</p>
+The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have nearly the same <strong>area</strong> and <strong>shape</strong>. This process is done by <em>refining</em> an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.</p>
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png"><img alt="Icosahedron" src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png" /></a>
 <p>Once a level of refinement is chosen, one can then integrate point vectors into the cells/buckets. For example integrating the normals of a level four (4) icosahedron would look like the image below. Bright yellow indicates more counts for the triangle cells. This is basically showing that the floor [0, 0, 1] and walls [0, +/-1, 0] are common.</p>
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png"><img alt="GaussianAccumulator" src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png" /></a>
-<div class="section" id="finding-the-cell">
+<section id="finding-the-cell">
 <h3>Finding the Cell<a class="headerlink" href="#finding-the-cell" title="Permalink to this headline">¶</a></h3>
 <p>To do this one must <strong>find</strong> the cell that corresponds to the point. This is a search process that has been implemented in several fashions in this repo. The main ways are as follows:</p>
 <ul class="simple">
@@ -234,44 +235,54 @@ The end result is then a histogram of the sphere. There are many choices for the
 <li><p>Global Index and Local Search - A 3D point is transformed to a unique integer id. The unique ids have the property that ids close to each other will be close to each other in 3D space. The closest id is found corresponding to a triangle cell. A local search of triangle neighbors is performed to find closest triangle cell to the point.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorOpt</span></code> - Works good on <strong>only</strong> on the top hemisphere. Projects 3D point to plane using Azimuth Equal Area projection. Convert 2D point to int32 index using Hilbert Curve. This implementation is severely limited and is not recommended.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorS2</span></code> - Works on full sphere! Uses Googles S2 space filling curve (uint64). 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face. This is recommended, and what I use.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GaussianAccumulatorS2Beta</span></code> - Works on full sphere! Uses Googles S2 space filling curve (uint64). 3D point is projected to unit cube, assigned to a face of the cube, and then a Hilbert curve index is found for that cube face. This is recommended, and what I use.</p></li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="peak-detection">
+<p>Use GaussianAccumulatorS2Beta! Look at <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">examples.python.run_normals</span></code></p>
+</section>
+<section id="peak-detection">
 <h3>Peak Detection<a class="headerlink" href="#peak-detection" title="Permalink to this headline">¶</a></h3>
 <p>There are two (2) peak detection methods of used within this repository. The user can choose which one best suite there needs.</p>
-<div class="section" id="d-image-peak-detection">
+<section id="d-image-peak-detection">
 <h4>2D Image Peak Detection<a class="headerlink" href="#d-image-peak-detection" title="Permalink to this headline">¶</a></h4>
 <p>This method basically unwraps the icosahedron as a 2D image in a very particular way as described by <a class="reference external" href="&quot;https://arxiv.org/abs/1902.04615">Gauge Equivariant Convolutional Networks and the Icosahedral CNN</a>. This unwrapping is hardcoded and fixed once a refinement level is chosen so its very fast. The library then uses a 2D peak detector algorithm followed up with agglomerative hierarchial clustering (AHC) to group similar peaks. All of this is user configurable.</p>
-</div>
-<div class="section" id="d-signal-peak-detection">
+</section>
+<section id="d-signal-peak-detection">
 <h4>1D Signal Peak Detection<a class="headerlink" href="#d-signal-peak-detection" title="Permalink to this headline">¶</a></h4>
 <p>This performs peak detection on the 1D thread following the hilbert curve. This produces more peaks which are actually near each other on S2 and are then grouped with AHC. This actually works pretty well, but I recommend to use the 2D Image Peak Detector.</p>
-</div>
-</div>
-<div class="section" id="installation">
+</section>
+</section>
+<section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
 <p>Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher. No built binaries are included currently.</p>
-<div class="section" id="build-project-library">
+<section id="build-project-library">
 <h4>Build Project Library<a class="headerlink" href="#build-project-library" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">cmake-build</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">cmake-build</span></code>. - create build folder directory</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">../</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span> <span class="pre">-DWERROR=0</span></code> . For windows also add <code class="docutils literal notranslate"><span class="pre">-DCMAKE_GENERATOR_PLATFORM=x64</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">-j$(nproc)</span></code>  - Build FastGA</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">../</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span></code> . For windows also add <code class="docutils literal notranslate"><span class="pre">-DCMAKE_GENERATOR_PLATFORM=x64</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">-j$(nproc)</span> <span class="pre">--config</span> <span class="pre">Release</span></code>  - Build FastGA</p></li>
 </ol>
-</div>
-<div class="section" id="build-and-install-python-extension">
+</section>
+<section id="build-and-install-python-extension">
 <h4>Build and Install Python Extension<a class="headerlink" href="#build-and-install-python-extension" title="Permalink to this headline">¶</a></h4>
+<section id="for-developers">
+<h5>For Developers<a class="headerlink" href="#for-developers" title="Permalink to this headline">¶</a></h5>
 <ol class="arabic simple">
-<li><p>Install <a class="reference external" href="https://conda.io/projects/conda/en/latest/">conda</a> or create a python virtual envrionment (<a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Why?</a>). I recommend conda for Windows users.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cmake-build</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--target</span> <span class="pre">python-package</span> <span class="pre">--config</span> <span class="pre">Release</span> <span class="pre">-j4</span></code></p></li>
+<li><p>Install <a class="reference external" href="https://conda.io/projects/conda/en/latest/">conda</a> or create a python virtual environment (<a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Why?</a>). I recommend conda for Windows users.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cmake-build</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--target</span> <span class="pre">python-package</span> <span class="pre">--config</span> <span class="pre">Release</span> <span class="pre">-j$(nproc)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">lib/python_package</span> <span class="pre">&amp;&amp;</span>&#160; <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></p></li>
 </ol>
 <p>If you want to run the examples then you need to install the following (from main directory):</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements-dev.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">dev-requirements.txt</span></code></p></li>
+</ol>
+</section>
+<section id="for-users-requires-cmake">
+<h5>For Users (Requires CMake)<a class="headerlink" href="#for-users-requires-cmake" title="Permalink to this headline">¶</a></h5>
+<ol class="arabic simple">
+<li><p>Install <a class="reference external" href="https://conda.io/projects/conda/en/latest/">conda</a> or create a python virtual environment (<a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Why?</a>). I recommend conda for Windows users.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code></p></li>
 </ol>
 <!-- ###  Build with S2Geometry
 
@@ -297,9 +308,10 @@ index 5ecd280..d67bf76 100644
    set(S2TestFiles
 ```
 
-Then enable the option for CMake. --></div>
-</div>
-<div class="section" id="documentation">
+Then enable the option for CMake. --></section>
+</section>
+</section>
+<section id="documentation">
 <h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
 <p>Please see <a class="reference external" href="https://jeremybyu.github.io/FastGaussianAccumulator/">documentation website</a> for more details.</p>
 <!-- ## General Notes
@@ -313,9 +325,49 @@ I also tried using S2 as a point index (similar to a KDTree) and found it was *s
 
 1. `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so CPUPROFILE=prof.prof CPUPROFILE_FREQUENCY=1000`
 2. `google-pprof --cum --web ./cmake-build/bin/example-kd prof.prof`
- --></div>
+ --></section>
+<section id="citation">
+<h3>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h3>
+<p>To support our work please cite:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>@Article{s20174819,
+AUTHOR = {Castagno, Jeremy and Atkins, Ella},
+TITLE = {Polylidar3D-Fast Polygon Extraction from 3D Data},
+JOURNAL = {Sensors},
+VOLUME = {20},
+YEAR = {2020},
+NUMBER = {17},
+ARTICLE-NUMBER = {4819},
+URL = {https://www.mdpi.com/1424-8220/20/17/4819},
+ISSN = {1424-8220}
+}
+</pre></div>
 </div>
-</div>
+<!--
+
+```
+{
+    "class_name" : "ViewTrajectory",
+    "interval" : 29,
+    "is_loop" : false,
+    "trajectory" :
+    [
+        {
+            "boundingbox_max" : [ 1.1394986767814996, 1.1386749634896274, 1.1998667377539569 ],
+            "boundingbox_min" : [ -1.1335375159673458, -1.0, -1.1990006616678834 ],
+            "field_of_view" : 60.0,
+            "front" : [ -0.98297198230758687, 0.069800731498603108, 0.16998217518479183 ],
+            "lookat" : [ 0.0029805804070769382, 0.069337481744813689, 0.00043303804303673754 ],
+            "up" : [ -0.033111791938401081, 0.84262061564110757, -0.53748870437547691 ],
+            "zoom" : 0.5199999999999998
+        }
+    ],
+    "version_major" : 1,
+    "version_minor" : 0
+}
+```
+ --></section>
+</section>
+</section>
 
 
            </div>

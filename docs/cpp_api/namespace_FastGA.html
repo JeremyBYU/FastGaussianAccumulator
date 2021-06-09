@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Namespace FastGA &mdash; FastGA 0.1.0 documentation</title>
+  <title>Namespace FastGA &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -58,16 +59,13 @@
           
 
           
-            
-            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -91,22 +89,22 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.html">fastga</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python_api/fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -197,7 +195,7 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="namespace-fastga">
+<section id="namespace-fastga">
 <span id="id1"></span><h1>Namespace FastGA<a class="headerlink" href="#namespace-fastga" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <p class="topic-title">Contents</p>
@@ -209,52 +207,54 @@
 <li><p><a class="reference internal" href="#variables" id="id6">Variables</a></p></li>
 </ul>
 </div>
-<div class="section" id="namespaces">
+<section id="namespaces">
 <h2>Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="namespace_FastGA__Helper.html#namespace-fastga-helper"><span class="std std-ref">Namespace FastGA::Helper</span></a></p></li>
 <li><p><a class="reference internal" href="namespace_FastGA__Ico.html#namespace-fastga-ico"><span class="std std-ref">Namespace FastGA::Ico</span></a></p></li>
 <li><p><a class="reference internal" href="namespace_FastGA__NFA.html#namespace-fastga-nfa"><span class="std std-ref">Namespace FastGA::NFA</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="classes">
+</section>
+<section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="structFastGA_1_1Bucket.html#exhale-struct-structfastga-1-1bucket"><span class="std std-ref">Template Struct Bucket</span></a></p></li>
-<li><p><a class="reference internal" href="structFastGA_1_1Regression.html#exhale-struct-structfastga-1-1regression"><span class="std std-ref">Struct Regression</span></a></p></li>
-<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulator.html#exhale-class-classfastga-1-1gaussianaccumulator"><span class="std std-ref">Template Class GaussianAccumulator</span></a></p></li>
-<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorKD.html#exhale-class-classfastga-1-1gaussianaccumulatorkd"><span class="std std-ref">Class GaussianAccumulatorKD</span></a></p></li>
-<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorOpt.html#exhale-class-classfastga-1-1gaussianaccumulatoropt"><span class="std std-ref">Class GaussianAccumulatorOpt</span></a></p></li>
-<li><p><a class="reference internal" href="classFastGA_1_1GaussianAccumulatorS2.html#exhale-class-classfastga-1-1gaussianaccumulators2"><span class="std std-ref">Class GaussianAccumulatorS2</span></a></p></li>
+<li><p><a class="reference internal" href="struct_fast_g_a_1_1_bucket.html#exhale-struct-struct-fast-g-a-1-1-bucket"><span class="std std-ref">Template Struct Bucket</span></a></p></li>
+<li><p><a class="reference internal" href="struct_fast_g_a_1_1_bucket_s2.html#exhale-struct-struct-fast-g-a-1-1-bucket-s2"><span class="std std-ref">Struct BucketS2</span></a></p></li>
+<li><p><a class="reference internal" href="struct_fast_g_a_1_1_regression.html#exhale-struct-struct-fast-g-a-1-1-regression"><span class="std std-ref">Struct Regression</span></a></p></li>
+<li><p><a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator.html#exhale-class-class-fast-g-a-1-1-gaussian-accumulator"><span class="std std-ref">Template Class GaussianAccumulator</span></a></p></li>
+<li><p><a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_k_d.html#exhale-class-class-fast-g-a-1-1-gaussian-accumulator-k-d"><span class="std std-ref">Class GaussianAccumulatorKD</span></a></p></li>
+<li><p><a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_opt.html#exhale-class-class-fast-g-a-1-1-gaussian-accumulator-opt"><span class="std std-ref">Class GaussianAccumulatorOpt</span></a></p></li>
+<li><p><a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_s2.html#exhale-class-class-fast-g-a-1-1-gaussian-accumulator-s2"><span class="std std-ref">Class GaussianAccumulatorS2</span></a></p></li>
+<li><p><a class="reference internal" href="class_fast_g_a_1_1_gaussian_accumulator_s2_beta.html#exhale-class-class-fast-g-a-1-1-gaussian-accumulator-s2-beta"><span class="std std-ref">Class GaussianAccumulatorS2Beta</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="functions">
+</section>
+<section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="function_Helper_8hpp_1a6841f467ea59689e3780055ba04018de.html#exhale-function-helper-8hpp-1a6841f467ea59689e3780055ba04018de"><span class="std std-ref">Function FastGA::GetFastGAVersion</span></a></p></li>
+<li><p><a class="reference internal" href="function__helper_8hpp_1a6841f467ea59689e3780055ba04018de.html#exhale-function-helper-8hpp-1a6841f467ea59689e3780055ba04018de"><span class="std std-ref">Function FastGA::GetFastGAVersion</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="typedefs">
+</section>
+<section id="typedefs">
 <h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html#exhale-typedef-helper-8hpp-1a70f83d2a229dcc109fafbac9f433cb80"><span class="std std-ref">Typedef FastGA::MatX12I</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#exhale-typedef-helper-8hpp-1aeafa3d30c19393224ac3030d91e48c96"><span class="std std-ref">Typedef FastGA::MatX2d</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html#exhale-typedef-helper-8hpp-1aa701fba51d175b697ec81240314ce18a"><span class="std std-ref">Typedef FastGA::MatX2i</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html#exhale-typedef-helper-8hpp-1a2b4dddd06f2a9f1ac35fc631d6abd887"><span class="std std-ref">Typedef FastGA::MatX2I</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html#exhale-typedef-helper-8hpp-1a6f7b15dad0d64cf90ee621c3ce1cb518"><span class="std std-ref">Typedef FastGA::MatX2ui</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#exhale-typedef-helper-8hpp-1a359186a772aa1fc6bf154e700b09175d"><span class="std std-ref">Typedef FastGA::MatX3d</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html#exhale-typedef-helper-8hpp-1a92f4fefe0a430f3c5139ef2c83f5d284"><span class="std std-ref">Typedef FastGA::MatX3I</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html#exhale-typedef-helper-8hpp-1ac775e64515f311ae3d2e76460a4ec20e"><span class="std std-ref">Typedef FastGA::MatX4i</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_Helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html#exhale-typedef-helper-8hpp-1a942b5f2b4ad155d8762e0701929d0b86"><span class="std std-ref">Typedef FastGA::MatX6I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a70f83d2a229dcc109fafbac9f433cb80.html#exhale-typedef-helper-8hpp-1a70f83d2a229dcc109fafbac9f433cb80"><span class="std std-ref">Typedef FastGA::MatX12I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1aeafa3d30c19393224ac3030d91e48c96.html#exhale-typedef-helper-8hpp-1aeafa3d30c19393224ac3030d91e48c96"><span class="std std-ref">Typedef FastGA::MatX2d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a2b4dddd06f2a9f1ac35fc631d6abd887.html#exhale-typedef-helper-8hpp-1a2b4dddd06f2a9f1ac35fc631d6abd887"><span class="std std-ref">Typedef FastGA::MatX2I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1aa701fba51d175b697ec81240314ce18a.html#exhale-typedef-helper-8hpp-1aa701fba51d175b697ec81240314ce18a"><span class="std std-ref">Typedef FastGA::MatX2i</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a6f7b15dad0d64cf90ee621c3ce1cb518.html#exhale-typedef-helper-8hpp-1a6f7b15dad0d64cf90ee621c3ce1cb518"><span class="std std-ref">Typedef FastGA::MatX2ui</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a359186a772aa1fc6bf154e700b09175d.html#exhale-typedef-helper-8hpp-1a359186a772aa1fc6bf154e700b09175d"><span class="std std-ref">Typedef FastGA::MatX3d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a92f4fefe0a430f3c5139ef2c83f5d284.html#exhale-typedef-helper-8hpp-1a92f4fefe0a430f3c5139ef2c83f5d284"><span class="std std-ref">Typedef FastGA::MatX3I</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1ac775e64515f311ae3d2e76460a4ec20e.html#exhale-typedef-helper-8hpp-1ac775e64515f311ae3d2e76460a4ec20e"><span class="std std-ref">Typedef FastGA::MatX4i</span></a></p></li>
+<li><p><a class="reference internal" href="typedef__helper_8hpp_1a942b5f2b4ad155d8762e0701929d0b86.html#exhale-typedef-helper-8hpp-1a942b5f2b4ad155d8762e0701929d0b86"><span class="std std-ref">Typedef FastGA::MatX6I</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="variables">
+</section>
+<section id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="variable_Helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html#exhale-variable-helper-8hpp-1ab27a4297456dcaba28ba8c21f68bc80b"><span class="std std-ref">Variable FastGA::max_limit</span></a></p></li>
+<li><p><a class="reference internal" href="variable__helper_8hpp_1ab27a4297456dcaba28ba8c21f68bc80b.html#exhale-variable-helper-8hpp-1ab27a4297456dcaba28ba8c21f68bc80b"><span class="std std-ref">Variable FastGA::max_limit</span></a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>fastga.GaussianAccumulatorOpt &mdash; FastGA 0.1.0 documentation</title>
+  <title>fastga.GaussianAccumulatorOpt &mdash; FastGA 1.0.1 documentation</title>
   
 
   
@@ -25,8 +26,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/collapsible-lists\js\CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists\js\apply-collapsible-lists.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -58,16 +59,13 @@
           
 
           
-            
-            <img src="../_static/fastga_logo_small.png" class="logo" alt="Logo"/>
-          
           </a>
 
           
             
             
               <div class="version">
-                0.1.0
+                1.0.1
               </div>
             
           
@@ -91,25 +89,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introducing Fast Gaussian Accumulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../builddocs.html">Building Documentation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial</span></p>
+<p><span class="caption-text">Tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/Python/index.html">Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/C++/index.html">C++</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Python API</span></p>
+<p><span class="caption-text">Python API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="fastga.html">fastga</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fastga.BBOX.html">BBOX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.BucketS2.html">BucketS2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt32.html">BucketUInt32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.BucketUInt64.html">BucketUInt64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorKD.html">GaussianAccumulatorKD</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GaussianAccumulatorOpt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorS2.html">GaussianAccumulatorS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorS2Beta.html">GaussianAccumulatorS2Beta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorUI32.html">GaussianAccumulatorUI32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.GaussianAccumulatorUI64.html">GaussianAccumulatorUI64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fastga.IcoCharts.html">IcoCharts</a></li>
@@ -133,7 +133,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fastga.peak_and_cluster.html">fastga.peak_and_cluster</a></li>
 </ul>
-<p class="caption"><span class="caption-text">C++ API</span></p>
+<p><span class="caption-text">C++ API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../cpp_api/cpp_library_root.html">C++ Library API</a></li>
 </ul>
@@ -224,7 +224,7 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="fastga-gaussianaccumulatoropt">
+<section id="fastga-gaussianaccumulatoropt">
 <h1>fastga.GaussianAccumulatorOpt<a class="headerlink" href="#fastga-gaussianaccumulatoropt" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="fastga.GaussianAccumulatorOpt">
@@ -232,54 +232,54 @@
 <dd><p>Construct a new GaussianAccumulatorOpt object. Do <strong>not</strong> use this class. It was my first design and only works well on the top hemisphere of a sphere. It uses a single projection (Azimuth Equal Area Projection) to project to a 2D plane. A hilbert curve is performed on the plane to greate the SFC on the sphere. This class is the reason that the <cite>GaussianAccumulator</cite> base class is such a mess because it began with the assumptions built into this class. Eventually this will be deprecated.</p>
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorOpt</em>, <em class="sig-param">level: int = 1</em>, <em class="sig-param">max_phi: float = 180.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorOpt</em>, <em class="sig-param">level: int = 1</em>, <em class="sig-param">max_phi: float = 180.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.clear_count">
-<code class="sig-name descname">clear_count</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.clear_count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clear_count</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.clear_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears all the histogram counts for each cell. Useful to call after peak detection to ‘reset’ the mesh.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.copy_ico_mesh">
-<code class="sig-name descname">copy_ico_mesh</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.IcoMesh<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.copy_ico_mesh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">copy_ico_mesh</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.IcoMesh<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.copy_ico_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a copy of the ico mesh.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.get_bucket_normals">
-<code class="sig-name descname">get_bucket_normals</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.MatX3d<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_normals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_bucket_normals</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.MatX3d<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_normals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the surface normals of the buckets in the histogram.The order by default is sorted by the space filling curve value attached to each cell.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.get_bucket_projection">
-<code class="sig-name descname">get_bucket_projection</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.MatX2d<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_projection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_bucket_projection</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.MatX2d<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Only useful for GaussianAccumulatorOpt. Return the XY projection of each bucket.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.get_bucket_sfc_values">
-<code class="sig-name descname">get_bucket_sfc_values</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; List[int]<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_sfc_values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_bucket_sfc_values</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em><span class="sig-paren">)</span> &#x2192; List[int]<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_bucket_sfc_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the space filling curve values of each bucket. Will be sorted low to high.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts">
-<code class="sig-name descname">get_normalized_bucket_counts</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.VectorDouble<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_normalized_bucket_counts</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.VectorDouble<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the normalized bucket counts in the histogram.The order by default is sorted by the space filling curve value attached to each cell.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts_by_vertex">
-<code class="sig-name descname">get_normalized_bucket_counts_by_vertex</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.VectorDouble<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts_by_vertex" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_normalized_bucket_counts_by_vertex</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorUI32</em>, <em class="sig-param">mesh_order: bool = False</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.VectorDouble<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.get_normalized_bucket_counts_by_vertex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average the normalized buckets counts (triangles) into the <em>vertices</em> of the mesh.The order by default is sorted by the space filling curve value attached to each cell.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fastga.GaussianAccumulatorOpt.integrate">
-<code class="sig-name descname">integrate</code><span class="sig-paren">(</span><em class="sig-param">self: fastga.fastga.GaussianAccumulatorOpt</em>, <em class="sig-param">normals: fastga.fastga.MatX3d</em>, <em class="sig-param">num_nbr: int = 12</em><span class="sig-paren">)</span> &#x2192; fastga.fastga.VectorULongInt<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.integrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">integrate</code><span class="sig-paren">(</span><em class="sig-param">self: fastga_pybind.GaussianAccumulatorOpt</em>, <em class="sig-param">normals: fastga_pybind.MatX3d</em>, <em class="sig-param">num_nbr: int = 12</em><span class="sig-paren">)</span> &#x2192; fastga_pybind.VectorULongInt<a class="headerlink" href="#fastga.GaussianAccumulatorOpt.integrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Will intergrate the normals into the S2 Historgram</p>
 </dd></dl>
 
@@ -320,7 +320,7 @@
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
