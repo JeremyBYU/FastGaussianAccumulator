@@ -19,7 +19,7 @@ find_package(Threads REQUIRED)
 
 set(BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/run-bench.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/hilbert_bench.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/kd_bench.cpp")
-set(BENCH_LINK_LIBRARIES benchmark ${PROJECT_NAME} Threads::Threads)
+set(BENCH_LINK_LIBRARIES benchmark ${FASTGA_PROJECT_NAME} Threads::Threads)
 
 if(${GA_WITH_S2_GEOMETRY})
     list(APPEND BENCH_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/run-bench.cpp)

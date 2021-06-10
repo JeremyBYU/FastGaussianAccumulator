@@ -9,4 +9,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(extern_doctest)
 
 add_executable(run-tests ${CMAKE_CURRENT_SOURCE_DIR}/run-tests.cpp)
-target_link_libraries(run-tests PRIVATE doctest::doctest ${PROJECT_NAME})
+target_link_libraries(run-tests PRIVATE doctest::doctest ${FASTGA_PROJECT_NAME})

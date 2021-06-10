@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 # Project Details
-set(PROJECT_NAME "FastGA")
+set(FASTGA_PROJECT_NAME "FastGA")
 set(PROJECT_VERSION 0.0.1)
 set(PROJECT_EMAIL   "")
 set(PROJECT_HOME    "")
@@ -9,7 +9,7 @@ set(PROJECT_CODE    "")
 set(PROJECT_ISSUES  "")
 set(PYPI_PACKAGE_NAME "fastgac")
 # Set Project Properties
-project(${PROJECT_NAME} VERSION ${PROJECT_VERSION}
+project(${FASTGA_PROJECT_NAME} VERSION ${PROJECT_VERSION}
 DESCRIPTION "Fast Guassian Accumulator Library"
 LANGUAGES CXX)
 # Set Global Properties
