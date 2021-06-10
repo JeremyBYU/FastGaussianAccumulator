@@ -4,7 +4,6 @@ configure_file("GAConfig.hpp.in" "GAConfig.hpp" @ONLY)
 # Set the Source, Header Files
 set(FASTGA_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-message("LOOK HERE -- INCLUDE DIR: 0. ${INCLUDE_DIR}, 1. ${PROJECT_SOURCE_DIR}, 2. ${CMAKE_SOURCE_DIR}, 3.${CMAKE_CURRENT_SOURCE_DIR}")
 set(FASTGA_INCLUDE_DIR "${INCLUDE_DIR}/FastGA")
 set(FASTGA_SOURCE_FILES ${FASTGA_SRC}/FastGA.cpp ${FASTGA_SRC}/GAConfig.cpp)
 set(FASTGA_HEADER_FILES ${FASTGA_INCLUDE_DIR}/FastGA.hpp)
@@ -54,7 +53,6 @@ $<$<CXX_COMPILER_ID:MSVC>:
 # Method to hide warnings from nanoflann using SYSTEM
 get_target_property(nanoflann_include_dirs nanoflann::nanoflann INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(${FASTGA_PROJECT_NAME} SYSTEM PUBLIC ${nanoflann_include_dirs})
-
 target_link_libraries(${FASTGA_PROJECT_NAME} PRIVATE hclust-cpp)
 
 
