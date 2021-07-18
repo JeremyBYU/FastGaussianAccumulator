@@ -45,28 +45,28 @@ For python there are pre-built binary wheel on PyPI for Windows and Linux. You c
 
 Below are instruction to build the C++ Package (and python package) manaully with CMake. Installation is entirely through CMake now. You must have CMake 3.14 or higher installed and a C++ compiler with C++ 14 or higher.
 
-### Build Project Library
+### For C++ Users
 
 1. `mkdir cmake-build && cd cmake-build`. - create build folder directory 
 2. `cmake ../ -DCMAKE_BUILD_TYPE=Release` . For windows also add `-DCMAKE_GENERATOR_PLATFORM=x64` 
-3. `cmake --build . -j$(nproc) --config Release`  - Build FastGA
+3. `cmake --build . -j4 --config Release`  - Build FastGA
 
-### Build and Install Python Extension
-
-#### For Developers
+### For Python Users (Requires CMake)
 
 1. Install [conda](https://conda.io/projects/conda/en/latest/) or create a python virtual environment ([Why?](https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c)). I recommend conda for Windows users.
-2. `cd cmake-build && cmake --build . --target python-package --config Release -j$(nproc)` 
-3. `cd lib/python_package &&  pip install -e .`
+2. `pip install .`
 
 If you want to run the examples then you need to install the following (from main directory):
 
 1. `pip install -r dev-requirements.txt` 
 
-#### For Python Users (Requires CMake)
+### Build and Install Python Extension and C++
+
+Here building is entirely in CMake. You will build C++ Library and Python extension manually with CMake Commands.
 
 1. Install [conda](https://conda.io/projects/conda/en/latest/) or create a python virtual environment ([Why?](https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c)). I recommend conda for Windows users.
-2. `pip install .`
+2. `cd cmake-build && cmake --build . --target python-package --config Release -j$(nproc)` 
+3. `cd lib/python_package &&  pip install -e .`
 
 If you want to run the examples then you need to install the following (from main directory):
 

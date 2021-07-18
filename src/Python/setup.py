@@ -43,9 +43,7 @@ setup(
     long_description_content_type='text/markdown',
     # Name of the package on PyPI
     name="@PYPI_PACKAGE_NAME@",
-    packages=[
-        'fastgac',
-    ],
+    packages=['fastgac', 'fastgac.scikit_image'],
     url="@PROJECT_HOME@",
     project_urls={
         'Documentation': '@PROJECT_DOCS@',

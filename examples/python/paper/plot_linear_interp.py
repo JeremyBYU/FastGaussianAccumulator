@@ -38,7 +38,7 @@ def plot_indices(ga_s2):
     indices_s2 = indices_s2 - np.min(indices_s2)
     fig0, ax0 = plt.subplots(1, 1, figsize=(4.5, 4))
     fig1, ax1 = plt.subplots(1, 1, figsize=(4.5, 4))
-    fig2, ax2 = plt.subplots(1, 1, figsize=(4.5, 4))
+    fig2, ax2 = plt.subplots(1, 1, figsize=(5.2, 4))
 
 
     bucket_positions_s2 = np.arange(indices_s2.shape[0])

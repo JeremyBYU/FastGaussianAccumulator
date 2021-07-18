@@ -56,6 +56,7 @@ class CMakeBuild(build_ext):
         if not extdir.endswith(os.path.sep):
             extdir += os.path.sep
 
+        self.parallel = 4
         cfg = "Debug" if self.debug else "Release"
 
         # CMake lets you override the generator - we need to check this.
@@ -73,6 +74,9 @@ class CMakeBuild(build_ext):
         cmake_args = [
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extdir),
             "-DPYTHON_EXECUTABLE={}".format(sys.executable),
+            "-DGA_BUILD_TESTS=OFF",
+            "-DGA_BUILD_BENCHMARKS=OFF",
+            "-DGA_BUILD_EXAMPLES=OFF",
             "-DCMAKE_BUILD_TYPE={}".format(cfg),  # not used on MSVC, but no harm
         ]
         build_args = []

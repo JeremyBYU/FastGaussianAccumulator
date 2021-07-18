@@ -74,5 +74,6 @@
         "*.in": "cpp",
         "cfenv": "cpp"
     },
-    "restructuredtext.confPath": "${workspaceFolder}/src_docs"
+    "restructuredtext.confPath": "${workspaceFolder}/src_docs",
+    "cmake.configureOnOpen": false
 }
