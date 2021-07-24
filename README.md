@@ -5,18 +5,19 @@
 [![Run Tests](https://github.com/JeremyBYU/FastGaussianAccumulator/actions/workflows/tests.yml/badge.svg)](https://github.com/JeremyBYU/FastGaussianAccumulator/actions/workflows/tests.yml)
 [![License](https://img.shields.io/pypi/l/fastgac.svg)](https://github.com/JeremyBYU/FastGaussianAccumulator/blob/master/LICENSE)
 
-A Gaussian Sphere Accumulator refers to the notion of discretizing the **surface** of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of **points** (aka unit normals) into these buckets.
-The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have nearly the same **area** and **shape**. This process is done by *refining* an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles), the second object is an icosahedron, the third object is the first level of refinement for an icosahedron, the last object is the second level of refinement of an icosahedron.
+A Gaussian Sphere Accumulator refers to the notion of discretizing the **surface** of the unit sphere (a gaussian surface) into buckets/cells. One can then integrate/accumulate a list of **unit normals** into these buckets.
+The end result is then a histogram of the sphere. There are many choices for the discretization process, however this library uses equilateral triangles because each cell will have nearly the same **area** and **shape**. This process is done by recursively subdividing (called "refining") the primary faces of an icosahedron. The following image shows our discretization strategy. The first object discretizes a sphere with uniform spacing of phi/theta (note small cells at poles, this represenation is not used), the second object is an icosahedron, the third object is the first level of recursion for an icosahedron, the last object is the second level of recursion of an icosahedron.
 
 ![Icosahedron](https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/refined_icosahedron.png)
 
-Once a level of refinement is chosen, one can then integrate point vectors into the cells/buckets. For example integrating the normals of a level four (4) icosahedron would look like the image below. Bright yellow indicates more counts for the triangle cells. This is basically showing that the floor [0, 0, 1] and walls [0, +/-1, 0] are common.
+Once a level of refinement is chosen, one can then integrate the surface normals of 3D triangular mesh into the cells/buckets. For example integrating the normals into a level four (4) icosahedron would look like the image below. Bright yellow indicates more counts for the triangle cells. This is basically showing that the floor [0, 0, 1] and walls [0, +/-1, 0] are common. Documenation can be found [here](https://jeremybyu.github.io/FastGaussianAccumulator/).
 
-![GaussianAccumulator](https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png)
+<img src="https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png" alt="GaussianAccumulator" width="660"/>
+<!-- ![GaussianAccumulator](https://raw.githubusercontent.com/JeremyBYU/FastGaussianAccumulator/master/assets/imgs/gaussian_accumulator_example.png) -->
 
-## Finding the Cell
+## Integrating Normals into the Gaussian Accumulator
 
-To do this one must **find** the cell that corresponds to the point. This is a search process that has been implemented in several fashions in this repo. The main ways are as follows:
+To integrate normals into the Gaussian Accumulator one must **find** the cell that corresponds to the normal. This is a search process that has been implemented in several fashions in this repo. The main ways are as follows:
 
 * 3D KD Tree - Do a nearest neighbor search using a binary tree.
     - `GaussianAccumulatorKDPY` - One implementation using scipy kdtree.
@@ -28,11 +29,11 @@ To do this one must **find** the cell that corresponds to the point. This is a s
 Use GaussianAccumulatorS2Beta! Look at `python -m examples.python.run_normals`
 ## Peak Detection
 
-There are two (2) peak detection methods of used within this repository. The user can choose which one best suite there needs.
+There are two (2) peak detection methods used within this repository. The user can choose which one best suit their needs.
 
 ### 2D Image Peak Detection
 
-This method basically unwraps the icosahedron as a 2D image in a very particular way as described by [Gauge Equivariant Convolutional Networks and the Icosahedral CNN]("https://arxiv.org/abs/1902.04615). This unwrapping is hardcoded and fixed once a refinement level is chosen so its very fast. The library then uses a 2D peak detector algorithm followed up with agglomerative hierarchial clustering (AHC) to group similar peaks. All of this is user configurable.
+This method basically unwraps the icosahedron as a 2D image in a very particular way as described by [Gauge Equivariant Convolutional Networks and the Icosahedral CNN]("https://arxiv.org/abs/1902.04615). This unwrapping is hardcoded and fixed once a refinement level is chosen so it is very fast. The library then uses a 2D peak detector algorithm followed up with agglomerative hierarchial clustering (AHC) to group similar peaks. All of this is user configurable.
 
 ### 1D Signal Peak Detection
 
@@ -123,15 +124,15 @@ To support our work please cite:
 
 ```
 @Article{s20174819,
-AUTHOR = {Castagno, Jeremy and Atkins, Ella},
-TITLE = {Polylidar3D-Fast Polygon Extraction from 3D Data},
-JOURNAL = {Sensors},
-VOLUME = {20},
-YEAR = {2020},
-NUMBER = {17},
-ARTICLE-NUMBER = {4819},
-URL = {https://www.mdpi.com/1424-8220/20/17/4819},
-ISSN = {1424-8220}
+author = {Castagno, Jeremy and Atkins, Ella},
+title = {Polylidar3D-Fast Polygon Extraction from 3D Data},
+journal = {Sensors},
+volume = {20},
+year = {2020},
+number = {17},
+article-number = {4819},
+url = {https://www.mdpi.com/1424-8220/20/17/4819},
+issn = {1424-8220}
 }
 ```
 
